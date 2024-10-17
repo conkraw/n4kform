@@ -1,7 +1,7 @@
 import streamlit as st
 import re
 from docx import Document
-import os
+from io import BytesIO
 
 def extract_date(text):
     match = re.search(r'Date:\s*(.*)', text)
@@ -10,6 +10,7 @@ def extract_date(text):
     return None
 
 def replace_placeholder(doc_path, placeholder, value):
+    value = value.rstrip('.')  # Remove any trailing periods from the value
     doc = Document(doc_path)
     for paragraph in doc.paragraphs:
         if placeholder in paragraph.text:
@@ -32,19 +33,16 @@ if st.button("Extract Date and Replace Placeholder"):
     
     if date_value:
         placeholder = "{date_placeholder}"  # Your placeholder
-        doc_path = "ndcf.docx"  # Your document path
+        doc_path = "path/to/your/document.docx"  # Your document path
         
         modified_doc = replace_placeholder(doc_path, placeholder, date_value)
         
-        # Save the modified document to a BytesIO object
-        from io import BytesIO
         doc_stream = BytesIO()
         modified_doc.save(doc_stream)
-        doc_stream.seek(0)  # Go to the beginning of the BytesIO stream
+        doc_stream.seek(0)
 
         st.success("Date extracted and placeholder replaced!")
         
-        # Provide a download button for the modified document
         st.download_button(
             label="Download modified document",
             data=doc_stream,
@@ -53,3 +51,4 @@ if st.button("Extract Date and Replace Placeholder"):
         )
     else:
         st.error("No date found in the input text.")
+
