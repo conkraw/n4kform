@@ -15,20 +15,22 @@ def replace_placeholder(doc_path, placeholder, value):
 
     for paragraph in doc.paragraphs:
         if placeholder in paragraph.text:
-            # Clear the paragraph and re-add the runs
-            paragraph.clear()
-            # Create a new run with the underlined text
-            run = paragraph.add_run(paragraph.text.replace(placeholder, value))
-            run.underline = True  # Underline the text
+            # Replace placeholder with underlined text
+            for run in paragraph.runs:
+                if placeholder in run.text:
+                    run.text = run.text.replace(placeholder, value)
+                    run.underline = True  # Underline the replaced text
 
     for table in doc.tables:
         for row in table.rows:
             for cell in row.cells:
                 if placeholder in cell.text:
-                    # Clear the cell and re-add the runs
-                    cell.clear()
-                    run = cell.add_run(cell.text.replace(placeholder, value))
-                    run.underline = True  # Underline the text
+                    # Replace placeholder with underlined text in cell
+                    for paragraph in cell.paragraphs:
+                        for run in paragraph.runs:
+                            if placeholder in run.text:
+                                run.text = run.text.replace(placeholder, value)
+                                run.underline = True  # Underline the replaced text
 
     return doc
 
