@@ -70,7 +70,7 @@ if st.button("Extract and Replace Placeholders"):
         time_placeholder = "{time_placeholder}"
         performed_by_placeholder = "{performed_by_placeholder}"
         attending_placeholder = "{attending_placeholder}"
-        doc_path = "path/to/your/document.docx"  # Your document path
+        doc_path = "ndcf.docx"  # Your document path
         
         modified_doc = replace_placeholder(doc_path, date_placeholder, date_value, time_placeholder, time_value, performed_by_placeholder, performed_by_value, attending_placeholder, attending_value)
         
