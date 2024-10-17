@@ -3,55 +3,60 @@ import re
 from docx import Document
 from io import BytesIO
 
-def extract_date(text):
-    match = re.search(r'Date:\s*(.*)', text)
-    if match:
-        return match.group(1).strip()
-    return None
+def extract_info(text):
+    date_match = re.search(r'Date:\s*(.*)', text)
+    time_match = re.search(r'Time:\s*(.*)', text)
+    date_value = date_match.group(1).strip() if date_match else None
+    time_value = time_match.group(1).strip() if time_match else None
+    return date_value, time_value
 
-def replace_placeholder(doc_path, placeholder, value):
-    value = value.rstrip('.')  # Remove any trailing periods from the value
+def replace_placeholder(doc_path, date_placeholder, date_value, time_placeholder, time_value):
+    date_value = date_value.rstrip('.') if date_value else ""
+    time_value = time_value.rstrip('.') if time_value else ""
     doc = Document(doc_path)
 
     for paragraph in doc.paragraphs:
-        if placeholder in paragraph.text:
-            # Replace placeholder with underlined text
-            for run in paragraph.runs:
-                if placeholder in run.text:
-                    run.text = run.text.replace(placeholder, value)
-                    run.underline = True  # Underline the replaced text
+        for run in paragraph.runs:
+            if date_placeholder in run.text:
+                run.text = run.text.replace(date_placeholder, date_value)
+                run.underline = True  # Underline the replaced text
+            if time_placeholder in run.text:
+                run.text = run.text.replace(time_placeholder, time_value)
+                run.underline = True  # Underline the replaced text
 
     for table in doc.tables:
         for row in table.rows:
             for cell in row.cells:
-                if placeholder in cell.text:
-                    # Replace placeholder with underlined text in cell
-                    for paragraph in cell.paragraphs:
-                        for run in paragraph.runs:
-                            if placeholder in run.text:
-                                run.text = run.text.replace(placeholder, value)
-                                run.underline = True  # Underline the replaced text
+                for paragraph in cell.paragraphs:
+                    for run in paragraph.runs:
+                        if date_placeholder in run.text:
+                            run.text = run.text.replace(date_placeholder, date_value)
+                            run.underline = True  # Underline the replaced text
+                        if time_placeholder in run.text:
+                            run.text = run.text.replace(time_placeholder, time_value)
+                            run.underline = True  # Underline the replaced text
 
     return doc
 
-st.title("Date Placeholder Replacer")
+st.title("Date and Time Placeholder Replacer")
 
 input_text = st.text_area("Paste your text here:")
 
-if st.button("Extract Date and Replace Placeholder"):
-    date_value = extract_date(input_text)
+if st.button("Extract Date and Time and Replace Placeholders"):
+    date_value, time_value = extract_info(input_text)
     
-    if date_value:
-        placeholder = "{date_placeholder}"  # Your placeholder
+    if date_value or time_value:
+        date_placeholder = "{date_placeholder}"  # Your date placeholder
+        time_placeholder = "{time_placeholder}"  # Your time placeholder
         doc_path = "ndcf.docx"  # Your document path
         
-        modified_doc = replace_placeholder(doc_path, placeholder, date_value)
+        modified_doc = replace_placeholder(doc_path, date_placeholder, date_value, time_placeholder, time_value)
         
         doc_stream = BytesIO()
         modified_doc.save(doc_stream)
         doc_stream.seek(0)
 
-        st.success("Date extracted and placeholder replaced!")
+        st.success("Date and/or Time extracted and placeholders replaced!")
         
         st.download_button(
             label="Download modified document",
@@ -60,6 +65,6 @@ if st.button("Extract Date and Replace Placeholder"):
             mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
         )
     else:
-        st.error("No date found in the input text.")
+        st.error("No date or time found in the input text.")
 
 
