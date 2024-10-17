@@ -10,7 +10,7 @@ def extract_info(text):
     supervised_match = re.search(r'Present and supervised procedure:\s*(.*)', text)
     
     date_value = date_match.group(1).strip() if date_match else None
-    time_value = time_match.group(1).strip() if time_match else None
+    time_value = time_match.group(1).strip() if time_match else ""  # Set to empty string if not found
     performed_by_value = performed_by_match.group(1).strip() if performed_by_match else None
     attending_value = "YES" if supervised_match and supervised_match.group(1).strip() else "NO"
     
@@ -18,7 +18,7 @@ def extract_info(text):
 
 def replace_placeholder(doc_path, date_placeholder, date_value, time_placeholder, time_value, performed_by_placeholder, performed_by_value, attending_placeholder, attending_value):
     date_value = date_value.rstrip('.') if date_value else ""
-    time_value = time_value.rstrip('.') if time_value else ""
+    time_value = time_value.rstrip('.') if time_value else ""  # Ensure it’s empty if not found
     performed_by_value = performed_by_value.rstrip('.') if performed_by_value else ""
     
     doc = Document(doc_path)
