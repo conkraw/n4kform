@@ -33,7 +33,7 @@ if st.button("Extract Date and Replace Placeholder"):
     
     if date_value:
         placeholder = "{date_placeholder}"  # Your placeholder
-        doc_path = "path/to/your/document.docx"  # Your document path
+        doc_path = "ndcf.docx"  # Your document path
         
         modified_doc = replace_placeholder(doc_path, placeholder, date_value)
         
