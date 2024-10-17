@@ -1,9 +1,9 @@
 import streamlit as st
 import re
 from docx import Document
+import os
 
 def extract_date(text):
-    # Regex to find the date following "Date:"
     match = re.search(r'Date:\s*(.*)', text)
     if match:
         return match.group(1).strip()
@@ -23,8 +23,7 @@ def replace_placeholder(doc_path, placeholder, value):
 
     return doc
 
-# Streamlit UI
-st.title("N4K")
+st.title("Date Placeholder Replacer")
 
 input_text = st.text_area("Paste your text here:")
 
@@ -32,16 +31,25 @@ if st.button("Extract Date and Replace Placeholder"):
     date_value = extract_date(input_text)
     
     if date_value:
-        placeholder = "{date_placeholder}"  # Replace with your actual placeholder
-        doc_path = "ndcf.docx"  # Replace with your document path
+        placeholder = "{date_placeholder}"  # Your placeholder
+        doc_path = "ndcf.docx"  # Your document path
         
-        # Replace placeholder in the document
         modified_doc = replace_placeholder(doc_path, placeholder, date_value)
         
-        # Save the modified document
-        modified_doc.save("modified_document.docx")
-        
+        # Save the modified document to a BytesIO object
+        from io import BytesIO
+        doc_stream = BytesIO()
+        modified_doc.save(doc_stream)
+        doc_stream.seek(0)  # Go to the beginning of the BytesIO stream
+
         st.success("Date extracted and placeholder replaced!")
-        st.download_button("Download modified document", "modified_document.docx")
+        
+        # Provide a download button for the modified document
+        st.download_button(
+            label="Download modified document",
+            data=doc_stream,
+            file_name="modified_document.docx",
+            mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        )
     else:
         st.error("No date found in the input text.")
