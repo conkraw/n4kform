@@ -12,15 +12,23 @@ def extract_date(text):
 def replace_placeholder(doc_path, placeholder, value):
     value = value.rstrip('.')  # Remove any trailing periods from the value
     doc = Document(doc_path)
+
     for paragraph in doc.paragraphs:
         if placeholder in paragraph.text:
-            paragraph.text = paragraph.text.replace(placeholder, value)
+            # Clear the paragraph and re-add the runs
+            paragraph.clear()
+            # Create a new run with the underlined text
+            run = paragraph.add_run(paragraph.text.replace(placeholder, value))
+            run.underline = True  # Underline the text
 
     for table in doc.tables:
         for row in table.rows:
             for cell in row.cells:
                 if placeholder in cell.text:
-                    cell.text = cell.text.replace(placeholder, value)
+                    # Clear the cell and re-add the runs
+                    cell.clear()
+                    run = cell.add_run(cell.text.replace(placeholder, value))
+                    run.underline = True  # Underline the text
 
     return doc
 
@@ -51,4 +59,5 @@ if st.button("Extract Date and Replace Placeholder"):
         )
     else:
         st.error("No date found in the input text.")
+
 
