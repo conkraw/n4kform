@@ -41,26 +41,29 @@ def replace_placeholder(doc_path, date_placeholder, date_value, time_placeholder
     for table in doc.tables:
         for row in table.rows:
             for cell in row.cells:
+                full_text = ''.join(run.text for paragraph in cell.paragraphs for run in paragraph.runs)
+                print(f"Full cell text before replacement: '{full_text}'")  # Log the full text
+    
+                if date_placeholder in full_text:
+                    full_text = full_text.replace(date_placeholder, date_value)
+                    st.write("Replaced date placeholder")
+                if time_placeholder in full_text:
+                    full_text = full_text.replace(time_placeholder, time_value)
+                    st.write("Replaced time placeholder")
+                if performed_by_placeholder in full_text:
+                    full_text = full_text.replace(performed_by_placeholder, performed_by_value)
+                    st.write("Replaced performed by placeholder")
+                if attending_placeholder in full_text:
+                    full_text = full_text.replace(attending_placeholder, attending_value)
+                    st.write("Replaced attending placeholder")
+    
+                # Now set the modified text back to the cell
                 for paragraph in cell.paragraphs:
                     for run in paragraph.runs:
-                        print(f"Original run text: '{run.text}'")  # Log original text
-                        if date_placeholder in run.text:
-                            st.write("Found date placeholder")
-                            run.text = run.text.replace(date_placeholder, date_value)
-                            run.underline = True
-                        if time_placeholder in run.text:
-                            st.write("Found time placeholder")
-                            run.text = run.text.replace(time_placeholder, time_value)
-                            run.underline = True
-                        if performed_by_placeholder in run.text:
-                            st.write("Found performed by placeholder")
-                            run.text = run.text.replace(performed_by_placeholder, performed_by_value)
-                            run.underline = True
-                        if attending_placeholder in run.text:
-                            st.write("Found attending placeholder")
-                            run.text = run.text.replace(attending_placeholder, attending_value)
-                            run.underline = True
-                        st.write(f"Modified run text: '{run.text}'")  # Log modified text
+                        run.clear()  # Clear existing text
+                    paragraph.add_run(full_text)  # Add new run with modified text
+
+
 
 
 
