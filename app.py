@@ -45,22 +45,22 @@ def replace_placeholder(doc_path, date_placeholder, date_value, time_placeholder
                     for run in paragraph.runs:
                         print(f"Original run text: '{run.text}'")  # Log original text
                         if date_placeholder in run.text:
-                            print("Found date placeholder")
+                            st.write("Found date placeholder")
                             run.text = run.text.replace(date_placeholder, date_value)
                             run.underline = True
                         if time_placeholder in run.text:
-                            print("Found time placeholder")
+                            st.write("Found time placeholder")
                             run.text = run.text.replace(time_placeholder, time_value)
                             run.underline = True
                         if performed_by_placeholder in run.text:
-                            print("Found performed by placeholder")
+                            st.write("Found performed by placeholder")
                             run.text = run.text.replace(performed_by_placeholder, performed_by_value)
                             run.underline = True
                         if attending_placeholder in run.text:
-                            print("Found attending placeholder")
+                            st.write("Found attending placeholder")
                             run.text = run.text.replace(attending_placeholder, attending_value)
                             run.underline = True
-                        print(f"Modified run text: '{run.text}'")  # Log modified text
+                        st.write(f"Modified run text: '{run.text}'")  # Log modified text
 
 
 
