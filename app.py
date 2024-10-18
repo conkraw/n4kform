@@ -56,6 +56,7 @@ def replace_placeholder(doc_path, date_placeholder, date_value, time_placeholder
                             run.text = run.text.replace(attending_placeholder, attending_value)
                             run.underline = True
 
+
     return doc
 
 st.title("Date, Time, Performer, and Attending Placeholder Replacer")
