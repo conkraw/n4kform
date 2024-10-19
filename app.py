@@ -58,10 +58,10 @@ def replace_placeholder(doc_path, date_placeholder, date_value, time_placeholder
                     st.write("Replaced attending placeholder")
     
                 # Now set the modified text back to the cell
-                for paragraph in cell.paragraphs:
-                    for run in paragraph.runs:
-                        run.clear()  # Clear existing text
-                    paragraph.add_run(full_text)  # Add new run with modified text
+                #for paragraph in cell.paragraphs:
+                #    for run in paragraph.runs:
+                #        run.clear()  # Clear existing text
+                #    paragraph.add_run(full_text)  # Add new run with modified text
 
 
 
