@@ -21,53 +21,35 @@ def replace_placeholder(doc_path, date_placeholder, date_value, time_placeholder
     time_value = time_value.rstrip('.') if time_value else ""  # Ensure it’s empty if not found
     performed_by_value = performed_by_value.rstrip('.') if performed_by_value else ""
     
+#def replace_placeholder(doc_path, date_placeholder, date_value, time_placeholder, time_value, performed_by_placeholder, performed_by_value, attending_placeholder, attending_value):
     doc = Document(doc_path)
 
-    for paragraph in doc.paragraphs:
-        for run in paragraph.runs:
-            if date_placeholder in run.text:
-                run.text = run.text.replace(date_placeholder, date_value)
-                run.underline = True
-            if time_placeholder in run.text:
-                run.text = run.text.replace(time_placeholder, time_value)
-                run.underline = True
-            if performed_by_placeholder in run.text:
-                run.text = run.text.replace(performed_by_placeholder, performed_by_value)
-                run.underline = True
-            if attending_placeholder in run.text:
-                run.text = run.text.replace(attending_placeholder, attending_value)
+    # Function to replace placeholders in runs
+    def replace_in_runs(runs, placeholder, value):
+        for run in runs:
+            if placeholder in run.text:
+                run.text = run.text.replace(placeholder, value)
                 run.underline = True
 
+    # Replace in paragraphs
+    for paragraph in doc.paragraphs:
+        replace_in_runs(paragraph.runs, date_placeholder, date_value)
+        replace_in_runs(paragraph.runs, time_placeholder, time_value)
+        replace_in_runs(paragraph.runs, performed_by_placeholder, performed_by_value)
+        replace_in_runs(paragraph.runs, attending_placeholder, attending_value)
+
+    # Replace in tables
     for table in doc.tables:
         for row in table.rows:
             for cell in row.cells:
-                full_text = ''.join(run.text for paragraph in cell.paragraphs for run in paragraph.runs)
-                print(f"Full cell text before replacement: '{full_text}'")  # Log the full text
-    
-                if date_placeholder in full_text:
-                    full_text = full_text.replace(date_placeholder, date_value)
-                    st.write("Replaced date placeholder")
-                if time_placeholder in full_text:
-                    full_text = full_text.replace(time_placeholder, time_value)
-                    st.write("Replaced time placeholder")
-                if performed_by_placeholder in full_text:
-                    full_text = full_text.replace(performed_by_placeholder, performed_by_value)
-                    st.write("Replaced performed by placeholder")
-                if attending_placeholder in full_text:
-                    full_text = full_text.replace(attending_placeholder, attending_value)
-                    st.write("Replaced attending placeholder")
-    
-                # Now set the modified text back to the cell
-                #for paragraph in cell.paragraphs:
-                #    for run in paragraph.runs:
-                #        run.clear()  # Clear existing text
-                #    paragraph.add_run(full_text)  # Add new run with modified text
-
-
-
-
+                for paragraph in cell.paragraphs:
+                    replace_in_runs(paragraph.runs, date_placeholder, date_value)
+                    replace_in_runs(paragraph.runs, time_placeholder, time_value)
+                    replace_in_runs(paragraph.runs, performed_by_placeholder, performed_by_value)
+                    replace_in_runs(paragraph.runs, attending_placeholder, attending_value)
 
     return doc
+
 
 st.title("Date, Time, Performer, and Attending Placeholder Replacer")
 
