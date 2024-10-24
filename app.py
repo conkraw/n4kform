@@ -573,14 +573,14 @@ elif st.session_state.page == "Method Details":
         cols = st.columns([1, 1, 1])  # Three equal columns
 
         with cols[0]:
-            st.markdown("### If Yes")
+            st.markdown("### If Yes, How was the oxygen provided:")
             nc_checkbox = st.checkbox("NC without nasal airway", key="nc_without_nasal_airway")
 
         with cols[1]:
-            liter_flow = st.text_input("Liter Flow", key="liter_flow")
+            liter_flow = st.text_input("", key="liter_flow")
 
         with cols[2]:
-            fio2 = st.text_input("FIO2", key="fio2")
+            fio2 = st.text_input("", key="fio2")
 
     # Navigation buttons
     col1, col2 = st.columns(2)
