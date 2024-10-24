@@ -382,7 +382,8 @@ elif st.session_state.page == "Course Information":
             with cols[0]:  # First column for the question
                 reset_input(question, f"reset_{idx}")  # Use a unique key for each question
             with cols[1]:  # Second column for the dropdown
-                key = f"selectbox_{idx}"  # Unique key for the selectbox
+                # Create a unique key using the question text and index
+                key = f"selectbox_{idx}_{question.replace(' ', '_')}"  # Unique key for the selectbox
                 selected_option = st.selectbox('', options, key=key)  # Use unique key
                 selected_options[question] = selected_option  # Store the selected option
         
