@@ -635,7 +635,52 @@ elif st.session_state.page == "Method Details":
 
     with col2:
         if st.button("Next"):
-            st.session_state.page = "NextPage"  # Update this to your actual next page
+            st.session_state.page = "Method Details II"  # Update this to your actual next page
             st.rerun()
 
+elif st.session_state.page == "Method Details II":
+    st.header("METHOD DETAILS II")
+
+    # Device Selection (Dropdown)
+    st.markdown("### Device (Check only ONE) Begin NEW course if NEW method / device used.")
+    devices = [
+        "Select a Device",
+        "Laryngoscope",
+        "Fiber optic-flex",
+        "LMA (Laryngeal mask airway) only",
+        "ET tube via trach-stoma",
+        "Intubation through LMA",
+        "Surgical airway – Percutaneous/Cricothyrotomy (Describe)",
+        "Video laryngoscope - Unguided (e.g. Glidescope)",
+        "Video laryngoscope – CMAC",
+        "View FOR INTUBATOR: Direct / Indirect",
+        "Other (please describe):"
+    ]
+    selected_device = st.selectbox("Select device:", devices)
+
+    # Tracheal Intubation Confirmation
+    st.markdown("### Tracheal Intubation Confirmation (Check ALL that apply)")
+    confirmation_options = [
+        "Adequate and equal chest rise",
+        "Exhaled CO2 – colorimetric",
+        "Appropriate breath sounds heard (Auscultation)",
+        "Chest X-ray",
+        "Humidity seen in endotracheal tube",
+        "Second independent laryngoscopy",
+        "Exhaled CO2 – capnography",
+        "Others:"
+    ]
+    selected_confirmation = st.multiselect("Select confirmation methods:", confirmation_options)
+
+    # Navigation buttons
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Previous"):
+            st.session_state.page = "Method Details"
+            st.rerun()
+
+    with col2:
+        if st.button("Next"):
+            st.session_state.page = "NextPage"  # Update this to your actual next page
+            st.rerun()
 
