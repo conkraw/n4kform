@@ -267,7 +267,7 @@ elif st.session_state.page == "Course Information":
                     reset_input(str(attempt), f"attempt_course_{attempt}") 
                 elif row_header == "Who Intubated":
                     st.session_state.attempts[f'Attempt {attempt}']['who_intubated'] = custom_input(
-                        f'who_intubated_{attempt}'
+                        f'who_intubated_{attempt}',""
                     )
                 elif row_header == "Discipline":
                     st.session_state.attempts[f'Attempt {attempt}']['discipline'] = custom_input(
