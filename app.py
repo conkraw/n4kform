@@ -676,7 +676,12 @@ elif st.session_state.page == "Method Details II":
     ]
     selected_confirmation = st.multiselect("Select confirmation methods:", confirmation_options)
 
+    image_path = "image.png"
+    
     st.markdown("### Glottic Exposure During Intubation (Check only ONE):")
+
+    st.image(image_path, caption="Visual Reference for Glottic Exposure", use_column_width=True)
+
     glottic_exposure_options = [
         "Select an option",
         "I = Visualized entire vocal cords",
