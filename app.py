@@ -194,32 +194,33 @@ elif st.session_state.page == "Course Information":
         for row_header in row_headers:
             cols = st.columns(len(attempt_numbers) + 1)  # Create extra column for headers
             with cols[0]:  # Column for row headers
-                reset_input(row_header, f"header_{row_header}") # Use the custom locked input
-    
+                reset_input("", f"header_{row_header}")  # No default value for headers
+        
             for attempt in attempt_numbers:
                 with cols[attempt]:  # Adjust for 1-based indexing
                     if row_header == "Attempts for this COURSE":
                         reset_input(str(attempt), f"attempt_course_{attempt}") 
                     elif row_header == "Who Intubated":
                         st.session_state.attempts[f'Attempt {attempt}']['who_intubated'] = st.text_input(
-                            "", key=f'who_intubated_{attempt}'
+                            "Who Intubated", key=f'who_intubated_{attempt}'
                         )
                     elif row_header == "Discipline":
                         st.session_state.attempts[f'Attempt {attempt}']['discipline'] = st.text_input(
-                            "", key=f'discipline_{attempt}'
+                            "Discipline", key=f'discipline_{attempt}'
                         )
                     elif row_header == "PGY Level":
                         st.session_state.attempts[f'Attempt {attempt}']['pgy_level'] = st.text_input(
-                            "", key=f'pgy_level_{attempt}'
+                            "PGY Level", key=f'pgy_level_{attempt}'
                         )
                     elif row_header == "ETT (or LMA) Size":
                         st.session_state.attempts[f'Attempt {attempt}']['ett_size'] = st.text_input(
-                            "", key=f'ett_size_{attempt}'
+                            "ETT (or LMA) Size", key=f'ett_size_{attempt}'
                         )
                     elif row_header == "ETT Type":
                         st.session_state.attempts[f'Attempt {attempt}']['ett_type'] = st.text_input(
-                            "", key=f'ett_type_{attempt}'
+                            "ETT Type", key=f'ett_type_{attempt}'
                         )
+
                     elif row_header == "Cricoid Pressure Prior":
                         st.session_state.attempts[f'Attempt {attempt}']['cricoid_prior'] = st.selectbox(
                             "", ["", "Yes", "No"],
