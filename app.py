@@ -382,14 +382,13 @@ elif st.session_state.page == "Course Information":
             with cols[0]:  # First column for the question
                 reset_input(question, f"reset_{idx}")  # Use a unique key for each question
             with cols[1]:  # Second column for the dropdown
-                selected_option = st.selectbox('', options, key=f"{idx}_{question}")  # Unique key
+                key = f"selectbox_{idx}"  # Unique key for the selectbox
+                selected_option = st.selectbox('', options, key=key)  # Use unique key
                 selected_options[question] = selected_option  # Store the selected option
         
         # Check if any selected option is "YES"
         if "YES" in selected_options.values():
             explanation = st.text_area("If YES, Please Explain:")
-        
-
 
 
     st.markdown("### Known cyanotic heart disease (R to L shunt)?  (Select ONE only)")
