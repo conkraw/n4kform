@@ -36,6 +36,25 @@ def custom_input(key, default_value="", input_type="text"):
         st.session_state[key] = current_value
     return current_value
 
+def custom_selectbox(key, options):
+    # Custom select box styling
+    st.markdown(
+        """
+        <style>
+        .custom-select {
+            font-size: 16px;  /* Adjust the font size */
+            padding: 8px;     /* Adjust padding */
+            width: 100%;      /* Full width */
+            box-sizing: border-box;  /* Ensure padding doesn't affect width */
+        }
+        </style>
+        """, unsafe_allow_html=True
+    )
+
+    # Render the select box with HTML
+    selected_option = st.selectbox("", options, key=key)
+
+    return selected_option
 
 # Title of the application
 st.title("NEAR4KIDS QI COLLECTION FORM")
@@ -245,29 +264,22 @@ elif st.session_state.page == "Course Information":
                         f'ett_type_{attempt}'
                     )
                 elif row_header == "Immediately prior to this attempt was cricoid pressure/external laryngeal manipulation provided?":
-                    st.session_state.attempts[f'Attempt {attempt}']['cricoid_prior'] = st.selectbox(
-                        "", ["", "Yes", "No"],
-                        key=f'cricoid_prior_{attempt}',
-                        index=0
+                    st.session_state.attempts[f'Attempt {attempt}']['cricoid_prior'] = custom_selectbox(
+                        f'cricoid_prior_{attempt}', ["", "Yes", "No"]
                     )
                 elif row_header == "During this attempt, was cricoid pressure/external laryngeal manipulation provided?":
-                    st.session_state.attempts[f'Attempt {attempt}']['cricoid_during'] = st.selectbox(
-                        "", ["", "Yes", "No"],
-                        key=f'cricoid_during_{attempt}',
-                        index=0
+                    st.session_state.attempts[f'Attempt {attempt}']['cricoid_during'] = custom_selectbox(
+                        f'cricoid_during_{attempt}', ["", "Yes", "No"]
                     )
                 elif row_header == "Attempt Successful":
-                    st.session_state.attempts[f'Attempt {attempt}']['attempt_successful'] = st.selectbox(
-                        "", ["", "Yes", "No"],
-                        key=f'attempt_successful_{attempt}',
-                        index=0
+                    st.session_state.attempts[f'Attempt {attempt}']['attempt_successful'] = custom_selectbox(
+                        f'attempt_successful_{attempt}', ["", "Yes", "No"]
                     )
 
     # Back button to go to the previous page
     if st.button("Previous"):
         st.session_state.page = "Encounter Information"
         st.rerun()
-
 
 
 
