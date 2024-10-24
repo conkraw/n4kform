@@ -454,47 +454,64 @@ elif st.session_state.page == "Medications":
     if no_drugs == "NO DRUGS USED":
         st.markdown("If no drugs are used, please proceed to the next section.")
     else:
-        # Define the medications
-        medications = [
-            "Atropine",
-            "Glycopyrrolate",
-            "Fentanyl",
-            "Lidocaine",
-            "Vecuronium",
-            "Rocuronium",
-            "Succinylcholine",
-            "Etomidate",
-            "Ketamine",
-            "Pancuronium",
-            "Cisatracuronium",
-            "Thiopental",
-            # Add any additional medications as necessary
-        ]
+        # Create columns for dosages
+        cols = st.columns(3)
 
-        # Create input fields for each medication
-        cols = st.columns(len(medications))  # Create columns for each medication
+        # Pretreatment Dosage
+        with cols[0]:
+            st.markdown("### Pretreatment Dosage")
+            st.text_input("Atropine (mg)", key="pretreatment_atropine")
+            st.text_input("Glycopyrrolate (mcg)", key="pretreatment_glycopyrrolate")
+            st.text_input("Fentanyl (mcg)", key="pretreatment_fentanyl")
+            st.text_input("Lidocaine (mg)", key="pretreatment_lidocaine")
+            st.text_input("Vecuronium (mg)", key="pretreatment_vecuronium")
+            st.text_input("Others", key="pretreatment_others")
 
-        for col, med in zip(cols, medications):
-            with col:
-                # Ensure the number_input has a unique key based on the medication name
-                dosage = st.number_input(
-                    f"{med} (mg or mcg)", 
-                    min_value=0,  # Set appropriate min_value
-                    key=f"dosage_{med}"  # Unique key for each medication
-                )
-                st.session_state[med] = dosage  # Save dosage to session state
+        # Paralysis Dosage
+        with cols[1]:
+            st.markdown("### Paralysis Dosage")
+            st.text_input("Rocuronium (mg)", key="paralysis_rocuronium")
+            st.text_input("Succinylcholine (mg)", key="paralysis_succinylcholine")
+            st.text_input("Vecuronium (mg)", key="paralysis_vecuronium")
+            st.text_input("Pancuronium (mg)", key="paralysis_pancuronium")
+            st.text_input("Cisatracuronium (mg)", key="paralysis_cisatracuronium")
+            st.text_input("Others", key="paralysis_others")
 
-        # Section for Indications
+        # Induction Dosage
+        with cols[2]:
+            st.markdown("### Induction Dosage")
+            st.text_input("Propofol (mg)", key="induction_propofol")
+            st.text_input("Etomidate (mg)", key="induction_etomidate")
+            st.text_input("Ketamine (mg)", key="induction_ketamine")
+            st.text_input("Midazolam (mg)", key="induction_midazolam")
+            st.text_input("Thiopental (mg)", key="induction_thiopental")
+            st.text_input("Others", key="induction_others")
+
+        # Multi-select for indications
         st.markdown("### Indications")
-        atropine_indication = st.checkbox("Atropine Indication: Premed for TI")
-        bradycardia_atropine = st.checkbox("Atropine Indication: Treatment of Bradycardia")
-        glycopyrrolate_indication = st.checkbox("Glycopyrrolate Indication: Premed for TI")
-        bradycardia_glycopyrrolate = st.checkbox("Glycopyrrolate Indication: Treatment of Bradycardia")
+        atropine_indication = st.multiselect(
+            "Atropine Indication:",
+            ["Premed for TI", "Treatment of Bradycardia"],
+            key="atropine_indication"
+        )
 
-    # Back button to go to the previous page
-    if st.button("Previous"):
-        st.session_state.page = "Course Information"
-        st.rerun()
+        glycopyrrolate_indication = st.multiselect(
+            "Glycopyrrolate Indication:",
+            ["Premed for TI", "Treatment of Bradycardia"],
+            key="glycopyrrolate_indication"
+        )
+
+    # Navigation buttons
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Previous"):
+            st.session_state.page = "Course Information"
+            st.rerun()
+
+    with col2:
+        if st.button("Next"):
+            st.session_state.page = "Method"  # Set next page
+            st.rerun()
 
 
 
