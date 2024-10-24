@@ -359,12 +359,8 @@ elif st.session_state.page == "Course Information":
                     )
 
         # Add the difficult bag-mask ventilation question
-    st.markdown("### Difficult to Bag – Mask Ventilate? (Select ONE only)")
-    # Create a select box for options
-    options = ["Yes", "No", "Not applicable (bag-mask ventilation not given)"]
-    selected_option = st.selectbox("Select an option:", options, key="difficult_to_bag")
-
     st.markdown("### Difficult Airway Evaluations (Choose one in each category):")
+    
     # List of questions and their options
     questions = [
         ("Evaluation done before or after this course is completed?", ['Select Category 1', 'BEFORE', 'AFTER']),
@@ -385,19 +381,16 @@ elif st.session_state.page == "Course Information":
             st.write(f"{idx + 1}. {question}")
     
         with cols[1]:
-            # Initialize session state for each question if not already done
+            # Create a unique key for each selectbox
             key = f"evaluation_{idx}"
-            if key not in st.session_state:
-                st.session_state[key] = options[0]  # Set default value
-    
+            
             # Create selectbox with options
             selected_option = st.selectbox(
                 "",
                 options=options,
-                index=options.index(st.session_state[key]),
                 key=key  # Unique key for each selectbox
             )
-    
+            
             # Update session state with the selected option
             st.session_state[key] = selected_option
 
