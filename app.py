@@ -1,32 +1,16 @@
 import streamlit as st
 st.set_page_config(layout="wide")
 
-def reset_input(default_value, key):
-    if key not in st.session_state:
-        st.session_state[key] = default_value
-    current_value = st.text_input("", key=key)
-    if current_value != st.session_state[key]:
-        st.session_state[key] = current_value
+def reset_input(default_value, key, unique_suffix=""):
+    # Create a unique key by combining the base key with a suffix
+    unique_key = f"{key}_{unique_suffix}"
+    if unique_key not in st.session_state:
+        st.session_state[unique_key] = default_value
+    current_value = st.text_input("", key=unique_key, value=st.session_state[unique_key])
+    if current_value != st.session_state[unique_key]:
+        st.session_state[unique_key] = current_value
     return current_value
     
-def custom_locked_input(value):
-    # Custom CSS to remove shading
-    st.markdown(
-        f"""
-        <style>
-        .custom-input {{
-            background-color: transparent;
-            border: none;
-            color: black;
-            padding: 0;
-            font-size: 16px;
-            width: 100%;
-        }}
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
-    return st.text_input("", value=value, disabled=True, key=f"locked_input_{value}", css_class="custom-input")
 
 # Title of the application
 st.title("NEAR4KIDS QI COLLECTION FORM")
@@ -212,12 +196,12 @@ elif st.session_state.page == "Course Information":
         for row_header in row_headers:
             cols = st.columns(len(attempt_numbers) + 1)  # Create extra column for headers
             with cols[0]:  # Column for row headers
-                reset_input(row_header,key=row_header)  # Use the custom locked input
+                reset_input(row_header)  # Use the custom locked input
     
             for attempt in attempt_numbers:
                 with cols[attempt]:  # Adjust for 1-based indexing
                     if row_header == "Attempts for this COURSE":
-                        reset_input(str(attempt),key='Attempts for this COURSEx')  # Locked value for attempts
+                        reset_input(str(attempt))  # Locked value for attempts
                     elif row_header == "Who Intubated":
                         st.session_state.attempts[f'Attempt {attempt}']['who_intubated'] = st.selectbox(
                             "", ["", "Fellow", "Resident", "Attending", "Paramedic"],
