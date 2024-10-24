@@ -143,10 +143,13 @@ elif st.session_state.page == "Course Information":
     #st.write("Form data submitted:", st.session_state.form_data)
     #st.write("Indications:", st.session_state.indications)
     st.markdown("""
-## An **ENCOUNTER** of advanced airway management refers to the complete sequence of events leading to the placement of an advanced airway.
-## A **COURSE** of advanced airway management refers to ONE method or approach to secure an airway AND ONE set of medications (including premedication and induction). Each course may include one or several **ATTEMPTS** by one or several providers.
-## An **ATTEMPT** is a single advanced airway maneuver (e.g. tracheal intubation, LMA placement), beginning with the insertion of a device (e.g. laryngoscope or LMA device) into the patient's mouth or nose, and ending when the device (laryngoscope, LMA, or tube) is removed.
-""")
+<p style='font-size: 14px;'>
+    An <strong>ENCOUNTER</strong> of advanced airway management refers to the complete sequence of events leading to the placement of an advanced airway.<br>
+    A <strong>COURSE</strong> of advanced airway management refers to ONE method or approach to secure an airway AND ONE set of medications (including premedication and induction). Each course may include one or several <strong>ATTEMPTS</strong> by one or several providers.<br>
+    An <strong>ATTEMPT</strong> is a single advanced airway maneuver (e.g. tracheal intubation, LMA placement), beginning with the insertion of a device (e.g. laryngoscope or LMA device) into the patient's mouth or nose, and ending when the device (laryngoscope, LMA, or tube) is removed.
+</p>
+""", unsafe_allow_html=True)
+
     
     # Back button to go to the previous page
     if st.button("Previous"):
