@@ -4,16 +4,22 @@ import threading
 
 st.set_page_config(layout="wide")
 
-def reset_inputx(default_value, key):
+def reset_inputx(key):
+    # Ensure the key exists in session state
     if key not in st.session_state:
-        st.session_state[key] = default_value
-    
-    current_value = st.text_input("", key=key, value=st.session_state[key])  # Set the default value to the session state
+        st.session_state[key] = ""  # Default to empty string
 
-    if current_value != st.session_state[key]:
-        st.session_state[key] = current_value
-        
-    return current_value
+    # Get current value from session state
+    current_value = st.session_state[key]
+    
+    # Create the input widget
+    new_value = st.text_input("", key=key, value=current_value)
+
+    # Update session state if the input changes
+    if new_value != current_value:
+        st.session_state[key] = new_value
+    
+    return new_value
     
 def reset_input(default_value, key, width="100%", height="40px"):
     # Add custom CSS for input styling
