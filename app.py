@@ -574,6 +574,9 @@ elif st.session_state.page == "Method":
 import streamlit as st
 
 # Page for Method Details
+import streamlit as st
+
+# Page for Method Details
 if st.session_state.page == "Method Details":
     st.header("METHOD DETAILS")
 
@@ -602,11 +605,14 @@ if st.session_state.page == "Method Details":
         ]
         selected_methods = st.multiselect("Select methods:", options)
 
-        # Display Liter Flow and FIO2 inputs if certain options are selected
-        if "NC without nasal airway" in selected_methods or "NC with nasal airway" in selected_methods:
-            st.markdown("#### Please provide the following details:")
-            liter_flow = st.text_input("Liter Flow:", key="liter_flow")
-            fio2 = st.text_input("FIO2:", key="fio2")
+        # Display Liter Flow and FIO2 inputs for each selected method
+        for method in selected_methods:
+            cols = st.columns([3, 3])  # Create two columns
+            with cols[0]:
+                st.markdown(f"**{method}**")
+            with cols[1]:
+                liter_flow = st.text_input("Liter Flow:", key=f"liter_flow_{method.replace(' ', '_')}")
+                fio2 = st.text_input("FIO2:", key=f"fio2_{method.replace(' ', '_')}")
 
     # Navigation buttons
     col1, col2 = st.columns(2)
