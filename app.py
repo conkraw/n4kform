@@ -570,38 +570,33 @@ elif st.session_state.page == "Method Details":
 
     # Additional section if "YES" is selected
     if selected_oxygen == "YES":
-        cols = st.columns([1, 1, 1])  # Three equal columns
+        st.markdown("### If Yes, How was the oxygen provided:")
+        
+        # Create a list of checkboxes
+        options = [
+            ("NC without nasal airway", "nc_without_nasal_airway"),
+            ("NC with nasal airway", "nc_with_nasal_airway"),
+            ("Oral airway with oxygen port", "oral_airway_with_oxygen_port"),
+            ("Through LMA", "through_lma"),
+            ("HFNC", "hfnc"),
+            ("NIV with nasal prong interface - provide PEEP/PIP", "NIV_with_nasal_prong"),
+            ("Other (device, FIO2, setting)", "other_ao_device")
+        ]
 
-        with cols[0]:
-            st.markdown("### If Yes, How was the oxygen provided:")
-            st.markdown("")
-            nc_checkbox1 = st.checkbox("NC without nasal airway", key="nc_without_nasal_airway")
-            nc_checkbox2 = st.checkbox("NC with nasal airway", key="nc_with_nasal_airway")
-            nc_checkbox3 = st.checkbox("Oral airway with oxygen port", key="oral_airway_with_oxygen_port")
-            nc_checkbox4 = st.checkbox("Through LMA", key="through_lma")
-            nc_checkbox5 = st.checkbox("HFNC", key="hfnc")
-            nc_checkbox6 = st.checkbox("NIV with nasal prong interface - provide PEEP/PIP", key="NIV_with_nasal_prong")
-            nc_checkbox7 = st.checkbox("Other (device, FIO2, setting)", key="other_ao_device")
+        for option, key in options:
+            cols = st.columns([1, 1, 1])  # Three equal columns
 
-        with cols[1]:
-            st.markdown("### Liter Flow")
-            liter_flow1 = st.text_input("", key="liter_flow1")
-            liter_flow2 = st.text_input("", key="liter_flow2")
-            liter_flow3 = st.text_input("", key="liter_flow3")
-            liter_flow4 = st.text_input("", key="liter_flow4")
-            liter_flow5 = st.text_input("", key="liter_flow5")
-            liter_flow6 = st.text_input("", key="liter_flow6")
-            liter_flow7 = st.text_input("", key="liter_flow7")
+            with cols[0]:
+                st.checkbox(option, key=key)
 
-        with cols[2]:
-            st.markdown("### FIO2")
-            fio21 = st.text_input("", key="fio21")
-            fio22 = st.text_input("", key="fio22")
-            fio23 = st.text_input("", key="fio23")
-            fio24 = st.text_input("", key="fio24")
-            fio25 = st.text_input("", key="fio25")
-            fio26 = st.text_input("", key="fio26")
-            fio27 = st.text_input("", key="fio27")
+            with cols[1]:
+                if "other" in key:  # For the "Other" checkbox
+                    liter_flow = st.text_input("Liter Flow", key=f"liter_flow_{key}")
+                else:
+                    liter_flow = st.text_input("", key=f"liter_flow_{key}")
+
+            with cols[2]:
+                fio2 = st.text_input("FIO2", key=f"fio2_{key}")
 
     # Navigation buttons
     col1, col2 = st.columns(2)
@@ -614,5 +609,4 @@ elif st.session_state.page == "Method Details":
         if st.button("Next"):
             st.session_state.page = "NextPage"  # Update this to your actual next page
             st.rerun()
-
 
