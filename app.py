@@ -571,6 +571,8 @@ elif st.session_state.page == "Method":
             st.session_state.page = "Method Details"  # Set next page (update this to your actual next page)
             st.rerun()
 
+import streamlit as st
+
 # Page for Method Details
 if st.session_state.page == "Method Details":
     st.header("METHOD DETAILS")
@@ -603,7 +605,7 @@ if st.session_state.page == "Method Details":
         # Display Liter Flow and FIO2 inputs for each selected method
         if selected_methods:
             st.write("#### Oxygen Provision Details")
-            cols = st.columns([1, 3, 2, 2])  # Adjust columns
+            cols = st.columns([1, 1, 3, 2])  # Adjust columns to shift inputs
 
             with cols[0]:
                 st.markdown("**Method**")
@@ -613,18 +615,16 @@ if st.session_state.page == "Method Details":
                 st.markdown("**FIO2**")
 
             for method in selected_methods:
-                cols = st.columns([1, 3, 2, 2])  # Create a row for each method
+                cols = st.columns([1, 1, 3, 2])  # Create a row for each method
 
                 with cols[0]:
-                    st.markdown("")
-                    st.markdown("")
                     st.markdown(f"**{method}**")
                 
                 with cols[1]:
-                    liter_flow = st.text_input("", key=f"liter_flow_{method.replace(' ', '_')}")
+                    liter_flow = st.text_input("Liter Flow:", key=f"liter_flow_{method.replace(' ', '_')}")
                 
                 with cols[2]:
-                    fio2 = st.text_input("", key=f"fio2_{method.replace(' ', '_')}")
+                    fio2 = st.text_input("FIO2:", key=f"fio2_{method.replace(' ', '_')}")
 
     # Navigation buttons
     col1, col2 = st.columns(2)
