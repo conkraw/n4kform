@@ -1,6 +1,14 @@
 import streamlit as st
 st.set_page_config(layout="wide")
 
+def reset_input(default_value, key):
+    if key not in st.session_state:
+        st.session_state[key] = default_value
+    current_value = st.text_input("", key=key)
+    if current_value != st.session_state[key]:
+        st.session_state[key] = current_value
+    return current_value
+
 # Title of the application
 st.title("NEAR4KIDS QI COLLECTION FORM")
 
@@ -185,8 +193,9 @@ elif st.session_state.page == "Course Information":
     for row_header in row_headers:
         cols = st.columns(len(attempt_numbers) + 1)  # Create extra column for headers
         with cols[0]:  # Column for row headers
-            st.text_input("", value=row_header, disabled=True)  # Locked value for headers
-
+            #st.text_input("", value=row_header, disabled=True)  # Locked value for headers
+            blade_2_text = reset_input("", key="millerx")
+            
         for attempt in attempt_numbers:
             with cols[attempt]:  # Adjust for 1-based indexing
                 if row_header == "Attempts for this COURSE":
