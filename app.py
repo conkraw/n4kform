@@ -307,11 +307,8 @@ elif st.session_state.page == "Course Information":
                     centered_input(str(attempt), f"attempt_course_{attempt}", width ='50px', height = '35px') 
                 elif row_header == "Who intubated (Fellow, Resident, etc)":
                     st.session_state.attempts[f'Attempt {attempt}']['who_intubated'] = custom_input(
-                        f'who_intubated_{attempt}', 
-                        default_value="", 
-                        width="50%",      # Set the width to 80%
-                        height="35px",   # Set the height to 40px
-                        font_size="16px" # Set the font size to 18px
+                        f'who_intubated_{attempt}'
+
                         )
                 elif row_header == "Discipline (ICU, ENT, Surgery, etc)":
                     st.session_state.attempts[f'Attempt {attempt}']['discipline'] = custom_input(
