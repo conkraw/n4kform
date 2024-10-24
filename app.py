@@ -6,6 +6,11 @@ def reset_input(default_value, key, width="100%", height="30px"):
     st.markdown(
         f"""
         <style>
+        .reset-input-container {{
+            display: flex;              /* Use flexbox for centering */
+            justify-content: center;    /* Center horizontally */
+            align-items: center;        /* Center vertically if needed */
+        }}
         .reset-input {{
             font-size: 12px !important;  /* Adjust the font size */
             padding: 8px;                /* Adjust padding */
@@ -17,8 +22,6 @@ def reset_input(default_value, key, width="100%", height="30px"):
             background-color: #f9f9f9;   /* Light background */
             font-weight: bold;            /* Make text bold */
             text-align: center;           /* Center the text */
-            display: block;               /* Make it a block element for centering */
-            margin: 0 auto;              /* Center the input box */
         }}
         </style>
         """, unsafe_allow_html=True
@@ -30,10 +33,12 @@ def reset_input(default_value, key, width="100%", height="30px"):
 
     current_value = st.session_state[key]
 
-    # Create a styled input field
+    # Create a styled input field wrapped in a container for centering
     input_html = f"""
-        <input class="reset-input" type="text" value="{current_value}" 
-               oninput="this.value=this.value.replace(/</g,'&lt;').replace(/>/g,'&gt;')" />
+        <div class="reset-input-container">
+            <input class="reset-input" type="text" value="{current_value}" 
+                   oninput="this.value=this.value.replace(/</g,'&lt;').replace(/>/g,'&gt;')" />
+        </div>
     """
     
     # Render the HTML input field
