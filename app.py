@@ -604,6 +604,7 @@ elif st.session_state.page == "Method Details":
             cols = st.columns([1, 2, 2, 2])  # Create four columns for each option
 
             with cols[0]:
+                st.markdown("***")
                 selected_option = st.selectbox("", ["", "X"], key=f"select_{option.replace(' ', '_')}")
 
             with cols[1]:
