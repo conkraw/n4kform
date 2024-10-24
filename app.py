@@ -11,6 +11,10 @@ def reset_input(default_value, key):
             padding: 8px;     /* Adjust padding */
             width: 100%;      /* Full width */
             box-sizing: border-box;  /* Ensure padding doesn't affect width */
+            border: none;     /* Remove border */
+            background-color: transparent;  /* Make background transparent */
+            color: black;     /* Text color */
+            pointer-events: none;  /* Disable pointer events */
         }
         </style>
         """, unsafe_allow_html=True
@@ -20,20 +24,14 @@ def reset_input(default_value, key):
     if key not in st.session_state:
         st.session_state[key] = default_value
 
-    # Create a styled input field
+    # Create a styled read-only input field
     input_html = f"""
-        <input class="custom-input" type="text" value="{st.session_state[key]}" 
-               onchange="document.getElementById('{key}_hidden').value=this.value; this.dispatchEvent(new Event('input'));" 
-               id="{key}" />
-        <input type="hidden" id="{key}_hidden" value="{st.session_state[key]}" />
+        <input class="custom-input" type="text" value="{st.session_state[key]}" readonly />
     """
     
     # Render the HTML input field
     st.markdown(input_html, unsafe_allow_html=True)
 
-    # Capture the value on the next rerun
-    if st.session_state[key] != st.session_state[key]:  # This will always be true for the first render
-        st.session_state[key] = st.session_state[key]
     return st.session_state[key]
     
 def custom_input(key, default_value="", input_type="text"):
