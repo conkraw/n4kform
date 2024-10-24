@@ -572,7 +572,20 @@ elif st.session_state.page == "Method Details":
     if selected_oxygen == "YES":
         st.markdown("### If Yes, How was the oxygen provided:")
         
-        # Create a list of checkboxes
+        # Create headers for the table-like layout
+        st.write("#### Oxygen Provision Details")
+        cols = st.columns([1, 2, 2])  # Adjust column widths as needed
+
+        with cols[0]:
+            st.markdown("**Method**")
+
+        with cols[1]:
+            st.markdown("**Liter Flow**")
+
+        with cols[2]:
+            st.markdown("**FIO2**")
+
+        # Create a list of checkboxes and corresponding text inputs
         options = [
             ("NC without nasal airway", "nc_without_nasal_airway"),
             ("NC with nasal airway", "nc_with_nasal_airway"),
@@ -584,16 +597,13 @@ elif st.session_state.page == "Method Details":
         ]
 
         for option, key in options:
-            cols = st.columns([1, 1, 1])  # Three equal columns
+            cols = st.columns([1, 2, 2])  # Create three columns for each option
 
             with cols[0]:
                 st.checkbox(option, key=key)
 
             with cols[1]:
-                if "other" in key:  # For the "Other" checkbox
-                    liter_flow = st.text_input("", key=f"liter_flow_{key}")
-                else:
-                    liter_flow = st.text_input("", key=f"liter_flow_{key}")
+                liter_flow = st.text_input("", key=f"liter_flow_{key}")
 
             with cols[2]:
                 fio2 = st.text_input("", key=f"fio2_{key}")
