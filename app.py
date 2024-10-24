@@ -7,12 +7,12 @@ def reset_input(default_value, key):
         """
         <style>
         .custom-input {
-            font-size: 8px;  /* Adjust the font size */
-            padding: 8px;     /* Adjust padding */
-            width: 100%;      /* Full width */
-            box-sizing: border-box;  /* Ensure padding doesn't affect width */
-            border: 1px solid #ccc;  /* Keep the border */
-            border-radius: 4px;  /* Rounded corners for aesthetics */
+            font-size: 8px !important;  /* Ensure the font size is applied */
+            padding: 8px;                /* Adjust padding */
+            width: 100%;                 /* Full width */
+            box-sizing: border-box;      /* Ensure padding doesn't affect width */
+            border: 1px solid #ccc;      /* Keep the border */
+            border-radius: 4px;          /* Rounded corners for aesthetics */
         }
         </style>
         """, unsafe_allow_html=True
