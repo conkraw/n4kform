@@ -585,29 +585,29 @@ elif st.session_state.page == "Method Details":
         with cols[2]:
             st.markdown("**FIO2**")
 
-        # Create a list of checkboxes and corresponding text inputs
+        # Create a list of input options
         options = [
-            ("NC without nasal airway", "nc_without_nasal_airway"),
-            ("NC with nasal airway", "nc_with_nasal_airway"),
-            ("Oral airway with oxygen port", "oral_airway_with_oxygen_port"),
-            ("Through LMA", "through_lma"),
-            ("HFNC", "hfnc"),
-            ("NIV with nasal prong interface - provide PEEP/PIP", "NIV_with_nasal_prong"),
-            ("Other (device, FIO2, setting)", "other_ao_device")
+            "NC without nasal airway",
+            "NC with nasal airway",
+            "Oral airway with oxygen port",
+            "Through LMA",
+            "HFNC",
+            "NIV with nasal prong interface - provide PEEP/PIP",
+            "Other (device, FIO2, setting)"
         ]
 
-        for option, key in options:
+        # Loop to create inputs
+        for option in options:
             cols = st.columns([1, 2, 2])  # Create three columns for each option
 
             with cols[0]:
-                st.markdown("")
-                st.checkbox(option, key=key)
+                reset_input(option, f"method_{option.replace(' ', '_')}")
 
             with cols[1]:
-                liter_flow = st.text_input("", key=f"liter_flow_{key}")
+                liter_flow = st.text_input("", key=f"liter_flow_{option.replace(' ', '_')}")
 
             with cols[2]:
-                fio2 = st.text_input("", key=f"fio2_{key}")
+                fio2 = st.text_input("", key=f"fio2_{option.replace(' ', '_')}")
 
     # Navigation buttons
     col1, col2 = st.columns(2)
@@ -620,4 +620,5 @@ elif st.session_state.page == "Method Details":
         if st.button("Next"):
             st.session_state.page = "NextPage"  # Update this to your actual next page
             st.rerun()
+
 
