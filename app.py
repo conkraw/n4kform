@@ -150,10 +150,10 @@ with st.form(key='patient_info_form'):
         ]
     )
     if st.button("Go to Course Information"):
-    # Store the selected categories in session state for use on the next page
-    st.session_state.diagnostic_categories = diagnostic_categories
-    st.session_state.page = "Course Information"
-    st.rerun()  # Rerun the app to reflect the new page
+        # Store the selected categories in session state for use on the next page
+        st.session_state.diagnostic_categories = diagnostic_categories
+        st.session_state.page = "Course Information"
+        st.rerun()  # Rerun the app to reflect the new page
 
 # Code for the Course Information page
 if 'page' in st.session_state and st.session_state.page == "Course Information":
