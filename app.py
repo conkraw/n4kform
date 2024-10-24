@@ -1,5 +1,24 @@
 import streamlit as st
+from flask import Flask, request
+import threading
+
 st.set_page_config(layout="wide")
+
+app = Flask(__name__)
+
+@app.route('/set_value', methods=['GET'])
+def set_value():
+    key = request.args.get('key')
+    value = request.args.get('value')
+    if key and value:
+        st.session_state[key] = value
+    return "Value set successfully"
+
+def run_flask():
+    app.run(port=5000)
+
+# Run the Flask app in a separate thread
+threading.Thread(target=run_flask, daemon=True).start()
 
 def reset_input(default_value, key, width="100%", height="35px"):
     # Add custom CSS for input styling
@@ -50,7 +69,6 @@ def reset_input(default_value, key, width="100%", height="35px"):
     
     return current_value
 
-
 def custom_input(key, default_value="", input_type="text", width="75%", height="35px", font_size="16px"):
     # Add custom CSS for input styling
     st.markdown(
@@ -64,9 +82,8 @@ def custom_input(key, default_value="", input_type="text", width="75%", height="
             box-sizing: border-box;              /* Ensure padding doesn't affect width */
             border: 1px solid #ccc;              /* Border */
             border-radius: 4px;                  /* Rounded corners for aesthetics */
-            text-align: center;           /* Center the text */
             display: block;               /* Make it a block element for centering */
-            margin: 0 auto;              /* Center the input box */                                
+            margin: 0 auto;              /* Center the input box */
         }}
         </style>
         """, unsafe_allow_html=True
@@ -81,19 +98,30 @@ def custom_input(key, default_value="", input_type="text", width="75%", height="
         <input class="custom-input" type="{input_type}" 
                value="{st.session_state[key]}" 
                oninput="this.value=this.value.replace(/</g,'&lt;').replace(/>/g,'&gt;');" 
-               onchange="document.getElementById('{key}_output').innerHTML = this.value" />
-        <span id="{key}_output" style="display:none;">{st.session_state[key]}</span>
+               onchange="updateSessionState('{key}', this.value);" />
     """
+    
+    # Add JavaScript to update the session state
+    st.markdown(f"""
+        <script>
+        function updateSessionState(key, value) {{
+            const data = {{[key]: value}};
+            const jsonData = JSON.stringify(data);
+            fetch('/update_session', {{
+                method: 'POST',
+                body: jsonData,
+                headers: {{
+                    'Content-Type': 'application/json'
+                }}
+            }});
+        }}
+        </script>
+    """, unsafe_allow_html=True)
 
     # Render the HTML input field
     st.markdown(input_html, unsafe_allow_html=True)
 
-    # Update session state if the input value changes
-    if st.session_state[key] != st.session_state[key]:  # This check seems redundant
-        st.session_state[key] = st.session_state[key]  # Update session state with user input
-    
     return st.session_state[key]
-
 
 def centered_input(default_value, key, width="100%", height="30px"):
     # Add custom CSS for centered input styling
