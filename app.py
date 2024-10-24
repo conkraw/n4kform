@@ -578,9 +578,11 @@ elif st.session_state.page == "Method Details":
             nc_checkbox = st.checkbox("NC without nasal airway", key="nc_without_nasal_airway")
 
         with cols[1]:
+            st.markdown("")
             liter_flow = st.text_input("", key="liter_flow")
 
         with cols[2]:
+            st.markdown("")
             fio2 = st.text_input("", key="fio2")
 
     # Navigation buttons
