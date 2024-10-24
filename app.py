@@ -612,9 +612,11 @@ elif st.session_state.page == "Method Details":
                 reset_input(option, f"method_{option.replace(' ', '_')}")
 
             with cols[2]:
+                st.markdown("***")
                 liter_flow = st.text_input("", key=f"liter_flow_{option.replace(' ', '_')}")
 
             with cols[3]:
+                st.markdown("***")
                 fio2 = st.text_input("", key=f"fio2_{option.replace(' ', '_')}")
 
     # Navigation buttons
