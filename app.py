@@ -164,127 +164,107 @@ if st.session_state.page == "Encounter Information":
             st.session_state.page = "Course Information"  # Set next page
             st.rerun()  # Rerun the app to reflect the new page
 
-import streamlit as st
 
-def custom_locked_input(value):
-    # Custom CSS to remove shading
-    st.markdown(
-        f"""
-        <style>
-        .custom-input {{
-            background-color: transparent;
-            border: none;
-            color: black;
-            padding: 0;
-            font-size: 16px;
-            width: 100%;
-        }}
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
-    return st.text_input("", value=value, disabled=True, key=f"locked_input_{value}", css_class="custom-input")
-
-elif st.session_state.page == "Course Information":
-    st.header("COURSE INFORMATION")
-
-    # Displaying the previously submitted data if necessary
-    st.write("Form data submitted:", st.session_state.form_data)
-
-    # Instructions
-    st.markdown("""
-    <p style='font-size: 14px;'>
-        An <strong><u>"ENCOUNTER"</u></strong> of advanced airway management refers to the complete sequence of events leading to the placement of an advanced airway.<br>
-        A <strong><u>"COURSE"</u></strong> of advanced airway management refers to <u>ONE</u> method or approach to secure an airway <strong><u>AND</u></strong> <u>ONE</u> set of medications (including premedication and induction). Each course may include one or several "attempts" by one or several providers.<br>
-        An <strong><u>"ATTEMPT"</u></strong> is a single advanced airway maneuver (e.g. tracheal intubation, LMA placement), beginning with the insertion of a device (e.g. laryngoscope or LMA device) into the patient's mouth or nose, and ending when the device (laryngoscope, LMA, or tube) is removed.
-    </p>
-    """, unsafe_allow_html=True)
-
-    # Initialize session state if not already done
-    if 'attempts' not in st.session_state:
-        st.session_state.attempts = {f'Attempt {i}': {
-            'who_intubated': None,
-            'discipline': None,
-            'pgy_level': None,
-            'ett_size': None,
-            'ett_type': None,
-            'cricoid_prior': None,
-            'cricoid_during': None,
-            'attempt_successful': None,
-        } for i in range(1, 9)}
+    elif st.session_state.page == "Course Information":
+        st.header("COURSE INFORMATION")
     
-    # Define the row headers
-    row_headers = [
-        "Attempts for this COURSE",
-        "Who Intubated",
-        "Discipline",
-        "PGY Level",
-        "ETT (or LMA) Size",
-        "ETT Type",
-        "Cricoid Pressure Prior",
-        "Cricoid Pressure During",
-        "Attempt Successful"
-    ]
+        # Displaying the previously submitted data if necessary
+        st.write("Form data submitted:", st.session_state.form_data)
     
-    # Define attempt numbers
-    attempt_numbers = range(1, 9)
+        # Instructions
+        st.markdown("""
+        <p style='font-size: 14px;'>
+            An <strong><u>"ENCOUNTER"</u></strong> of advanced airway management refers to the complete sequence of events leading to the placement of an advanced airway.<br>
+            A <strong><u>"COURSE"</u></strong> of advanced airway management refers to <u>ONE</u> method or approach to secure an airway <strong><u>AND</u></strong> <u>ONE</u> set of medications (including premedication and induction). Each course may include one or several "attempts" by one or several providers.<br>
+            An <strong><u>"ATTEMPT"</u></strong> is a single advanced airway maneuver (e.g. tracheal intubation, LMA placement), beginning with the insertion of a device (e.g. laryngoscope or LMA device) into the patient's mouth or nose, and ending when the device (laryngoscope, LMA, or tube) is removed.
+        </p>
+        """, unsafe_allow_html=True)
     
-    # Create the table-like layout
-    for row_header in row_headers:
-        cols = st.columns(len(attempt_numbers) + 1)  # Create extra column for headers
-        with cols[0]:  # Column for row headers
-            custom_locked_input(row_header)  # Use the custom locked input
-
-        for attempt in attempt_numbers:
-            with cols[attempt]:  # Adjust for 1-based indexing
-                if row_header == "Attempts for this COURSE":
-                    custom_locked_input(str(attempt))  # Locked value for attempts
-                elif row_header == "Who Intubated":
-                    st.session_state.attempts[f'Attempt {attempt}']['who_intubated'] = st.selectbox(
-                        "", ["", "Fellow", "Resident", "Attending", "Paramedic"],
-                        key=f'who_intubated_{attempt}'
-                    )
-                elif row_header == "Discipline":
-                    st.session_state.attempts[f'Attempt {attempt}']['discipline'] = st.selectbox(
-                        "", ["", "ICU", "ENT", "Surgery", "Emergency Medicine"],
-                        key=f'discipline_{attempt}'
-                    )
-                elif row_header == "PGY Level":
-                    st.session_state.attempts[f'Attempt {attempt}']['pgy_level'] = st.selectbox(
-                        "", ["", "PL1", "PL2", "PL3", "PL4", "NP"],
-                        key=f'pgy_level_{attempt}'
-                    )
-                elif row_header == "ETT (or LMA) Size":
-                    st.session_state.attempts[f'Attempt {attempt}']['ett_size'] = st.selectbox(
-                        "", ["", "2.5", "3.0", "3.5", "4.0", "4.5", "5.0", "5.5"],
-                        key=f'ett_size_{attempt}'
-                    )
-                elif row_header == "ETT Type":
-                    st.session_state.attempts[f'Attempt {attempt}']['ett_type'] = st.selectbox(
-                        "", ["", "Cuffed", "Uncuffed", "NA"],
-                        key=f'ett_type_{attempt}'
-                    )
-                elif row_header == "Cricoid Pressure Prior":
-                    st.session_state.attempts[f'Attempt {attempt}']['cricoid_prior'] = st.selectbox(
-                        "", ["", "Yes", "No"],
-                        key=f'cricoid_prior_{attempt}'
-                    )
-                elif row_header == "Cricoid Pressure During":
-                    st.session_state.attempts[f'Attempt {attempt}']['cricoid_during'] = st.selectbox(
-                        "", ["", "Yes", "No"],
-                        key=f'cricoid_during_{attempt}'
-                    )
-                elif row_header == "Attempt Successful":
-                    st.session_state.attempts[f'Attempt {attempt}']['attempt_successful'] = st.selectbox(
-                        "", ["", "Yes", "No"],
-                        key=f'attempt_successful_{attempt}'
-                    )
-
-    # Back button to go to the previous page
-    if st.button("Previous"):
-        st.session_state.page = "Encounter Information"
-        st.rerun()
-
+        # Initialize session state if not already done
+        if 'attempts' not in st.session_state:
+            st.session_state.attempts = {f'Attempt {i}': {
+                'who_intubated': None,
+                'discipline': None,
+                'pgy_level': None,
+                'ett_size': None,
+                'ett_type': None,
+                'cricoid_prior': None,
+                'cricoid_during': None,
+                'attempt_successful': None,
+            } for i in range(1, 9)}
+        
+        # Define the row headers
+        row_headers = [
+            "Attempts for this COURSE",
+            "Who Intubated",
+            "Discipline",
+            "PGY Level",
+            "ETT (or LMA) Size",
+            "ETT Type",
+            "Cricoid Pressure Prior",
+            "Cricoid Pressure During",
+            "Attempt Successful"
+        ]
+        
+        # Define attempt numbers
+        attempt_numbers = range(1, 9)
+        
+        # Create the table-like layout
+        for row_header in row_headers:
+            cols = st.columns(len(attempt_numbers) + 1)  # Create extra column for headers
+            with cols[0]:  # Column for row headers
+                custom_locked_input(row_header)  # Use the custom locked input
+    
+            for attempt in attempt_numbers:
+                with cols[attempt]:  # Adjust for 1-based indexing
+                    if row_header == "Attempts for this COURSE":
+                        custom_locked_input(str(attempt))  # Locked value for attempts
+                    elif row_header == "Who Intubated":
+                        st.session_state.attempts[f'Attempt {attempt}']['who_intubated'] = st.selectbox(
+                            "", ["", "Fellow", "Resident", "Attending", "Paramedic"],
+                            key=f'who_intubated_{attempt}'
+                        )
+                    elif row_header == "Discipline":
+                        st.session_state.attempts[f'Attempt {attempt}']['discipline'] = st.selectbox(
+                            "", ["", "ICU", "ENT", "Surgery", "Emergency Medicine"],
+                            key=f'discipline_{attempt}'
+                        )
+                    elif row_header == "PGY Level":
+                        st.session_state.attempts[f'Attempt {attempt}']['pgy_level'] = st.selectbox(
+                            "", ["", "PL1", "PL2", "PL3", "PL4", "NP"],
+                            key=f'pgy_level_{attempt}'
+                        )
+                    elif row_header == "ETT (or LMA) Size":
+                        st.session_state.attempts[f'Attempt {attempt}']['ett_size'] = st.selectbox(
+                            "", ["", "2.5", "3.0", "3.5", "4.0", "4.5", "5.0", "5.5"],
+                            key=f'ett_size_{attempt}'
+                        )
+                    elif row_header == "ETT Type":
+                        st.session_state.attempts[f'Attempt {attempt}']['ett_type'] = st.selectbox(
+                            "", ["", "Cuffed", "Uncuffed", "NA"],
+                            key=f'ett_type_{attempt}'
+                        )
+                    elif row_header == "Cricoid Pressure Prior":
+                        st.session_state.attempts[f'Attempt {attempt}']['cricoid_prior'] = st.selectbox(
+                            "", ["", "Yes", "No"],
+                            key=f'cricoid_prior_{attempt}'
+                        )
+                    elif row_header == "Cricoid Pressure During":
+                        st.session_state.attempts[f'Attempt {attempt}']['cricoid_during'] = st.selectbox(
+                            "", ["", "Yes", "No"],
+                            key=f'cricoid_during_{attempt}'
+                        )
+                    elif row_header == "Attempt Successful":
+                        st.session_state.attempts[f'Attempt {attempt}']['attempt_successful'] = st.selectbox(
+                            "", ["", "Yes", "No"],
+                            key=f'attempt_successful_{attempt}'
+                        )
+    
+        # Back button to go to the previous page
+        if st.button("Previous"):
+            st.session_state.page = "Encounter Information"
+            st.rerun()
+    
 
 
 
