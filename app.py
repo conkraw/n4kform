@@ -683,9 +683,6 @@ elif st.session_state.page == "Method Details II":
     ]
     selected_glottic_exposure = st.selectbox("Select glottic exposure:", glottic_exposure_options)
 
-    elif st.session_state.page == "Tracheal Intubation Events":
-    st.header("TRACHEAL INTUBATION ASSOCIATED EVENTS")
-
     # Events for Tracheal Intubation
     st.markdown("### Tracheal Intubation Associated Events (Check ALL that apply):")
 
@@ -736,15 +733,4 @@ elif st.session_state.page == "Method Details II":
             st.session_state.page = "NextPage"  # Update this to your actual next page
             st.rerun()
 
-    # Navigation buttons
-    col1, col2 = st.columns(2)
-    with col1:
-        if st.button("Previous"):
-            st.session_state.page = "Method Details"
-            st.rerun()
-
-    with col2:
-        if st.button("Next"):
-            st.session_state.page = "NextPage"  # Update this to your actual next page
-            st.rerun()
 
