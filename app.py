@@ -51,7 +51,7 @@ def reset_input(default_value, key, width="100%", height="35px"):
     return current_value
 
 
-def custom_input(key, default_value="", input_type="text", width="100%", height="35px", font_size="16px"):
+def custom_input(key, default_value="", input_type="text", width="75%", height="35px", font_size="16px"):
     # Add custom CSS for input styling
     st.markdown(
         f"""
