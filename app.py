@@ -2,13 +2,38 @@ import streamlit as st
 st.set_page_config(layout="wide")
 
 def reset_input(default_value, key):
+    # Add custom CSS for font size
+    st.markdown(
+        """
+        <style>
+        .custom-input {
+            font-size: 16px;  /* Adjust the size as needed */
+            padding: 8px;     /* Optional: adjust padding for better spacing */
+        }
+        </style>
+        """, unsafe_allow_html=True
+    )
+
+    # Initialize session state if not already done
     if key not in st.session_state:
         st.session_state[key] = default_value
-    current_value = st.text_input("", key=key, value=st.session_state[key])
-    if current_value != st.session_state[key]:
+
+    current_value = st.session_state[key]
+    
+    # Use HTML to create a styled input field
+    input_html = f"""
+        <input class="custom-input" type="text" value="{current_value}" 
+               oninput="this.value=this.value.replace(/</g,'&lt;').replace(/>/g,'&gt;')" 
+               style="width: 100%;" />
+    """
+    
+    # Render the HTML input field
+    st.markdown(input_html, unsafe_allow_html=True)
+
+    # Update session state if the input value changes
+    if st.session_state[key] != current_value:
         st.session_state[key] = current_value
     return current_value
-
 
 # Title of the application
 st.title("NEAR4KIDS QI COLLECTION FORM")
@@ -147,102 +172,96 @@ if st.session_state.page == "Encounter Information":
             st.rerun()  # Rerun the app to reflect the new page
 
 elif st.session_state.page == "Course Information":
-        st.header("COURSE INFORMATION")
-    
-        # Displaying the previously submitted data if necessary
-        #st.write("Form data submitted:", st.session_state.form_data)
-    
-        # Instructions
-        st.markdown("""
-        <p style='font-size: 14px;'>
-            An <strong><u>"ENCOUNTER"</u></strong> of advanced airway management refers to the complete sequence of events leading to the placement of an advanced airway.<br>
-            A <strong><u>"COURSE"</u></strong> of advanced airway management refers to <u>ONE</u> method or approach to secure an airway <strong><u>AND</u></strong> <u>ONE</u> set of medications (including premedication and induction). Each course may include one or several "attempts" by one or several providers.<br>
-            An <strong><u>"ATTEMPT"</u></strong> is a single advanced airway maneuver (e.g. tracheal intubation, LMA placement), beginning with the insertion of a device (e.g. laryngoscope or LMA device) into the patient's mouth or nose, and ending when the device (laryngoscope, LMA, or tube) is removed.
-        </p>
-        """, unsafe_allow_html=True)
-    
-        # Initialize session state if not already done
-        if 'attempts' not in st.session_state:
-            st.session_state.attempts = {f'Attempt {i}': {
-                'who_intubated': None,
-                'discipline': None,
-                'pgy_level': None,
-                'ett_size': None,
-                'ett_type': None,
-                'cricoid_prior': None,
-                'cricoid_during': None,
-                'attempt_successful': None,
-            } for i in range(1, 9)}
-        
-        # Define the row headers
-        row_headers = [
-            "Attempts for this COURSE",
-            "Who Intubated",
-            "Discipline",
-            "PGY Level",
-            "ETT (or LMA) Size",
-            "ETT Type",
-            "Immediately prior to this attempt was cricoid pressure/external laryngeal manipulation provided?",
-            "During this attempt, was cricoid pressure/external laryngeal manipulation provided?",
-            "Attempt Successful"
-        ]
-        
-        # Define attempt numbers
-        attempt_numbers = range(1, 9)
-        
-        # Create the table-like layout
-        for row_header in row_headers:
-            cols = st.columns(len(attempt_numbers) + 1)  # Create extra column for headers
-            with cols[0]:  # Column for row headers
-                reset_input("", f"header_{row_header}")  # No default value for headers
-        
-            for attempt in attempt_numbers:
-                with cols[attempt]:  # Adjust for 1-based indexing
-                    if row_header == "Attempts for this COURSE":
-                        reset_input(str(attempt), f"attempt_course_{attempt}") 
-                    elif row_header == "Who Intubated":
-                        st.session_state.attempts[f'Attempt {attempt}']['who_intubated'] = st.text_input(
-                            "", key=f'who_intubated_{attempt}'
-                        )
-                    elif row_header == "Discipline":
-                        st.session_state.attempts[f'Attempt {attempt}']['discipline'] = st.text_input(
-                            "", key=f'discipline_{attempt}'
-                        )
-                    elif row_header == "PGY Level":
-                        st.session_state.attempts[f'Attempt {attempt}']['pgy_level'] = st.text_input(
-                            "", key=f'pgy_level_{attempt}'
-                        )
-                    elif row_header == "ETT (or LMA) Size":
-                        st.session_state.attempts[f'Attempt {attempt}']['ett_size'] = st.text_input(
-                            "", key=f'ett_size_{attempt}'
-                        )
-                    elif row_header == "ETT Type":
-                        st.session_state.attempts[f'Attempt {attempt}']['ett_type'] = st.text_input(
-                            "", key=f'ett_type_{attempt}'
-                        )
+    st.header("COURSE INFORMATION")
 
-                    elif row_header == "Immediately prior to this attempt was cricoid pressure/external laryngeal manipulation provided?":
-                        st.session_state.attempts[f'Attempt {attempt}']['cricoid_prior'] = st.selectbox(
-                            "", ["", "Yes", "No"],
-                            key=f'cricoid_prior_{attempt}'
-                        )
-                    elif row_header == "During this attempt, was cricoid pressure/external laryngeal manipulation provided?":
-                        st.session_state.attempts[f'Attempt {attempt}']['cricoid_during'] = st.selectbox(
-                            "", ["", "Yes", "No"],
-                            key=f'cricoid_during_{attempt}'
-                        )
-                    elif row_header == "Attempt Successful":
-                        st.session_state.attempts[f'Attempt {attempt}']['attempt_successful'] = st.selectbox(
-                            "", ["", "Yes", "No"],
-                            key=f'attempt_successful_{attempt}'
-                        )
-    
-        # Back button to go to the previous page
-        if st.button("Previous"):
-            st.session_state.page = "Encounter Information"
-            st.rerun()
-    
+    # Instructions
+    st.markdown("""
+    <p style='font-size: 14px;'>
+        An <strong><u>"ENCOUNTER"</u></strong> of advanced airway management refers to the complete sequence of events leading to the placement of an advanced airway.<br>
+        A <strong><u>"COURSE"</u></strong> of advanced airway management refers to <u>ONE</u> method or approach to secure an airway <strong><u>AND</u></strong> <u>ONE</u> set of medications (including premedication and induction). Each course may include one or several "attempts" by one or several providers.<br>
+        An <strong><u>"ATTEMPT"</u></strong> is a single advanced airway maneuver (e.g. tracheal intubation, LMA placement), beginning with the insertion of a device (e.g. laryngoscope or LMA device) into the patient's mouth or nose, and ending when the device (laryngoscope, LMA, or tube) is removed.
+    </p>
+    """, unsafe_allow_html=True)
 
+    # Initialize session state if not already done
+    if 'attempts' not in st.session_state:
+        st.session_state.attempts = {f'Attempt {i}': {
+            'who_intubated': None,
+            'discipline': None,
+            'pgy_level': None,
+            'ett_size': None,
+            'ett_type': None,
+            'cricoid_prior': None,
+            'cricoid_during': None,
+            'attempt_successful': None,
+        } for i in range(1, 9)}
+
+    # Define the row headers
+    row_headers = [
+        "Attempts for this COURSE",
+        "Who Intubated",
+        "Discipline",
+        "PGY Level",
+        "ETT (or LMA) Size",
+        "ETT Type",
+        "Immediately prior to this attempt was cricoid pressure/external laryngeal manipulation provided?",
+        "During this attempt, was cricoid pressure/external laryngeal manipulation provided?",
+        "Attempt Successful"
+    ]
+
+    # Define attempt numbers
+    attempt_numbers = range(1, 9)
+
+    # Create the table-like layout
+    for row_header in row_headers:
+        cols = st.columns(len(attempt_numbers) + 1)  # Create extra column for headers
+        with cols[0]:  # Column for row headers
+            reset_input("", f"header_{row_header}")  # No default value for headers
+
+        for attempt in attempt_numbers:
+            with cols[attempt]:  # Adjust for 1-based indexing
+                if row_header == "Attempts for this COURSE":
+                    reset_input(str(attempt), f"attempt_course_{attempt}") 
+                elif row_header == "Who Intubated":
+                    st.session_state.attempts[f'Attempt {attempt}']['who_intubated'] = st.text_input(
+                        "", key=f'who_intubated_{attempt}'
+                    )
+                elif row_header == "Discipline":
+                    st.session_state.attempts[f'Attempt {attempt}']['discipline'] = st.text_input(
+                        "", key=f'discipline_{attempt}'
+                    )
+                elif row_header == "PGY Level":
+                    st.session_state.attempts[f'Attempt {attempt}']['pgy_level'] = st.text_input(
+                        "", key=f'pgy_level_{attempt}'
+                    )
+                elif row_header == "ETT (or LMA) Size":
+                    st.session_state.attempts[f'Attempt {attempt}']['ett_size'] = st.text_input(
+                        "", key=f'ett_size_{attempt}'
+                    )
+                elif row_header == "ETT Type":
+                    st.session_state.attempts[f'Attempt {attempt}']['ett_type'] = st.text_input(
+                        "", key=f'ett_type_{attempt}'
+                    )
+                elif row_header == "Immediately prior to this attempt was cricoid pressure/external laryngeal manipulation provided?":
+                    st.session_state.attempts[f'Attempt {attempt}']['cricoid_prior'] = st.selectbox(
+                        "", ["", "Yes", "No"],
+                        key=f'cricoid_prior_{attempt}'
+                    )
+                elif row_header == "During this attempt, was cricoid pressure/external laryngeal manipulation provided?":
+                    st.session_state.attempts[f'Attempt {attempt}']['cricoid_during'] = st.selectbox(
+                        "", ["", "Yes", "No"],
+                        key=f'cricoid_during_{attempt}'
+                    )
+                elif row_header == "Attempt Successful":
+                    st.session_state.attempts[f'Attempt {attempt}']['attempt_successful'] = st.selectbox(
+                        "", ["", "Yes", "No"],
+                        key=f'attempt_successful_{attempt}'
+                    )
+
+    # Back button to go to the previous page
+    if st.button("Previous"):
+        st.session_state.page = "Encounter Information"
+        st.rerun()
 
 
 
