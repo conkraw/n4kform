@@ -359,40 +359,45 @@ elif st.session_state.page == "Course Information":
                     )
 
         # Add the difficult bag-mask ventilation question
-    st.markdown("### Difficult Airway Evaluations (Choose one in each category):")
-    
-    # List of questions and their options
-    questions = [
-        ("Evaluation done before or after this course is completed?", ['Select Category 1', 'BEFORE', 'AFTER']),
-        ("Known prior history of difficult airway?", ['Select Category 2', 'YES', 'NO']),
-        ("Any Limited Neck Extension or (Maximal with or without sedation/paralytics) Severe Reduction?", ['Select Category 3', 'YES', 'NO']),
-        ("Widest Mouth Opening – How many Patient’s fingers between gum/incisors?", ['Select Category 4', '0 – 2', '≥ 3']),
-        ("Thyromental space – Patient’s fingers between chin and thyroid cartilage?", ['Select Category 5', '0 - 2', '≥ 3']),
-        ("Evidence of Upper Airway Obstruction or Anatomical Barrier to visualize glottic opening?", ['Select Category 6', 'YES', 'NO']),
-        ("Midfacial Hypoplasia?", ['Select Category 7', 'YES', 'NO']),
-        ("Any other signs of difficult airway exist?", ['Select Category 8', 'YES', 'NO']),
-    ]
-    
-    # Iterate over the questions to create the layout
-    for idx, (question, options) in enumerate(questions):
-        cols = st.columns([4, 1])
+        st.markdown("### Difficult Airway Evaluations (Choose one in each category):")
         
-        with cols[0]:
-            st.write(f"{idx + 1}. {question}")
-    
-        with cols[1]:
-            # Create a unique key for each selectbox
+        # List of questions and their options
+        questions = [
+            ("Evaluation done before or after this course is completed?", ['Select Category 1', 'BEFORE', 'AFTER']),
+            ("Known prior history of difficult airway?", ['Select Category 2', 'YES', 'NO']),
+            ("Any Limited Neck Extension or (Maximal with or without sedation/paralytics) Severe Reduction?", ['Select Category 3', 'YES', 'NO']),
+            ("Widest Mouth Opening – How many Patient’s fingers between gum/incisors?", ['Select Category 4', '0 – 2', '≥ 3']),
+            ("Thyromental space – Patient’s fingers between chin and thyroid cartilage?", ['Select Category 5', '0 - 2', '≥ 3']),
+            ("Evidence of Upper Airway Obstruction or Anatomical Barrier to visualize glottic opening?", ['Select Category 6', 'YES', 'NO']),
+            ("Midfacial Hypoplasia?", ['Select Category 7', 'YES', 'NO']),
+            ("Any other signs of difficult airway exist?", ['Select Category 8', 'YES', 'NO']),
+        ]
+        
+        # Initialize session state for each question
+        for idx, (_, options) in enumerate(questions):
             key = f"evaluation_{idx}"
+            if key not in st.session_state:
+                st.session_state[key] = options[0]  # Set default value
+        
+        # Iterate over the questions to create the layout
+        for idx, (question, options) in enumerate(questions):
+            cols = st.columns([4, 1])
             
-            # Create selectbox with options
-            selected_option = st.selectbox(
-                "",
-                options=options,
-                key=key  # Unique key for each selectbox
-            )
-            
-            # Update session state with the selected option
-            st.session_state[key] = selected_option
+            with cols[0]:
+                st.write(f"{idx + 1}. {question}")
+        
+            with cols[1]:
+                # Create selectbox with options
+                selected_option = st.selectbox(
+                    "",
+                    options=options,
+                    index=options.index(st.session_state[f"evaluation_{idx}"]),
+                    key=f"evaluation_{idx}"  # Unique key for each selectbox
+                )
+                
+                # Update session state with the selected option
+                st.session_state[f"evaluation_{idx}"] = selected_option
+
 
 
     st.markdown("### Known cyanotic heart disease (R to L shunt)?  (Select ONE only)")
