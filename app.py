@@ -90,7 +90,8 @@ def centered_input(default_value, key, width="100%", height="30px"):
             background-color: #f9f9f9;   /* Light background */
             font-weight: bold;            /* Make text bold */
             text-align: center;           /* Center the text */
-            margin: auto;                 /* Center the input box */
+            display: block;               /* Make it a block element for centering */
+            margin: 0 auto;              /* Center the input box */
         }}
         </style>
         """, unsafe_allow_html=True
