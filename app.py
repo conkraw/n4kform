@@ -65,15 +65,15 @@ def custom_input(key, default_value="", input_type="text"):
         <input class="custom-input" type="{input_type}" value="{st.session_state[key]}" 
                oninput="this.value=this.value.replace(/</g,'&lt;').replace(/>/g,'&gt;');" 
                onchange="document.getElementById('{key}_output').innerHTML = this.value" />
-        <span id="{key}_output" style="display:none;">{st.session_state[key]}</span>
     """
     
     # Render the HTML input field
     st.markdown(input_html, unsafe_allow_html=True)
 
-    # Update session state if the input value changes
-    if st.session_state[key] != st.session_state[key]:  # This check seems redundant
-        st.session_state[key] = st.session_state[key]  # Update session state with user input
+    # Update session state with user input after the form is submitted
+    if st.session_state[key] != st.session_state[key]:
+        st.session_state[key] = st.session_state[key]  # This line ensures that the state is updated
+
     return st.session_state[key]
 
 
