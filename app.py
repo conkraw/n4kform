@@ -672,6 +672,70 @@ elif st.session_state.page == "Method Details II":
     ]
     selected_confirmation = st.multiselect("Select confirmation methods:", confirmation_options)
 
+    st.markdown("### Glottic Exposure During Intubation (Check only ONE):")
+    glottic_exposure_options = [
+        "Select an option",
+        "I = Visualized entire vocal cords",
+        "II = Visualized part of cords",
+        "III = Visualized epiglottis only",
+        "IV = Non visualized epiglottis",
+        "V = Not Applicable (e.g. blind nasotracheal)"
+    ]
+    selected_glottic_exposure = st.selectbox("Select glottic exposure:", glottic_exposure_options)
+
+    elif st.session_state.page == "Tracheal Intubation Events":
+    st.header("TRACHEAL INTUBATION ASSOCIATED EVENTS")
+
+    # Events for Tracheal Intubation
+    st.markdown("### Tracheal Intubation Associated Events (Check ALL that apply):")
+
+    # List of events
+    events = [
+        "NONE",
+        "Cardiac arrest – patient died",
+        "Cardiac arrest – patient survived",
+        "Main stem intubation",
+        "Esophageal intubation, immediate recognition",
+        "Esophageal intubation, delayed recognition",
+        "Vomit with aspiration",
+        "Vomit but No aspiration",
+        "Hypotension, needs intervention (fluids/pressors)",
+        "Hypertension, requiring therapy",
+        "Epistaxis",
+        "Dental trauma",
+        "Lip trauma",
+        "Laryngospasm",
+        "Malignant hyperthermia",
+        "Medication error",
+        "Pneumothorax / pneumomediastinum",
+        "Direct airway injury",
+        "Dysrhythmia (includes Bradycardia<60/min)",
+        "Pain/Agitation, req’d additional meds AND delay in intubation",
+        "Other (Please describe):"
+    ]
+
+    # Multi-select for events
+    selected_events = st.multiselect("Select events associated with tracheal intubation:", events)
+
+    # Linking to attempt #
+    attempt_number = st.selectbox("Link to Attempt #:", [f"Attempt {i}" for i in range(1, 9)])
+
+    # Description for "Other" option
+    if "Other (Please describe):" in selected_events:
+        other_description = st.text_input("Please describe:", key="other_event_description")
+
+    # Navigation buttons
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Previous"):
+            st.session_state.page = "Method Details II"
+            st.rerun()
+
+    with col2:
+        if st.button("Next"):
+            st.session_state.page = "NextPage"  # Update this to your actual next page
+            st.rerun()
+
     # Navigation buttons
     col1, col2 = st.columns(2)
     with col1:
