@@ -2,6 +2,17 @@ import streamlit as st
 st.set_page_config(layout="wide")
 
 def reset_input(default_value, key):
+    st.markdown(
+        """
+        <style>
+        .custom-input {
+            font-size: 8px;  /* Adjust the size as needed */
+        }
+        </style>
+        """, unsafe_allow_html=True
+    )
+
+    
     if key not in st.session_state:
         st.session_state[key] = default_value
     current_value = st.text_input("", key=key, value=st.session_state[key])
