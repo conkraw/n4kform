@@ -743,7 +743,7 @@ elif st.session_state.page == "Method Details II":
 
 if st.session_state.page == "Monitoring of Vital Signs":
     st.header("MONITORING OF VITAL SIGNS")
-    st.subheader("Pulse Oximetry:")
+    st.subheader("Pulse Oximetry (%):")
 
     # Creating four columns
     cols = st.columns(2)
