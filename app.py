@@ -1,14 +1,12 @@
 import streamlit as st
 st.set_page_config(layout="wide")
 
-def reset_input(default_value, key, unique_suffix=""):
-    # Create a unique key by combining the base key with a suffix
-    unique_key = f"{key}_{unique_suffix}"
-    if unique_key not in st.session_state:
-        st.session_state[unique_key] = default_value
-    current_value = st.text_input("", key=unique_key, value=st.session_state[unique_key])
-    if current_value != st.session_state[unique_key]:
-        st.session_state[unique_key] = current_value
+def reset_input(default_value, key):
+    if key not in st.session_state:
+        st.session_state[key] = default_value
+    current_value = st.text_input("", key=key, value=st.session_state[key], disabled=True)
+    if current_value != st.session_state[key]:
+        st.session_state[key] = current_value
     return current_value
     
 
@@ -196,7 +194,7 @@ elif st.session_state.page == "Course Information":
         for row_header in row_headers:
             cols = st.columns(len(attempt_numbers) + 1)  # Create extra column for headers
             with cols[0]:  # Column for row headers
-                reset_input(row_header)  # Use the custom locked input
+                reset_input(row_header, f"header_{row_header}") # Use the custom locked input
     
             for attempt in attempt_numbers:
                 with cols[attempt]:  # Adjust for 1-based indexing
