@@ -7,7 +7,7 @@ def reset_input(default_value, key):
         """
         <style>
         .custom-input {
-            font-size: 10px !important;  /* Ensure the font size is applied */
+            font-size: 14px !important;  /* Ensure the font size is applied */
             padding: 8px;                /* Adjust padding */
             width: 100%;                 /* Full width */
             box-sizing: border-box;      /* Ensure padding doesn't affect width */
