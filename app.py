@@ -580,7 +580,6 @@ elif st.session_state.page == "Method Details":
             st.markdown("**Select**")
 
         with cols[1]:
-            st.markdown("****")
             st.markdown("**Method**")
 
         with cols[2]:
@@ -608,6 +607,7 @@ elif st.session_state.page == "Method Details":
                 selected_option = st.selectbox("", ["", "X"], key=f"select_{option.replace(' ', '_')}")
 
             with cols[1]:
+                st.markdown("***")
                 reset_input(option, f"method_{option.replace(' ', '_')}")
 
             with cols[2]:
