@@ -486,8 +486,14 @@ elif st.session_state.page == "Medications":
 
             for col, med in zip(cols, meds):
                 with col:
-                    dosage = st.number_input(f"{med} (mg or mcg)", min_value=0.0, format="%.1f")
+                    # Ensure the number_input has a unique key based on the medication name
+                    dosage = st.number_input(
+                        f"{med} (mg or mcg)", 
+                        min_value=0,  # Set appropriate min_value
+                        key=f"dosage_{med}"  # Unique key for each medication
+                    )
                     st.session_state[med] = dosage  # Save dosage to session state
+
 
         # Section for Indications
         st.markdown("### Indications")
