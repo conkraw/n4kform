@@ -569,6 +569,20 @@ elif st.session_state.page == "Method Details":
     if selected_oxygen == "ATTEMPTED but not done (explain on last page)":
         explanation = st.text_area("Please explain:", key="oxygen_explanation")
 
+    # Additional section if "YES" is selected
+    if selected_oxygen == "YES":
+        st.markdown("### If Yes, How was the oxygen provided?")
+        
+        # Checkbox for NC without nasal airway
+        nc_checkbox = st.checkbox("NC without nasal airway", key="nc_without_nasal_airway")
+        
+        # Inputs for Liter Flow and FIO2
+        cols = st.columns(3)
+        with cols[1]:
+            liter_flow = st.number_input("Liter Flow", min_value=0.0, format="%.2f", key="liter_flow")
+        with cols[2]:
+            fio2 = st.number_input("FIO2", min_value=0.0, max_value=1.0, format="%.2f", key="fio2")
+
     # Navigation buttons
     col1, col2 = st.columns(2)
     with col1:
