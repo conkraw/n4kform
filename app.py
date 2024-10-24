@@ -183,12 +183,12 @@ elif st.session_state.page == "Course Information":
     
     # Create the table-like layout
     for row_header in row_headers:
-        cols = st.columns(len(attempt_numbers))  # Create columns for attempts
+        cols = st.columns(len(attempt_numbers) + 1)  # Create extra column for headers
         with cols[0]:  # Column for row headers
-            st.text_input("", value=row_header, disabled=True)
-             
+            st.text_input("", value=row_header, disabled=True)  # Locked value for headers
+
         for attempt in attempt_numbers:
-            with cols[attempt - 1]:  # Adjust for 0-based indexing
+            with cols[attempt]:  # Adjust for 1-based indexing
                 if row_header == "Attempts for this COURSE":
                     st.text_input("", value=str(attempt), disabled=True)  # Locked value for attempts
                     
