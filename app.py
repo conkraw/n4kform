@@ -616,6 +616,7 @@ if st.session_state.page == "Method Details":
                 cols = st.columns([1, 3, 2, 2])  # Create a row for each method
 
                 with cols[0]:
+                    st.markdown("")
                     st.markdown(f"**{method}**")
                 
                 with cols[1]:
