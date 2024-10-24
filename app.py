@@ -261,7 +261,7 @@ elif st.session_state.page == "Course Information":
             with cols[attempt]:  # Adjust for 1-based indexing
                 if row_header == "Attempts for this COURSE":
                     reset_input(str(attempt), f"attempt_course_{attempt}") 
-                elif row_header == "Who Intubated (Fellow, Resident, etc)":
+                elif row_header == "Who intubated (Fellow, Resident, etc)":
                     st.session_state.attempts[f'Attempt {attempt}']['who_intubated'] = custom_input(
                         f'who_intubated_{attempt}',""
                     )
