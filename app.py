@@ -64,6 +64,9 @@ def custom_input(key, default_value="", input_type="text", width="75%", height="
             box-sizing: border-box;              /* Ensure padding doesn't affect width */
             border: 1px solid #ccc;              /* Border */
             border-radius: 4px;                  /* Rounded corners for aesthetics */
+            text-align: center;           /* Center the text */
+            display: block;               /* Make it a block element for centering */
+            margin: 0 auto;              /* Center the input box */                                
         }}
         </style>
         """, unsafe_allow_html=True
