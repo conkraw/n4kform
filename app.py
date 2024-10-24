@@ -150,7 +150,7 @@ elif st.session_state.page == "Course Information":
         st.header("COURSE INFORMATION")
     
         # Displaying the previously submitted data if necessary
-        st.write("Form data submitted:", st.session_state.form_data)
+        #st.write("Form data submitted:", st.session_state.form_data)
     
         # Instructions
         st.markdown("""
