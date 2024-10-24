@@ -80,9 +80,8 @@ with st.form(key='patient_info_form'):
 
     with col1:
         st.subheader("INITIAL INTUBATION")
-        st.write("Check as many as apply:")
         indications = st.multiselect(
-            "Select Indications:",
+            "Check as many as apply:",
             options=[
                 "Oxygen Failure (e.g. PaO2 <60 mm Hg in FIO2 >0.6 in absence of cyanotic heart disease)",
                 "Procedure (e.g. IR or MRI)",
