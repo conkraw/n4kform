@@ -4,7 +4,7 @@ import threading
 
 st.set_page_config(layout="wide")
 
-def reset_input(default_value, key, width="100%", height="35px"):
+def reset_input(default_value, key, width="100%", height="40px"):
     # Add custom CSS for input styling
     st.markdown(
         f"""
@@ -93,7 +93,7 @@ def custom_input(key, default_value="", input_type="text"):
     return st.session_state[key]
 
 
-def centered_input(default_value, key, width="100%", height="30px"):
+def centered_input(default_value, key, width="100%", height="40px"):
     # Add custom CSS for centered input styling
     st.markdown(
         f"""
