@@ -580,6 +580,7 @@ elif st.session_state.page == "Method Details":
             st.markdown("**Select**")
 
         with cols[1]:
+            st.markdown("****")
             st.markdown("**Method**")
 
         with cols[2]:
