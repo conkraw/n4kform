@@ -137,7 +137,7 @@ if st.session_state.page == "Encounter Information":
         if submitted:
             st.success("Form submitted successfully!")
             st.session_state.page = "Course Information"  # Set next page
-            st.experimental_rerun()  # Rerun the app to reflect the new page
+            st.rerun()  # Rerun the app to reflect the new page
 
     # Navigation buttons
     if st.button("Next"):
