@@ -768,3 +768,55 @@ if st.session_state.page == "Monitoring of Vital Signs":
             st.session_state.page = "Course Success"
             st.rerun()
 
+if st.session_state.page == "Course Success":
+    st.header("COURSE SUCCESS")
+
+    successful_intubation = st.selectbox("Successful tracheal intubation/advanced airway management:", ["Yes", "No"], key="course_success")
+
+    if successful_intubation == "No":
+        st.markdown("If course failed, please explain briefly:")
+        st.checkbox("Cannot visualize vocal cords", key="cannot_visualize")
+        st.checkbox("Cannot place device into trachea", key="cannot_place_device")
+        st.checkbox("Unstable hemodynamics", key="unstable_hemodynamics")
+        other_failure = st.text_input("Other (please explain):", key="other_failure")
+
+    # Navigation buttons
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Previous"):
+            st.session_state.page = "Monitoring of Vital Signs"
+            st.rerun()
+
+    with col2:
+        if st.button("Next"):
+            st.session_state.page = "Disposition"
+            st.rerun()
+
+if st.session_state.page == "Disposition":
+    st.header("DISPOSITION")
+
+    disposition = st.selectbox("Disposition:", ["Stay in PICU/NICU/CICU/ED", "Transferred to", "Died – due to failed airway management", "Died – other causes"], key="disposition")
+
+    if disposition == "Transferred to":
+        st.checkbox("PICU", key="transferred_to_PICU")
+        st.checkbox("NICU", key="transferred_to_NICU")
+        st.checkbox("CICU", key="transferred_to_CICU")
+    
+    other_disposition = st.text_input("Others (Specify):", key="other_disposition")
+
+    st.markdown("### Other Comments:")
+    other_comments = st.text_area("Please explain (e.g. higher dose of vecuronium, choice of drugs used):", key="other_comments")
+
+    # Navigation buttons
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Previous"):
+            st.session_state.page = "Course Success"
+            st.rerun()
+
+    with col2:
+        if st.button("Submit"):
+            st.session_state.page = "Summary"  # Change to your final page
+            st.rerun()
+
+
