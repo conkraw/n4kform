@@ -609,6 +609,7 @@ elif st.session_state.page == "Method Details":
 
             with cols[1]:
                 st.markdown("***")
+                st.markdown("")
                 reset_input(option, f"method_{option.replace(' ', '_')}")
 
             with cols[2]:
