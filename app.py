@@ -373,22 +373,17 @@ elif st.session_state.page == "Course Information":
             ("Any other signs of difficult airway exist?", ["YES", "NO"]),
         ]
         
-        # Create a dictionary to store selected options
-        selected_options = {}
-        
         # Create a table-like layout with two columns
-        for idx, (question, options) in enumerate(evaluations):
+        for question, options in evaluations:
             cols = st.columns(2)  # Create two columns
             with cols[0]:  # First column for the question
-                reset_input(question, f"reset_{idx}")  # Use a unique key for each question
+                # Use the reset_input function to display the question
+                reset_input(question, f"reset_{question}")  # Use a unique key for each question
             with cols[1]:  # Second column for the dropdown
-                # Create a unique key using the question text and index
-                key = f"selectbox_{idx}_{question.replace(' ', '_')}"  # Unique key for the selectbox
-                selected_option = st.selectbox('', options, key=key)  # Use unique key
-                selected_options[question] = selected_option  # Store the selected option
+                selected_option = st.selectbox("", options, key=question)  # Use question as the key to maintain state
         
-        # Check if any selected option is "YES"
-        if "YES" in selected_options.values():
+        # If YES Please Explain
+        if selected_option == "YES":
             explanation = st.text_area("If YES, Please Explain:")
 
 
