@@ -164,24 +164,6 @@ def question_box(label):
     
     st.markdown(input_html, unsafe_allow_html=True)
 
-# Using question_box in the loop for questions
-st.markdown("### Difficult Airway Evaluations (Choose one in each category):")
-
-for idx, (question, options) in enumerate(questions):
-    cols = st.columns([4, 1])
-    
-    with cols[0]:
-        question_box(f"{idx + 1}. {question}")  # Create a box around the question
-
-    with cols[1]:
-        # Create selectbox with options
-        selected_option = st.selectbox(
-            "",
-            options=options,
-            index=options.index(st.session_state[f"evaluation_{idx}"]),
-            key=f"evaluation_{idx}"  # Unique key for each selectbox
-        )
-
 
 # Title of the application
 st.title("NEAR4KIDS QI COLLECTION FORM")
