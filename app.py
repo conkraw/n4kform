@@ -513,5 +513,48 @@ elif st.session_state.page == "Medications":
             st.session_state.page = "Method"  # Set next page
             st.rerun()
 
+elif st.session_state.page == "Method":
+    st.header("METHOD")
+
+    # Dropdown for Method of Airway Management
+    st.markdown("### Method: Begin NEW course if NEW method/device used")
+    method_options = [
+        "Oral", "Nasal", "LMA", "Oral to Oral",
+        "Oral to Nasal", "Nasal to Oral", "Nasal to Nasal", "Tracheostomy to Oral"
+    ]
+    selected_method = st.selectbox("Select Method:", method_options, key="airway_method")
+
+    # Multiselect for Airway Management Techniques and Medication Protocols
+    st.markdown("### What airway management technique and/or their corresponding medication protocol was used during this course?")
+    technique_options = [
+        "Standard Sequence (administration of induction meds, PPV, then paralysis)",
+        "Paralysis Only",
+        "Rapid Sequence requiring positive pressure ventilation (PPV)",
+        "Awake, topical",
+        "Rapid Sequence without PPV (Classic RSI)",
+        "No medications",
+        "Sedation & Paralysis (Change of tube or subsequent courses)",
+        "Surgical – Cricothyrotomy/Tracheostomy",
+        "Sedation Only",
+        "Others (Specify):"
+    ]
+    selected_techniques = st.multiselect("Select Techniques:", technique_options, key="airway_techniques")
+
+    # If "Others" is selected, show an input box for specification
+    if "Others (Specify):" in selected_techniques:
+        other_specification = st.text_input("Please specify:", key="other_specification")
+
+    # Navigation buttons
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Previous"):
+            st.session_state.page = "Medications"
+            st.rerun()
+
+    with col2:
+        if st.button("Next"):
+            st.session_state.page = "NextPage"  # Set next page (update this to your actual next page)
+            st.rerun()
+
 
 
