@@ -136,13 +136,21 @@ if st.session_state.page == "Encounter Information":
         submitted = st.form_submit_button("Submit")
         if submitted:
             st.success("Form submitted successfully!")
-            # Navigate to Course Information page
-            st.session_state.page = "Course Information"
-            st.rerun()  # Rerun the app to reflect the new page
+            st.session_state.page = "Course Information"  # Set next page
+            st.experimental_rerun()  # Rerun the app to reflect the new page
+
+    # Navigation buttons
+    if st.button("Next"):
+        st.session_state.page = "Course Information"
+        st.experimental_rerun()
 
 elif st.session_state.page == "Course Information":
     st.header("Course Information")
-    # Add content for Course Information page here
     st.write("Form data submitted:", st.session_state.form_data)
     st.write("Indications:", st.session_state.indications)
+
+    # Back button to go to the previous page
+    if st.button("Previous"):
+        st.session_state.page = "Encounter Information"
+        st.rerun()
 
