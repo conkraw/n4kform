@@ -608,11 +608,11 @@ if st.session_state.page == "Method Details":
             cols = st.columns(4)  # Create four columns
 
             with cols[0]:
-                st.markdown("**Method**")
+                st.markdown("***METHOD**")
             with cols[1]:
-                st.markdown("**Liter Flow**")
+                st.markdown("***LITER FLOW***")
             with cols[2]:
-                st.markdown("**FIO2**")
+                st.markdown("***FIO2***")
 
             for method in selected_methods:
                 cols = st.columns(4)  # Create a row for each method
