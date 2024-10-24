@@ -285,6 +285,14 @@ elif st.session_state.page == "Course Information":
     </p>
     """, unsafe_allow_html=True)
 
+    st.markdown("### Difficult to Bag – Mask Ventilate? (Select ONE only)")
+    difficult_to_bag = st.radio(
+        "Select an option:",
+        options=["Yes", "No", "Not applicable (bag-mask ventilation not given)"],
+        key="difficult_to_bag"
+    )
+
+
     # Initialize session state if not already done
     if 'attempts' not in st.session_state:
         st.session_state.attempts = {f'Attempt {i}': {
