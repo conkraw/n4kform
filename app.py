@@ -454,38 +454,35 @@ elif st.session_state.page == "Medications":
     if no_drugs == "NO DRUGS USED":
         st.markdown("If no drugs are used, please proceed to the next section.")
     else:
-        # Define the medications and their categories
+        # Define the medications
         medications = [
-        "Atropine",
-        "Glycopyrrolate",
-        "Fentanyl",
-        "Lidocaine",
-        "Vecuronium",
-        "Rocuronium",
-        "Succinylcholine",
-        "Etomidate",
-        "Ketamine",
-        "Pancuronium",
-        "Cisatracuronium",
-        "Thiopental",
-        # Add any additional medications as necessary
-]
+            "Atropine",
+            "Glycopyrrolate",
+            "Fentanyl",
+            "Lidocaine",
+            "Vecuronium",
+            "Rocuronium",
+            "Succinylcholine",
+            "Etomidate",
+            "Ketamine",
+            "Pancuronium",
+            "Cisatracuronium",
+            "Thiopental",
+            # Add any additional medications as necessary
+        ]
 
-        # Create input fields for each category
-        for category, meds in medications.items():
-            st.markdown(f"### {category}")
-            cols = st.columns(len(meds))
+        # Create input fields for each medication
+        cols = st.columns(len(medications))  # Create columns for each medication
 
-            for col, med in zip(cols, meds):
-                with col:
-                    # Ensure the number_input has a unique key based on the medication name
-                    dosage = st.number_input(
-                        f"{med} (mg or mcg)", 
-                        min_value=0,  # Set appropriate min_value
-                        key=f"dosage_{med}"  # Unique key for each medication
-                    )
-                    st.session_state[med] = dosage  # Save dosage to session state
-
+        for col, med in zip(cols, medications):
+            with col:
+                # Ensure the number_input has a unique key based on the medication name
+                dosage = st.number_input(
+                    f"{med} (mg or mcg)", 
+                    min_value=0,  # Set appropriate min_value
+                    key=f"dosage_{med}"  # Unique key for each medication
+                )
+                st.session_state[med] = dosage  # Save dosage to session state
 
         # Section for Indications
         st.markdown("### Indications")
