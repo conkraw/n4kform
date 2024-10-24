@@ -359,6 +359,7 @@ elif st.session_state.page == "Course Information":
                     )
 
     # Add the difficult bag-mask ventilation question
+
     st.markdown("### Difficult to Bag – Mask Ventilate? (Circle ONE only)")
     
     # Use custom HTML to create a horizontal layout
@@ -383,6 +384,7 @@ elif st.session_state.page == "Course Information":
     for option in options:
         st.markdown(f'<label><input type="radio" name="difficult_to_bag" value="{option}" /> {option}</label>', unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
+
 
     # Back button to go to the previous page
     if st.button("Previous"):
