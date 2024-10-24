@@ -238,14 +238,14 @@ elif st.session_state.page == "Course Information":
     # Define the row headers
     row_headers = [
         "Attempts for this COURSE",
-        "Who Intubated",
-        "Discipline",
-        "PGY Level",
+        "Who intubated (Fellow, Resident, etc)",
+        "Discipline (ICU, ENT, Surgery, etc)",
+        "PGY level (3rd year resident = PL3, 1st year fellow = PL4,  NP=yrs as NP, etc.)",
         "ETT (or LMA) Size",
-        "ETT Type",
+        "ETT type: cuffed/uncuffed/ NA",
         "Immediately prior to this attempt was cricoid pressure/external laryngeal manipulation provided?",
         "During this attempt, was cricoid pressure/external laryngeal manipulation provided?",
-        "Attempt Successful"
+        "Attempt Successful: Yes/No"
     ]
 
     # Define attempt numbers
@@ -261,15 +261,15 @@ elif st.session_state.page == "Course Information":
             with cols[attempt]:  # Adjust for 1-based indexing
                 if row_header == "Attempts for this COURSE":
                     reset_input(str(attempt), f"attempt_course_{attempt}") 
-                elif row_header == "Who Intubated":
+                elif row_header == "Who Intubated (Fellow, Resident, etc)":
                     st.session_state.attempts[f'Attempt {attempt}']['who_intubated'] = custom_input(
                         f'who_intubated_{attempt}',""
                     )
-                elif row_header == "Discipline":
+                elif row_header == "Discipline (ICU, ENT, Surgery, etc)":
                     st.session_state.attempts[f'Attempt {attempt}']['discipline'] = custom_input(
                         f'discipline_{attempt}'
                     )
-                elif row_header == "PGY Level":
+                elif row_header == "PGY Level (3rd year resident = PL3, 1st year fellow = PL4,  NP=yrs as NP, etc.) ":
                     st.session_state.attempts[f'Attempt {attempt}']['pgy_level'] = custom_input(
                         f'pgy_level_{attempt}'
                     )
@@ -277,7 +277,7 @@ elif st.session_state.page == "Course Information":
                     st.session_state.attempts[f'Attempt {attempt}']['ett_size'] = custom_input(
                         f'ett_size_{attempt}'
                     )
-                elif row_header == "ETT Type":
+                elif row_header == "ETT Type: cuffed/uncuffed/ NA":
                     st.session_state.attempts[f'Attempt {attempt}']['ett_type'] = custom_input(
                         f'ett_type_{attempt}'
                     )
@@ -289,7 +289,7 @@ elif st.session_state.page == "Course Information":
                     st.session_state.attempts[f'Attempt {attempt}']['cricoid_during'] = custom_input(
                         f'cricoid_during_{attempt}'
                     )
-                elif row_header == "Attempt Successful":
+                elif row_header == "Attempt Successful: Yes/No":
                     st.session_state.attempts[f'Attempt {attempt}']['attempt_successful'] = custom_input(
                         f'attempt_successful_{attempt}'
                     )
