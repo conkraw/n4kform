@@ -75,6 +75,8 @@ with st.form(key='patient_info_form'):
 
 
     st.header("INDICATIONS")
+    st.markdown("<h2 style='text-align: center;'>INDICATIONS</h2>", unsafe_allow_html=True)
+
 
     # Two columns layout
     col1, col2 = st.columns(2)
