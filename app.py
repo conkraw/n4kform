@@ -591,7 +591,7 @@ elif st.session_state.page == "Method Details":
 
             with cols[1]:
                 if "other" in key:  # For the "Other" checkbox
-                    liter_flow = st.text_input("Liter Flow", key=f"liter_flow_{key}")
+                    liter_flow = st.text_input("", key=f"liter_flow_{key}")
                 else:
                     liter_flow = st.text_input("", key=f"liter_flow_{key}")
 
