@@ -359,10 +359,6 @@ elif st.session_state.page == "Course Information":
                     )
 
     # Add the difficult bag-mask ventilation question
-    st.markdown("### Difficult to Bag – Mask Ventilate? (Select ONE only)")
-    options = ["Yes", "No", "Not applicable (bag-mask ventilation not given)"]
-    selected_option = st.selectbox("Select an option:", options, key="difficult_to_bag")
-
     # Title for the section
     st.header("Difficult Airway Evaluations (Choose/Circle one in each category)")
     
@@ -382,10 +378,18 @@ elif st.session_state.page == "Course Information":
     for question, options in evaluations:
         cols = st.columns(2)  # Create two columns
         with cols[0]:  # First column for the question
-            # Use the reset_input function to display the question
             reset_input(question, f"reset_{question}")  # Use a unique key for each question
         with cols[1]:  # Second column for the dropdown
-            selected_option = st.selectbox("", options, key=question)  # Use question as the key to maintain state
+            # Centering the selectbox using HTML and CSS
+            st.markdown(
+                f"""
+                <div style="display: flex; justify-content: center;">
+                    <div style="width: 150px;">  <!-- Adjust width as necessary -->
+                        {st.selectbox('', options, key=question)}
+                    </div>
+                </div>
+                """, unsafe_allow_html=True
+            )
     
     # If YES Please Explain
     if selected_option == "YES":
