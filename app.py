@@ -553,8 +553,31 @@ elif st.session_state.page == "Method":
 
     with col2:
         if st.button("Next"):
-            st.session_state.page = "NextPage"  # Set next page (update this to your actual next page)
+            st.session_state.page = "Method Details"  # Set next page (update this to your actual next page)
             st.rerun()
 
 
+elif st.session_state.page == "Method Details":
+    st.header("METHOD DETAILS")
+
+    # Question about Oxygen provision
+    st.markdown("### 1. Was Oxygen provided DURING any TI attempts for this course?")
+    oxygen_options = ["YES", "NO", "ATTEMPTED but not done (explain on last page)"]
+    selected_oxygen = st.selectbox("Select an option:", oxygen_options, key="oxygen_provided")
+
+    # Conditional input for explanation if "ATTEMPTED but not done" is selected
+    if selected_oxygen == "ATTEMPTED but not done (explain on last page)":
+        explanation = st.text_area("Please explain:", key="oxygen_explanation")
+
+    # Navigation buttons
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Previous"):
+            st.session_state.page = "Method"
+            st.rerun()
+
+    with col2:
+        if st.button("Next"):
+            st.session_state.page = "NextPage"  # Update this to your actual next page
+            st.rerun()
 
