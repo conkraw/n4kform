@@ -62,7 +62,7 @@ def custom_input(key, default_value="", input_type="text"):
 
     # Create a styled input field
     input_value = st.text_input("", value=st.session_state[key], key=key,
-                                 placeholder="Type something...")
+                                 placeholder="")
 
     # Update session state with user input if changed
     if input_value != st.session_state[key]:
