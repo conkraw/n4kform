@@ -4,7 +4,7 @@ import threading
 
 st.set_page_config(layout="wide")
 
-def reset_input(default_value, key, width="100%", height="25px"):
+def reset_input(default_value, key, width="100%", height="35px"):
     # Add custom CSS for input styling
     st.markdown(
         f"""
@@ -16,7 +16,7 @@ def reset_input(default_value, key, width="100%", height="25px"):
         }}
         .reset-input {{
             font-size: 12px !important;  /* Adjust the font size */
-            padding: 8px;                /* Adjust padding */
+            padding: 10px;                /* Adjust padding */
             width: {width};              /* Control width */
             height: {height};            /* Control height */
             box-sizing: border-box;      /* Ensure padding doesn't affect width */
