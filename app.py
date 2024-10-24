@@ -264,16 +264,16 @@ elif st.session_state.page == "Course Information":
                         f'ett_type_{attempt}'
                     )
                 elif row_header == "Immediately prior to this attempt was cricoid pressure/external laryngeal manipulation provided?":
-                    st.session_state.attempts[f'Attempt {attempt}']['cricoid_prior'] = custom_selectbox(
-                        f'cricoid_prior_{attempt}', ["", "Yes", "No"]
+                    st.session_state.attempts[f'Attempt {attempt}']['cricoid_prior'] = custom_input(
+                        f'cricoid_prior_{attempt}'
                     )
                 elif row_header == "During this attempt, was cricoid pressure/external laryngeal manipulation provided?":
-                    st.session_state.attempts[f'Attempt {attempt}']['cricoid_during'] = custom_selectbox(
-                        f'cricoid_during_{attempt}', ["", "Yes", "No"]
+                    st.session_state.attempts[f'Attempt {attempt}']['cricoid_during'] = custom_input(
+                        f'cricoid_during_{attempt}'
                     )
                 elif row_header == "Attempt Successful":
-                    st.session_state.attempts[f'Attempt {attempt}']['attempt_successful'] = custom_selectbox(
-                        f'attempt_successful_{attempt}', ["", "Yes", "No"]
+                    st.session_state.attempts[f'Attempt {attempt}']['attempt_successful'] = custom_input(
+                        f'attempt_successful_{attempt}'
                     )
 
     # Back button to go to the previous page
