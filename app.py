@@ -358,6 +358,12 @@ elif st.session_state.page == "Course Information":
                         f'attempt_successful_{attempt}'
                     )
 
+        # Add the difficult bag-mask ventilation question
+    st.markdown("### Difficult to Bag – Mask Ventilate? (Select ONE only)")
+    
+    # Create a select box for options
+    options = ["Yes", "No", "Not applicable (bag-mask ventilation not given)"]
+    selected_option = st.selectbox("Select an option:", options, key="difficult_to_bag")
 
     st.markdown("### Known cyanotic heart disease (R to L shunt)?  (Select ONE only)")
     options = ["Yes", "No"]
