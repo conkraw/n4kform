@@ -2,10 +2,37 @@ import streamlit as st
 st.set_page_config(layout="wide")
 
 def reset_input(default_value, key):
+    # Add custom CSS for input styling
+    st.markdown(
+        """
+        <style>
+        .custom-input {
+            font-size: 16px;  /* Adjust the font size */
+            padding: 8px;     /* Adjust padding */
+            width: 100%;      /* Full width */
+            box-sizing: border-box;  /* Ensure padding doesn't affect width */
+        }
+        </style>
+        """, unsafe_allow_html=True
+    )
+
+    # Initialize session state if not already done
     if key not in st.session_state:
         st.session_state[key] = default_value
-    current_value = st.text_input("", key=key)
-    if current_value != st.session_state[key]:
+
+    current_value = st.session_state[key]
+
+    # Create a styled input field
+    input_html = f"""
+        <input class="custom-input" type="text" value="{current_value}" 
+               oninput="this.value=this.value.replace(/</g,'&lt;').replace(/>/g,'&gt;')" />
+    """
+    
+    # Render the HTML input field
+    st.markdown(input_html, unsafe_allow_html=True)
+
+    # Update session state if the input value changes
+    if st.session_state[key] != current_value:
         st.session_state[key] = current_value
     return current_value
 
@@ -226,12 +253,12 @@ elif st.session_state.page == "Course Information":
     for row_header in row_headers:
         cols = st.columns(len(attempt_numbers) + 1)  # Create extra column for headers
         with cols[0]:  # Column for row headers
-            custom_input(f"header_{row_header}")  # No default value for headers
+            reset_input(f"header_{row_header}")  # No default value for headers
 
         for attempt in attempt_numbers:
             with cols[attempt]:  # Adjust for 1-based indexing
                 if row_header == "Attempts for this COURSE":
-                    custom_input(f"attempt_course_{attempt}", str(attempt))
+                    reset_input(f"attempt_course_{attempt}", str(attempt))
                 elif row_header == "Who Intubated":
                     st.session_state.attempts[f'Attempt {attempt}']['who_intubated'] = custom_input(
                         f'who_intubated_{attempt}'
