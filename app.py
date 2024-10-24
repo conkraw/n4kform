@@ -730,7 +730,6 @@ elif st.session_state.page == "Method Details II":
         if event != "NONE":
             with st.expander(f"{event} - Link to Attempt #", expanded=True):
                 attempt = st.selectbox(f"Select Attempt # for {event}:", [f"Attempt {i}" for i in range(1, 9)], key=f"{event}_attempt")
-                st.write(f"Linked {event} to {attempt}")
 
     # Navigation buttons
     col1, col2 = st.columns(2)
