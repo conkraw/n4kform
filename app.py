@@ -198,37 +198,37 @@ elif st.session_state.page == "Course Information":
                     )
                 elif row_header == "Discipline":
                     st.session_state.attempts[f'Attempt {attempt}']['discipline'] = st.selectbox(
-                        "Discipline:", ["", "ICU", "ENT", "Surgery", "Emergency Medicine"],
+                        "", ["", "ICU", "ENT", "Surgery", "Emergency Medicine"],
                         key=f'discipline_{attempt}'
                     )
                 elif row_header == "PGY Level":
                     st.session_state.attempts[f'Attempt {attempt}']['pgy_level'] = st.selectbox(
-                        "PGY Level:", ["", "PL1", "PL2", "PL3", "PL4", "NP"],
+                        "", ["", "PL1", "PL2", "PL3", "PL4", "NP"],
                         key=f'pgy_level_{attempt}'
                     )
                 elif row_header == "ETT (or LMA) Size":
                     st.session_state.attempts[f'Attempt {attempt}']['ett_size'] = st.selectbox(
-                        "ETT Size:", ["", "2.5", "3.0", "3.5", "4.0", "4.5", "5.0", "5.5"],
+                        "", ["", "2.5", "3.0", "3.5", "4.0", "4.5", "5.0", "5.5"],
                         key=f'ett_size_{attempt}'
                     )
                 elif row_header == "ETT Type":
                     st.session_state.attempts[f'Attempt {attempt}']['ett_type'] = st.selectbox(
-                        "ETT Type:", ["", "Cuffed", "Uncuffed", "NA"],
+                        "", ["", "Cuffed", "Uncuffed", "NA"],
                         key=f'ett_type_{attempt}'
                     )
                 elif row_header == "Cricoid Pressure Prior":
                     st.session_state.attempts[f'Attempt {attempt}']['cricoid_prior'] = st.selectbox(
-                        "Cricoid Pressure Prior:", ["", "Yes", "No"],
+                        "", ["", "Yes", "No"],
                         key=f'cricoid_prior_{attempt}'
                     )
                 elif row_header == "Cricoid Pressure During":
                     st.session_state.attempts[f'Attempt {attempt}']['cricoid_during'] = st.selectbox(
-                        "Cricoid Pressure During:", ["", "Yes", "No"],
+                        "", ["", "Yes", "No"],
                         key=f'cricoid_during_{attempt}'
                     )
                 elif row_header == "Attempt Successful":
                     st.session_state.attempts[f'Attempt {attempt}']['attempt_successful'] = st.selectbox(
-                        "Attempt Successful:", ["", "Yes", "No"],
+                        "", ["", "Yes", "No"],
                         key=f'attempt_successful_{attempt}'
                     )
 
