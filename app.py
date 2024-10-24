@@ -149,10 +149,19 @@ with st.form(key='patient_info_form'):
             "Others (Specify): ............."
         ]
     )
+    if st.button("Go to Course Information"):
+    # Store the selected categories in session state for use on the next page
+    st.session_state.diagnostic_categories = diagnostic_categories
+    st.session_state.page = "Course Information"
+    st.rerun()  # Rerun the app to reflect the new page
+
+# Code for the Course Information page
+if 'page' in st.session_state and st.session_state.page == "Course Information":
+    st.header("Course Information")
     
     # Submit button
-    submitted = st.form_submit_button("Submit")
-    if submitted:
-        st.success("Form submitted successfully!")
-        # Here you can add code to handle the form data for your Word document
-        st.write(st.session_state.form_data)  # For debugging: display the form data
+    #submitted = st.form_submit_button("Submit")
+    #if submitted:
+    #    st.success("Form submitted successfully!")
+    #    # Here you can add code to handle the form data for your Word document
+    #    st.write(st.session_state.form_data)  # For debugging: display the form data
