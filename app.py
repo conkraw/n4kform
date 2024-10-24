@@ -74,7 +74,7 @@ def custom_input(key, default_value="", input_type="text"):
     
     return st.session_state[key]
 
-def centered_input(default_value, key, width="100%", height="30px"):
+def centered_input(default_value, key, width="50%", height="30px"):
     # Add custom CSS for centered input styling
     st.markdown(
         f"""
