@@ -455,29 +455,21 @@ elif st.session_state.page == "Medications":
         st.markdown("If no drugs are used, please proceed to the next section.")
     else:
         # Define the medications and their categories
-        medications = {
-            "Pretreatment Dosage": [
-                "Atropine (check unit!)",
-                "Glycopyrrolate",
-                "Fentanyl",
-                "Lidocaine",
-                "Vecuronium"
-            ],
-            "Paralysis Dosage": [
-                "Rocuronium",
-                "Succinylcholine",
-                "Vecuronium",
-                "Cisatracuronium",
-                "Pancuronium"
-            ],
-            "Induction Dosage": [
-                "Propofol",
-                "Etomidate",
-                "Ketamine",
-                "Midazolam",
-                "Thiopental"
-            ]
-        }
+        meds = [
+        "Atropine",
+        "Glycopyrrolate",
+        "Fentanyl",
+        "Lidocaine",
+        "Vecuronium",
+        "Rocuronium",
+        "Succinylcholine",
+        "Etomidate",
+        "Ketamine",
+        "Pancuronium",
+        "Cisatracuronium",
+        "Thiopental",
+        # Add any additional medications as necessary
+]
 
         # Create input fields for each category
         for category, meds in medications.items():
