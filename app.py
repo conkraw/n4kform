@@ -45,7 +45,7 @@ def custom_input(key, default_value="", input_type="text"):
         """
         <style>
         .custom-input {
-            font-size: 12px !important;  /* Ensure the font size is applied */
+            font-size: 16px !important;  /* Ensure the font size is applied */
             padding: 8px;                /* Adjust padding */
             width: 100%;                 /* Full width */
             box-sizing: border-box;      /* Ensure padding doesn't affect width */
@@ -65,8 +65,10 @@ def custom_input(key, default_value="", input_type="text"):
                                  help="Enter your text here", 
                                  placeholder="Type something...")
 
-    # Update session state with user input
-    st.session_state[key] = input_value
+    # Update session state with user input if changed
+    if input_value != st.session_state[key]:
+        st.session_state[key] = input_value
+    
     return st.session_state[key]
 
 
