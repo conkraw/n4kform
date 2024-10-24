@@ -136,6 +136,52 @@ def centered_input(default_value, key, width="100%", height="40px"):
         st.session_state[key] = current_value
     return current_value
 
+def question_box(label):
+    # Add custom CSS for the question box styling
+    st.markdown(
+        """
+        <style>
+        .question-box {
+            font-size: 14px !important;  /* Adjust the font size */
+            padding: 10px;                /* Adjust padding */
+            margin: 10px 0;              /* Margin for spacing */
+            border: 1px solid #ccc;      /* Border */
+            border-radius: 4px;          /* Rounded corners */
+            background-color: #f0f8ff;   /* Light background */
+            font-weight: bold;            /* Make text bold */
+            text-align: left;             /* Align text to the left */
+        }
+        </style>
+        """, unsafe_allow_html=True
+    )
+
+    # Create a styled div with the question label
+    input_html = f"""
+        <div class="question-box">
+            {label}
+        </div>
+    """
+    
+    st.markdown(input_html, unsafe_allow_html=True)
+
+# Using question_box in the loop for questions
+st.markdown("### Difficult Airway Evaluations (Choose one in each category):")
+
+for idx, (question, options) in enumerate(questions):
+    cols = st.columns([4, 1])
+    
+    with cols[0]:
+        question_box(f"{idx + 1}. {question}")  # Create a box around the question
+
+    with cols[1]:
+        # Create selectbox with options
+        selected_option = st.selectbox(
+            "",
+            options=options,
+            index=options.index(st.session_state[f"evaluation_{idx}"]),
+            key=f"evaluation_{idx}"  # Unique key for each selectbox
+        )
+
 
 # Title of the application
 st.title("NEAR4KIDS QI COLLECTION FORM")
@@ -385,8 +431,9 @@ elif st.session_state.page == "Course Information":
         with cols[0]:
             st.markdown("")  # Add spacing before the question
             st.markdown("") 
-            st.write(f"{idx + 1}. {question}")
-    
+            #st.write(f"{idx + 1}. {question}")
+            question_box(f"{idx + 1}. {question}")
+            
         with cols[1]:
             # Create selectbox with options
             selected_option = st.selectbox(
