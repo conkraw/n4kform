@@ -138,7 +138,7 @@ if st.session_state.page == "Encounter Information":
             st.success("Form submitted successfully!")
             # Navigate to Course Information page
             st.session_state.page = "Course Information"
-            st.experimental_rerun()  # Rerun the app to reflect the new page
+            st.rerun()  # Rerun the app to reflect the new page
 
 elif st.session_state.page == "Course Information":
     st.header("Course Information")
