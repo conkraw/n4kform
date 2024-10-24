@@ -361,7 +361,7 @@ elif st.session_state.page == "Course Information":
                         st.session_state.attempts[f'Attempt {attempt}']['discipline'] = custom_input(
                             f'discipline_{attempt}'
                         )
-                    elif row_header == "PGY level (3rd year resident = PL3, 1st year fellow = PL4, NP=yrs as NP, etc.)":
+                    elif row_header == "PGY level (3rd year resident = PL3, 1st year fellow = PL4,  NP=yrs as NP, etc.)":
                         st.session_state.attempts[f'Attempt {attempt}']['pgy_level'] = custom_input(
                             f'pgy_level_{attempt}'
                         )
