@@ -151,16 +151,16 @@ elif st.session_state.page == "Course Information":
 """, unsafe_allow_html=True)
 
     if 'attempts' not in st.session_state:
-    st.session_state.attempts = {f'Attempt {i}': {
-        'who_intubated': None,
-        'discipline': None,
-        'pgy_level': None,
-        'ett_size': None,
-        'ett_type': None,
-        'cricoid_prior': None,
-        'cricoid_during': None,
-        'attempt_successful': None,
-    } for i in range(1, 9)}
+        st.session_state.attempts = {f'Attempt {i}': {
+            'who_intubated': None,
+            'discipline': None,
+            'pgy_level': None,
+            'ett_size': None,
+            'ett_type': None,
+            'cricoid_prior': None,
+            'cricoid_during': None,
+            'attempt_successful': None,
+        } for i in range(1, 9)}
 
 # Define the row headers
 row_headers = [
