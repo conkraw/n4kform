@@ -364,9 +364,6 @@ elif st.session_state.page == "Course Information":
     # Create a select box for options
     options = ["Yes", "No", "Not applicable (bag-mask ventilation not given)"]
     selected_option = st.selectbox("Select an option:", options, key="difficult_to_bag")
-    
-    # Display the selected option (optional)
-    st.write(f"You selected: {selected_option}")
 
     # Back button to go to the previous page
     if st.button("Previous"):
