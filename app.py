@@ -164,8 +164,7 @@ if st.session_state.page == "Encounter Information":
             st.session_state.page = "Course Information"  # Set next page
             st.rerun()  # Rerun the app to reflect the new page
 
-
-    elif st.session_state.page == "Course Information":
+elif st.session_state.page == "Course Information":
         st.header("COURSE INFORMATION")
     
         # Displaying the previously submitted data if necessary
