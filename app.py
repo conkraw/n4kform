@@ -601,6 +601,7 @@ elif st.session_state.page == "Method Details":
 
             with cols[0]:
                 st.markdown("")
+                st.markdown("")
                 st.checkbox(option, key=key)
 
             with cols[1]:
