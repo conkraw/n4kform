@@ -202,23 +202,23 @@ elif st.session_state.page == "Course Information":
                         reset_input(str(attempt), f"attempt_course_{attempt}") 
                     elif row_header == "Who Intubated":
                         st.session_state.attempts[f'Attempt {attempt}']['who_intubated'] = st.text_input(
-                            "Who Intubated", key=f'who_intubated_{attempt}'
+                            "", key=f'who_intubated_{attempt}'
                         )
                     elif row_header == "Discipline":
                         st.session_state.attempts[f'Attempt {attempt}']['discipline'] = st.text_input(
-                            "Discipline", key=f'discipline_{attempt}'
+                            "", key=f'discipline_{attempt}'
                         )
                     elif row_header == "PGY Level":
                         st.session_state.attempts[f'Attempt {attempt}']['pgy_level'] = st.text_input(
-                            "PGY Level", key=f'pgy_level_{attempt}'
+                            "", key=f'pgy_level_{attempt}'
                         )
                     elif row_header == "ETT (or LMA) Size":
                         st.session_state.attempts[f'Attempt {attempt}']['ett_size'] = st.text_input(
-                            "ETT (or LMA) Size", key=f'ett_size_{attempt}'
+                            "", key=f'ett_size_{attempt}'
                         )
                     elif row_header == "ETT Type":
                         st.session_state.attempts[f'Attempt {attempt}']['ett_type'] = st.text_input(
-                            "ETT Type", key=f'ett_type_{attempt}'
+                            "", key=f'ett_type_{attempt}'
                         )
                     elif row_header == "Cricoid Pressure Prior":
                         st.session_state.attempts[f'Attempt {attempt}']['cricoid_prior'] = st.selectbox(
