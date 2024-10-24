@@ -129,9 +129,9 @@ with st.form(key='patient_info_form'):
             ]
         )
 
-    st.subheader("Diagnostic Category (Check as many as apply):")
+    st.subheader("Diagnostic Category")
     diagnostic_categories = st.multiselect(
-        "Select Diagnostic Categories:",
+        "Check as many as apply:",
         options=[
             "Cardiac-Surgical",
             "Respiratory – Upper Airway",
