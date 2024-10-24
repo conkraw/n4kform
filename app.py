@@ -718,9 +718,6 @@ elif st.session_state.page == "Method Details II":
     # Multi-select for events
     selected_events = st.multiselect("Select events associated with tracheal intubation:", events)
     
-    # Linking to attempt #
-    attempt_number = st.selectbox("Link to Attempt #:", [f"Attempt {i}" for i in range(1, 9)])
-    
     # Description for "Other" option
     if "Other (Please describe):" in selected_events:
         other_description = st.text_input("Please describe:", key="other_event_description")
