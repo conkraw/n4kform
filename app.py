@@ -179,7 +179,7 @@ elif st.session_state.page == "Course Information":
     ]
     
     # Define attempt numbers
-    attempt_numbers = range(0, 9)
+    attempt_numbers = range(1, 9)
     
     # Create the table-like layout
     for row_header in row_headers:
