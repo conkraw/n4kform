@@ -737,7 +737,41 @@ elif st.session_state.page == "Method Details II":
 
     with col2:
         if st.button("Next"):
-            st.session_state.page = "NextPage"  # Update this to your actual next page
+            st.session_state.page = "Monitoring of Vital Signs"  # Update this to your actual next page
             st.rerun()
 
+
+if st.session_state.page == "Monitoring of Vital Signs":
+    st.header("MONITORING OF VITAL SIGNS")
+
+    # Creating four columns
+    cols = st.columns(4)
+
+    with cols[0]:
+        st.markdown("**Pulse Oximetry (%):**")
+        highest_value = st.text_input("Highest Value prior to intubation:", key="highest_value")
+
+    with cols[1]:
+        st.markdown("**Lowest Value:**")
+        lowest_value = st.text_input("Lowest value during intubation:", key="lowest_value")
+
+    with cols[2]:
+        st.markdown("**Event Transiently:**")
+        event_transiently = st.text_input("Describe event:", key="event_transiently")
+
+    with cols[3]:
+        st.markdown("**Additional Notes:**")
+        additional_notes = st.text_input("Any additional notes:", key="additional_notes")
+
+    # Navigation buttons
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Previous"):
+            st.session_state.page = "Method Details II"  # Adjust to your previous page
+            st.rerun()
+
+    with col2:
+        if st.button("Next"):
+            st.session_state.page = "Course Success"
+            st.rerun()
 
