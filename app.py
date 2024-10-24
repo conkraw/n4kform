@@ -748,7 +748,6 @@ if st.session_state.page == "Monitoring of Vital Signs":
     cols = st.columns(2)
 
     with cols[0]:
-        st.markdown("**Pulse Oximetry (%):**")
         highest_value = st.text_input("Highest Value prior to intubation:", key="highest_value")
 
     with cols[1]:
