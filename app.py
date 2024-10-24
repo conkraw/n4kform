@@ -605,7 +605,7 @@ if st.session_state.page == "Method Details":
         # Display Liter Flow and FIO2 inputs for each selected method
         if selected_methods:
             st.write("#### Oxygen Provision Details")
-            cols = st.columns([1, 1, 3, 2])  # Adjust columns to shift inputs
+            cols = st.columns(4)  # Create four columns
 
             with cols[0]:
                 st.markdown("**Method**")
@@ -615,7 +615,7 @@ if st.session_state.page == "Method Details":
                 st.markdown("**FIO2**")
 
             for method in selected_methods:
-                cols = st.columns([1, 1, 3, 2])  # Create a row for each method
+                cols = st.columns(4)  # Create a row for each method
 
                 with cols[0]:
                     st.markdown(f"**{method}**")
@@ -637,6 +637,7 @@ if st.session_state.page == "Method Details":
         if st.button("Next"):
             st.session_state.page = "Method Details II"  # Update this to your actual next page
             st.rerun()
+
 
 
 elif st.session_state.page == "Method Details II":
