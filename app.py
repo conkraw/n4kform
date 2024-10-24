@@ -368,6 +368,8 @@ elif st.session_state.page == "Course Information":
     cols = st.columns([4, 1])
     
     with cols[0]:
+        st.markdown("")
+        st.markdown("")
         st.write("1. Evaluation done before or after this course is completed?")
     
     with cols[1]:
