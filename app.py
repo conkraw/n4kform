@@ -1,22 +1,25 @@
 import streamlit as st
 st.set_page_config(layout="wide")
 
-def reset_input(default_value, key):
+def reset_input(default_value, key, width="100%", height="30px"):
     # Add custom CSS for input styling
     st.markdown(
-        """
+        f"""
         <style>
-        .reset-input {
+        .reset-input {{
             font-size: 12px !important;  /* Adjust the font size */
             padding: 8px;                /* Adjust padding */
-            width: 100%;                 /* Full width */
+            width: {width};              /* Control width */
+            height: {height};            /* Control height */
             box-sizing: border-box;      /* Ensure padding doesn't affect width */
             border: 1px solid #ccc;      /* Border */
             border-radius: 4px;          /* Rounded corners for aesthetics */
             background-color: #f9f9f9;   /* Light background */
             font-weight: bold;            /* Make text bold */
-            #text-align: center;           /* Center the text */
-        }
+            text-align: center;           /* Center the text */
+            display: block;               /* Make it a block element for centering */
+            margin: 0 auto;              /* Center the input box */
+        }}
         </style>
         """, unsafe_allow_html=True
     )
@@ -39,7 +42,9 @@ def reset_input(default_value, key):
     # Update session state if the input value changes
     if st.session_state[key] != current_value:
         st.session_state[key] = current_value
+    
     return current_value
+
 
 def custom_input(key, default_value="", input_type="text"):
     # Add custom CSS for input styling
