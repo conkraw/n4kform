@@ -502,7 +502,7 @@ elif st.session_state.page == "Medications":
 
     # Back button to go to the previous page
     if st.button("Previous"):
-        st.session_state.page = "Encounter Information"
+        st.session_state.page = "Course Information"
         st.rerun()
 
 
