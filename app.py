@@ -30,11 +30,11 @@ with st.form(key='patient_info_form'):
             index=["Male", "Female", "Other"].index(st.session_state.form_data.get('patient_gender', 'Male'))
         )
     with col5:
-        st.session_state.form_data['dosing_weight'] = st.number_input(
-            "Patient Dosing Weight (kg):", 
-            min_value=0.0, 
-            value=st.session_state.form_data.get('dosing_weight', 0.0)
-        )
+    st.session_state.form_data['dosing_weight'] = st.selectbox(
+        "Patient Dosing Weight (kg):", 
+        options=list(range(1, 201)),  # Options from 1 to 200
+        index=list(range(1, 201)).index(st.session_state.form_data.get('dosing_weight', 1))  # Default to 1 kg
+    )
 
     # Third line: Diagnosis query
     st.write("AT THE TIME OF INTUBATION, did this patient have a suspected or confirmed diagnosis of an emerging epidemic/novel lung disease? (i.e. COVID-19, SARS, Pandemic Flu, EVALI)")
