@@ -165,7 +165,7 @@ elif st.session_state.page == "Course Information":
             'attempt_successful': None,
         } for i in range(1, 9)}
 
-    attempt_numbers = [1, 2, 3, 4, 5, 6, 7, 8]
+    attempt_numbers = [0,1, 2, 3, 4, 5, 6, 7, 8]
     
     # Define row headers
     row_headers = ["Attempts for this Course",
