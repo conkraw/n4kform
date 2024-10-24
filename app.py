@@ -73,7 +73,7 @@ with st.form(key='patient_info_form'):
         )
 
 
-    st.title("INDICATIONS")
+    st.header("INDICATIONS")
 
     # Two columns layout
     col1, col2 = st.columns(2)
