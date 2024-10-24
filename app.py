@@ -1,36 +1,14 @@
 import streamlit as st
 st.set_page_config(layout="wide")
 
-#def reset_input(default_value, key):
-#    if key not in st.session_state:
-#        st.session_state[key] = default_value
-#    current_value = st.text_input("", key=key, value=st.session_state[key])
-#    if current_value != st.session_state[key]:
-#        st.session_state[key] = current_value
-#    return current_value
-
 def reset_input(default_value, key):
-    # Add custom CSS for font size
-    st.markdown(
-        """
-        <style>
-        .custom-input {
-            font-size: 10px;  /* Adjust the size as needed */
-        }
-        </style>
-        """, unsafe_allow_html=True
-    )
-    
     if key not in st.session_state:
         st.session_state[key] = default_value
-    current_value = st.text_input("", key=key, help="Enter text here", placeholder="", value="", label_visibility="hidden")
-    
-    # Using markdown to apply the custom class
-    st.markdown(f'<input class="custom-input" type="text" value="{current_value}" placeholder=" " />', unsafe_allow_html=True)
-    
+    current_value = st.text_input("", key=key, value=st.session_state[key])
     if current_value != st.session_state[key]:
         st.session_state[key] = current_value
     return current_value
+
 
 # Title of the application
 st.title("NEAR4KIDS QI COLLECTION FORM")
