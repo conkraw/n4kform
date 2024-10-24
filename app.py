@@ -151,7 +151,7 @@ elif st.session_state.page == "Course Information":
 """, unsafe_allow_html=True)
 
     if 'attempts' not in st.session_state:
-    st.session_state.attempts = {}
+        st.session_state.attempts = {}
 
     # Define the number of attempts
     num_attempts = 8
