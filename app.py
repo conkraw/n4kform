@@ -254,48 +254,47 @@ elif st.session_state.page == "Course Information":
     # Define attempt numbers
     attempt_numbers = range(1, 9)
 
-    # Create the table-like layout
     for row_header in row_headers:
-        cols = st.columns(len(attempt_numbers) + 1)  # Create extra column for headers
-        with cols[0]:  # Column for row headers
-            reset_input(row_header, f"header_{row_header}")   # No default value for headers
+    cols = st.columns(len(attempt_numbers) + 1)  # Create extra column for headers
+    with cols[0]:  # Column for row headers
+        reset_input(row_header, f"header_{row_header}")   # No default value for headers
 
-        for attempt in attempt_numbers:
-            with cols[attempt]:  # Adjust for 1-based indexing
-                if row_header == "Attempts for this COURSE":
-                    reset_input(str(attempt), f"attempt_course_{attempt}") 
-                elif row_header == "Who Intubated":
-                    st.session_state.attempts[f'Attempt {attempt}']['who_intubated'] = custom_input(
-                        f'who_intubated_{attempt}',""
-                    )
-                elif row_header == "Discipline":
-                    st.session_state.attempts[f'Attempt {attempt}']['discipline'] = custom_input(
-                        f'discipline_{attempt}'
-                    )
-                elif row_header == "PGY Level":
-                    st.session_state.attempts[f'Attempt {attempt}']['pgy_level'] = custom_input(
-                        f'pgy_level_{attempt}'
-                    )
-                elif row_header == "ETT (or LMA) Size":
-                    st.session_state.attempts[f'Attempt {attempt}']['ett_size'] = custom_input(
-                        f'ett_size_{attempt}'
-                    )
-                elif row_header == "ETT Type":
-                    st.session_state.attempts[f'Attempt {attempt}']['ett_type'] = custom_input(
-                        f'ett_type_{attempt}'
-                    )
-                elif row_header == "Immediately prior to this attempt was cricoid pressure/external laryngeal manipulation provided?":
-                    st.session_state.attempts[f'Attempt {attempt}']['cricoid_prior'] = custom_input(
-                        f'cricoid_prior_{attempt}'
-                    )
-                elif row_header == "During this attempt, was cricoid pressure/external laryngeal manipulation provided?":
-                    st.session_state.attempts[f'Attempt {attempt}']['cricoid_during'] = custom_input(
-                        f'cricoid_during_{attempt}'
-                    )
-                elif row_header == "Attempt Successful":
-                    st.session_state.attempts[f'Attempt {attempt}']['attempt_successful'] = custom_input(
-                        f'attempt_successful_{attempt}'
-                    )
+    for attempt in attempt_numbers:
+        with cols[attempt]:  # Adjust for 1-based indexing
+            if row_header == "Attempts for this COURSE":
+                reset_input(str(attempt), f"attempt_course_{attempt}") 
+            elif row_header == "Who Intubated":
+                st.session_state.attempts[f'Attempt {attempt}']['who_intubated'] = custom_input(
+                    f'who_intubated_{attempt}', ""
+                )
+            elif row_header == "Discipline":
+                st.session_state.attempts[f'Attempt {attempt}']['discipline'] = custom_input(
+                    f'discipline_{attempt}', ""
+                )
+            elif row_header == "PGY Level":
+                st.session_state.attempts[f'Attempt {attempt}']['pgy_level'] = custom_input(
+                    f'pgy_level_{attempt}', ""
+                )
+            elif row_header == "ETT (or LMA) Size":
+                st.session_state.attempts[f'Attempt {attempt}']['ett_size'] = custom_input(
+                    f'ett_size_{attempt}', ""
+                )
+            elif row_header == "ETT Type":
+                st.session_state.attempts[f'Attempt {attempt}']['ett_type'] = custom_input(
+                    f'ett_type_{attempt}', ""
+                )
+            elif row_header == "Immediately prior to this attempt was cricoid pressure/external laryngeal manipulation provided?":
+                st.session_state.attempts[f'Attempt {attempt}']['cricoid_prior'] = custom_input(
+                    f'cricoid_prior_{attempt}', ""
+                )
+            elif row_header == "During this attempt, was cricoid pressure/external laryngeal manipulation provided?":
+                st.session_state.attempts[f'Attempt {attempt}']['cricoid_during'] = custom_input(
+                    f'cricoid_during_{attempt}', ""
+                )
+            elif row_header == "Attempt Successful":
+                st.session_state.attempts[f'Attempt {attempt}']['attempt_successful'] = custom_input(
+                    f'attempt_successful_{attempt}', ""
+                )
 
     # Back button to go to the previous page
     if st.button("Previous"):
