@@ -139,9 +139,9 @@ if st.session_state.page == "Encounter Information":
             st.rerun()  # Rerun the app to reflect the new page
 
 elif st.session_state.page == "Course Information":
-    st.header("Course Information")
-    st.write("Form data submitted:", st.session_state.form_data)
-    st.write("Indications:", st.session_state.indications)
+    st.header("COURSE INFORMATION")
+    #st.write("Form data submitted:", st.session_state.form_data)
+    #st.write("Indications:", st.session_state.indications)
 
     # Back button to go to the previous page
     if st.button("Previous"):
