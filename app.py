@@ -106,7 +106,7 @@ with st.form(key='patient_info_form'):
 
     with col2:
         #st.subheader("CHANGE OF TUBE")
-        st.markdown("<h3 style='text-align: center;'>"CHANGE OF TUBE"</h3>", unsafe_allow_html=True)
+        st.markdown("<h3 style='text-align: center;'>CHANGE OF TUBE</h3>", unsafe_allow_html=True)
 
 
         # Type of Change
