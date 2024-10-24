@@ -7,9 +7,12 @@ st.set_page_config(layout="wide")
 def reset_inputx(default_value, key):
     if key not in st.session_state:
         st.session_state[key] = default_value
-    current_value = st.text_input("", key=key)
+    
+    current_value = st.text_input("", key=key, value=st.session_state[key])  # Set the default value to the session state
+
     if current_value != st.session_state[key]:
         st.session_state[key] = current_value
+        
     return current_value
     
 def reset_input(default_value, key, width="100%", height="40px"):
