@@ -51,19 +51,20 @@ def reset_input(default_value, key, width="100%", height="35px"):
     return current_value
 
 
-def custom_input(key, default_value="", input_type="text"):
+def custom_input(key, default_value="", input_type="text", width="100%", height="30px", font_size="16px"):
     # Add custom CSS for input styling
     st.markdown(
-        """
+        f"""
         <style>
-        .custom-input {
-            font-size: 16px !important;  /* Ensure the font size is applied */
-            padding: 8px;                /* Adjust padding */
-            width: 100%;                 /* Full width */
-            box-sizing: border-box;      /* Ensure padding doesn't affect width */
-            border: 1px solid #ccc;      /* Border */
-            border-radius: 4px;          /* Rounded corners for aesthetics */
-        }
+        .custom-input {{
+            font-size: {font_size} !important;  /* Control the font size */
+            padding: 8px;                        /* Adjust padding */
+            width: {width};                      /* Control width */
+            height: {height};                    /* Control height */
+            box-sizing: border-box;              /* Ensure padding doesn't affect width */
+            border: 1px solid #ccc;              /* Border */
+            border-radius: 4px;                  /* Rounded corners for aesthetics */
+        }}
         </style>
         """, unsafe_allow_html=True
     )
@@ -83,6 +84,7 @@ def custom_input(key, default_value="", input_type="text"):
         st.session_state[key] = input_value
     
     return st.session_state[key]
+
 
 def centered_input(default_value, key, width="100%", height="30px"):
     # Add custom CSS for centered input styling
