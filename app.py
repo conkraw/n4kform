@@ -253,7 +253,7 @@ elif st.session_state.page == "Course Information":
     for row_header in row_headers:
         cols = st.columns(len(attempt_numbers) + 1)  # Create extra column for headers
         with cols[0]:  # Column for row headers
-            reset_input(f"header_{row_header}")  # No default value for headers
+            reset_input("", f"header_{row_header}")  # No default value for headers
 
         for attempt in attempt_numbers:
             with cols[attempt]:  # Adjust for 1-based indexing
