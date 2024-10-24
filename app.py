@@ -384,7 +384,7 @@ elif st.session_state.page == "Course Information":
         with cols[0]:  # First column for the question
             st.markdown(question)
         with cols[1]:  # Second column for the dropdown
-            selected_option = st.selectbox("", options, key=question)  # Use question as the key to maintain state
+            selected_option = st.selectbox(options, key=question)  # Use question as the key to maintain state
     
     # If YES Please Explain
     if selected_option == "YES":
