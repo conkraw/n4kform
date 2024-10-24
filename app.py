@@ -752,7 +752,7 @@ if st.session_state.page == "Monitoring of Vital Signs":
         highest_value = st.text_input("Highest Value prior to intubation:", key="highest_value")
 
     with cols[1]:
-        st.markdown("** **")
+        st.markdown("****")
         lowest_value = st.text_input("Lowest value during intubation:", key="lowest_value")
 
 
