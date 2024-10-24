@@ -11,10 +11,8 @@ def reset_input(default_value, key):
             padding: 8px;     /* Adjust padding */
             width: 100%;      /* Full width */
             box-sizing: border-box;  /* Ensure padding doesn't affect width */
-            border: none;     /* Remove border */
-            background-color: transparent;  /* Make background transparent */
-            color: black;     /* Text color */
-            pointer-events: none;  /* Disable pointer events */
+            border: 1px solid #ccc;  /* Keep the border */
+            border-radius: 4px;  /* Rounded corners for aesthetics */
         }
         </style>
         """, unsafe_allow_html=True
@@ -24,15 +22,21 @@ def reset_input(default_value, key):
     if key not in st.session_state:
         st.session_state[key] = default_value
 
-    # Create a styled read-only input field
+    current_value = st.session_state[key]
+
+    # Create a styled input field
     input_html = f"""
-        <input class="custom-input" type="text" value="{st.session_state[key]}" readonly />
+        <input class="custom-input" type="text" value="{current_value}" 
+               oninput="this.value=this.value.replace(/</g,'&lt;').replace(/>/g,'&gt;')" />
     """
     
     # Render the HTML input field
     st.markdown(input_html, unsafe_allow_html=True)
 
-    return st.session_state[key]
+    # Update session state if the input value changes
+    if st.session_state[key] != current_value:
+        st.session_state[key] = current_value
+    return current_value
     
 def custom_input(key, default_value="", input_type="text"):
     # Add custom CSS for input styling
