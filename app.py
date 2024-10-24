@@ -377,18 +377,18 @@ elif st.session_state.page == "Course Information":
         selected_options = {}
         
         # Create a table-like layout with two columns
-        for question, options in evaluations:
+        for idx, (question, options) in enumerate(evaluations):
             cols = st.columns(2)  # Create two columns
             with cols[0]:  # First column for the question
-                reset_input(question, f"reset_{question}")  # Use a unique key for each question
+                reset_input(question, f"reset_{idx}")  # Use a unique key for each question
             with cols[1]:  # Second column for the dropdown
-                selected_option = st.selectbox('', options, key=question)
+                selected_option = st.selectbox('', options, key=f"{idx}_{question}")  # Unique key
                 selected_options[question] = selected_option  # Store the selected option
         
         # Check if any selected option is "YES"
         if "YES" in selected_options.values():
             explanation = st.text_area("If YES, Please Explain:")
-
+        
 
 
 
