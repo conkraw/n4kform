@@ -151,9 +151,19 @@ elif st.session_state.page == "Course Information":
 """, unsafe_allow_html=True)
 
     if 'attempts' not in st.session_state:
-        st.session_state.attempts = {}
+    st.session_state.attempts = {f'Attempt {i}': {
+        'who_intubated': None,
+        'discipline': None,
+        'pgy_level': None,
+        'ett_size': None,
+        'ett_type': None,
+        'cricoid_prior': None,
+        'cricoid_during': None,
+        'attempt_successful': None,
+    } for i in range(1, 9)}
 
-    row_headers = [
+# Define the row headers
+row_headers = [
     "Who Intubated",
     "Discipline",
     "PGY Level",
@@ -219,7 +229,7 @@ for row_header in row_headers:
                     "Attempt Successful:", ["Select...", "Yes", "No"],
                     key=f'attempt_successful_{attempt}'
                 )
-        
+
         # Back button to go to the previous page
         if st.button("Previous"):
             st.session_state.page = "Encounter Information"
