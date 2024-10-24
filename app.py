@@ -358,46 +358,44 @@ elif st.session_state.page == "Course Information":
                         f'attempt_successful_{attempt}'
                     )
 
-        # Add the difficult bag-mask ventilation question
-        st.markdown("### Difficult Airway Evaluations (Choose one in each category):")
+    # Ensure the session state is initialized for all relevant keys first
+    questions = [
+        ("Evaluation done before or after this course is completed?", ['Select Category 1', 'BEFORE', 'AFTER']),
+        ("Known prior history of difficult airway?", ['Select Category 2', 'YES', 'NO']),
+        ("Any Limited Neck Extension or (Maximal with or without sedation/paralytics) Severe Reduction?", ['Select Category 3', 'YES', 'NO']),
+        ("Widest Mouth Opening – How many Patient’s fingers between gum/incisors?", ['Select Category 4', '0 – 2', '≥ 3']),
+        ("Thyromental space – Patient’s fingers between chin and thyroid cartilage?", ['Select Category 5', '0 - 2', '≥ 3']),
+        ("Evidence of Upper Airway Obstruction or Anatomical Barrier to visualize glottic opening?", ['Select Category 6', 'YES', 'NO']),
+        ("Midfacial Hypoplasia?", ['Select Category 7', 'YES', 'NO']),
+        ("Any other signs of difficult airway exist?", ['Select Category 8', 'YES', 'NO']),
+    ]
+    
+    # Initialize session state for each question
+    for idx, (_, options) in enumerate(questions):
+        key = f"evaluation_{idx}"
+        if key not in st.session_state:
+            st.session_state[key] = options[0]  # Set default value
+    
+    # Now create the layout
+    st.markdown("### Difficult Airway Evaluations (Choose one in each category):")
+    
+    for idx, (question, options) in enumerate(questions):
+        cols = st.columns([4, 1])
         
-        # List of questions and their options
-        questions = [
-            ("Evaluation done before or after this course is completed?", ['Select Category 1', 'BEFORE', 'AFTER']),
-            ("Known prior history of difficult airway?", ['Select Category 2', 'YES', 'NO']),
-            ("Any Limited Neck Extension or (Maximal with or without sedation/paralytics) Severe Reduction?", ['Select Category 3', 'YES', 'NO']),
-            ("Widest Mouth Opening – How many Patient’s fingers between gum/incisors?", ['Select Category 4', '0 – 2', '≥ 3']),
-            ("Thyromental space – Patient’s fingers between chin and thyroid cartilage?", ['Select Category 5', '0 - 2', '≥ 3']),
-            ("Evidence of Upper Airway Obstruction or Anatomical Barrier to visualize glottic opening?", ['Select Category 6', 'YES', 'NO']),
-            ("Midfacial Hypoplasia?", ['Select Category 7', 'YES', 'NO']),
-            ("Any other signs of difficult airway exist?", ['Select Category 8', 'YES', 'NO']),
-        ]
-        
-        # Initialize session state for each question
-        for idx, (_, options) in enumerate(questions):
-            key = f"evaluation_{idx}"
-            if key not in st.session_state:
-                st.session_state[key] = options[0]  # Set default value
-        
-        # Iterate over the questions to create the layout
-        for idx, (question, options) in enumerate(questions):
-            cols = st.columns([4, 1])
-            
-            with cols[0]:
-                st.write(f"{idx + 1}. {question}")
-        
-            with cols[1]:
-                # Create selectbox with options
-                selected_option = st.selectbox(
-                    "",
-                    options=options,
-                    index=options.index(st.session_state[f"evaluation_{idx}"]),
-                    key=f"evaluation_{idx}"  # Unique key for each selectbox
-                )
-                
-                # Update session state with the selected option
-                st.session_state[f"evaluation_{idx}"] = selected_option
-
+        with cols[0]:
+            st.write(f"{idx + 1}. {question}")
+    
+        with cols[1]:
+            # Create selectbox with options
+            selected_option = st.selectbox(
+                "",
+                options=options,
+                index=options.index(st.session_state[f"evaluation_{idx}"]),
+                key=f"evaluation_{idx}"  # Unique key for each selectbox
+            )
+    
+            # The session state is updated automatically by Streamlit for selectbox,
+            # so no need to set it again here.
 
 
     st.markdown("### Known cyanotic heart disease (R to L shunt)?  (Select ONE only)")
