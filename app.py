@@ -364,7 +364,7 @@ elif st.session_state.page == "Course Information":
     options = ["Yes", "No", "Not applicable (bag-mask ventilation not given)"]
     selected_option = st.selectbox("Select an option:", options, key="difficult_to_bag")
 
-    st.markdown("### Difficult Airway Evaluations (Choose one in each category):)
+    st.markdown("### Difficult Airway Evaluations (Choose one in each category):")
     cols = st.columns([4, 1])
     with cols[0]:
         st.markdown("")
