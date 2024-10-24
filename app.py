@@ -150,6 +150,63 @@ elif st.session_state.page == "Course Information":
 </p>
 """, unsafe_allow_html=True)
 
+    if 'attempts' not in st.session_state:
+    st.session_state.attempts = {}
+
+# Define the number of attempts
+num_attempts = 8
+
+# Iterate over each attempt to create dropdowns
+for attempt in range(1, num_attempts + 1):
+    st.header(f"Attempt {attempt}")
+
+    # Who intubated
+    st.session_state.attempts[f'who_intubated_{attempt}'] = st.selectbox(
+        "Who intubated (Fellow, Resident, etc.):",
+        options=["Select...", "Fellow", "Resident", "Attending", "Paramedic"]
+    )
+
+    # Discipline
+    st.session_state.attempts[f'discipline_{attempt}'] = st.selectbox(
+        "Discipline (ICU, ENT, Surgery, etc.):",
+        options=["Select...", "ICU", "ENT", "Surgery", "Emergency Medicine"]
+    )
+
+    # PGY level
+    st.session_state.attempts[f'pgy_level_{attempt}'] = st.selectbox(
+        "PGY level (e.g., PL3, PL4, NP):",
+        options=["Select...", "PL1", "PL2", "PL3", "PL4", "NP"]
+    )
+
+    # ETT (or LMA) size
+    st.session_state.attempts[f'ett_size_{attempt}'] = st.selectbox(
+        "ETT (or LMA) size:",
+        options=["Select...", "2.5", "3.0", "3.5", "4.0", "4.5", "5.0", "5.5"]
+    )
+
+    # ETT type
+    st.session_state.attempts[f'ett_type_{attempt}'] = st.selectbox(
+        "ETT type (cuffed/uncuffed/NA):",
+        options=["Select...", "Cuffed", "Uncuffed", "NA"]
+    )
+
+    # Cricoid pressure/external manipulation prior
+    st.session_state.attempts[f'cricoid_prior_{attempt}'] = st.selectbox(
+        "Immediately prior to this attempt, was cricoid pressure/external manipulation provided?",
+        options=["Select...", "Yes", "No"]
+    )
+
+    # Cricoid pressure/external manipulation during
+    st.session_state.attempts[f'cricoid_during_{attempt}'] = st.selectbox(
+        "During this attempt, was cricoid pressure/external manipulation provided?",
+        options=["Select...", "Yes", "No"]
+    )
+
+    # Attempt successful
+    st.session_state.attempts[f'attempt_successful_{attempt}'] = st.selectbox(
+        "Attempt Successful:",
+        options=["Select...", "Yes", "No"]
+    )
     
     # Back button to go to the previous page
     if st.button("Previous"):
