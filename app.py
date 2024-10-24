@@ -1,6 +1,14 @@
 import streamlit as st
 st.set_page_config(layout="wide")
 
+def reset_input(default_value, key):
+    if key not in st.session_state:
+        st.session_state[key] = default_value
+    current_value = st.text_input("", key=key)
+    if current_value != st.session_state[key]:
+        st.session_state[key] = current_value
+    return current_value
+
 def custom_input(key, default_value="", input_type="text"):
     # Add custom CSS for input styling
     st.markdown(
@@ -36,25 +44,6 @@ def custom_input(key, default_value="", input_type="text"):
         st.session_state[key] = current_value
     return current_value
 
-def custom_selectbox(key, options):
-    # Custom select box styling
-    st.markdown(
-        """
-        <style>
-        .custom-select {
-            font-size: 16px;  /* Adjust the font size */
-            padding: 8px;     /* Adjust padding */
-            width: 100%;      /* Full width */
-            box-sizing: border-box;  /* Ensure padding doesn't affect width */
-        }
-        </style>
-        """, unsafe_allow_html=True
-    )
-
-    # Render the select box with HTML
-    selected_option = st.selectbox("", options, key=key)
-
-    return selected_option
 
 # Title of the application
 st.title("NEAR4KIDS QI COLLECTION FORM")
