@@ -600,6 +600,7 @@ elif st.session_state.page == "Method Details":
             cols = st.columns([1, 2, 2])  # Create three columns for each option
 
             with cols[0]:
+                st.markdown("")
                 st.checkbox(option, key=key)
 
             with cols[1]:
