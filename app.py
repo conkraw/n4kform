@@ -8,7 +8,8 @@ if 'form_data' not in st.session_state:
     st.session_state.form_data = {}
 
 # Page 1
-#st.header("Patient Information")
+st.header("ENCOUNTER INFORMATION")
+st.subheader("Patient Information")
 
 # Page 2: Input Form
 with st.form(key='patient_info_form'):
