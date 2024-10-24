@@ -178,9 +178,6 @@ elif st.session_state.page == "Course Information":
         "Attempt Successful"
     ]
     
-    # Create a header for attempts
-    st.write("Attempts for this COURSE")
-    
     # Define attempt numbers
     attempt_numbers = range(1, 9)
     
