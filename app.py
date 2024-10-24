@@ -426,10 +426,16 @@ elif st.session_state.page == "Course Information":
             # so no need to set it again here.
 
 
-    st.markdown("### Known cyanotic heart disease (R to L shunt)?  (Select ONE only)")
-    options = ["Yes", "No"]
-    selected_option = st.selectbox("Select an option:", options, key="cyanotic")
+    # Create a select box for options
+    options_bag = ["Yes", "No", "Not applicable (bag-mask ventilation not given)"]
+    selected_bag = st.selectbox("Difficult to Bag – Mask Ventilate? (Select ONE only)", options_bag, key="difficult_to_bag")
     
+    # Known cyanotic heart disease (R to L shunt)
+    st.markdown("### Known cyanotic heart disease (R to L shunt)?  (Select ONE only)")
+    options_cyanotic = ["Yes", "No"]
+    selected_cyanotic = st.selectbox("Select an option:", options_cyanotic, key="cyanotic")
+
+
     # Back button to go to the previous page
     if st.button("Previous"):
         st.session_state.page = "Encounter Information"
