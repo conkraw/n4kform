@@ -1,14 +1,16 @@
 import streamlit as st
 st.set_page_config(layout="wide")
 
-def reset_input(default_value, key):
-    # Add custom CSS for font size
+def custom_input(key, default_value="", input_type="text"):
+    # Add custom CSS for input styling
     st.markdown(
         """
         <style>
         .custom-input {
-            font-size: 14px;  /* Adjust the size as needed */
-            padding: 10px;     /* Optional: adjust padding for better spacing */
+            font-size: 16px;  /* Adjust the font size */
+            padding: 8px;     /* Adjust padding */
+            width: 100%;      /* Full width */
+            box-sizing: border-box;  /* Ensure padding doesn't affect width */
         }
         </style>
         """, unsafe_allow_html=True
@@ -20,11 +22,10 @@ def reset_input(default_value, key):
 
     current_value = st.session_state[key]
     
-    # Use HTML to create a styled input field
+    # Create a styled input field
     input_html = f"""
-        <input class="custom-input" type="text" value="{current_value}" 
-               oninput="this.value=this.value.replace(/</g,'&lt;').replace(/>/g,'&gt;')" 
-               style="width: 100%;" />
+        <input class="custom-input" type="{input_type}" value="{current_value}" 
+               oninput="this.value=this.value.replace(/</g,'&lt;').replace(/>/g,'&gt;')" />
     """
     
     # Render the HTML input field
@@ -34,6 +35,7 @@ def reset_input(default_value, key):
     if st.session_state[key] != current_value:
         st.session_state[key] = current_value
     return current_value
+
 
 # Title of the application
 st.title("NEAR4KIDS QI COLLECTION FORM")
@@ -216,46 +218,49 @@ elif st.session_state.page == "Course Information":
     for row_header in row_headers:
         cols = st.columns(len(attempt_numbers) + 1)  # Create extra column for headers
         with cols[0]:  # Column for row headers
-            reset_input("", f"header_{row_header}")  # No default value for headers
+            custom_input(f"header_{row_header}")  # No default value for headers
 
         for attempt in attempt_numbers:
             with cols[attempt]:  # Adjust for 1-based indexing
                 if row_header == "Attempts for this COURSE":
-                    reset_input(str(attempt), f"attempt_course_{attempt}") 
+                    custom_input(f"attempt_course_{attempt}", str(attempt))
                 elif row_header == "Who Intubated":
-                    st.session_state.attempts[f'Attempt {attempt}']['who_intubated'] = st.text_input(
-                        "", key=f'who_intubated_{attempt}'
+                    st.session_state.attempts[f'Attempt {attempt}']['who_intubated'] = custom_input(
+                        f'who_intubated_{attempt}'
                     )
                 elif row_header == "Discipline":
-                    st.session_state.attempts[f'Attempt {attempt}']['discipline'] = st.text_input(
-                        "", key=f'discipline_{attempt}'
+                    st.session_state.attempts[f'Attempt {attempt}']['discipline'] = custom_input(
+                        f'discipline_{attempt}'
                     )
                 elif row_header == "PGY Level":
-                    st.session_state.attempts[f'Attempt {attempt}']['pgy_level'] = st.text_input(
-                        "", key=f'pgy_level_{attempt}'
+                    st.session_state.attempts[f'Attempt {attempt}']['pgy_level'] = custom_input(
+                        f'pgy_level_{attempt}'
                     )
                 elif row_header == "ETT (or LMA) Size":
-                    st.session_state.attempts[f'Attempt {attempt}']['ett_size'] = st.text_input(
-                        "", key=f'ett_size_{attempt}'
+                    st.session_state.attempts[f'Attempt {attempt}']['ett_size'] = custom_input(
+                        f'ett_size_{attempt}'
                     )
                 elif row_header == "ETT Type":
-                    st.session_state.attempts[f'Attempt {attempt}']['ett_type'] = st.text_input(
-                        "", key=f'ett_type_{attempt}'
+                    st.session_state.attempts[f'Attempt {attempt}']['ett_type'] = custom_input(
+                        f'ett_type_{attempt}'
                     )
                 elif row_header == "Immediately prior to this attempt was cricoid pressure/external laryngeal manipulation provided?":
                     st.session_state.attempts[f'Attempt {attempt}']['cricoid_prior'] = st.selectbox(
                         "", ["", "Yes", "No"],
-                        key=f'cricoid_prior_{attempt}'
+                        key=f'cricoid_prior_{attempt}',
+                        index=0
                     )
                 elif row_header == "During this attempt, was cricoid pressure/external laryngeal manipulation provided?":
                     st.session_state.attempts[f'Attempt {attempt}']['cricoid_during'] = st.selectbox(
                         "", ["", "Yes", "No"],
-                        key=f'cricoid_during_{attempt}'
+                        key=f'cricoid_during_{attempt}',
+                        index=0
                     )
                 elif row_header == "Attempt Successful":
                     st.session_state.attempts[f'Attempt {attempt}']['attempt_successful'] = st.selectbox(
                         "", ["", "Yes", "No"],
-                        key=f'attempt_successful_{attempt}'
+                        key=f'attempt_successful_{attempt}',
+                        index=0
                     )
 
     # Back button to go to the previous page
