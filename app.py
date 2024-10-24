@@ -601,6 +601,7 @@ elif st.session_state.page == "Method Details":
             cols = st.columns([1, 2, 2])  # Create three columns for each option
 
             with cols[0]:
+                st.markdown("")
                 reset_input(option, f"method_{option.replace(' ', '_')}")
 
             with cols[1]:
