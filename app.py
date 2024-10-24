@@ -20,22 +20,22 @@ def reset_input(default_value, key):
     if key not in st.session_state:
         st.session_state[key] = default_value
 
-    current_value = st.session_state[key]
-
     # Create a styled input field
     input_html = f"""
-        <input class="custom-input" type="text" value="{current_value}" 
-               oninput="this.value=this.value.replace(/</g,'&lt;').replace(/>/g,'&gt;')" />
+        <input class="custom-input" type="text" value="{st.session_state[key]}" 
+               onchange="document.getElementById('{key}_hidden').value=this.value; this.dispatchEvent(new Event('input'));" 
+               id="{key}" />
+        <input type="hidden" id="{key}_hidden" value="{st.session_state[key]}" />
     """
     
     # Render the HTML input field
     st.markdown(input_html, unsafe_allow_html=True)
 
-    # Update session state if the input value changes
-    if st.session_state[key] != current_value:
-        st.session_state[key] = current_value
-    return current_value
-
+    # Capture the value on the next rerun
+    if st.session_state[key] != st.session_state[key]:  # This will always be true for the first render
+        st.session_state[key] = st.session_state[key]
+    return st.session_state[key]
+    
 def custom_input(key, default_value="", input_type="text"):
     # Add custom CSS for input styling
     st.markdown(
