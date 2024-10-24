@@ -556,7 +556,6 @@ elif st.session_state.page == "Method":
             st.session_state.page = "Method Details"  # Set next page (update this to your actual next page)
             st.rerun()
 
-
 elif st.session_state.page == "Method Details":
     st.header("METHOD DETAILS")
 
@@ -576,12 +575,12 @@ elif st.session_state.page == "Method Details":
         # Checkbox for NC without nasal airway
         nc_checkbox = st.checkbox("NC without nasal airway", key="nc_without_nasal_airway")
         
-        # Inputs for Liter Flow and FIO2
-        cols = st.columns(3)
+        # Text inputs for Liter Flow and FIO2
+        cols = st.columns([1, 1, 1])  # Three equal columns
+        with cols[0]:
+            liter_flow = st.text_input("Liter Flow", key="liter_flow")
         with cols[1]:
-            liter_flow = st.number_input("Liter Flow", min_value=0.0, format="%.2f", key="liter_flow")
-        with cols[2]:
-            fio2 = st.number_input("FIO2", min_value=0.0, max_value=1.0, format="%.2f", key="fio2")
+            fio2 = st.text_input("FIO2", key="fio2")
 
     # Navigation buttons
     col1, col2 = st.columns(2)
@@ -594,4 +593,5 @@ elif st.session_state.page == "Method Details":
         if st.button("Next"):
             st.session_state.page = "NextPage"  # Update this to your actual next page
             st.rerun()
+
 
