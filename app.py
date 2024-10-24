@@ -104,8 +104,11 @@ with st.form(key='patient_info_form'):
         st.subheader("CHANGE OF TUBE")
 
         # Type of Change
-        type_of_change_from = st.selectbox("Type of Change From:", options=["Oral", "Nasal", "Tracheostomy"])
-        type_of_change_to = st.selectbox("Type of Change To:", options=["Oral", "Nasal", "Tracheostomy"])
+        col3, col4 = st.columns(2)
+        with col3:
+            type_of_change_from = st.selectbox("Type of Change From:", options=["Oral", "Nasal", "Tracheostomy"])
+        with col4:
+            type_of_change_to = st.selectbox("Type of Change To:", options=["Oral", "Nasal", "Tracheostomy"])
 
         # Nature of Change
         nature_of_change = st.selectbox("Nature of Change:", 
