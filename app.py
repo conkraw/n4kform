@@ -179,10 +179,9 @@ elif st.session_state.page == "Course Information":
         "Attempt Successful"
     ]
 
-    # Create a header for attempts
-    #st.write("Attempts for this COURSE")
+    
     attempts_row = ["Attempts for this COURSE"] + [str(num) for num in attempt_numbers]
-    cols = st.columns(len(attempts_row))  # Create columns for attempts row
+    cols = st.columns(len(attempts_row)+1)  # Create columns for attempts row
     for col, value in zip(cols, attempts_row):
         st.text_input("", value=value, disabled=True)  # Empty label for locked values
         
