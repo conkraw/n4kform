@@ -8,7 +8,7 @@ def reset_input(default_value, key):
         <style>
         .custom-input {
             font-size: 14px;  /* Adjust the size as needed */
-            padding: 8px;     /* Optional: adjust padding for better spacing */
+            padding: 10px;     /* Optional: adjust padding for better spacing */
         }
         </style>
         """, unsafe_allow_html=True
