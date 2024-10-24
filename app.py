@@ -74,22 +74,23 @@ def custom_input(key, default_value="", input_type="text"):
     
     return st.session_state[key]
 
-def centered_input(default_value, key):
+def centered_input(default_value, key, width="100%", height="30px"):
     # Add custom CSS for centered input styling
     st.markdown(
-        """
+        f"""
         <style>
-        .centered-input {
+        .centered-input {{
             font-size: 12px !important;  /* Adjust the font size */
             padding: 8px;                /* Adjust padding */
-            width: 100%;                 /* Full width */
+            width: {width};              /* Control width */
+            height: {height};            /* Control height */
             box-sizing: border-box;      /* Ensure padding doesn't affect width */
             border: 1px solid #ccc;      /* Border */
             border-radius: 4px;          /* Rounded corners for aesthetics */
             background-color: #f9f9f9;   /* Light background */
             font-weight: bold;            /* Make text bold */
             text-align: center;           /* Center the text */
-        }
+        }}
         </style>
         """, unsafe_allow_html=True
     )
@@ -113,6 +114,7 @@ def centered_input(default_value, key):
     if st.session_state[key] != current_value:
         st.session_state[key] = current_value
     return current_value
+
 
 
 # Title of the application
