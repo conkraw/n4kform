@@ -612,19 +612,15 @@ elif st.session_state.page == "Method Details":
             cols = st.columns([1, 2, 2, 2])  # Create four columns for each option
 
             with cols[0]:
-                st.markdown("***")
                 selected_option = st.selectbox("", ["", "X"], key=f"select_{option.replace(' ', '_')}")
 
             with cols[1]:
-                st.markdown("***")
                 reset_inputx(option, f"method_{option.replace(' ', '_')}")
 
             with cols[2]:
-                st.markdown("***")
                 liter_flow = st.text_input("", key=f"liter_flow_{option.replace(' ', '_')}")
 
             with cols[3]:
-                st.markdown("***")
                 fio2 = st.text_input("", key=f"fio2_{option.replace(' ', '_')}")
 
     # Navigation buttons
