@@ -601,11 +601,9 @@ elif st.session_state.page == "Method Details":
 
             with cols[0]:
                 st.markdown("")
-                st.markdown("")
                 st.checkbox(option, key=key)
 
             with cols[1]:
-                st.markdown("")
                 liter_flow = st.text_input("", key=f"liter_flow_{key}")
 
             with cols[2]:
