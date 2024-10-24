@@ -575,15 +575,33 @@ elif st.session_state.page == "Method Details":
         with cols[0]:
             st.markdown("### If Yes, How was the oxygen provided:")
             st.markdown("")
-            nc_checkbox = st.checkbox("NC without nasal airway", key="nc_without_nasal_airway")
+            nc_checkbox1 = st.checkbox("NC without nasal airway", key="nc_without_nasal_airway")
+            nc_checkbox2 = st.checkbox("NC with nasal airway", key="nc_with_nasal_airway")
+            nc_checkbox3 = st.checkbox("Oral airway with oxygen port", key="oral_airway_with_oxygen_port")
+            nc_checkbox4 = st.checkbox("Through LMA", key="through_lma")
+            nc_checkbox5 = st.checkbox("HFNC", key="hfnc")
+            nc_checkbox6 = st.checkbox("NIV with nasal prong interface - provide PEEP/PIP", key="NIV_with_nasal_prong")
+            nc_checkbox7 = st.checkbox("Other (device, FIO2, setting)", key="other_ao_device")
 
         with cols[1]:
             st.markdown("### Liter Flow")
-            liter_flow = st.text_input("", key="liter_flow")
+            liter_flow1 = st.text_input("", key="liter_flow1")
+            liter_flow2 = st.text_input("", key="liter_flow2")
+            liter_flow3 = st.text_input("", key="liter_flow3")
+            liter_flow4 = st.text_input("", key="liter_flow4")
+            liter_flow5 = st.text_input("", key="liter_flow5")
+            liter_flow6 = st.text_input("", key="liter_flow6")
+            liter_flow7 = st.text_input("", key="liter_flow7")
 
         with cols[2]:
             st.markdown("### FIO2")
-            fio2 = st.text_input("", key="fio2")
+            fio21 = st.text_input("", key="fio21")
+            fio22 = st.text_input("", key="fio22")
+            fio23 = st.text_input("", key="fio23")
+            fio24 = st.text_input("", key="fio24")
+            fio25 = st.text_input("", key="fio25")
+            fio26 = st.text_input("", key="fio26")
+            fio27 = st.text_input("", key="fio27")
 
     # Navigation buttons
     col1, col2 = st.columns(2)
