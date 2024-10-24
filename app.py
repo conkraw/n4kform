@@ -74,7 +74,7 @@ with st.form(key='patient_info_form'):
         )
 
 
-    st.header("INDICATIONS")
+    #st.header("INDICATIONS")
     st.markdown("<h2 style='text-align: center;'>INDICATIONS</h2>", unsafe_allow_html=True)
 
 
