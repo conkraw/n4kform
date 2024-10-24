@@ -436,6 +436,12 @@ elif st.session_state.page == "Course Information":
     options_cyanotic = ["Yes", "No"]
     selected_cyanotic = st.selectbox("", options_cyanotic, key="cyanotic")
 
+            # Submit button for the form
+    submitted = st.form_submit_button("Next")
+        if submitted:
+        st.session_state.page = "Medications"  # Set next page
+        st.rerun()  # Rerun the app to reflect the new page
+
 elif st.session_state.page == "Medications":
     st.header("MEDICATIONS")
 
