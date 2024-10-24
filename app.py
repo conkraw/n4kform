@@ -618,13 +618,15 @@ if st.session_state.page == "Method Details":
                 cols = st.columns(4)  # Create a row for each method
 
                 with cols[0]:
+                    st.markdown("")
+                    st.markdown("")
                     st.markdown(f"**{method}**")
                 
                 with cols[1]:
-                    liter_flow = st.text_input("Liter Flow:", key=f"liter_flow_{method.replace(' ', '_')}")
+                    liter_flow = st.text_input("", key=f"liter_flow_{method.replace(' ', '_')}")
                 
                 with cols[2]:
-                    fio2 = st.text_input("FIO2:", key=f"fio2_{method.replace(' ', '_')}")
+                    fio2 = st.text_input("", key=f"fio2_{method.replace(' ', '_')}")
 
     # Navigation buttons
     col1, col2 = st.columns(2)
