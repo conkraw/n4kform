@@ -571,7 +571,10 @@ elif st.session_state.page == "Method":
             st.session_state.page = "Method Details"  # Set next page (update this to your actual next page)
             st.rerun()
 
-elif st.session_state.page == "Method Details":
+import streamlit as st
+
+# Page for Method Details
+if st.session_state.page == "Method Details":
     st.header("METHOD DETAILS")
 
     # Question about Oxygen provision
@@ -587,23 +590,7 @@ elif st.session_state.page == "Method Details":
     if selected_oxygen == "YES":
         st.markdown("### If Yes, How was the oxygen provided:")
         
-        # Create headers for the table-like layout
-        st.write("#### Oxygen Provision Details")
-        cols = st.columns([1, 2, 2, 2])  # Adjust column widths as needed
-
-        with cols[0]:
-            st.markdown("**Select**")
-
-        with cols[1]:
-            st.markdown("**Method**")
-
-        with cols[2]:
-            st.markdown("**Liter Flow**")
-
-        with cols[3]:
-            st.markdown("**FIO2**")
-
-        # Create a list of input options
+        # Multi-select for oxygen provision methods
         options = [
             "NC without nasal airway",
             "NC with nasal airway",
@@ -613,22 +600,13 @@ elif st.session_state.page == "Method Details":
             "NIV with nasal prong interface - provide PEEP/PIP",
             "Other (device, FIO2, setting)"
         ]
+        selected_methods = st.multiselect("Select methods:", options)
 
-        # Loop to create inputs
-        for option in options:
-            cols = st.columns([1, 2, 2, 2])  # Create four columns for each option
-
-            with cols[0]:
-                selected_option = st.selectbox("", ["", "X"], key=f"select_{option.replace(' ', '_')}")
-
-            with cols[1]:
-                reset_inputx(option, f"method_{option.replace(' ', '_')}")
-
-            with cols[2]:
-                liter_flow = st.text_input("", key=f"liter_flow_{option.replace(' ', '_')}")
-
-            with cols[3]:
-                fio2 = st.text_input("", key=f"fio2_{option.replace(' ', '_')}")
+        # Display Liter Flow and FIO2 inputs if certain options are selected
+        if "NC without nasal airway" in selected_methods or "NC with nasal airway" in selected_methods:
+            st.markdown("#### Please provide the following details:")
+            liter_flow = st.text_input("Liter Flow:", key="liter_flow")
+            fio2 = st.text_input("FIO2:", key="fio2")
 
     # Navigation buttons
     col1, col2 = st.columns(2)
@@ -641,6 +619,7 @@ elif st.session_state.page == "Method Details":
         if st.button("Next"):
             st.session_state.page = "Method Details II"  # Update this to your actual next page
             st.rerun()
+
 
 elif st.session_state.page == "Method Details II":
     st.header("METHOD DETAILS II")
