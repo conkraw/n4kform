@@ -129,6 +129,20 @@ with st.form(key='patient_info_form'):
             ]
         )
 
+    st.subheader("Diagnostic Category (Check as many as apply):")
+    diagnostic_categories = st.multiselect(
+        "Select Diagnostic Categories:",
+        options=[
+            "Cardiac-Surgical",
+            "Respiratory – Upper Airway",
+            "Neurological (excluding Traumatic Brain Injury)",
+            "Cardiac-Medical",
+            "Respiratory – Lower Airway/Pulmonary",
+            "Trauma (including Traumatic Brain Injury)",
+            "Sepsis/Shock",
+            "Others (Specify): ............."
+        ]
+    )
     
     # Submit button
     submitted = st.form_submit_button("Submit")
