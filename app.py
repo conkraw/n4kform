@@ -152,7 +152,7 @@ elif st.session_state.page == "Course Information":
     </p>
     """, unsafe_allow_html=True)
 
-    # Initialize attempts data if not already done
+    # Initialize session state if not already done
     if 'attempts' not in st.session_state:
         st.session_state.attempts = {f'Attempt {i}': {
             'who_intubated': None,
@@ -164,11 +164,10 @@ elif st.session_state.page == "Course Information":
             'cricoid_during': None,
             'attempt_successful': None,
         } for i in range(1, 9)}
-
     
-    
-    # Define row headers
-    row_headers = ["Attempts for this COURSE",
+    # Define the row headers
+    row_headers = [
+        "Attempts for this COURSE",  # This will be treated differently
         "Who Intubated",
         "Discipline",
         "PGY Level",
@@ -178,58 +177,60 @@ elif st.session_state.page == "Course Information":
         "Cricoid Pressure During",
         "Attempt Successful"
     ]
-
-    attempt_numbers = range (1, 9)
+    
+    # Create a header for attempts
+    st.write("Attempts for this COURSE")
+    
+    # Define attempt numbers
+    attempt_numbers = range(1, 9)
     
     # Create the table-like layout
-    cols = st.columns(len(attempt_numbers))  # Create columns for attempts
-    
-    for attempt in attempt_numbers:
-        with cols[attempt - 1]:  # Adjust for 0-based indexing
-            if row_headers[0] == "Attempts for this COURSE":
-                st.text_input("", value=str(attempt), disabled=True)  # Locked value for attempts
-            else:
-                for row_header in row_headers[1:]:  # Skip the first header
-                    if row_header == "Who Intubated":
-                        st.session_state.attempts[f'Attempt {attempt}']['who_intubated'] = st.selectbox(
-                            "", ["", "Fellow", "Resident", "Attending", "Paramedic"],
-                            key=f'who_intubated_{attempt}'
-                        )
-                    elif row_header == "Discipline":
-                        st.session_state.attempts[f'Attempt {attempt}']['discipline'] = st.selectbox(
-                            "", ["", "ICU", "ENT", "Surgery", "Emergency Medicine"],
-                            key=f'discipline_{attempt}'
-                        )
-                    elif row_header == "PGY Level":
-                        st.session_state.attempts[f'Attempt {attempt}']['pgy_level'] = st.selectbox(
-                            "", ["", "PL1", "PL2", "PL3", "PL4", "NP"],
-                            key=f'pgy_level_{attempt}'
-                        )
-                    elif row_header == "ETT (or LMA) Size":
-                        st.session_state.attempts[f'Attempt {attempt}']['ett_size'] = st.selectbox(
-                            "", ["", "2.5", "3.0", "3.5", "4.0", "4.5", "5.0", "5.5"],
-                            key=f'ett_size_{attempt}'
-                        )
-                    elif row_header == "ETT Type":
-                        st.session_state.attempts[f'Attempt {attempt}']['ett_type'] = st.selectbox(
-                            "", ["", "Cuffed", "Uncuffed", "NA"],
-                            key=f'ett_type_{attempt}'
-                        )
-                    elif row_header == "Cricoid Pressure Prior":
-                        st.session_state.attempts[f'Attempt {attempt}']['cricoid_prior'] = st.selectbox(
-                            "", ["", "Yes", "No"],
-                            key=f'cricoid_prior_{attempt}'
-                        )
-                    elif row_header == "Cricoid Pressure During":
-                        st.session_state.attempts[f'Attempt {attempt}']['cricoid_during'] = st.selectbox(
-                            "", ["", "Yes", "No"],
-                            key=f'cricoid_during_{attempt}'
-                        )
-                    elif row_header == "Attempt Successful":
-                        st.session_state.attempts[f'Attempt {attempt}']['attempt_successful'] = st.selectbox(
-                            "", ["", "Yes", "No"],
-                            key=f'attempt_successful_{attempt}'
-                        )
+    for row_header in row_headers:
+        cols = st.columns(len(attempt_numbers))  # Create columns for attempts
+        for attempt in attempt_numbers:
+            with cols[attempt - 1]:  # Adjust for 0-based indexing
+                if row_header == "Attempts for this COURSE":
+                    st.text_input("", value=str(attempt), disabled=True)  # Locked value for attempts
+                elif row_header == "Who Intubated":
+                    st.session_state.attempts[f'Attempt {attempt}']['who_intubated'] = st.selectbox(
+                        "", ["", "Fellow", "Resident", "Attending", "Paramedic"],
+                        key=f'who_intubated_{attempt}'
+                    )
+                elif row_header == "Discipline":
+                    st.session_state.attempts[f'Attempt {attempt}']['discipline'] = st.selectbox(
+                        "", ["", "ICU", "ENT", "Surgery", "Emergency Medicine"],
+                        key=f'discipline_{attempt}'
+                    )
+                elif row_header == "PGY Level":
+                    st.session_state.attempts[f'Attempt {attempt}']['pgy_level'] = st.selectbox(
+                        "", ["", "PL1", "PL2", "PL3", "PL4", "NP"],
+                        key=f'pgy_level_{attempt}'
+                    )
+                elif row_header == "ETT (or LMA) Size":
+                    st.session_state.attempts[f'Attempt {attempt}']['ett_size'] = st.selectbox(
+                        "", ["", "2.5", "3.0", "3.5", "4.0", "4.5", "5.0", "5.5"],
+                        key=f'ett_size_{attempt}'
+                    )
+                elif row_header == "ETT Type":
+                    st.session_state.attempts[f'Attempt {attempt}']['ett_type'] = st.selectbox(
+                        "", ["", "Cuffed", "Uncuffed", "NA"],
+                        key=f'ett_type_{attempt}'
+                    )
+                elif row_header == "Cricoid Pressure Prior":
+                    st.session_state.attempts[f'Attempt {attempt}']['cricoid_prior'] = st.selectbox(
+                        "", ["", "Yes", "No"],
+                        key=f'cricoid_prior_{attempt}'
+                    )
+                elif row_header == "Cricoid Pressure During":
+                    st.session_state.attempts[f'Attempt {attempt}']['cricoid_during'] = st.selectbox(
+                        "", ["", "Yes", "No"],
+                        key=f'cricoid_during_{attempt}'
+                    )
+                elif row_header == "Attempt Successful":
+                    st.session_state.attempts[f'Attempt {attempt}']['attempt_successful'] = st.selectbox(
+                        "", ["", "Yes", "No"],
+                        key=f'attempt_successful_{attempt}'
+                    )
     
     # Back button to go to the previous page
     if st.button("Previous"):
