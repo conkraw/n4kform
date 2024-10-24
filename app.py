@@ -4,6 +4,14 @@ import threading
 
 st.set_page_config(layout="wide")
 
+def reset_inputx(default_value, key):
+    if key not in st.session_state:
+        st.session_state[key] = default_value
+    current_value = st.text_input("", key=key)
+    if current_value != st.session_state[key]:
+        st.session_state[key] = current_value
+    return current_value
+    
 def reset_input(default_value, key, width="100%", height="40px"):
     # Add custom CSS for input styling
     st.markdown(
@@ -610,7 +618,7 @@ elif st.session_state.page == "Method Details":
             with cols[1]:
                 st.markdown("***")
                 st.markdown("")
-                reset_input(option, f"method_{option.replace(' ', '_')}")
+                reset_inputx(option, f"method_{option.replace(' ', '_')}")
 
             with cols[2]:
                 st.markdown("***")
