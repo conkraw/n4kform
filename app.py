@@ -794,14 +794,28 @@ if st.session_state.page == "Course Success":
 if st.session_state.page == "Disposition":
     st.header("DISPOSITION")
 
-    disposition = st.selectbox("Disposition:", ["Stay in PICU/NICU/CICU/ED", "Transferred to", "Died – due to failed airway management", "Died – other causes"], key="disposition")
+    # Updated disposition options including "Other"
+    disposition_options = [
+        "Stay in PICU/NICU/CICU/ED",
+        "Transferred to",
+        "Died – due to failed airway management",
+        "Died – other causes",
+        "Other"
+    ]
+    
+    disposition = st.selectbox("Disposition:", disposition_options, key="disposition")
 
+    # If "Transferred to," show checkboxes for locations
     if disposition == "Transferred to":
         st.checkbox("PICU", key="transferred_to_PICU")
         st.checkbox("NICU", key="transferred_to_NICU")
         st.checkbox("CICU", key="transferred_to_CICU")
-    
-    other_disposition = st.text_input("Others (Specify):", key="other_disposition")
+
+    # If "Other" is selected, show text input for specification
+    if disposition == "Other":
+        other_disposition = st.text_input("Please specify:", key="other_disposition")
+    else:
+        other_disposition = ""  # Clear the input if not "Other"
 
     st.markdown("### Other Comments:")
     other_comments = st.text_area("Please explain (e.g. higher dose of vecuronium, choice of drugs used):", key="other_comments")
@@ -817,5 +831,6 @@ if st.session_state.page == "Disposition":
         if st.button("Submit"):
             st.session_state.page = "Summary"  # Change to your final page
             st.rerun()
+
 
 
