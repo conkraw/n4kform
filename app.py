@@ -358,34 +358,6 @@ elif st.session_state.page == "Course Information":
                         f'attempt_successful_{attempt}'
                     )
 
-        # Title for the section
-        st.header("Difficult Airway Evaluations (Choose/Circle one in each category)")
-        
-        # Define the evaluation questions and options
-        evaluations = [
-            ("Evaluation done before or after this course is completed?", ["BEFORE", "AFTER"]),
-            ("Known prior history of difficult airway?", ["YES", "NO"]),
-            ("Any Limited Neck Extension or (Maximal with or without sedation/paralytics)", ["YES", "NO"]),
-            ("Widest Mouth Opening – How many Patient’s fingers between gum/incisors", ["0 – 2", "≥ 3"]),
-            ("Thyromental space – Patient’s fingers between chin and thyroid cartilage", ["0 - 2", "≥ 3"]),
-            ("Evidence of Upper Airway Obstruction or Anatomical Barrier to visualize glottic opening (Subjective assessment before looking)?", ["YES", "NO"]),
-            ("Midfacial Hypoplasia?", ["YES", "NO"]),
-            ("Any other signs of difficult airway exist?", ["YES", "NO"]),
-        ]
-        
-        # Create a table-like layout with two columns
-        for question, options in evaluations:
-            cols = st.columns(2)  # Create two columns
-            with cols[0]:  # First column for the question
-                # Use the reset_input function to display the question
-                reset_input(question, f"reset_{question}")  # Use a unique key for each question
-            with cols[1]:  # Second column for the dropdown
-                selected_option = st.selectbox("", options, key=question)  # Use question as the key to maintain state
-        
-        # If YES Please Explain
-        if selected_option == "YES":
-            explanation = st.text_area("If YES, Please Explain:")
-
 
     st.markdown("### Known cyanotic heart disease (R to L shunt)?  (Select ONE only)")
     options = ["Yes", "No"]
