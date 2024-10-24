@@ -45,7 +45,7 @@ def custom_input(key, default_value="", input_type="text"):
         """
         <style>
         .custom-input {
-            font-size: 12px !important;  /* Ensure the font size is applied */
+            font-size: 16px !important;  /* Ensure the font size is applied */
             padding: 8px;                /* Adjust padding */
             width: 100%;                 /* Full width */
             box-sizing: border-box;      /* Ensure padding doesn't affect width */
@@ -58,24 +58,23 @@ def custom_input(key, default_value="", input_type="text"):
 
     # Initialize session state if not already done
     if key not in st.session_state:
-        st.session_state[key] = default_value
-
-    current_value = st.session_state[key]
+        st.session_state[key] = default_value  # Set initial value from default_value
 
     # Create a styled input field
     input_html = f"""
-        <input class="custom-input" type="{input_type}" value="{current_value}" 
-               oninput="this.value=this.value.replace(/</g,'&lt;').replace(/>/g,'&gt;')" />
+        <input class="custom-input" type="{input_type}" value="{st.session_state[key]}" 
+               oninput="this.value=this.value.replace(/</g,'&lt;').replace(/>/g,'&gt;');" 
+               onchange="document.getElementById('{key}_output').innerHTML = this.value" />
+        <span id="{key}_output" style="display:none;">{st.session_state[key]}</span>
     """
     
     # Render the HTML input field
     st.markdown(input_html, unsafe_allow_html=True)
 
     # Update session state if the input value changes
-    if st.session_state[key] != current_value:
-        st.session_state[key] = current_value
-    return current_value
-
+    if st.session_state[key] != st.session_state[key]:  # This check seems redundant
+        st.session_state[key] = st.session_state[key]  # Update session state with user input
+    return st.session_state[key]
 
 
 # Title of the application
