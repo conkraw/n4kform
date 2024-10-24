@@ -145,6 +145,26 @@ if st.session_state.page == "Encounter Information":
             st.session_state.page = "Course Information"  # Set next page
             st.rerun()  # Rerun the app to reflect the new page
 
+
+def custom_locked_input(value):
+    # Custom CSS to remove shading
+    st.markdown(
+        f"""
+        <style>
+        .custom-input {{
+            background-color: transparent;
+            border: none;
+            color: black;
+            padding: 0;
+            font-size: 16px;
+            width: 100%;
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+    return st.text_input("", value=value, disabled=True, key=f"locked_input_{value}", css_class="custom-input")
+
 elif st.session_state.page == "Course Information":
     st.header("COURSE INFORMATION")
 
@@ -175,7 +195,7 @@ elif st.session_state.page == "Course Information":
     
     # Define the row headers
     row_headers = [
-        "Attempts for this COURSE",  # This will be treated differently
+        "Attempts for this COURSE",
         "Who Intubated",
         "Discipline",
         "PGY Level",
@@ -193,14 +213,12 @@ elif st.session_state.page == "Course Information":
     for row_header in row_headers:
         cols = st.columns(len(attempt_numbers) + 1)  # Create extra column for headers
         with cols[0]:  # Column for row headers
-            #st.text_input("", value=row_header, disabled=True)  # Locked value for headers
-            blade_2_text = reset_input("", key="millerx")
-            
+            custom_locked_input(row_header)  # Use the custom locked input
+
         for attempt in attempt_numbers:
             with cols[attempt]:  # Adjust for 1-based indexing
                 if row_header == "Attempts for this COURSE":
-                    st.text_input("", value=str(attempt), disabled=True)  # Locked value for attempts
-                    
+                    custom_locked_input(str(attempt))  # Locked value for attempts
                 elif row_header == "Who Intubated":
                     st.session_state.attempts[f'Attempt {attempt}']['who_intubated'] = st.selectbox(
                         "", ["", "Fellow", "Resident", "Attending", "Paramedic"],
@@ -241,7 +259,7 @@ elif st.session_state.page == "Course Information":
                         "", ["", "Yes", "No"],
                         key=f'attempt_successful_{attempt}'
                     )
-    
+
     # Back button to go to the previous page
     if st.button("Previous"):
         st.session_state.page = "Encounter Information"
