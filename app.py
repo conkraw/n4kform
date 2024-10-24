@@ -427,7 +427,7 @@ elif st.session_state.page == "Course Information":
 
 
     # Create a select box for options
-    st.markdown("###"Difficult to Bag – Mask Ventilate? (Select ONE only)")
+    st.markdown("###"Difficult to Bag/Mask Ventilate? (Select ONE only)")
     options_bag = ["Yes", "No", "Not applicable (bag-mask ventilation not given)"]
     selected_bag = st.selectbox("", options_bag, key="difficult_to_bag")
     
