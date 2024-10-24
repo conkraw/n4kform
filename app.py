@@ -41,7 +41,7 @@ if st.session_state.page == "Encounter Information":
                 index=list(range(1, 201)).index(st.session_state.form_data.get('dosing_weight', 1))
             )
 
-        # Third line: Diagnosis query
+        # Diagnosis query
         st.write("AT THE TIME OF INTUBATION, did this patient have a suspected or confirmed diagnosis of an emerging epidemic/novel lung disease?")
         st.session_state.form_data['diagnosis'] = st.selectbox(
             "Diagnosis:", 
@@ -49,7 +49,7 @@ if st.session_state.page == "Encounter Information":
             index=["Yes", "No"].index(st.session_state.form_data.get('diagnosis', 'No'))
         )
 
-        # Fourth line: Form Completed By and Pager Number
+        # Form Completed By and Pager Number
         col6, col7 = st.columns(2)
         with col6:
             st.session_state.form_data['form_completed_by'] = st.text_input(
@@ -62,7 +62,7 @@ if st.session_state.page == "Encounter Information":
                 value=st.session_state.form_data.get('pager_number', '')
             )
 
-        # Fifth line: Family Member Present and Attending Physician Present
+        # Family Member Present and Attending Physician Present
         col8, col9 = st.columns(2)
         with col8:
             st.session_state.form_data['family_member_present'] = st.selectbox(
@@ -84,7 +84,6 @@ if st.session_state.page == "Encounter Information":
 
         with col1:
             st.markdown("<h3 style='text-align: center;'>INITIAL INTUBATION</h3>", unsafe_allow_html=True)
-
             st.session_state.indications = st.multiselect(
                 "Check as many as apply:",
                 options=[
@@ -107,7 +106,6 @@ if st.session_state.page == "Encounter Information":
 
         with col2:
             st.markdown("<h3 style='text-align: center;'>CHANGE OF TUBE</h3>", unsafe_allow_html=True)
-
             col3, col4 = st.columns(2)
             with col3:
                 st.session_state.type_of_change_from = st.selectbox("Type of Change From:", options=["Oral", "Nasal", "Tracheostomy"])
@@ -140,16 +138,20 @@ if st.session_state.page == "Encounter Information":
 
 elif st.session_state.page == "Course Information":
     st.header("COURSE INFORMATION")
-    #st.write("Form data submitted:", st.session_state.form_data)
-    #st.write("Indications:", st.session_state.indications)
-    st.markdown("""
-<p style='font-size: 14px;'>
-    An <strong><u>"ENCOUNTER"</u></strong> of advanced airway management refers to the complete sequence of events leading to the placement of an advanced airway.<br>
-    A <strong><u>"COURSE"</u></strong> of advanced airway management refers to <u>ONE</u> method or approach to secure an airway <strong><u>AND</u></strong> <u>ONE</u> set of medications (including premedication and induction). Each course may include one or several "attempts" by one or several providers.<br>
-    An <strong><u>"ATTEMPT"</u> is a single advanced airway maneuver (e.g. tracheal intubation, LMA placement), beginning with the insertion of a device (e.g. laryngoscope or LMA device) into the patient's mouth or nose, and ending when the device (laryngoscope, LMA, or tube) is removed.</strong>
-</p>
-""", unsafe_allow_html=True)
 
+    # Displaying the previously submitted data if necessary
+    st.write("Form data submitted:", st.session_state.form_data)
+
+    # Instructions
+    st.markdown("""
+    <p style='font-size: 14px;'>
+        An <strong><u>"ENCOUNTER"</u></strong> of advanced airway management refers to the complete sequence of events leading to the placement of an advanced airway.<br>
+        A <strong><u>"COURSE"</u></strong> of advanced airway management refers to <u>ONE</u> method or approach to secure an airway <strong><u>AND</u></strong> <u>ONE</u> set of medications (including premedication and induction). Each course may include one or several "attempts" by one or several providers.<br>
+        An <strong><u>"ATTEMPT"</u></strong> is a single advanced airway maneuver (e.g. tracheal intubation, LMA placement), beginning with the insertion of a device (e.g. laryngoscope or LMA device) into the patient's mouth or nose, and ending when the device (laryngoscope, LMA, or tube) is removed.
+    </p>
+    """, unsafe_allow_html=True)
+
+    # Initialize attempts data if not already done
     if 'attempts' not in st.session_state:
         st.session_state.attempts = {f'Attempt {i}': {
             'who_intubated': None,
@@ -162,76 +164,73 @@ elif st.session_state.page == "Course Information":
             'attempt_successful': None,
         } for i in range(1, 9)}
 
-# Define the row headers
-row_headers = [
-    "Who Intubated",
-    "Discipline",
-    "PGY Level",
-    "ETT (or LMA) Size",
-    "ETT Type",
-    "Cricoid Pressure Prior",
-    "Cricoid Pressure During",
-    "Attempt Successful"
-]
+    # Define row headers
+    row_headers = [
+        "Who Intubated",
+        "Discipline",
+        "PGY Level",
+        "ETT (or LMA) Size",
+        "ETT Type",
+        "Cricoid Pressure Prior",
+        "Cricoid Pressure During",
+        "Attempt Successful"
+    ]
 
-# Define the column headers (attempt numbers)
-attempt_numbers = [1, 2, 3, 4, 5, 6, 7, 8]
+    # Create a header for attempts
+    st.write("Attempts for this COURSE")
 
-# Create a header for attempts
-st.write("Attempts for this COURSE")
+    # Create the table-like layout
+    for row_header in row_headers:
+        cols = st.columns(len(attempt_numbers) + 1)  # Create columns for attempts plus one for the row header
+        
+        with cols[0]:  # Row header
+            st.write(row_header)
+        
+        for attempt in attempt_numbers:
+            with cols[attempt]:  # Each attempt column
+                if row_header == "Who Intubated":
+                    st.session_state.attempts[f'Attempt {attempt}']['who_intubated'] = st.selectbox(
+                        "Who intubated:", ["Select...", "Fellow", "Resident", "Attending", "Paramedic"],
+                        key=f'who_intubated_{attempt}'
+                    )
+                elif row_header == "Discipline":
+                    st.session_state.attempts[f'Attempt {attempt}']['discipline'] = st.selectbox(
+                        "Discipline:", ["Select...", "ICU", "ENT", "Surgery", "Emergency Medicine"],
+                        key=f'discipline_{attempt}'
+                    )
+                elif row_header == "PGY Level":
+                    st.session_state.attempts[f'Attempt {attempt}']['pgy_level'] = st.selectbox(
+                        "PGY Level:", ["Select...", "PL1", "PL2", "PL3", "PL4", "NP"],
+                        key=f'pgy_level_{attempt}'
+                    )
+                elif row_header == "ETT (or LMA) Size":
+                    st.session_state.attempts[f'Attempt {attempt}']['ett_size'] = st.selectbox(
+                        "ETT Size:", ["Select...", "2.5", "3.0", "3.5", "4.0", "4.5", "5.0", "5.5"],
+                        key=f'ett_size_{attempt}'
+                    )
+                elif row_header == "ETT Type":
+                    st.session_state.attempts[f'Attempt {attempt}']['ett_type'] = st.selectbox(
+                        "ETT Type:", ["Select...", "Cuffed", "Uncuffed", "NA"],
+                        key=f'ett_type_{attempt}'
+                    )
+                elif row_header == "Cricoid Pressure Prior":
+                    st.session_state.attempts[f'Attempt {attempt}']['cricoid_prior'] = st.selectbox(
+                        "Cricoid Pressure Prior:", ["Select...", "Yes", "No"],
+                        key=f'cricoid_prior_{attempt}'
+                    )
+                elif row_header == "Cricoid Pressure During":
+                    st.session_state.attempts[f'Attempt {attempt}']['cricoid_during'] = st.selectbox(
+                        "Cricoid Pressure During:", ["Select...", "Yes", "No"],
+                        key=f'cricoid_during_{attempt}'
+                    )
+                elif row_header == "Attempt Successful":
+                    st.session_state.attempts[f'Attempt {attempt}']['attempt_successful'] = st.selectbox(
+                        "Attempt Successful:", ["Select...", "Yes", "No"],
+                        key=f'attempt_successful_{attempt}'
+                    )
 
-# Create the table-like layout
-for row_header in row_headers:
-    cols = st.columns(len(attempt_numbers) + 1)  # Create columns for attempts plus one for the row header
-    
-    with cols[0]:  # Row header
-        st.write(row_header)
-    
-    for attempt in attempt_numbers:
-        with cols[attempt]:  # Each attempt column
-            if row_header == "Who Intubated":
-                st.session_state.attempts[f'Attempt {attempt}']['who_intubated'] = st.selectbox(
-                    "Who intubated:", ["Select...", "Fellow", "Resident", "Attending", "Paramedic"],
-                    key=f'who_intubated_{attempt}'
-                )
-            elif row_header == "Discipline":
-                st.session_state.attempts[f'Attempt {attempt}']['discipline'] = st.selectbox(
-                    "Discipline:", ["Select...", "ICU", "ENT", "Surgery", "Emergency Medicine"],
-                    key=f'discipline_{attempt}'
-                )
-            elif row_header == "PGY Level":
-                st.session_state.attempts[f'Attempt {attempt}']['pgy_level'] = st.selectbox(
-                    "PGY Level:", ["Select...", "PL1", "PL2", "PL3", "PL4", "NP"],
-                    key=f'pgy_level_{attempt}'
-                )
-            elif row_header == "ETT (or LMA) Size":
-                st.session_state.attempts[f'Attempt {attempt}']['ett_size'] = st.selectbox(
-                    "ETT Size:", ["Select...", "2.5", "3.0", "3.5", "4.0", "4.5", "5.0", "5.5"],
-                    key=f'ett_size_{attempt}'
-                )
-            elif row_header == "ETT Type":
-                st.session_state.attempts[f'Attempt {attempt}']['ett_type'] = st.selectbox(
-                    "ETT Type:", ["Select...", "Cuffed", "Uncuffed", "NA"],
-                    key=f'ett_type_{attempt}'
-                )
-            elif row_header == "Cricoid Pressure Prior":
-                st.session_state.attempts[f'Attempt {attempt}']['cricoid_prior'] = st.selectbox(
-                    "Cricoid Pressure Prior:", ["Select...", "Yes", "No"],
-                    key=f'cricoid_prior_{attempt}'
-                )
-            elif row_header == "Cricoid Pressure During":
-                st.session_state.attempts[f'Attempt {attempt}']['cricoid_during'] = st.selectbox(
-                    "Cricoid Pressure During:", ["Select...", "Yes", "No"],
-                    key=f'cricoid_during_{attempt}'
-                )
-            elif row_header == "Attempt Successful":
-                st.session_state.attempts[f'Attempt {attempt}']['attempt_successful'] = st.selectbox(
-                    "Attempt Successful:", ["Select...", "Yes", "No"],
-                    key=f'attempt_successful_{attempt}'
-                )
-
-        # Back button to go to the previous page
-        if st.button("Previous"):
-            st.session_state.page = "Encounter Information"
-            st.rerun()
+    # Back button to go to the previous page
+    if st.button("Previous"):
+        st.session_state.page = "Encounter Information"
+        st.rerun()
 
