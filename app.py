@@ -221,12 +221,12 @@ elif st.session_state.page == "Course Information":
                             "ETT Type", key=f'ett_type_{attempt}'
                         )
 
-                    elif row_header == "Cricoid Pressure Prior":
+                    elif row_header == "Immediately prior to this attempt was cricoid pressure/external laryngeal manipulation provided?":
                         st.session_state.attempts[f'Attempt {attempt}']['cricoid_prior'] = st.selectbox(
                             "", ["", "Yes", "No"],
                             key=f'cricoid_prior_{attempt}'
                         )
-                    elif row_header == "Cricoid Pressure During":
+                    elif row_header == "During this attempt, was cricoid pressure/external laryngeal manipulation provided?":
                         st.session_state.attempts[f'Attempt {attempt}']['cricoid_during'] = st.selectbox(
                             "", ["", "Yes", "No"],
                             key=f'cricoid_during_{attempt}'
