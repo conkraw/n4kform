@@ -199,7 +199,7 @@ elif st.session_state.page == "Course Information":
             for attempt in attempt_numbers:
                 with cols[attempt]:  # Adjust for 1-based indexing
                     if row_header == "Attempts for this COURSE":
-                        reset_input(str(attempt))  # Locked value for attempts
+                        reset_input(str(attempt), f"attempt_course_{attempt}") 
                     elif row_header == "Who Intubated":
                         st.session_state.attempts[f'Attempt {attempt}']['who_intubated'] = st.selectbox(
                             "", ["", "Fellow", "Resident", "Attending", "Paramedic"],
