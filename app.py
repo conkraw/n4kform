@@ -745,7 +745,7 @@ if st.session_state.page == "Monitoring of Vital Signs":
     st.header("MONITORING OF VITAL SIGNS")
 
     # Creating four columns
-    cols = st.columns(4)
+    cols = st.columns(2)
 
     with cols[0]:
         st.markdown("**Pulse Oximetry (%):**")
@@ -755,13 +755,6 @@ if st.session_state.page == "Monitoring of Vital Signs":
         st.markdown("**Lowest Value:**")
         lowest_value = st.text_input("Lowest value during intubation:", key="lowest_value")
 
-    with cols[2]:
-        st.markdown("**Event Transiently:**")
-        event_transiently = st.text_input("Describe event:", key="event_transiently")
-
-    with cols[3]:
-        st.markdown("**Additional Notes:**")
-        additional_notes = st.text_input("Any additional notes:", key="additional_notes")
 
     # Navigation buttons
     col1, col2 = st.columns(2)
