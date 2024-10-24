@@ -112,9 +112,8 @@ with st.form(key='patient_info_form'):
             options=["Clinical Condition", "Immediate Post-Intubation (Exclude Tracheostomy Change)"]
         )
 
-        st.write("Check as many as apply:")
         tube_change_indications = st.multiselect(
-            "Select Tube Change Indications:",
+            "Check as many as apply:",
             options=[
                 "Tube too small",
                 "Tube too big",
