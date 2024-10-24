@@ -212,12 +212,12 @@ elif st.session_state.page == "Course Information":
         for row_header in row_headers:
             cols = st.columns(len(attempt_numbers) + 1)  # Create extra column for headers
             with cols[0]:  # Column for row headers
-                reset_input(row_header)  # Use the custom locked input
+                reset_input(row_header,key=row_header)  # Use the custom locked input
     
             for attempt in attempt_numbers:
                 with cols[attempt]:  # Adjust for 1-based indexing
                     if row_header == "Attempts for this COURSE":
-                        reset_input(str(attempt))  # Locked value for attempts
+                        reset_input(str(attempt),key='Attempts for this COURSE')  # Locked value for attempts
                     elif row_header == "Who Intubated":
                         st.session_state.attempts[f'Attempt {attempt}']['who_intubated'] = st.selectbox(
                             "", ["", "Fellow", "Resident", "Attending", "Paramedic"],
