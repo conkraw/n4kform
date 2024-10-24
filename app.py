@@ -366,12 +366,22 @@ elif st.session_state.page == "Course Information":
 
     st.markdown("### Difficult Airway Evaluations (Choose one in each category):")
     cols = st.columns([4, 1])
+    
     with cols[0]:
-        st.markdown("")
-        st.markdown("")
-        st.write("1.  Evaluation done before or after this course is completed?")
+        st.write("1. Evaluation done before or after this course is completed?")
+    
     with cols[1]:
-        evaluation_done = st.selectbox("", options=['Select Category 1', 'BEFORE', 'AFTER'], index=['Select Category 1', 'BEFORE', 'AFTER'].index(st.session_state.evaluation_done))
+        # Initialize session state if not already done
+        if 'evaluation_done' not in st.session_state:
+            st.session_state.evaluation_done = 'Select Category 1'  # Set default value
+    
+        # Create selectbox with options
+        evaluation_done = st.selectbox(
+            "",
+            options=['Select Category 1', 'BEFORE', 'AFTER'],
+            index=['Select Category 1', 'BEFORE', 'AFTER'].index(st.session_state.evaluation_done)
+        )
+    
 
     st.markdown("### Known cyanotic heart disease (R to L shunt)?  (Select ONE only)")
     options = ["Yes", "No"]
