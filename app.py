@@ -596,7 +596,7 @@ elif st.session_state.page == "Method Details":
                     liter_flow = st.text_input("", key=f"liter_flow_{key}")
 
             with cols[2]:
-                fio2 = st.text_input("FIO2", key=f"fio2_{key}")
+                fio2 = st.text_input("", key=f"fio2_{key}")
 
     # Navigation buttons
     col1, col2 = st.columns(2)
