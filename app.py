@@ -184,12 +184,12 @@ elif st.session_state.page == "Course Information":
         cols = st.columns(len(attempt_numbers) + 1)  # Create columns for attempts plus one for the row header
         
         with cols[0]:  # Row header
-            st.text_input("", value=attempt_numbers, disabled=True)
+            st.text_input("", value=row_header, disabled=True)
         
         for attempt in attempt_numbers:
             with cols[attempt]:  # Each attempt column
                 if row_header == "Attempts for this Course":
-                    st.text_input("", value=row_header, disabled=True)
+                    st.text_input("", value=attempt_numbers, disabled=True)
                 elif row_header == "Who Intubated":
                     st.session_state.attempts[f'Attempt {attempt}']['who_intubated'] = st.selectbox(
                         "", ["", "Fellow", "Resident", "Attending", "Paramedic"],
