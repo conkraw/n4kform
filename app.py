@@ -359,7 +359,7 @@ elif st.session_state.page == "Course Information":
                     )
 
     # Add the difficult bag-mask ventilation question
-    st.markdown("### Difficult to Bag – Mask Ventilate? (Circle ONE only)")
+    st.markdown("### Difficult to Bag – Mask Ventilate? (Select ONE only)")
     
     # Create a select box for options
     options = ["Yes", "No", "Not applicable (bag-mask ventilation not given)"]
