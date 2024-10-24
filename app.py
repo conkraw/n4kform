@@ -359,32 +359,14 @@ elif st.session_state.page == "Course Information":
                     )
 
     # Add the difficult bag-mask ventilation question
-
     st.markdown("### Difficult to Bag – Mask Ventilate? (Circle ONE only)")
     
-    # Use custom HTML to create a horizontal layout
+    # Create a select box for options
     options = ["Yes", "No", "Not applicable (bag-mask ventilation not given)"]
-    selected_option = st.radio("Select an option:", options=options, key="difficult_to_bag")
+    selected_option = st.selectbox("Select an option:", options, key="difficult_to_bag")
     
-    # Custom CSS for horizontal radio buttons
-    st.markdown(
-        """
-        <style>
-        .radio-horizontal {
-            display: flex;
-            justify-content: center;  /* Center the radio buttons */
-            gap: 20px;  /* Space between the options */
-        }
-        </style>
-        """, unsafe_allow_html=True
-    )
-    
-    # Render radio buttons horizontally
-    st.markdown('<div class="radio-horizontal">', unsafe_allow_html=True)
-    for option in options:
-        st.markdown(f'<label><input type="radio" name="difficult_to_bag" value="{option}" /> {option}</label>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
-
+    # Display the selected option (optional)
+    st.write(f"You selected: {selected_option}")
 
     # Back button to go to the previous page
     if st.button("Previous"):
