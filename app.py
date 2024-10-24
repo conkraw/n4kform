@@ -574,15 +574,18 @@ elif st.session_state.page == "Method Details":
         
         # Create headers for the table-like layout
         st.write("#### Oxygen Provision Details")
-        cols = st.columns([1, 2, 2])  # Adjust column widths as needed
+        cols = st.columns([1, 2, 2, 2])  # Adjust column widths as needed
 
         with cols[0]:
-            st.markdown("**Method**")
+            st.markdown("**Select**")
 
         with cols[1]:
-            st.markdown("**Liter Flow**")
+            st.markdown("**Method**")
 
         with cols[2]:
+            st.markdown("**Liter Flow**")
+
+        with cols[3]:
             st.markdown("**FIO2**")
 
         # Create a list of input options
@@ -598,16 +601,18 @@ elif st.session_state.page == "Method Details":
 
         # Loop to create inputs
         for option in options:
-            cols = st.columns([1, 2, 2])  # Create three columns for each option
+            cols = st.columns([1, 2, 2, 2])  # Create four columns for each option
 
             with cols[0]:
-                st.markdown("")
-                reset_input(option, f"method_{option.replace(' ', '_')}")
+                selected_option = st.selectbox("", ["", "X"], key=f"select_{option.replace(' ', '_')}")
 
             with cols[1]:
-                liter_flow = st.text_input("", key=f"liter_flow_{option.replace(' ', '_')}")
+                reset_input(option, f"method_{option.replace(' ', '_')}")
 
             with cols[2]:
+                liter_flow = st.text_input("", key=f"liter_flow_{option.replace(' ', '_')}")
+
+            with cols[3]:
                 fio2 = st.text_input("", key=f"fio2_{option.replace(' ', '_')}")
 
     # Navigation buttons
