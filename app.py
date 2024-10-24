@@ -51,7 +51,7 @@ def reset_input(default_value, key, width="100%", height="35px"):
     return current_value
 
 
-def custom_input(key, default_value="", input_type="text", width="100%", height="35px", font_size="16px"):
+def custom_input(key, default_value="", input_type="text", width="100%", height="30px", font_size="16px"):
     # Add custom CSS for input styling
     st.markdown(
         f"""
@@ -73,17 +73,20 @@ def custom_input(key, default_value="", input_type="text", width="100%", height=
     if key not in st.session_state:
         st.session_state[key] = default_value
 
-    # Create a styled input field
-    input_value = st.text_input("", value=st.session_state[key], key=key,
-                                 placeholder="", 
-                                 help="Enter your text here",
-                                 label_visibility="collapsed")  # Hide label to avoid double display
+    # Create a styled input field using HTML
+    input_html = f"""
+        <input class="custom-input" type="{input_type}" value="{st.session_state[key]}" 
+               oninput="this.value=this.value.replace(/</g,'&lt;').replace(/>/g,'&gt;')" />
+    """
+    
+    # Render the HTML input field
+    st.markdown(input_html, unsafe_allow_html=True)
 
     # Update session state with user input if changed
-    if input_value != st.session_state[key]:
-        st.session_state[key] = input_value
-    
+    if st.session_state[key] != st.session_state[key]:  # Redundant check
+        st.session_state[key] = st.session_state[key]  # This line is also redundant
     return st.session_state[key]
+
 
 
 def centered_input(default_value, key, width="100%", height="30px"):
