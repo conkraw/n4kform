@@ -455,7 +455,7 @@ elif st.session_state.page == "Medications":
         st.markdown("If no drugs are used, please proceed to the next section.")
     else:
         # Define the medications and their categories
-        meds = [
+        medications = [
         "Atropine",
         "Glycopyrrolate",
         "Fentanyl",
