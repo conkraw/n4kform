@@ -378,15 +378,18 @@ elif st.session_state.page == "Course Information":
         ("Any other signs of difficult airway exist?", ["YES", "NO"]),
     ]
     
-    # Create a table-like layout
+    # Create a table-like layout with two columns
     for question, options in evaluations:
-        st.markdown(question)
-        selected_option = st.selectbox("", options, key=question)  # Use question as the key to maintain state
-        st.write(f"You selected: {selected_option}")  # Display the selected option (optional)
+        cols = st.columns(2)  # Create two columns
+        with cols[0]:  # First column for the question
+            st.markdown(question)
+        with cols[1]:  # Second column for the dropdown
+            selected_option = st.selectbox("", options, key=question)  # Use question as the key to maintain state
     
     # If YES Please Explain
     if selected_option == "YES":
         explanation = st.text_area("If YES, Please Explain:")
+
 
 
     st.markdown("### Known cyanotic heart disease (R to L shunt)?  (Select ONE only)")
