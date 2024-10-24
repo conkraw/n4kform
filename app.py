@@ -44,10 +44,12 @@ def custom_input(key, default_value="", input_type="text"):
         """
         <style>
         .custom-input {
-            font-size: 16px;  /* Adjust the font size */
-            padding: 8px;     /* Adjust padding */
-            width: 100%;      /* Full width */
-            box-sizing: border-box;  /* Ensure padding doesn't affect width */
+            font-size: 16px !important;  /* Ensure the font size is applied */
+            padding: 8px;                /* Adjust padding */
+            width: 100%;                 /* Full width */
+            box-sizing: border-box;      /* Ensure padding doesn't affect width */
+            border: 1px solid #ccc;      /* Border */
+            border-radius: 4px;          /* Rounded corners for aesthetics */
         }
         </style>
         """, unsafe_allow_html=True
@@ -58,7 +60,7 @@ def custom_input(key, default_value="", input_type="text"):
         st.session_state[key] = default_value
 
     current_value = st.session_state[key]
-    
+
     # Create a styled input field
     input_html = f"""
         <input class="custom-input" type="{input_type}" value="{current_value}" 
@@ -72,6 +74,7 @@ def custom_input(key, default_value="", input_type="text"):
     if st.session_state[key] != current_value:
         st.session_state[key] = current_value
     return current_value
+
 
 
 # Title of the application
