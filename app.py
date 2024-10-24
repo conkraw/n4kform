@@ -163,7 +163,7 @@ elif st.session_state.page == "Course Information":
             'cricoid_prior': None,
             'cricoid_during': None,
             'attempt_successful': None,
-        } for i in range(1, 9)}
+        } for i in range(0, 9)}
     
     # Define the row headers
     row_headers = [
@@ -179,7 +179,7 @@ elif st.session_state.page == "Course Information":
     ]
     
     # Define attempt numbers
-    attempt_numbers = range(1, 9)
+    attempt_numbers = range(0, 9)
     
     # Create the table-like layout
     for row_header in row_headers:
