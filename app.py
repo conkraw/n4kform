@@ -82,7 +82,8 @@ with st.form(key='patient_info_form'):
     col1, col2 = st.columns(2)
 
     with col1:
-        st.subheader("INITIAL INTUBATION")
+        #st.subheader("INITIAL INTUBATION")
+        st.subheader("INITIAL INTUBATION", anchor="center")
         indications = st.multiselect(
             "Check as many as apply:",
             options=[
@@ -104,7 +105,8 @@ with st.form(key='patient_info_form'):
         )
 
     with col2:
-        st.subheader("CHANGE OF TUBE")
+        #st.subheader("CHANGE OF TUBE")
+        st.subheader("CHANGE OF TUBE", anchor="center")
 
         # Type of Change
         col3, col4 = st.columns(2)
