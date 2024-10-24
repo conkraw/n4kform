@@ -438,7 +438,7 @@ elif st.session_state.page == "Course Information":
 
             # Submit button for the form
     submitted = st.form_submit_button("Next")
-        if submitted:
+    if submitted:
         st.session_state.page = "Medications"  # Set next page
         st.rerun()  # Rerun the app to reflect the new page
 
