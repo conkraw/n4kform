@@ -15,7 +15,7 @@ def reset_input(default_value, key):
             border-radius: 4px;          /* Rounded corners for aesthetics */
             background-color: #f9f9f9;   /* Light background */
             font-weight: bold;            /* Make text bold */
-            text-align: center;           /* Center the text */
+            #text-align: center;           /* Center the text */
         }
         </style>
         """, unsafe_allow_html=True
@@ -74,6 +74,45 @@ def custom_input(key, default_value="", input_type="text"):
     
     return st.session_state[key]
 
+def centered_input(default_value, key):
+    # Add custom CSS for centered input styling
+    st.markdown(
+        """
+        <style>
+        .centered-input {
+            font-size: 12px !important;  /* Adjust the font size */
+            padding: 8px;                /* Adjust padding */
+            width: 100%;                 /* Full width */
+            box-sizing: border-box;      /* Ensure padding doesn't affect width */
+            border: 1px solid #ccc;      /* Border */
+            border-radius: 4px;          /* Rounded corners for aesthetics */
+            background-color: #f9f9f9;   /* Light background */
+            font-weight: bold;            /* Make text bold */
+            text-align: center;           /* Center the text */
+        }
+        </style>
+        """, unsafe_allow_html=True
+    )
+
+    # Initialize session state if not already done
+    if key not in st.session_state:
+        st.session_state[key] = default_value
+
+    current_value = st.session_state[key]
+
+    # Create a styled input field
+    input_html = f"""
+        <input class="centered-input" type="text" value="{current_value}" 
+               oninput="this.value=this.value.replace(/</g,'&lt;').replace(/>/g,'&gt;')" />
+    """
+    
+    # Render the HTML input field
+    st.markdown(input_html, unsafe_allow_html=True)
+
+    # Update session state if the input value changes
+    if st.session_state[key] != current_value:
+        st.session_state[key] = current_value
+    return current_value
 
 
 # Title of the application
@@ -262,7 +301,7 @@ elif st.session_state.page == "Course Information":
         for attempt in attempt_numbers:
             with cols[attempt]:  # Adjust for 1-based indexing
                 if row_header == "Attempts for this COURSE":
-                    reset_input(str(attempt), f"attempt_course_{attempt}") 
+                    centered_input(str(attempt), f"attempt_course_{attempt}") 
                 elif row_header == "Who intubated (Fellow, Resident, etc)":
                     st.session_state.attempts[f'Attempt {attempt}']['who_intubated'] = custom_input(
                         f'who_intubated_{attempt}',""
