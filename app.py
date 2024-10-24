@@ -60,12 +60,29 @@ def custom_input(key, default_value="", input_type="text"):
     if key not in st.session_state:
         st.session_state[key] = default_value
 
-    # Create a Streamlit text input
+    # Create a Streamlit text input and center it with CSS
+    st.markdown(
+        """
+        <style>
+        .custom-input {
+            display: flex;
+            justify-content: center;
+        }
+        .custom-input input {
+            width: 100%;  /* Adjust width as needed */
+            max-width: 300px;  /* Set a maximum width */
+        }
+        </style>
+        """, unsafe_allow_html=True
+    )
+
+    # Create a centered input field
     input_value = st.text_input(
         "", 
         value=st.session_state[key], 
         key=key,
-        placeholder="",
+        placeholder="", 
+        help="Enter your text here",
         label_visibility="collapsed"  # Hide label to avoid double display
     )
 
