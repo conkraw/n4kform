@@ -277,7 +277,7 @@ elif st.session_state.page == "Course Information":
                     st.session_state.attempts[f'Attempt {attempt}']['ett_size'] = custom_input(
                         f'ett_size_{attempt}'
                     )
-                elif row_header == "ETT Type: cuffed/uncuffed/ NA":
+                elif row_header == "ETT type: cuffed/uncuffed/ NA":
                     st.session_state.attempts[f'Attempt {attempt}']['ett_type'] = custom_input(
                         f'ett_type_{attempt}'
                     )
