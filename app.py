@@ -15,7 +15,7 @@ def reset_input(default_value, key):
         """
         <style>
         .custom-input {
-            font-size: 5px;  /* Adjust the size as needed */
+            font-size: 10px;  /* Adjust the size as needed */
         }
         </style>
         """, unsafe_allow_html=True
