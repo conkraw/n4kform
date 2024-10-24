@@ -570,16 +570,18 @@ elif st.session_state.page == "Method Details":
 
     # Additional section if "YES" is selected
     if selected_oxygen == "YES":
-        st.markdown("### If Yes, How was the oxygen provided?")
-        
-        # Checkbox for NC without nasal airway
-        nc_checkbox = st.checkbox("NC without nasal airway", key="nc_without_nasal_airway")
-        
-        # Text inputs for Liter Flow and FIO2
         cols = st.columns([1, 1, 1])  # Three equal columns
+
         with cols[0]:
-            liter_flow = st.text_input("Liter Flow", key="liter_flow")
+            st.markdown("### If Yes")
+            nc_checkbox = st.checkbox("NC without nasal airway", key="nc_without_nasal_airway")
+
         with cols[1]:
+            st.markdown("### Liter Flow")
+            liter_flow = st.text_input("Liter Flow", key="liter_flow")
+
+        with cols[2]:
+            st.markdown("### FIO2")
             fio2 = st.text_input("FIO2", key="fio2")
 
     # Navigation buttons
