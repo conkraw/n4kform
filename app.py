@@ -82,7 +82,8 @@ with st.form(key='patient_info_form'):
     col1, col2 = st.columns(2)
 
     with col1:
-        st.markdown("<h3 style='text-align: center;'>"INITIAL INTUBATION"</h3>", unsafe_allow_html=True)
+        st.markdown("<h3 style='text-align: center;'>INITIAL INTUBATION</h3>", unsafe_allow_html=True)
+
         indications = st.multiselect(
             "Check as many as apply:",
             options=[
