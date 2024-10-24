@@ -363,9 +363,34 @@ elif st.session_state.page == "Course Information":
     options = ["Yes", "No", "Not applicable (bag-mask ventilation not given)"]
     selected_option = st.selectbox("Select an option:", options, key="difficult_to_bag")
 
+    # Title for the section
+    st.header("Difficult Airway Evaluations (Choose/Circle one in each category)")
+    
+    # Define the evaluation questions and options
+    evaluations = [
+        ("Evaluation done before or after this course is completed?", ["BEFORE", "AFTER"]),
+        ("Known prior history of difficult airway?", ["YES", "NO"]),
+        ("Any Limited Neck Extension or (Maximal with or without sedation/paralytics)", ["YES", "NO"]),
+        ("Widest Mouth Opening – How many Patient’s fingers between gum/incisors", ["0 – 2", "≥ 3"]),
+        ("Thyromental space – Patient’s fingers between chin and thyroid cartilage", ["0 - 2", "≥ 3"]),
+        ("Evidence of Upper Airway Obstruction or Anatomical Barrier to visualize glottic opening (Subjective assessment before looking)?", ["YES", "NO"]),
+        ("Midfacial Hypoplasia?", ["YES", "NO"]),
+        ("Any other signs of difficult airway exist?", ["YES", "NO"]),
+    ]
+    
+    # Create a table-like layout
+    for question, options in evaluations:
+        st.markdown(question)
+        selected_option = st.selectbox("", options, key=question)  # Use question as the key to maintain state
+        st.write(f"You selected: {selected_option}")  # Display the selected option (optional)
+    
+    # If YES Please Explain
+    if selected_option == "YES":
+        explanation = st.text_area("If YES, Please Explain:")
+
 
     st.markdown("### Known cyanotic heart disease (R to L shunt)?  (Select ONE only)")
-    options = ["Yes", "No", "Not applicable (bag-mask ventilation not given)"]
+    options = ["Yes", "No"]
     selected_option = st.selectbox("Select an option:", options, key="cyanotic")
     
     # Back button to go to the previous page
