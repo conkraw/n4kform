@@ -15,6 +15,7 @@ def reset_input(default_value, key):
             border-radius: 4px;          /* Rounded corners for aesthetics */
             background-color: #f9f9f9;   /* Light background */
             font-weight: bold;            /* Make text bold */
+            text-align: center;           /* Center the text */
         }
         </style>
         """, unsafe_allow_html=True
