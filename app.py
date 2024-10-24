@@ -411,9 +411,6 @@ elif st.session_state.page == "Course Information":
         cols = st.columns([4, 1])
         
         with cols[0]:
-            #st.markdown("")  # Add spacing before the question
-            #st.markdown("") 
-            #st.write(f"{idx + 1}. {question}")
             question_box(f"{idx + 1}. {question}")
             
         with cols[1]:
