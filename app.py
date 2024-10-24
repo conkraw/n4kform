@@ -220,7 +220,6 @@ elif st.session_state.page == "Course Information":
                         st.session_state.attempts[f'Attempt {attempt}']['ett_type'] = st.text_input(
                             "ETT Type", key=f'ett_type_{attempt}'
                         )
-                                    )
                     elif row_header == "Cricoid Pressure Prior":
                         st.session_state.attempts[f'Attempt {attempt}']['cricoid_prior'] = st.selectbox(
                             "", ["", "Yes", "No"],
