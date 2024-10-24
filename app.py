@@ -184,7 +184,7 @@ elif st.session_state.page == "Course Information":
     # Create the table-like layout
     for row_header in row_headers:
         cols = st.columns(len(attempt_numbers))  # Create columns for attempts
-         with cols[0]:  # Column for row headers
+        with cols[0]:  # Column for row headers
             st.text_input("", value=row_header, disabled=True)
              
         for attempt in attempt_numbers:
