@@ -45,7 +45,7 @@ def custom_input(key, default_value="", input_type="text"):
         """
         <style>
         .custom-input {
-            font-size: 16px !important;  /* Ensure the font size is applied */
+            font-size: 12px !important;  /* Ensure the font size is applied */
             padding: 8px;                /* Adjust padding */
             width: 100%;                 /* Full width */
             box-sizing: border-box;      /* Ensure padding doesn't affect width */
