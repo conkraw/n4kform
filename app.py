@@ -436,6 +436,63 @@ elif st.session_state.page == "Course Information":
     options_cyanotic = ["Yes", "No"]
     selected_cyanotic = st.selectbox("", options_cyanotic, key="cyanotic")
 
+elif st.session_state.page == "Medications":
+    st.header("MEDICATIONS")
+
+    # Instructions
+    st.markdown("""
+    <p style='font-size: 14px;'>
+        If no drugs are used, select the corresponding option. Otherwise, fill in the dosages for the medications listed below.
+    </p>
+    """, unsafe_allow_html=True)
+
+    # Select box for drugs used
+    no_drugs = st.selectbox("Have any drugs been used?", ["NO DRUGS USED", "DRUGS USED"], index=0)
+    if no_drugs == "NO DRUGS USED":
+        st.markdown("If no drugs are used, please proceed to the next section.")
+        return  # Exit if no drugs used
+
+    # Define the medications and their categories
+    medications = {
+        "Pretreatment Dosage": [
+            "Atropine (check unit!)",
+            "Glycopyrrolate",
+            "Fentanyl",
+            "Lidocaine",
+            "Vecuronium"
+        ],
+        "Paralysis Dosage": [
+            "Rocuronium",
+            "Succinylcholine",
+            "Vecuronium",
+            "Cisatracuronium",
+            "Pancuronium"
+        ],
+        "Induction Dosage": [
+            "Propofol",
+            "Etomidate",
+            "Ketamine",
+            "Midazolam",
+            "Thiopental"
+        ]
+    }
+
+    # Create input fields for each category
+    for category, meds in medications.items():
+        st.markdown(f"### {category}")
+        cols = st.columns(len(meds))
+
+        for col, med in zip(cols, meds):
+            with col:
+                dosage = st.number_input(f"{med} (mg or mcg)", min_value=0.0, format="%.1f")
+                st.session_state[med] = dosage  # Save dosage to session state
+
+    # Section for Indications
+    st.markdown("### Indications")
+    atropine_indication = st.checkbox("Atropine Indication: Premed for TI")
+    bradycardia_atropine = st.checkbox("Atropine Indication: Treatment of Bradycardia")
+    glycopyrrolate_indication = st.checkbox("Glycopyrrolate Indication: Premed for TI")
+    bradycardia_glycopyrrolate = st.checkbox("Glycopyrrolate Indication: Treatment of Bradycardia")
 
     # Back button to go to the previous page
     if st.button("Previous"):
