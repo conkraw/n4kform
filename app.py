@@ -73,7 +73,6 @@ with st.form(key='patient_info_form'):
         )
 
 
-    elif page == "INDICATIONS":
     st.title("INDICATIONS")
 
     # Two columns layout
