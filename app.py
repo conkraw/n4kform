@@ -482,12 +482,12 @@ elif st.session_state.page == "Difficult Airway Evaluation":
         # Difficult to Bag/Mask Ventilate
         st.markdown("### Difficult to Bag/Mask Ventilate? (Select ONE only)")
         
-        options_bag = ['Select Whether the Patient Was Difficult to Bag/Mask Ventilate', 'Yes', 'No', 'Not applicable (bag-mask ventilation not given)']
+        options_bag = 
 
         if "difficult_to_bag" not in st.session_state:
             st.session_state["difficult_to_bag"] = 'Select Whether the Patient Was Difficult to Bag/Mask Ventilate' 
             
-        difficult_to_bag = st.selectbox("", options=options_bag, index=options_bag.index(st.session_state["difficult_to_bag"]))
+        difficult_to_bag = st.selectbox("", options=['Select Whether the Patient Was Difficult to Bag/Mask Ventilate', 'Yes', 'No', 'Not applicable (bag-mask ventilation not given)'], index=['Select Whether the Patient Was Difficult to Bag/Mask Ventilate', 'Yes', 'No', 'Not applicable (bag-mask ventilation not given)'].index(st.session_state.difficult_to_bag))
 
         # Initialize session state if not already done
     
