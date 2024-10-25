@@ -386,52 +386,52 @@ elif st.session_state.page == "Course Information":
                 if row_header == "Attempts for this COURSE":
                     centered_input(str(attempt), f"attempt_course_{attempt}", width='50px', height='40px') 
                 elif row_header == "Who intubated (Fellow, Resident, etc)":
-                    st.session_state.attempts[f'Attempt {attempt}']['who_intubated'] = st.text_input(
-                        label='',  # Set label to empty
-                        key=f'who_intubated_{attempt}',
+                    st.session_state.attempts[f'Attempt {attempt}']['who_intubated'] = custom_input(
+                        f'who_intubated_{attempt}',
+                        label='',  # Set label to empty if custom_input supports it
                         value=st.session_state.attempts[f'Attempt {attempt}']['who_intubated'] or ""
                     )
                 elif row_header == "Discipline (ICU, ENT, Surgery, etc)":
-                    st.session_state.attempts[f'Attempt {attempt}']['discipline'] = st.text_input(
-                        label='',  # Set label to empty
-                        key=f'discipline_{attempt}',
+                    st.session_state.attempts[f'Attempt {attempt}']['discipline'] = custom_input(
+                        f'discipline_{attempt}',
+                        label='',
                         value=st.session_state.attempts[f'Attempt {attempt}']['discipline'] or ""
                     )
                 elif row_header == "PGY level (3rd year resident = PL3, 1st year fellow = PL4, NP=yrs as NP, etc.)":
-                    st.session_state.attempts[f'Attempt {attempt}']['pgy_level'] = st.text_input(
-                        label='',  # Set label to empty
-                        key=f'pgy_level_{attempt}',
+                    st.session_state.attempts[f'Attempt {attempt}']['pgy_level'] = custom_input(
+                        f'pgy_level_{attempt}',
+                        label='',
                         value=st.session_state.attempts[f'Attempt {attempt}']['pgy_level'] or ""
                     )
                 elif row_header == "ETT (or LMA) Size":
-                    st.session_state.attempts[f'Attempt {attempt}']['ett_size'] = st.text_input(
-                        label='',  # Set label to empty
-                        key=f'ett_size_{attempt}',
+                    st.session_state.attempts[f'Attempt {attempt}']['ett_size'] = custom_input(
+                        f'ett_size_{attempt}',
+                        label='',
                         value=st.session_state.attempts[f'Attempt {attempt}']['ett_size'] or ""
                     )
                 elif row_header == "ETT type: cuffed/uncuffed/ NA":
-                    st.session_state.attempts[f'Attempt {attempt}']['ett_type'] = st.text_input(
-                        label='',  # Set label to empty
-                        key=f'ett_type_{attempt}',
+                    st.session_state.attempts[f'Attempt {attempt}']['ett_type'] = custom_input(
+                        f'ett_type_{attempt}',
+                        label='',
                         value=st.session_state.attempts[f'Attempt {attempt}']['ett_type'] or ""
                     )
                 elif row_header == "Immediately prior to this attempt was cricoid pressure/external laryngeal manipulation provided?":
-                    st.session_state.attempts[f'Attempt {attempt}']['cricoid_prior'] = st.text_input(
-                        label='',  # Set label to empty
-                        key=f'cricoid_prior_{attempt}',
+                    st.session_state.attempts[f'Attempt {attempt}']['cricoid_prior'] = custom_input(
+                        f'cricoid_prior_{attempt}',
+                        label='',
                         value=st.session_state.attempts[f'Attempt {attempt}']['cricoid_prior'] or ""
                     )
                 elif row_header == "During this attempt, was cricoid pressure/external laryngeal manipulation provided?":
-                    st.session_state.attempts[f'Attempt {attempt}']['cricoid_during'] = st.text_input(
-                        label='',  # Set label to empty
-                        key=f'cricoid_during_{attempt}',
+                    st.session_state.attempts[f'Attempt {attempt}']['cricoid_during'] = custom_input(
+                        f'cricoid_during_{attempt}',
+                        label='',
                         value=st.session_state.attempts[f'Attempt {attempt}']['cricoid_during'] or ""
                     )
                 elif row_header == "Attempt Successful: Yes/No":
                     current_value = st.session_state.attempts[f'Attempt {attempt}']['attempt_successful']
-                    st.session_state.attempts[f'Attempt {attempt}']['attempt_successful'] = st.selectbox(
-                        label='',  # Set label to empty
-                        key=f'attempt_successful_{attempt}',
+                    st.session_state.attempts[f'Attempt {attempt}']['attempt_successful'] = custom_input(
+                        f'attempt_successful_{attempt}',
+                        label='',
                         options=["Yes", "No"],
                         index=["Yes", "No"].index(current_value) if current_value in ["Yes", "No"] else 0
                     )
@@ -447,6 +447,7 @@ elif st.session_state.page == "Course Information":
         if st.button("Next"):
             st.session_state.page = "Difficult Airway Evaluation"  # Set next page
             st.rerun()  # Rerun the app to reflect the new page
+
 
 
 elif st.session_state.page == "Difficult Airway Evaluation":
