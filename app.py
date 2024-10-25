@@ -487,6 +487,10 @@ elif st.session_state.page == "Difficult Airway Evaluation":
         if "difficult_to_bag" not in st.session_state:
             st.session_state["difficult_to_bag"] = options_bag[0]  # Default value
         
+        # Make sure the default value is valid
+        if st.session_state["difficult_to_bag"] not in options_bag:
+            st.session_state["difficult_to_bag"] = options_bag[0]
+        
         difficult_to_bag = st.selectbox(
             "",
             options=options_bag,
@@ -504,6 +508,10 @@ elif st.session_state.page == "Difficult Airway Evaluation":
         # Initialize session state if not already done
         if "cyanotic" not in st.session_state:
             st.session_state["cyanotic"] = options_cyanotic[0]  # Default value
+        
+        # Make sure the default value is valid
+        if st.session_state["cyanotic"] not in options_cyanotic:
+            st.session_state["cyanotic"] = options_cyanotic[0]
         
         cyanotic = st.selectbox(
             "",
