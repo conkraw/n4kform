@@ -346,17 +346,17 @@ elif st.session_state.page == "Course Information":
     </p>
     """, unsafe_allow_html=True)
 
-    # Initialize session state if not already done
+    # Initialize session state for attempts if not already done
     if 'attempts' not in st.session_state:
         st.session_state.attempts = {f'Attempt {i}': {
-            'who_intubated': "",
-            'discipline': "",
-            'pgy_level': "",
-            'ett_size': "",
-            'ett_type': "",
-            'cricoid_prior': "",
-            'cricoid_during': "",
-            'attempt_successful': "",
+            'who_intubated': None,
+            'discipline': None,
+            'pgy_level': None,
+            'ett_size': None,
+            'ett_type': None,
+            'cricoid_prior': None,
+            'cricoid_during': None,
+            'attempt_successful': None,
         } for i in range(1, 9)}
 
     # Define the row headers
@@ -372,31 +372,58 @@ elif st.session_state.page == "Course Information":
         "Attempt Successful: Yes/No"
     ]
 
-    # Define attempt numbers
-    attempt_numbers = range(1, 9)
-
     # Create the table-like layout
-    for row_header in row_headers:
-        cols = st.columns(len(attempt_numbers) + 1)  # Create extra column for headers
-        with cols[0]:  # Column for row headers
-            reset_input(row_header, f"header_{row_header}")  # No default value for headers
-
-        for attempt in attempt_numbers:
-            with cols[attempt]:  # Adjust for 1-based indexing
-                key_prefix = f'Attempt {attempt}'
+    for attempt in range(1, 9):
+        cols = st.columns(len(row_headers))  # Create columns for each row header
+        
+        for idx, row_header in enumerate(row_headers):
+            with cols[idx]:
                 if row_header == "Attempts for this COURSE":
-                    centered_input(str(attempt), f"attempt_course_{attempt}", width='50px', height='40px') 
-                else:
-                    # Set the input field without setting a default value directly
-                    current_value = st.session_state.attempts[key_prefix].get(row_header.lower().replace(" ", "_"), "")
-                    st.session_state.attempts[key_prefix][row_header.lower().replace(" ", "_")] = custom_input(
-                        f'{row_header.lower().replace(" ", "_")}_{attempt}',
-                        default_value=current_value
+                    st.text(f"Attempt {attempt}")  # Display attempt number
+                elif row_header == "Who intubated (Fellow, Resident, etc)":
+                    st.session_state.attempts[f'Attempt {attempt}']['who_intubated'] = st.text_input(
+                        f'who_intubated_{attempt}',
+                        value=st.session_state.attempts[f'Attempt {attempt}']['who_intubated'] or ""
+                    )
+                elif row_header == "Discipline (ICU, ENT, Surgery, etc)":
+                    st.session_state.attempts[f'Attempt {attempt}']['discipline'] = st.text_input(
+                        f'discipline_{attempt}',
+                        value=st.session_state.attempts[f'Attempt {attempt}']['discipline'] or ""
+                    )
+                elif row_header == "PGY level (3rd year resident = PL3, 1st year fellow = PL4,  NP=yrs as NP, etc.)":
+                    st.session_state.attempts[f'Attempt {attempt}']['pgy_level'] = st.text_input(
+                        f'pgy_level_{attempt}',
+                        value=st.session_state.attempts[f'Attempt {attempt}']['pgy_level'] or ""
+                    )
+                elif row_header == "ETT (or LMA) Size":
+                    st.session_state.attempts[f'Attempt {attempt}']['ett_size'] = st.text_input(
+                        f'ett_size_{attempt}',
+                        value=st.session_state.attempts[f'Attempt {attempt}']['ett_size'] or ""
+                    )
+                elif row_header == "ETT type: cuffed/uncuffed/ NA":
+                    st.session_state.attempts[f'Attempt {attempt}']['ett_type'] = st.text_input(
+                        f'ett_type_{attempt}',
+                        value=st.session_state.attempts[f'Attempt {attempt}']['ett_type'] or ""
+                    )
+                elif row_header == "Immediately prior to this attempt was cricoid pressure/external laryngeal manipulation provided?":
+                    st.session_state.attempts[f'Attempt {attempt}']['cricoid_prior'] = st.text_input(
+                        f'cricoid_prior_{attempt}',
+                        value=st.session_state.attempts[f'Attempt {attempt}']['cricoid_prior'] or ""
+                    )
+                elif row_header == "During this attempt, was cricoid pressure/external laryngeal manipulation provided?":
+                    st.session_state.attempts[f'Attempt {attempt}']['cricoid_during'] = st.text_input(
+                        f'cricoid_during_{attempt}',
+                        value=st.session_state.attempts[f'Attempt {attempt}']['cricoid_during'] or ""
+                    )
+                elif row_header == "Attempt Successful: Yes/No":
+                    st.session_state.attempts[f'Attempt {attempt}']['attempt_successful'] = st.selectbox(
+                        f'attempt_successful_{attempt}',
+                        options=["Yes", "No"],
+                        index=["Yes", "No"].index(st.session_state.attempts[f'Attempt {attempt}']['attempt_successful'] or "Yes")
                     )
 
-    # Navigation buttons outside the form
+    # Navigation buttons
     col_prev, col_next = st.columns(2)
-
     with col_prev:
         if st.button("Previous"):
             st.session_state.page = "Indications"  # Go back to the previous page
@@ -406,6 +433,7 @@ elif st.session_state.page == "Course Information":
         if st.button("Next"):
             st.session_state.page = "Difficult Airway Evaluation"  # Set next page
             st.rerun()  # Rerun the app to reflect the new page
+
 
 elif st.session_state.page == "Difficult Airway Evaluation":
     st.markdown("### Difficult Airway Evaluations (Choose one in each category):")
