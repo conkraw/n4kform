@@ -585,12 +585,16 @@ elif st.session_state.page == "Method":
         "Sedation Only",
         "Others (Specify):"
     ]
-    # Use the session state to pre-fill the multiselect options
     selected_techniques = st.multiselect("Select Techniques:", 
                                           technique_options, 
                                           key="airway_techniques", 
-                                          default=st.session_state.get("airway_techniques", []))
+                                          default=st.session_state.get("selected_techniques", []))
 
+    st.session_state.advance_airway_procedure = selected_techniques
+    
+    # Use the session state to pre-fill the multiselect options
+    
+    
     # If "Others" is selected, show an input box for specification
     if "Others (Specify):" in selected_techniques:
         other_specification = st.text_input("Please specify:", key="other_specification", value=st.session_state.get("other_specification", ""))
