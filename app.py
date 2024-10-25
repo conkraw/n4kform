@@ -486,7 +486,7 @@ elif st.session_state.page == "Difficult Airway Evaluation":
 
     # Difficult to Bag/Mask Ventilate
     st.markdown("### Difficult to Bag/Mask Ventilate? (Select ONE only)")
-    options_bag = st.selectbox("", options=["Select Whether the Patient Was Difficult to Bag/Mask Ventilate","Yes", "No", "Not applicable (bag-mask ventilation not given)"], index=["Select Whether the Patient Was Difficult to Bag/Mask Ventilate","Yes", "No", "Not applicable (bag-mask ventilation not given)"].index(st.session_state.difficult_to_bag))
+    options_bag = st.selectbox("Select Whether the Patient Was Difficult to Bag/Mask Ventilate", options=["Select Whether the Patient Was Difficult to Bag/Mask Ventilate","Yes", "No", "Not applicable (bag-mask ventilation not given)"], index=["Select Whether the Patient Was Difficult to Bag/Mask Ventilate","Yes", "No", "Not applicable (bag-mask ventilation not given)"].index(st.session_state.difficult_to_bag))
 
     # Known cyanotic heart disease
     st.markdown("### Known cyanotic heart disease (R to L shunt)?  (Select ONE only)")
