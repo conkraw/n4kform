@@ -478,6 +478,12 @@ elif st.session_state.page == "Difficult Airway Evaluation":
                 key=f"evaluation_{idx}"  # Unique key for each selectbox
             )
 
+
+    default:{'difficult_to_bag': ""}
+    for key, value in default_values.items():
+        if key not in st.session_state:
+            st.session_state[key] = value
+
     # Difficult to Bag/Mask Ventilate
     st.markdown("### Difficult to Bag/Mask Ventilate? (Select ONE only)")
     options_bag = st.selectbox("", options=["Select Whether the Patient Was Difficult to Bag/Mask Ventilate","Yes", "No", "Not applicable (bag-mask ventilation not given)"], index=["Select Whether the Patient Was Difficult to Bag/Mask Ventilate","Yes", "No", "Not applicable (bag-mask ventilation not given)"].index(st.session_state.difficult_to_bag))
