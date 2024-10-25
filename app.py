@@ -437,7 +437,7 @@ elif st.session_state.page == "Difficult Airway Evaluation":
             
         with cols[1]:
             # Create selectbox with options
-            st.session_state[f"evaluation_{idx}"] = st.selectbox(
+            selected_option = st.selectbox(
                 "",
                 options=options,
                 index=options.index(st.session_state[f"evaluation_{idx}"]),  # Get current value
@@ -449,14 +449,20 @@ elif st.session_state.page == "Difficult Airway Evaluation":
     options_bag = ["Yes", "No", "Not applicable (bag-mask ventilation not given)"]
     if "difficult_to_bag" not in st.session_state:
         st.session_state["difficult_to_bag"] = options_bag[0]  # Default to first option
-    st.session_state["difficult_to_bag"] = st.selectbox("", options_bag, key="difficult_to_bag", index=options_bag.index(st.session_state["difficult_to_bag"]))
+    st.selectbox("",
+                 options_bag,
+                 key="difficult_to_bag", 
+                 index=options_bag.index(st.session_state["difficult_to_bag"]))
 
     # Known cyanotic heart disease
     st.markdown("### Known cyanotic heart disease (R to L shunt)?  (Select ONE only)")
     options_cyanotic = ["Yes", "No"]
     if "cyanotic" not in st.session_state:
         st.session_state["cyanotic"] = options_cyanotic[0]  # Default to first option
-    st.session_state["cyanotic"] = st.selectbox("", options_cyanotic, key="cyanotic", index=options_cyanotic.index(st.session_state["cyanotic"]))
+    st.selectbox("",
+                 options_cyanotic, 
+                 key="cyanotic", 
+                 index=options_cyanotic.index(st.session_state["cyanotic"]))
 
     # Navigation buttons
     col_prev, col_next = st.columns(2)
