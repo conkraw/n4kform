@@ -479,15 +479,29 @@ elif st.session_state.page == "Difficult Airway Evaluation":
             )
 
 
-    default_values = {'difficult_to_bag': ""}
-    for key, value in default_values.items():
-        if key not in st.session_state:
-            st.session_state[key] = value
+    #default_values = {'difficult_to_bag': ""}
+    #for key, value in default_values.items():
+    #    if key not in st.session_state:
+    #        st.session_state[key] = value
 
     # Difficult to Bag/Mask Ventilate
-    st.markdown("### Difficult to Bag/Mask Ventilate? (Select ONE only)")
-    options_bag = st.selectbox("Select Whether the Patient Was Difficult to Bag/Mask Ventilate", options=["Select Whether the Patient Was Difficult to Bag/Mask Ventilate","Yes", "No", "Not applicable (bag-mask ventilation not given)"], index=["Select Whether the Patient Was Difficult to Bag/Mask Ventilate","Yes", "No", "Not applicable (bag-mask ventilation not given)"].index(st.session_state.difficult_to_bag))
 
+    st.markdown("### Difficult to Bag/Mask Ventilate? (Select ONE only)")
+    options_bag = ["Select Whether the Patient Was Difficult to Bag/Mask Ventilate", "Yes", "No", "Not applicable (bag-mask ventilation not given)"]
+    
+    # Initialize the session state if it doesn't exist
+    if "difficult_to_bag" not in st.session_state:
+        st.session_state["difficult_to_bag"] = options_bag[0]  # Default to the first option
+    
+    # Create the selectbox
+    difficult_airway_history = st.selectbox(
+        "Select Whether the Patient Was Difficult to Bag/Mask Ventilate",
+        options=options_bag,
+        index=options_bag.index(st.session_state["difficult_to_bag"])  # Use the current value
+    )
+
+# Update session state with the selected option
+st.session_state["difficult_to_bag"] = difficult_airway_history
     # Known cyanotic heart disease
     st.markdown("### Known cyanotic heart disease (R to L shunt)?  (Select ONE only)")
     options_cyanotic = ["Select if Patient With Known cyanotic heart disease (R to L shunt)", "Yes", "No"]
