@@ -456,7 +456,7 @@ elif st.session_state.page == "Difficult Airway Evaluation":
         ("Any other signs of difficult airway exist?", ['Select Category 8', 'YES', 'NO']),
     ]
 
-    # Initialize session state for each question
+    # Ensure session state is initialized for each question
     for idx, (question, options) in enumerate(questions):
         key = f"evaluation_{idx}"
         if key not in st.session_state:
@@ -471,7 +471,7 @@ elif st.session_state.page == "Difficult Airway Evaluation":
             
         with cols[1]:
             # Create selectbox with options
-            st.session_state[f"evaluation_{idx}"] = st.selectbox(
+            selected_option = st.selectbox(
                 "",
                 options=options,
                 index=options.index(st.session_state[f"evaluation_{idx}"]),  # Get current value
@@ -480,10 +480,10 @@ elif st.session_state.page == "Difficult Airway Evaluation":
 
     # Difficult to Bag/Mask Ventilate
     st.markdown("### Difficult to Bag/Mask Ventilate? (Select ONE only)")
-    options_bag = ["Yes", "No", "Not applicable (bag-mask ventilation not given)"]
+    options_bag = ["Select Whether the Patient Was Difficult to Bag/Mask Ventilate","Yes", "No", "Not applicable (bag-mask ventilation not given)"]
     if "difficult_to_bag" not in st.session_state:
         st.session_state["difficult_to_bag"] = options_bag[0]  # Default to first option
-    st.session_state["difficult_to_bag"] = st.selectbox(
+    st.selectbox(
         "",
         options_bag,
         index=options_bag.index(st.session_state["difficult_to_bag"]),
@@ -492,10 +492,10 @@ elif st.session_state.page == "Difficult Airway Evaluation":
 
     # Known cyanotic heart disease
     st.markdown("### Known cyanotic heart disease (R to L shunt)?  (Select ONE only)")
-    options_cyanotic = ["Yes", "No"]
+    options_cyanotic = ["Select if Patient With Known cyanotic heart disease (R to L shunt)", "Yes", "No"]
     if "cyanotic" not in st.session_state:
         st.session_state["cyanotic"] = options_cyanotic[0]  # Default to first option
-    st.session_state["cyanotic"] = st.selectbox(
+    st.selectbox(
         "",
         options_cyanotic,
         index=options_cyanotic.index(st.session_state["cyanotic"]),
@@ -513,6 +513,7 @@ elif st.session_state.page == "Difficult Airway Evaluation":
         if st.button("Next"):
             st.session_state.page = "Medications"  # Set next page
             st.rerun()  # Rerun the app to reflect the new page
+
 
 
 
