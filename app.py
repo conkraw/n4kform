@@ -566,7 +566,7 @@ elif st.session_state.page == "Method":
     if "selected_method" not in st.session_state:
         st.session_state["selected_method"] = 'Select Method'
 
-    selected_method = st.selectbox("",
+    selected_method = st.selectbox("Select Method:",
         options=["Select Method",
         "Oral", "Nasal", "LMA", "Oral to Oral",
         "Oral to Nasal", "Nasal to Oral", "Nasal to Nasal", "Tracheostomy to Oral"
