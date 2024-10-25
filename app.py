@@ -635,7 +635,7 @@ if st.session_state.page == "Method Details":
 
     selected_oxygen = st.selectbox("Select an option:", oxygen_options, index=oxygen_options.index(st.session_state.selected_oxygen))
 
-    # Update session state
+    # Update session state immediately after selection
     st.session_state.selected_oxygen = selected_oxygen
 
     # Conditional input for explanation if "ATTEMPTED but not done" is selected
@@ -660,12 +660,13 @@ if st.session_state.page == "Method Details":
             "Other (device, FIO2, setting)"
         ]
 
+        # Initialize selected_methods in session state if not present
         if "selected_methods" not in st.session_state:
             st.session_state.selected_methods = []
 
         selected_methods = st.multiselect("Select methods:", options, default=st.session_state.selected_methods)
 
-        # Update session state for selected methods
+        # Update session state for selected methods immediately after selection
         st.session_state.selected_methods = selected_methods
 
         # Display Liter Flow and FIO2 inputs for each selected method
@@ -698,8 +699,8 @@ if st.session_state.page == "Method Details":
                 # Create the text input for Liter Flow
                 liter_flow = st.text_input("", value=st.session_state[liter_flow_key], key=liter_flow_key)
 
-                # Immediately save the input value to session state
-                st.session_state[liter_flow_key] = liter_flow  # Save Liter Flow to session state immediately
+                # Save the Liter Flow input immediately after creation
+                st.session_state[liter_flow_key] = liter_flow
 
                 # Initialize FIO2 input in session state if not present
                 if fio2_key not in st.session_state:
@@ -708,8 +709,8 @@ if st.session_state.page == "Method Details":
                 # Create the text input for FIO2
                 fio2 = st.text_input("", value=st.session_state[fio2_key], key=fio2_key)
 
-                # Immediately save the input value to session state
-                st.session_state[fio2_key] = fio2  # Save FIO2 to session state immediately
+                # Save the FIO2 input immediately after creation
+                st.session_state[fio2_key] = fio2
 
     # Navigation buttons
     col1, col2 = st.columns(2)
