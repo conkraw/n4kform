@@ -581,7 +581,11 @@ elif st.session_state.page == "Medications":
     """, unsafe_allow_html=True)
 
     # Select box for drugs used
-    no_drugs = st.selectbox("Have any drugs been used?", ["NO DRUGS USED", "DRUGS USED"], index=["NO DRUGS USED", "DRUGS USED"].index(st.session_state.no_drugs))
+    no_drugs = st.selectbox("Have any drugs been used?", ["NO DRUGS USED", "DRUGS USED"], 
+                            index=["NO DRUGS USED", "DRUGS USED"].index(st.session_state.no_drugs))
+
+    # Save the selection for drugs used
+    st.session_state.no_drugs = no_drugs
 
     if no_drugs == "NO DRUGS USED":
         st.markdown("If no drugs are used, please proceed to the next section.")
@@ -592,32 +596,68 @@ elif st.session_state.page == "Medications":
         # Pretreatment Dosage
         with cols[0]:
             st.markdown("### Pretreatment Dosage")
-            st.text_input("Atropine (mg)", key="pretreatment_atropine", value=st.session_state.pretreatment_atropine)
-            st.text_input("Glycopyrrolate (mcg)", key="pretreatment_glycopyrrolate", value=st.session_state.pretreatment_glycopyrrolate)
-            st.text_input("Fentanyl (mcg)", key="pretreatment_fentanyl", value=st.session_state.pretreatment_fentanyl)
-            st.text_input("Lidocaine (mg)", key="pretreatment_lidocaine", value=st.session_state.pretreatment_lidocaine)
-            st.text_input("Vecuronium (mg)", key="pretreatment_vecuronium", value=st.session_state.pretreatment_vecuronium)
-            st.text_input("Others", key="pretreatment_others", value=st.session_state.pretreatment_others)
+            st.text_input("Atropine (mg)", key="pretreatment_atropine", 
+                          value=st.session_state.pretreatment_atropine, 
+                          on_change=lambda: update_session_state("pretreatment_atropine"))
+            st.text_input("Glycopyrrolate (mcg)", key="pretreatment_glycopyrrolate", 
+                          value=st.session_state.pretreatment_glycopyrrolate, 
+                          on_change=lambda: update_session_state("pretreatment_glycopyrrolate"))
+            st.text_input("Fentanyl (mcg)", key="pretreatment_fentanyl", 
+                          value=st.session_state.pretreatment_fentanyl, 
+                          on_change=lambda: update_session_state("pretreatment_fentanyl"))
+            st.text_input("Lidocaine (mg)", key="pretreatment_lidocaine", 
+                          value=st.session_state.pretreatment_lidocaine, 
+                          on_change=lambda: update_session_state("pretreatment_lidocaine"))
+            st.text_input("Vecuronium (mg)", key="pretreatment_vecuronium", 
+                          value=st.session_state.pretreatment_vecuronium, 
+                          on_change=lambda: update_session_state("pretreatment_vecuronium"))
+            st.text_input("Others", key="pretreatment_others", 
+                          value=st.session_state.pretreatment_others, 
+                          on_change=lambda: update_session_state("pretreatment_others"))
 
         # Paralysis Dosage
         with cols[1]:
             st.markdown("### Paralysis Dosage")
-            st.text_input("Rocuronium (mg)", key="paralysis_rocuronium", value=st.session_state.paralysis_rocuronium)
-            st.text_input("Succinylcholine (mg)", key="paralysis_succinylcholine", value=st.session_state.paralysis_succinylcholine)
-            st.text_input("Vecuronium (mg)", key="paralysis_vecuronium", value=st.session_state.paralysis_vecuronium)
-            st.text_input("Pancuronium (mg)", key="paralysis_pancuronium", value=st.session_state.paralysis_pancuronium)
-            st.text_input("Cisatracuronium (mg)", key="paralysis_cisatracuronium", value=st.session_state.paralysis_cisatracuronium)
-            st.text_input("Others", key="paralysis_others", value=st.session_state.paralysis_others)
+            st.text_input("Rocuronium (mg)", key="paralysis_rocuronium", 
+                          value=st.session_state.paralysis_rocuronium, 
+                          on_change=lambda: update_session_state("paralysis_rocuronium"))
+            st.text_input("Succinylcholine (mg)", key="paralysis_succinylcholine", 
+                          value=st.session_state.paralysis_succinylcholine, 
+                          on_change=lambda: update_session_state("paralysis_succinylcholine"))
+            st.text_input("Vecuronium (mg)", key="paralysis_vecuronium", 
+                          value=st.session_state.paralysis_vecuronium, 
+                          on_change=lambda: update_session_state("paralysis_vecuronium"))
+            st.text_input("Pancuronium (mg)", key="paralysis_pancuronium", 
+                          value=st.session_state.paralysis_pancuronium, 
+                          on_change=lambda: update_session_state("paralysis_pancuronium"))
+            st.text_input("Cisatracuronium (mg)", key="paralysis_cisatracuronium", 
+                          value=st.session_state.paralysis_cisatracuronium, 
+                          on_change=lambda: update_session_state("paralysis_cisatracuronium"))
+            st.text_input("Others", key="paralysis_others", 
+                          value=st.session_state.paralysis_others, 
+                          on_change=lambda: update_session_state("paralysis_others"))
 
         # Induction Dosage
         with cols[2]:
             st.markdown("### Induction Dosage")
-            st.text_input("Propofol (mg)", key="induction_propofol", value=st.session_state.induction_propofol)
-            st.text_input("Etomidate (mg)", key="induction_etomidate", value=st.session_state.induction_etomidate)
-            st.text_input("Ketamine (mg)", key="induction_ketamine", value=st.session_state.induction_ketamine)
-            st.text_input("Midazolam (mg)", key="induction_midazolam", value=st.session_state.induction_midazolam)
-            st.text_input("Thiopental (mg)", key="induction_thiopental", value=st.session_state.induction_thiopental)
-            st.text_input("Others", key="induction_others", value=st.session_state.induction_others)
+            st.text_input("Propofol (mg)", key="induction_propofol", 
+                          value=st.session_state.induction_propofol, 
+                          on_change=lambda: update_session_state("induction_propofol"))
+            st.text_input("Etomidate (mg)", key="induction_etomidate", 
+                          value=st.session_state.induction_etomidate, 
+                          on_change=lambda: update_session_state("induction_etomidate"))
+            st.text_input("Ketamine (mg)", key="induction_ketamine", 
+                          value=st.session_state.induction_ketamine, 
+                          on_change=lambda: update_session_state("induction_ketamine"))
+            st.text_input("Midazolam (mg)", key="induction_midazolam", 
+                          value=st.session_state.induction_midazolam, 
+                          on_change=lambda: update_session_state("induction_midazolam"))
+            st.text_input("Thiopental (mg)", key="induction_thiopental", 
+                          value=st.session_state.induction_thiopental, 
+                          on_change=lambda: update_session_state("induction_thiopental"))
+            st.text_input("Others", key="induction_others", 
+                          value=st.session_state.induction_others, 
+                          on_change=lambda: update_session_state("induction_others"))
 
         # Multi-select for indications
         st.markdown("### Indications")
@@ -634,9 +674,6 @@ elif st.session_state.page == "Medications":
             default=st.session_state.glycopyrrolate_indication,
             key="glycopyrrolate_indication"
         )
-
-    # Save the selection for drugs used
-    st.session_state.no_drugs = no_drugs
 
     # Navigation buttons
     col1, col2 = st.columns(2)
