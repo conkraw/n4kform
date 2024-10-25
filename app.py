@@ -481,9 +481,6 @@ elif st.session_state.page == "Difficult Airway Evaluation":
 
         # Difficult to Bag/Mask Ventilate
         st.markdown("### Difficult to Bag/Mask Ventilate? (Select ONE only)")
-        
-        options_bag = 
-
         if "difficult_to_bag" not in st.session_state:
             st.session_state["difficult_to_bag"] = 'Select Whether the Patient Was Difficult to Bag/Mask Ventilate' 
             
