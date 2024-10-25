@@ -479,7 +479,7 @@ elif st.session_state.page == "Difficult Airway Evaluation":
             )
 
 
-    default:{'difficult_to_bag': ""}
+    default_values:{'difficult_to_bag': ""}
     for key, value in default_values.items():
         if key not in st.session_state:
             st.session_state[key] = value
