@@ -531,7 +531,7 @@ elif st.session_state.page == "Medications":
     col1, col2 = st.columns(2)
     with col1:
         if st.button("Previous"):
-            st.session_state.page = "Course Information"
+            st.session_state.page = "Difficult Airway Evaluation"
             st.rerun()
 
     with col2:
