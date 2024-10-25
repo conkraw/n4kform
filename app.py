@@ -468,7 +468,7 @@ elif st.session_state.page == "Difficult Airway Evaluation":
         cols = st.columns([4, 1])
         
         with cols[0]:
-            st.write(f"{idx + 1}. {question}")  # Display question
+            question_box(f"{idx + 1}. {question}")  # Display question
             
         with cols[1]:
             # Create selectbox with options
