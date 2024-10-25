@@ -694,13 +694,13 @@ if st.session_state.page == "Method Details":
                 # Initialize Liter Flow input in session state if not present
                 if liter_flow_key not in st.session_state:
                     st.session_state[liter_flow_key] = ""
-                liter_flow = st.text_input("", value=st.session_state[liter_flow_key])
+                liter_flow = st.text_input("", value=st.session_state[liter_flow_key], key=liter_flow_key)
                 st.session_state[liter_flow_key] = liter_flow  # Save Liter Flow to session state
 
                 # Initialize FIO2 input in session state if not present
                 if fio2_key not in st.session_state:
                     st.session_state[fio2_key] = ""
-                fio2 = st.text_input("", value=st.session_state[fio2_key])
+                fio2 = st.text_input("", value=st.session_state[fio2_key], key=fio2_key)
                 st.session_state[fio2_key] = fio2  # Save FIO2 to session state
 
     # Navigation buttons
@@ -714,8 +714,6 @@ if st.session_state.page == "Method Details":
         if st.button("Next"):
             st.session_state.page = "Method Details II"  # Update this to your actual next page
             st.rerun()
-
-
 
 elif st.session_state.page == "Method Details II":
     st.header("METHOD DETAILS II")
