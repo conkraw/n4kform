@@ -479,27 +479,41 @@ elif st.session_state.page == "Difficult Airway Evaluation":
             )
 
 
-    st.markdown("### Difficult to Bag/Mask Ventilate? (Select ONE only)")
-    options_bag = ["Select if Patient Difficult to Bag/Mask Ventilate","Yes", "No", "Not applicable (bag-mask ventilation not given)"]
-    if "difficult_to_bag" not in st.session_state:
-        st.session_state["difficult_to_bag"] = options_bag[0]  # Default to first option
-    st.selectbox(
-        "",
-        options_bag,
-        index=options_bag.index(st.session_state["difficult_to_bag"]),
-    )
+        # Difficult to Bag/Mask Ventilate
+        st.markdown("### Difficult to Bag/Mask Ventilate? (Select ONE only)")
+        options_bag = ['Select Whether the Patient Was Difficult to Bag/Mask Ventilate', 'Yes', 'No', 'Not applicable (bag-mask ventilation not given)']
+        
+        # Initialize session state if not already done
+        if "difficult_to_bag" not in st.session_state:
+            st.session_state["difficult_to_bag"] = options_bag[0]  # Default value
+        
+        difficult_to_bag = st.selectbox(
+            "",
+            options=options_bag,
+            index=options_bag.index(st.session_state["difficult_to_bag"])
+        )
+        
+        # Update session state with the selected option
+        st.session_state["difficult_to_bag"] = difficult_to_bag
+        
+        
+        # Known cyanotic heart disease
+        st.markdown("### Known cyanotic heart disease (R to L shunt)? (Select ONE only)")
+        options_cyanotic = ['Select Risk Factor 2', 'Yes', 'No']
+        
+        # Initialize session state if not already done
+        if "cyanotic" not in st.session_state:
+            st.session_state["cyanotic"] = options_cyanotic[0]  # Default value
+        
+        cyanotic = st.selectbox(
+            "",
+            options=options_cyanotic,
+            index=options_cyanotic.index(st.session_state["cyanotic"])
+        )
+        
+        # Update session state with the selected option
+        st.session_state["cyanotic"] = cyanotic
 
-    # Known cyanotic heart disease
-    
-    st.markdown("### Known cyanotic heart disease (R to L shunt)?  (Select ONE only)")
-    options_cyanotic = ["Select if Patient With Known cyanotic heart disease (R to L shunt)", "Yes", "No"]
-    if "cyanotic" not in st.session_state:
-        st.session_state["cyanotic"] = options_cyanotic[0]  # Default to first option
-    st.selectbox(
-        "",
-        options_cyanotic,
-        index=options_cyanotic.index(st.session_state["cyanotic"]),
-    )
 
     # Navigation buttons
     col_prev, col_next = st.columns(2)
