@@ -419,17 +419,15 @@ elif st.session_state.page == "Course Information":
                             f'attempt_successful_{attempt}'
                         )
         # Navigation buttons
-        col_prev, col_next = st.columns(2)
-        with col_prev:
-            if st.button("Previous"):
-                st.session_state.page = "Indications"  # Go back to the previous page
-                st.rerun()  # Rerun the app to reflect the new page
+        submitted = st.form_submit_button("Next")
+        if submitted:
+            st.session_state.page = "Difficult Airway Evaluation"  # Set next page
+            st.rerun()  # Rerun the app to reflect the new page
 
-        with col_next:
-            if st.button("Next"):
-                st.session_state.page = "Difficult Airway Evaluation"  # Set next page
-                st.rerun()  # Rerun the app to reflect the new page
-
+    # Add a button for going back
+    if st.button("Previous"):
+        st.session_state.page = "Indications"  # Go back to the previous page
+        st.session_state.rerun()  # Rerun the app to reflect the new page
 
 elif st.session_state.page == "Difficult Airway Evaluation":
     st.markdown("### Difficult Airway Evaluations (Choose one in each category):")
