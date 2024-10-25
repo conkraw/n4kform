@@ -529,50 +529,6 @@ elif st.session_state.page == "Difficult Airway Evaluation":
 elif st.session_state.page == "Medications":
     st.header("MEDICATIONS")
 
-    # Initialize session state variables if they don't exist
-    if "no_drugs" not in st.session_state:
-        st.session_state.no_drugs = "NO DRUGS USED"
-    if "pretreatment_atropine" not in st.session_state:
-        st.session_state.pretreatment_atropine = ""
-    if "pretreatment_glycopyrrolate" not in st.session_state:
-        st.session_state.pretreatment_glycopyrrolate = ""
-    if "pretreatment_fentanyl" not in st.session_state:
-        st.session_state.pretreatment_fentanyl = ""
-    if "pretreatment_lidocaine" not in st.session_state:
-        st.session_state.pretreatment_lidocaine = ""
-    if "pretreatment_vecuronium" not in st.session_state:
-        st.session_state.pretreatment_vecuronium = ""
-    if "pretreatment_others" not in st.session_state:
-        st.session_state.pretreatment_others = ""
-    if "paralysis_rocuronium" not in st.session_state:
-        st.session_state.paralysis_rocuronium = ""
-    if "paralysis_succinylcholine" not in st.session_state:
-        st.session_state.paralysis_succinylcholine = ""
-    if "paralysis_vecuronium" not in st.session_state:
-        st.session_state.paralysis_vecuronium = ""
-    if "paralysis_pancuronium" not in st.session_state:
-        st.session_state.paralysis_pancuronium = ""
-    if "paralysis_cisatracuronium" not in st.session_state:
-        st.session_state.paralysis_cisatracuronium = ""
-    if "paralysis_others" not in st.session_state:
-        st.session_state.paralysis_others = ""
-    if "induction_propofol" not in st.session_state:
-        st.session_state.induction_propofol = ""
-    if "induction_etomidate" not in st.session_state:
-        st.session_state.induction_etomidate = ""
-    if "induction_ketamine" not in st.session_state:
-        st.session_state.induction_ketamine = ""
-    if "induction_midazolam" not in st.session_state:
-        st.session_state.induction_midazolam = ""
-    if "induction_thiopental" not in st.session_state:
-        st.session_state.induction_thiopental = ""
-    if "induction_others" not in st.session_state:
-        st.session_state.induction_others = ""
-    if "atropine_indication" not in st.session_state:
-        st.session_state.atropine_indication = []
-    if "glycopyrrolate_indication" not in st.session_state:
-        st.session_state.glycopyrrolate_indication = []
-
     # Instructions
     st.markdown("""
     <p style='font-size: 14px;'>
@@ -581,11 +537,13 @@ elif st.session_state.page == "Medications":
     """, unsafe_allow_html=True)
 
     # Select box for drugs used
+    if "no_drugs" not in st.session_state:
+        st.session_state.no_drugs = "NO DRUGS USED"
+
     no_drugs = st.selectbox("Have any drugs been used?", ["NO DRUGS USED", "DRUGS USED"], 
                             index=["NO DRUGS USED", "DRUGS USED"].index(st.session_state.no_drugs))
-
-    # Save the selection for drugs used
-    st.session_state.no_drugs = no_drugs
+    
+    st.session_state.no_drugs = no_drugs  # Save the selection
 
     if no_drugs == "NO DRUGS USED":
         st.markdown("If no drugs are used, please proceed to the next section.")
@@ -596,78 +554,104 @@ elif st.session_state.page == "Medications":
         # Pretreatment Dosage
         with cols[0]:
             st.markdown("### Pretreatment Dosage")
+            if "pretreatment_atropine" not in st.session_state:
+                st.session_state.pretreatment_atropine = ""
+            if "pretreatment_glycopyrrolate" not in st.session_state:
+                st.session_state.pretreatment_glycopyrrolate = ""
+            if "pretreatment_fentanyl" not in st.session_state:
+                st.session_state.pretreatment_fentanyl = ""
+            if "pretreatment_lidocaine" not in st.session_state:
+                st.session_state.pretreatment_lidocaine = ""
+            if "pretreatment_vecuronium" not in st.session_state:
+                st.session_state.pretreatment_vecuronium = ""
+            if "pretreatment_others" not in st.session_state:
+                st.session_state.pretreatment_others = ""
+
             st.text_input("Atropine (mg)", key="pretreatment_atropine", 
-                          value=st.session_state.pretreatment_atropine, 
-                          on_change=lambda: update_session_state("pretreatment_atropine"))
+                          value=st.session_state.pretreatment_atropine)
             st.text_input("Glycopyrrolate (mcg)", key="pretreatment_glycopyrrolate", 
-                          value=st.session_state.pretreatment_glycopyrrolate, 
-                          on_change=lambda: update_session_state("pretreatment_glycopyrrolate"))
+                          value=st.session_state.pretreatment_glycopyrrolate)
             st.text_input("Fentanyl (mcg)", key="pretreatment_fentanyl", 
-                          value=st.session_state.pretreatment_fentanyl, 
-                          on_change=lambda: update_session_state("pretreatment_fentanyl"))
+                          value=st.session_state.pretreatment_fentanyl)
             st.text_input("Lidocaine (mg)", key="pretreatment_lidocaine", 
-                          value=st.session_state.pretreatment_lidocaine, 
-                          on_change=lambda: update_session_state("pretreatment_lidocaine"))
+                          value=st.session_state.pretreatment_lidocaine)
             st.text_input("Vecuronium (mg)", key="pretreatment_vecuronium", 
-                          value=st.session_state.pretreatment_vecuronium, 
-                          on_change=lambda: update_session_state("pretreatment_vecuronium"))
+                          value=st.session_state.pretreatment_vecuronium)
             st.text_input("Others", key="pretreatment_others", 
-                          value=st.session_state.pretreatment_others, 
-                          on_change=lambda: update_session_state("pretreatment_others"))
+                          value=st.session_state.pretreatment_others)
 
         # Paralysis Dosage
         with cols[1]:
             st.markdown("### Paralysis Dosage")
+            if "paralysis_rocuronium" not in st.session_state:
+                st.session_state.paralysis_rocuronium = ""
+            if "paralysis_succinylcholine" not in st.session_state:
+                st.session_state.paralysis_succinylcholine = ""
+            if "paralysis_vecuronium" not in st.session_state:
+                st.session_state.paralysis_vecuronium = ""
+            if "paralysis_pancuronium" not in st.session_state:
+                st.session_state.paralysis_pancuronium = ""
+            if "paralysis_cisatracuronium" not in st.session_state:
+                st.session_state.paralysis_cisatracuronium = ""
+            if "paralysis_others" not in st.session_state:
+                st.session_state.paralysis_others = ""
+
             st.text_input("Rocuronium (mg)", key="paralysis_rocuronium", 
-                          value=st.session_state.paralysis_rocuronium, 
-                          on_change=lambda: update_session_state("paralysis_rocuronium"))
+                          value=st.session_state.paralysis_rocuronium)
             st.text_input("Succinylcholine (mg)", key="paralysis_succinylcholine", 
-                          value=st.session_state.paralysis_succinylcholine, 
-                          on_change=lambda: update_session_state("paralysis_succinylcholine"))
+                          value=st.session_state.paralysis_succinylcholine)
             st.text_input("Vecuronium (mg)", key="paralysis_vecuronium", 
-                          value=st.session_state.paralysis_vecuronium, 
-                          on_change=lambda: update_session_state("paralysis_vecuronium"))
+                          value=st.session_state.paralysis_vecuronium)
             st.text_input("Pancuronium (mg)", key="paralysis_pancuronium", 
-                          value=st.session_state.paralysis_pancuronium, 
-                          on_change=lambda: update_session_state("paralysis_pancuronium"))
+                          value=st.session_state.paralysis_pancuronium)
             st.text_input("Cisatracuronium (mg)", key="paralysis_cisatracuronium", 
-                          value=st.session_state.paralysis_cisatracuronium, 
-                          on_change=lambda: update_session_state("paralysis_cisatracuronium"))
+                          value=st.session_state.paralysis_cisatracuronium)
             st.text_input("Others", key="paralysis_others", 
-                          value=st.session_state.paralysis_others, 
-                          on_change=lambda: update_session_state("paralysis_others"))
+                          value=st.session_state.paralysis_others)
 
         # Induction Dosage
         with cols[2]:
             st.markdown("### Induction Dosage")
+            if "induction_propofol" not in st.session_state:
+                st.session_state.induction_propofol = ""
+            if "induction_etomidate" not in st.session_state:
+                st.session_state.induction_etomidate = ""
+            if "induction_ketamine" not in st.session_state:
+                st.session_state.induction_ketamine = ""
+            if "induction_midazolam" not in st.session_state:
+                st.session_state.induction_midazolam = ""
+            if "induction_thiopental" not in st.session_state:
+                st.session_state.induction_thiopental = ""
+            if "induction_others" not in st.session_state:
+                st.session_state.induction_others = ""
+
             st.text_input("Propofol (mg)", key="induction_propofol", 
-                          value=st.session_state.induction_propofol, 
-                          on_change=lambda: update_session_state("induction_propofol"))
+                          value=st.session_state.induction_propofol)
             st.text_input("Etomidate (mg)", key="induction_etomidate", 
-                          value=st.session_state.induction_etomidate, 
-                          on_change=lambda: update_session_state("induction_etomidate"))
+                          value=st.session_state.induction_etomidate)
             st.text_input("Ketamine (mg)", key="induction_ketamine", 
-                          value=st.session_state.induction_ketamine, 
-                          on_change=lambda: update_session_state("induction_ketamine"))
+                          value=st.session_state.induction_ketamine)
             st.text_input("Midazolam (mg)", key="induction_midazolam", 
-                          value=st.session_state.induction_midazolam, 
-                          on_change=lambda: update_session_state("induction_midazolam"))
+                          value=st.session_state.induction_midazolam)
             st.text_input("Thiopental (mg)", key="induction_thiopental", 
-                          value=st.session_state.induction_thiopental, 
-                          on_change=lambda: update_session_state("induction_thiopental"))
+                          value=st.session_state.induction_thiopental)
             st.text_input("Others", key="induction_others", 
-                          value=st.session_state.induction_others, 
-                          on_change=lambda: update_session_state("induction_others"))
+                          value=st.session_state.induction_others)
 
         # Multi-select for indications
         st.markdown("### Indications")
+        if "atropine_indication" not in st.session_state:
+            st.session_state.atropine_indication = []
+        if "glycopyrrolate_indication" not in st.session_state:
+            st.session_state.glycopyrrolate_indication = []
+
         atropine_indication = st.multiselect(
             "Atropine Indication:",
             ["Premed for TI", "Treatment of Bradycardia"],
             default=st.session_state.atropine_indication,
             key="atropine_indication"
         )
-
+        
         glycopyrrolate_indication = st.multiselect(
             "Glycopyrrolate Indication:",
             ["Premed for TI", "Treatment of Bradycardia"],
@@ -686,6 +670,7 @@ elif st.session_state.page == "Medications":
         if st.button("Next"):
             st.session_state.page = "Method"  # Set next page
             st.rerun()
+
 
 
 elif st.session_state.page == "Method":
