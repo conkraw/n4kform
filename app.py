@@ -526,9 +526,6 @@ elif st.session_state.page == "Difficult Airway Evaluation":
             st.rerun()  # Rerun the app to reflect the new page
 
 
-
-
-
 elif st.session_state.page == "Medications":
     st.header("MEDICATIONS")
 
@@ -540,7 +537,10 @@ elif st.session_state.page == "Medications":
     """, unsafe_allow_html=True)
 
     # Select box for drugs used
-    no_drugs = st.selectbox("Have any drugs been used?", ["NO DRUGS USED", "DRUGS USED"], index=0)
+    if "no_drugs" not in st.session_state:
+        st.session_state.no_drugs = "NO DRUGS USED"  # Default value
+
+    no_drugs = st.selectbox("Have any drugs been used?", ["NO DRUGS USED", "DRUGS USED"], index=["NO DRUGS USED", "DRUGS USED"].index(st.session_state.no_drugs))
 
     if no_drugs == "NO DRUGS USED":
         st.markdown("If no drugs are used, please proceed to the next section.")
@@ -591,6 +591,9 @@ elif st.session_state.page == "Medications":
             ["Premed for TI", "Treatment of Bradycardia"],
             key="glycopyrrolate_indication"
         )
+
+    # Save the selection for drugs used
+    st.session_state.no_drugs = no_drugs
 
     # Navigation buttons
     col1, col2 = st.columns(2)
