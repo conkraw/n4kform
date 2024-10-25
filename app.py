@@ -376,51 +376,50 @@ elif st.session_state.page == "Course Information":
     attempt_numbers = range(1, 9)
 
     # Create the table-like layout
-    with st.form("course_information_form"):  # Start the form
-        for row_header in row_headers:
-            cols = st.columns(len(attempt_numbers) + 1)  # Create extra column for headers
-            with cols[0]:  # Column for row headers
-                reset_input(row_header, f"header_{row_header}")   # No default value for headers
+    for row_header in row_headers:
+        cols = st.columns(len(attempt_numbers) + 1)  # Create extra column for headers
+        with cols[0]:  # Column for row headers
+            reset_input(row_header, f"header_{row_header}")   # No default value for headers
 
-            for attempt in attempt_numbers:
-                with cols[attempt]:  # Adjust for 1-based indexing
-                    if row_header == "Attempts for this COURSE":
-                        centered_input(str(attempt), f"attempt_course_{attempt}", width='50px', height='40px') 
-                    elif row_header == "Who intubated (Fellow, Resident, etc)":
-                        st.session_state.attempts[f'Attempt {attempt}']['who_intubated'] = custom_input(
-                            f'who_intubated_{attempt}'
-                        )
-                    elif row_header == "Discipline (ICU, ENT, Surgery, etc)":
-                        st.session_state.attempts[f'Attempt {attempt}']['discipline'] = custom_input(
-                            f'discipline_{attempt}'
-                        )
-                    elif row_header == "PGY level (3rd year resident = PL3, 1st year fellow = PL4,  NP=yrs as NP, etc.)":
-                        st.session_state.attempts[f'Attempt {attempt}']['pgy_level'] = custom_input(
-                            f'pgy_level_{attempt}'
-                        )
-                    elif row_header == "ETT (or LMA) Size":
-                        st.session_state.attempts[f'Attempt {attempt}']['ett_size'] = custom_input(
-                            f'ett_size_{attempt}'
-                        )
-                    elif row_header == "ETT type: cuffed/uncuffed/ NA":
-                        st.session_state.attempts[f'Attempt {attempt}']['ett_type'] = custom_input(
-                            f'ett_type_{attempt}'
-                        )
-                    elif row_header == "Immediately prior to this attempt was cricoid pressure/external laryngeal manipulation provided?":
-                        st.session_state.attempts[f'Attempt {attempt}']['cricoid_prior'] = custom_input(
-                            f'cricoid_prior_{attempt}'
-                        )
-                    elif row_header == "During this attempt, was cricoid pressure/external laryngeal manipulation provided?":
-                        st.session_state.attempts[f'Attempt {attempt}']['cricoid_during'] = custom_input(
-                            f'cricoid_during_{attempt}'
-                        )
-                    elif row_header == "Attempt Successful: Yes/No":
-                        st.session_state.attempts[f'Attempt {attempt}']['attempt_successful'] = custom_input(
-                            f'attempt_successful_{attempt}'
-                        )
+        for attempt in attempt_numbers:
+            with cols[attempt]:  # Adjust for 1-based indexing
+                if row_header == "Attempts for this COURSE":
+                    centered_input(str(attempt), f"attempt_course_{attempt}", width='50px', height='40px') 
+                elif row_header == "Who intubated (Fellow, Resident, etc)":
+                    st.session_state.attempts[f'Attempt {attempt}']['who_intubated'] = custom_input(
+                        f'who_intubated_{attempt}'
+                    )
+                elif row_header == "Discipline (ICU, ENT, Surgery, etc)":
+                    st.session_state.attempts[f'Attempt {attempt}']['discipline'] = custom_input(
+                        f'discipline_{attempt}'
+                    )
+                elif row_header == "PGY level (3rd year resident = PL3, 1st year fellow = PL4,  NP=yrs as NP, etc.)":
+                    st.session_state.attempts[f'Attempt {attempt}']['pgy_level'] = custom_input(
+                        f'pgy_level_{attempt}'
+                    )
+                elif row_header == "ETT (or LMA) Size":
+                    st.session_state.attempts[f'Attempt {attempt}']['ett_size'] = custom_input(
+                        f'ett_size_{attempt}'
+                    )
+                elif row_header == "ETT type: cuffed/uncuffed/ NA":
+                    st.session_state.attempts[f'Attempt {attempt}']['ett_type'] = custom_input(
+                        f'ett_type_{attempt}'
+                    )
+                elif row_header == "Immediately prior to this attempt was cricoid pressure/external laryngeal manipulation provided?":
+                    st.session_state.attempts[f'Attempt {attempt}']['cricoid_prior'] = custom_input(
+                        f'cricoid_prior_{attempt}'
+                    )
+                elif row_header == "During this attempt, was cricoid pressure/external laryngeal manipulation provided?":
+                    st.session_state.attempts[f'Attempt {attempt}']['cricoid_during'] = custom_input(
+                        f'cricoid_during_{attempt}'
+                    )
+                elif row_header == "Attempt Successful: Yes/No":
+                    st.session_state.attempts[f'Attempt {attempt}']['attempt_successful'] = custom_input(
+                        f'attempt_successful_{attempt}'
+                    )
 
-    # Create a column layout for navigation buttons
-    col_prev, col_next = st.columns([1, 2])  # Adjust the proportions as needed
+    # Navigation buttons outside the form
+    col_prev, col_next = st.columns(2)
 
     with col_prev:
         if st.button("Previous"):
@@ -428,7 +427,9 @@ elif st.session_state.page == "Course Information":
             st.rerun()  # Rerun the app to reflect the new page
 
     with col_next:
-        if st.form_submit_button("Submit and Next"):
+        if st.button("Next"):
+            # Save values before moving to the next page
+            # This is already handled by the custom_input function
             st.session_state.page = "Difficult Airway Evaluation"  # Set next page
             st.rerun()  # Rerun the app to reflect the new page
 
