@@ -480,55 +480,36 @@ elif st.session_state.page == "Difficult Airway Evaluation":
 
 
         # Difficult to Bag/Mask Ventilate
-        st.markdown("### Difficult to Bag/Mask Ventilate? (Select ONE only)")
-        if "difficult_to_bag" not in st.session_state:
-            st.session_state["difficult_to_bag"] = 'Select Whether the Patient Was Difficult to Bag/Mask Ventilate' 
-        
-        difficult_to_bag = st.selectbox(
-            "",
-            options=['Select Whether the Patient Was Difficult to Bag/Mask Ventilate', 'Yes', 'No', 'Not applicable (bag-mask ventilation not given)'],
-            index=['Select Whether the Patient Was Difficult to Bag/Mask Ventilate', 'Yes', 'No', 'Not applicable (bag-mask ventilation not given)'].index(st.session_state["difficult_to_bag"])
-        )
-        
-        # Update session state
-        st.session_state["difficult_to_bag"] = difficult_to_bag
-        
-        
-        # Known cyanotic heart disease
-        st.markdown("### Known cyanotic heart disease (R to L shunt)? (Select ONE only)")
-        if "cyanotic" not in st.session_state:
-            st.session_state["cyanotic"] = 'Select if Patient With Known cyanotic heart disease'
-        
-        cyanotic = st.selectbox(
-            "",
-            options=['Select if Patient With Known cyanotic heart disease', 'Yes', 'No'],
-            index=['Select if Patient With Known cyanotic heart disease', 'Yes', 'No'].index(st.session_state["cyanotic"])
-        )
-        
-        # Update session state
-        st.session_state["cyanotic"] = cyanotic
-
-        
-        # Known cyanotic heart disease
-        st.markdown("### Known cyanotic heart disease (R to L shunt)? (Select ONE only)")
-        #options_cyanotic = ['Select if Known cyanotic heart disease (R to L shunt)', 'Yes', 'No']
-        
-        # Initialize session state if not already done
-        #if "cyanotic" not in st.session_state:
-        #    st.session_state["cyanotic"] = options_cyanotic[0]  # Default value
-        
-        # Make sure the default value is valid
-        #if st.session_state["cyanotic"] not in options_cyanotic:
-        #    st.session_state["cyanotic"] = options_cyanotic[0]
-        
-        #cyanotic = st.selectbox(
-        #    "",
-        #    options=options_cyanotic,
-        #    index=options_cyanotic.index(st.session_state["cyanotic"])
-        #)
-        
-        # Update session state with the selected option
-        #st.session_state["cyanotic"] = cyanotic
+    st.markdown("### Difficult to Bag/Mask Ventilate? (Select ONE only)")
+    if "difficult_to_bag" not in st.session_state:
+        st.session_state["difficult_to_bag"] = 'Select Whether the Patient Was Difficult to Bag/Mask Ventilate' 
+    
+    difficult_to_bag = st.selectbox(
+        "",
+        options=['Select Whether the Patient Was Difficult to Bag/Mask Ventilate', 'Yes', 'No', 'Not applicable (bag-mask ventilation not given)'],
+        index=['Select Whether the Patient Was Difficult to Bag/Mask Ventilate', 'Yes', 'No', 'Not applicable (bag-mask ventilation not given)'].index(st.session_state["difficult_to_bag"]),
+        key="difficult_to_bag_selectbox"  # Unique key for this selectbox
+    )
+    
+    # Update session state
+    st.session_state["difficult_to_bag"] = difficult_to_bag
+    
+    
+    # Known cyanotic heart disease
+    st.markdown("### Known cyanotic heart disease (R to L shunt)? (Select ONE only)")
+    if "cyanotic" not in st.session_state:
+        st.session_state["cyanotic"] = 'Select if Patient With Known cyanotic heart disease'
+    
+    cyanotic = st.selectbox(
+        "",
+        options=['Select if Patient With Known cyanotic heart disease', 'Yes', 'No'],
+        index=['Select if Patient With Known cyanotic heart disease', 'Yes', 'No'].index(st.session_state["cyanotic"]),
+        key="cyanotic_selectbox"  # Unique key for this selectbox
+    )
+    
+    # Update session state
+    st.session_state["cyanotic"] = cyanotic
+    
 
 
     # Navigation buttons
