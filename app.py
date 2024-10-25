@@ -562,15 +562,19 @@ elif st.session_state.page == "Method":
 
     # Dropdown for Method of Airway Management
     st.markdown("### Method: Begin NEW course if NEW method/device used")
-    method_options = [
+
+    if "selected_method" not in st.session_state:
+        st.session_state["selected_method"] = 'Select Method'
+
+    selected_method = st.selectbox("",
+        options=["Select Method",
         "Oral", "Nasal", "LMA", "Oral to Oral",
         "Oral to Nasal", "Nasal to Oral", "Nasal to Nasal", "Tracheostomy to Oral"
-    ]
-    # Check if the value exists in session state, else set a default
-    selected_method = st.selectbox("Select Method:", 
-                                    method_options, 
-                                    key="airway_method", 
-                                    index=method_options.index(st.session_state.get("airway_method", method_options[0])))
+    ],
+        index=["Select Method","Oral", "Nasal", "LMA", "Oral to Oral","Oral to Nasal", "Nasal to Oral", "Nasal to Nasal", "Tracheostomy to Oral"].index(st.session_state["selected_method"]),
+        key="selected_method_selectbox"  # Unique key for this selectbox
+    )
+
 
     # Multiselect for Airway Management Techniques and Medication Protocols
     st.markdown("### What airway management technique and/or their corresponding medication protocol was used during this course?")
