@@ -407,8 +407,6 @@ elif st.session_state.page == "Course Information":
             st.session_state.page = "Difficult Airway Evaluation"  # Set next page
             st.rerun()  # Rerun the app to reflect the new page
 
-
-
 elif st.session_state.page == "Difficult Airway Evaluation":
     st.markdown("### Difficult Airway Evaluations (Choose one in each category):")
     
@@ -443,12 +441,12 @@ elif st.session_state.page == "Difficult Airway Evaluation":
     # Create a select box for options
     st.markdown("### Difficult to Bag/Mask Ventilate? (Select ONE only)")
     options_bag = ["Yes", "No", "Not applicable (bag-mask ventilation not given)"]
-    selected_bag = st.selectbox("", options_bag, key="difficult_to_bag")
+    selected_bag = st.selectbox("", options_bag, key="difficult_to_bag", index=options_bag.index(st.session_state.get("difficult_to_bag", options_bag[0])))
 
     # Known cyanotic heart disease (R to L shunt)
     st.markdown("### Known cyanotic heart disease (R to L shunt)?  (Select ONE only)")
     options_cyanotic = ["Yes", "No"]
-    selected_cyanotic = st.selectbox("", options_cyanotic, key="cyanotic")
+    selected_cyanotic = st.selectbox("", options_cyanotic, key="cyanotic", index=options_cyanotic.index(st.session_state.get("cyanotic", options_cyanotic[0])))
 
     # Navigation buttons
     col_prev, col_next = st.columns(2)
@@ -461,6 +459,7 @@ elif st.session_state.page == "Difficult Airway Evaluation":
         if st.button("Next"):
             st.session_state.page = "Medications"  # Set next page
             st.rerun()  # Rerun the app to reflect the new page
+
 
 
 
