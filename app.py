@@ -627,11 +627,11 @@ if st.session_state.page == "Method Details":
 
     # Question about Oxygen provision
     st.markdown("### 1. Was Oxygen provided DURING any TI attempts for this course?")
-    oxygen_options = ["YES", "NO", "ATTEMPTED but not done (explain on last page)"]
+    oxygen_options = ["Select if Oxygen was Provided DURING any TI attempts for this course","YES", "NO", "ATTEMPTED but not done (explain on last page)"]
 
     # Initialize selected_oxygen in session state if not present
     if "selected_oxygen" not in st.session_state:
-        st.session_state.selected_oxygen = oxygen_options[0]
+        st.session_state.selected_oxygen = "Select if Oxygen was Provided DURING any TI attempts for this course"
 
     selected_oxygen = st.selectbox("Select an option:", oxygen_options, index=oxygen_options.index(st.session_state.selected_oxygen))
 
