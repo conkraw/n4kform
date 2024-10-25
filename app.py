@@ -379,51 +379,53 @@ elif st.session_state.page == "Course Information":
     for row_header in row_headers:
         cols = st.columns(len(attempt_numbers) + 1)  # Create extra column for headers
         with cols[0]:  # Column for row headers
-            reset_input(row_header, f"header_{row_header}")  # No default value for headers
+            st.write(row_header)  # Display header
 
         for attempt in attempt_numbers:
             with cols[attempt]:  # Adjust for 1-based indexing
+                attempt_key = f'Attempt {attempt}'
+
                 if row_header == "Attempts for this COURSE":
                     centered_input(str(attempt), f"attempt_course_{attempt}", width='50px', height='40px') 
                 elif row_header == "Who intubated (Fellow, Resident, etc)":
-                    custom_input(
+                    st.session_state.attempts[attempt_key]['who_intubated'] = custom_input(
                         f'who_intubated_{attempt}',
-                        default_value=st.session_state.attempts[f'Attempt {attempt}']['who_intubated']
+                        default_value=st.session_state.attempts[attempt_key]['who_intubated']
                     )
                 elif row_header == "Discipline (ICU, ENT, Surgery, etc)":
-                    custom_input(
+                    st.session_state.attempts[attempt_key]['discipline'] = custom_input(
                         f'discipline_{attempt}',
-                        default_value=st.session_state.attempts[f'Attempt {attempt}']['discipline']
+                        default_value=st.session_state.attempts[attempt_key]['discipline']
                     )
                 elif row_header == "PGY level (3rd year resident = PL3, 1st year fellow = PL4, NP=yrs as NP, etc.)":
-                    custom_input(
+                    st.session_state.attempts[attempt_key]['pgy_level'] = custom_input(
                         f'pgy_level_{attempt}',
-                        default_value=st.session_state.attempts[f'Attempt {attempt}']['pgy_level']
+                        default_value=st.session_state.attempts[attempt_key]['pgy_level']
                     )
                 elif row_header == "ETT (or LMA) Size":
-                    custom_input(
+                    st.session_state.attempts[attempt_key]['ett_size'] = custom_input(
                         f'ett_size_{attempt}',
-                        default_value=st.session_state.attempts[f'Attempt {attempt}']['ett_size']
+                        default_value=st.session_state.attempts[attempt_key]['ett_size']
                     )
                 elif row_header == "ETT type: cuffed/uncuffed/ NA":
-                    custom_input(
+                    st.session_state.attempts[attempt_key]['ett_type'] = custom_input(
                         f'ett_type_{attempt}',
-                        default_value=st.session_state.attempts[f'Attempt {attempt}']['ett_type']
+                        default_value=st.session_state.attempts[attempt_key]['ett_type']
                     )
                 elif row_header == "Immediately prior to this attempt was cricoid pressure/external laryngeal manipulation provided?":
-                    custom_input(
+                    st.session_state.attempts[attempt_key]['cricoid_prior'] = custom_input(
                         f'cricoid_prior_{attempt}',
-                        default_value=st.session_state.attempts[f'Attempt {attempt}']['cricoid_prior']
+                        default_value=st.session_state.attempts[attempt_key]['cricoid_prior']
                     )
                 elif row_header == "During this attempt, was cricoid pressure/external laryngeal manipulation provided?":
-                    custom_input(
+                    st.session_state.attempts[attempt_key]['cricoid_during'] = custom_input(
                         f'cricoid_during_{attempt}',
-                        default_value=st.session_state.attempts[f'Attempt {attempt}']['cricoid_during']
+                        default_value=st.session_state.attempts[attempt_key]['cricoid_during']
                     )
                 elif row_header == "Attempt Successful: Yes/No":
-                    custom_input(
+                    st.session_state.attempts[attempt_key]['attempt_successful'] = custom_input(
                         f'attempt_successful_{attempt}',
-                        default_value=st.session_state.attempts[f'Attempt {attempt}']['attempt_successful']
+                        default_value=st.session_state.attempts[attempt_key]['attempt_successful']
                     )
 
     # Navigation buttons
