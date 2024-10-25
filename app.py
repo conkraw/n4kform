@@ -562,15 +562,17 @@ elif st.session_state.page == "Method":
 
     # Dropdown for Method of Airway Management
     st.markdown("### Method: Begin NEW course if NEW method/device used")
+    method_options = ["Select Method", "Oral", "Nasal", "LMA", "Oral to Oral", "Oral to Nasal", "Nasal to Oral", "Nasal to Nasal", "Tracheostomy to Oral"]
 
     if "selected_method" not in st.session_state:
-        st.session_state["selected_method"] = 'Select Method'
+        st.session_state.selected_method = method_options[0]
 
-    selected_method = st.selectbox("",["Select Method","Oral", "Nasal", "LMA", "Oral to Oral","Oral to Nasal", "Nasal to Oral", "Nasal to Nasal", "Tracheostomy to Oral"],
-    index=["Select Method","Oral", "Nasal", "LMA", "Oral to Oral","Oral to Nasal", "Nasal to Oral", "Nasal to Nasal", "Tracheostomy to Oral"].index(st.session_state["selected_method"]),)
+    selected_method = st.selectbox("Select Method:", method_options,
+                                    index=method_options.index(st.session_state.selected_method))
 
+    # Update the session state
     st.session_state.selected_method = selected_method
-    
+
     # Multiselect for Airway Management Techniques and Medication Protocols
     st.markdown("### What airway management technique and/or their corresponding medication protocol was used during this course?")
     technique_options = [
@@ -585,21 +587,26 @@ elif st.session_state.page == "Method":
         "Sedation Only",
         "Others (Specify):"
     ]
+
+    if "selected_techniques" not in st.session_state:
+        st.session_state.selected_techniques = []
+
     selected_techniques = st.multiselect("Select Techniques:", 
                                           technique_options, 
-                                          default=st.session_state.get("selected_techniques", []))
+                                          default=st.session_state.selected_techniques)
 
+    # Update the session state
     st.session_state.selected_techniques = selected_techniques
-    
-    # Use the session state to pre-fill the multiselect options
-    
-    
+
     # If "Others" is selected, show an input box for specification
     if "Others (Specify):" in selected_techniques:
         other_specification = st.text_input("Please specify:", key="other_specification", value=st.session_state.get("other_specification", ""))
+    else:
+        other_specification = ""  # Clear input if "Others" is not selected
 
+    # Save the "Others" specification
     st.session_state.other_specification = other_specification
-    
+
     # Navigation buttons
     col1, col2 = st.columns(2)
     with col1:
@@ -611,7 +618,6 @@ elif st.session_state.page == "Method":
         if st.button("Next"):
             st.session_state.page = "Method Details"  # Set next page (update this to your actual next page)
             st.rerun()
-
 
 # Page for Method Details
 if st.session_state.page == "Method Details":
