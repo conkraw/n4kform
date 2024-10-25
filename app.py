@@ -430,7 +430,7 @@ elif st.session_state.page == "Difficult Airway Evaluation":
             question_box(f"{idx + 1}. {question}")  # Display question
             
         with cols[1]:
-            # Ensure session state is initialized
+            # Initialize session state if not already done
             if f"evaluation_{idx}" not in st.session_state:
                 st.session_state[f"evaluation_{idx}"] = options[0]  # Default to first option
 
@@ -438,9 +438,11 @@ elif st.session_state.page == "Difficult Airway Evaluation":
             selected_option = st.selectbox(
                 "",
                 options=options,
-                index=options.index(st.session_state[f"evaluation_{idx}"]),  # Get previous value
+                index=options.index(st.session_state[f"evaluation_{idx}"]),  # Use session state value
                 key=f"evaluation_{idx}"  # Unique key for each selectbox
             )
+            # Update session state with the selected option
+            st.session_state[f"evaluation_{idx}"] = selected_option
 
     # Difficult to Bag/Mask Ventilate
     st.markdown("### Difficult to Bag/Mask Ventilate? (Select ONE only)")
@@ -449,12 +451,18 @@ elif st.session_state.page == "Difficult Airway Evaluation":
         st.session_state["difficult_to_bag"] = options_bag[0]  # Default to first option
     selected_bag = st.selectbox("", options_bag, key="difficult_to_bag", index=options_bag.index(st.session_state["difficult_to_bag"]))
 
+    # Update session state for difficult to bag
+    st.session_state["difficult_to_bag"] = selected_bag
+
     # Known cyanotic heart disease
     st.markdown("### Known cyanotic heart disease (R to L shunt)?  (Select ONE only)")
     options_cyanotic = ["Yes", "No"]
     if "cyanotic" not in st.session_state:
         st.session_state["cyanotic"] = options_cyanotic[0]  # Default to first option
     selected_cyanotic = st.selectbox("", options_cyanotic, key="cyanotic", index=options_cyanotic.index(st.session_state["cyanotic"]))
+
+    # Update session state for cyanotic condition
+    st.session_state["cyanotic"] = selected_cyanotic
 
     # Navigation buttons
     col_prev, col_next = st.columns(2)
