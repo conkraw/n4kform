@@ -820,7 +820,7 @@ elif st.session_state.page == "Method Details II":
     col1, col2 = st.columns(2)
     with col1:
         if st.button("Previous"):
-            st.session_state.page = "Method Details II"
+            st.session_state.page = "Method"
             st.rerun()
 
     with col2:
