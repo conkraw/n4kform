@@ -694,13 +694,21 @@ if st.session_state.page == "Method Details":
                 # Initialize Liter Flow input in session state if not present
                 if liter_flow_key not in st.session_state:
                     st.session_state[liter_flow_key] = ""
+
+                # Create the text input for Liter Flow
                 liter_flow = st.text_input("", value=st.session_state[liter_flow_key], key=liter_flow_key)
+
+                # Immediately save the input value to session state
                 st.session_state[liter_flow_key] = liter_flow  # Save Liter Flow to session state immediately
 
                 # Initialize FIO2 input in session state if not present
                 if fio2_key not in st.session_state:
                     st.session_state[fio2_key] = ""
+
+                # Create the text input for FIO2
                 fio2 = st.text_input("", value=st.session_state[fio2_key], key=fio2_key)
+
+                # Immediately save the input value to session state
                 st.session_state[fio2_key] = fio2  # Save FIO2 to session state immediately
 
     # Navigation buttons
