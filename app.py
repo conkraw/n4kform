@@ -555,49 +555,49 @@ elif st.session_state.page == "Medications":
         with cols[0]:
             st.markdown("### Pretreatment Dosage")
             st.text_input("Atropine (mg)", key="pretreatment_atropine", 
-                          value=st.session_state.get("pretreatment_atropine", ""))
+                          value=st.session_state.get("pretreatment_atropine", ""), label_visibility="visible")
             st.text_input("Glycopyrrolate (mcg)", key="pretreatment_glycopyrrolate", 
-                          value=st.session_state.get("pretreatment_glycopyrrolate", ""))
+                          value=st.session_state.get("pretreatment_glycopyrrolate", ""), label_visibility="visible")
             st.text_input("Fentanyl (mcg)", key="pretreatment_fentanyl", 
-                          value=st.session_state.get("pretreatment_fentanyl", ""))
+                          value=st.session_state.get("pretreatment_fentanyl", ""), label_visibility="visible")
             st.text_input("Lidocaine (mg)", key="pretreatment_lidocaine", 
-                          value=st.session_state.get("pretreatment_lidocaine", ""))
+                          value=st.session_state.get("pretreatment_lidocaine", ""), label_visibility="visible")
             st.text_input("Vecuronium (mg)", key="pretreatment_vecuronium", 
-                          value=st.session_state.get("pretreatment_vecuronium", ""))
+                          value=st.session_state.get("pretreatment_vecuronium", ""), label_visibility="visible")
             st.text_input("Others", key="pretreatment_others", 
-                          value=st.session_state.get("pretreatment_others", ""))
+                          value=st.session_state.get("pretreatment_others", ""), label_visibility="visible")
 
         # Paralysis Dosage
         with cols[1]:
             st.markdown("### Paralysis Dosage")
             st.text_input("Rocuronium (mg)", key="paralysis_rocuronium", 
-                          value=st.session_state.get("paralysis_rocuronium", ""))
+                          value=st.session_state.get("paralysis_rocuronium", ""), label_visibility="visible")
             st.text_input("Succinylcholine (mg)", key="paralysis_succinylcholine", 
-                          value=st.session_state.get("paralysis_succinylcholine", ""))
+                          value=st.session_state.get("paralysis_succinylcholine", ""), label_visibility="visible")
             st.text_input("Vecuronium (mg)", key="paralysis_vecuronium", 
-                          value=st.session_state.get("paralysis_vecuronium", ""))
+                          value=st.session_state.get("paralysis_vecuronium", ""), label_visibility="visible")
             st.text_input("Pancuronium (mg)", key="paralysis_pancuronium", 
-                          value=st.session_state.get("paralysis_pancuronium", ""))
+                          value=st.session_state.get("paralysis_pancuronium", ""), label_visibility="visible")
             st.text_input("Cisatracuronium (mg)", key="paralysis_cisatracuronium", 
-                          value=st.session_state.get("paralysis_cisatracuronium", ""))
+                          value=st.session_state.get("paralysis_cisatracuronium", ""), label_visibility="visible")
             st.text_input("Others", key="paralysis_others", 
-                          value=st.session_state.get("paralysis_others", ""))
+                          value=st.session_state.get("paralysis_others", ""), label_visibility="visible")
 
         # Induction Dosage
         with cols[2]:
             st.markdown("### Induction Dosage")
             st.text_input("Propofol (mg)", key="induction_propofol", 
-                          value=st.session_state.get("induction_propofol", ""))
+                          value=st.session_state.get("induction_propofol", ""), label_visibility="visible")
             st.text_input("Etomidate (mg)", key="induction_etomidate", 
-                          value=st.session_state.get("induction_etomidate", ""))
+                          value=st.session_state.get("induction_etomidate", ""), label_visibility="visible")
             st.text_input("Ketamine (mg)", key="induction_ketamine", 
-                          value=st.session_state.get("induction_ketamine", ""))
+                          value=st.session_state.get("induction_ketamine", ""), label_visibility="visible")
             st.text_input("Midazolam (mg)", key="induction_midazolam", 
-                          value=st.session_state.get("induction_midazolam", ""))
+                          value=st.session_state.get("induction_midazolam", ""), label_visibility="visible")
             st.text_input("Thiopental (mg)", key="induction_thiopental", 
-                          value=st.session_state.get("induction_thiopental", ""))
+                          value=st.session_state.get("induction_thiopental", ""), label_visibility="visible")
             st.text_input("Others", key="induction_others", 
-                          value=st.session_state.get("induction_others", ""))
+                          value=st.session_state.get("induction_others", ""), label_visibility="visible")
 
         # Multi-select for indications
         st.markdown("### Indications")
@@ -626,7 +626,6 @@ elif st.session_state.page == "Medications":
         if st.button("Next"):
             st.session_state.page = "Method"  # Set next page
             st.rerun()
-
 
 elif st.session_state.page == "Method":
     st.header("METHOD")
