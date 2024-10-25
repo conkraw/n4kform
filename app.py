@@ -463,6 +463,7 @@ elif st.session_state.page == "Difficult Airway Evaluation":
             st.rerun()  # Rerun the app to reflect the new page
 
 
+
 elif st.session_state.page == "Medications":
     st.header("MEDICATIONS")
 
