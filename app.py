@@ -383,47 +383,15 @@ elif st.session_state.page == "Course Information":
 
         for attempt in attempt_numbers:
             with cols[attempt]:  # Adjust for 1-based indexing
+                key_prefix = f'Attempt {attempt}'
                 if row_header == "Attempts for this COURSE":
                     centered_input(str(attempt), f"attempt_course_{attempt}", width='50px', height='40px') 
-                elif row_header == "Who intubated (Fellow, Resident, etc)":
-                    st.session_state.attempts[f'Attempt {attempt}']['who_intubated'] = custom_input(
-                        f'who_intubated_{attempt}',
-                        default_value=st.session_state.attempts[f'Attempt {attempt}']['who_intubated']
-                    )
-                elif row_header == "Discipline (ICU, ENT, Surgery, etc)":
-                    st.session_state.attempts[f'Attempt {attempt}']['discipline'] = custom_input(
-                        f'discipline_{attempt}',
-                        default_value=st.session_state.attempts[f'Attempt {attempt}']['discipline']
-                    )
-                elif row_header == "PGY level (3rd year resident = PL3, 1st year fellow = PL4,  NP=yrs as NP, etc.)":
-                    st.session_state.attempts[f'Attempt {attempt}']['pgy_level'] = custom_input(
-                        f'pgy_level_{attempt}',
-                        default_value=st.session_state.attempts[f'Attempt {attempt}']['pgy_level']
-                    )
-                elif row_header == "ETT (or LMA) Size":
-                    st.session_state.attempts[f'Attempt {attempt}']['ett_size'] = custom_input(
-                        f'ett_size_{attempt}',
-                        default_value=st.session_state.attempts[f'Attempt {attempt}']['ett_size']
-                    )
-                elif row_header == "ETT type: cuffed/uncuffed/ NA":
-                    st.session_state.attempts[f'Attempt {attempt}']['ett_type'] = custom_input(
-                        f'ett_type_{attempt}',
-                        default_value=st.session_state.attempts[f'Attempt {attempt}']['ett_type']
-                    )
-                elif row_header == "Immediately prior to this attempt was cricoid pressure/external laryngeal manipulation provided?":
-                    st.session_state.attempts[f'Attempt {attempt}']['cricoid_prior'] = custom_input(
-                        f'cricoid_prior_{attempt}',
-                        default_value=st.session_state.attempts[f'Attempt {attempt}']['cricoid_prior']
-                    )
-                elif row_header == "During this attempt, was cricoid pressure/external laryngeal manipulation provided?":
-                    st.session_state.attempts[f'Attempt {attempt}']['cricoid_during'] = custom_input(
-                        f'cricoid_during_{attempt}',
-                        default_value=st.session_state.attempts[f'Attempt {attempt}']['cricoid_during']
-                    )
-                elif row_header == "Attempt Successful: Yes/No":
-                    st.session_state.attempts[f'Attempt {attempt}']['attempt_successful'] = custom_input(
-                        f'attempt_successful_{attempt}',
-                        default_value=st.session_state.attempts[f'Attempt {attempt}']['attempt_successful']
+                else:
+                    # Set the input field without setting a default value directly
+                    current_value = st.session_state.attempts[key_prefix].get(row_header.lower().replace(" ", "_"), "")
+                    st.session_state.attempts[key_prefix][row_header.lower().replace(" ", "_")] = custom_input(
+                        f'{row_header.lower().replace(" ", "_")}_{attempt}',
+                        default_value=current_value
                     )
 
     # Navigation buttons outside the form
