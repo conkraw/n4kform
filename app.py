@@ -855,15 +855,24 @@ if st.session_state.page == "Monitoring of Vital Signs":
     st.header("MONITORING OF VITAL SIGNS")
     st.subheader("Pulse Oximetry (%):")
 
-    # Creating four columns
+    # Creating two columns
     cols = st.columns(2)
 
+    # Highest Value Input
+    if "highest_value" not in st.session_state:
+        st.session_state.highest_value = ""  # Initialize if not present
+
     with cols[0]:
-        highest_value = st.text_input("Highest Value prior to intubation:", key="highest_value")
+        highest_value = st.text_input("Highest Value prior to intubation:", value=st.session_state.highest_value)
+        st.session_state.highest_value = highest_value  # Save input value
+
+    # Lowest Value Input
+    if "lowest_value" not in st.session_state:
+        st.session_state.lowest_value = ""  # Initialize if not present
 
     with cols[1]:
-        lowest_value = st.text_input("Lowest value during intubation:", key="lowest_value")
-
+        lowest_value = st.text_input("Lowest value during intubation:", value=st.session_state.lowest_value)
+        st.session_state.lowest_value = lowest_value  # Save input value
 
     # Navigation buttons
     col1, col2 = st.columns(2)
@@ -880,14 +889,30 @@ if st.session_state.page == "Monitoring of Vital Signs":
 if st.session_state.page == "Course Success":
     st.header("COURSE SUCCESS")
 
-    successful_intubation = st.selectbox("Successful tracheal intubation/advanced airway management:", ["Yes", "No"], key="course_success")
+    # Successful tracheal intubation/advanced airway management
+    if "course_success" not in st.session_state:
+        st.session_state.course_success = "Yes"  # Default value
+
+    successful_intubation = st.selectbox(
+        "Successful tracheal intubation/advanced airway management:", 
+        ["Yes", "No"], 
+        index=["Yes", "No"].index(st.session_state.course_success)
+    )
+    st.session_state.course_success = successful_intubation  # Save selection
 
     if successful_intubation == "No":
         st.markdown("If course failed, please explain briefly:")
-        st.checkbox("Cannot visualize vocal cords", key="cannot_visualize")
-        st.checkbox("Cannot place device into trachea", key="cannot_place_device")
-        st.checkbox("Unstable hemodynamics", key="unstable_hemodynamics")
-        other_failure = st.text_input("Other (please explain):", key="other_failure")
+        
+        # Checkbox inputs
+        st.checkbox("Cannot visualize vocal cords", value=st.session_state.get("cannot_visualize", False), key="cannot_visualize")
+        st.checkbox("Cannot place device into trachea", value=st.session_state.get("cannot_place_device", False), key="cannot_place_device")
+        st.checkbox("Unstable hemodynamics", value=st.session_state.get("unstable_hemodynamics", False), key="unstable_hemodynamics")
+        
+        # Other failure explanation
+        if "other_failure" not in st.session_state:
+            st.session_state.other_failure = ""  # Initialize if not present
+        other_failure = st.text_input("Other (please explain):", value=st.session_state.other_failure)
+        st.session_state.other_failure = other_failure  # Save input
 
     # Navigation buttons
     col1, col2 = st.columns(2)
@@ -904,7 +929,7 @@ if st.session_state.page == "Course Success":
 if st.session_state.page == "Disposition":
     st.header("DISPOSITION")
 
-    # Updated disposition options including "Other"
+    # Disposition options
     disposition_options = [
         "Stay in PICU/NICU/CICU/ED",
         "Transferred to",
@@ -912,23 +937,37 @@ if st.session_state.page == "Disposition":
         "Died – other causes",
         "Other"
     ]
-    
-    disposition = st.selectbox("Disposition:", disposition_options, key="disposition")
 
-    # If "Transferred to," show checkboxes for locations
+    if "disposition" not in st.session_state:
+        st.session_state.disposition = disposition_options[0]  # Default value
+
+    disposition = st.selectbox(
+        "Disposition:", 
+        disposition_options, 
+        index=disposition_options.index(st.session_state.disposition)
+    )
+    st.session_state.disposition = disposition  # Save selection
+
+    # Transferred to checkboxes
     if disposition == "Transferred to":
-        st.checkbox("PICU", key="transferred_to_PICU")
-        st.checkbox("NICU", key="transferred_to_NICU")
-        st.checkbox("CICU", key="transferred_to_CICU")
+        st.checkbox("PICU", value=st.session_state.get("transferred_to_PICU", False), key="transferred_to_PICU")
+        st.checkbox("NICU", value=st.session_state.get("transferred_to_NICU", False), key="transferred_to_NICU")
+        st.checkbox("CICU", value=st.session_state.get("transferred_to_CICU", False), key="transferred_to_CICU")
 
-    # If "Other" is selected, show text input for specification
+    # Other disposition input
     if disposition == "Other":
-        other_disposition = st.text_input("Please specify:", key="other_disposition")
+        if "other_disposition" not in st.session_state:
+            st.session_state.other_disposition = ""  # Initialize if not present
+        other_disposition = st.text_input("Please specify:", value=st.session_state.other_disposition)
+        st.session_state.other_disposition = other_disposition  # Save input
     else:
-        other_disposition = ""  # Clear the input if not "Other"
+        st.session_state.other_disposition = ""  # Clear input if not "Other"
 
-    st.markdown("### Other Comments:")
-    other_comments = st.text_area("Please explain (e.g. higher dose of vecuronium, choice of drugs used):", key="other_comments")
+    # Other comments
+    if "other_comments" not in st.session_state:
+        st.session_state.other_comments = ""  # Initialize if not present
+    other_comments = st.text_area("Please explain (e.g. higher dose of vecuronium, choice of drugs used):", value=st.session_state.other_comments)
+    st.session_state.other_comments = other_comments  # Save input
 
     # Navigation buttons
     col1, col2 = st.columns(2)
