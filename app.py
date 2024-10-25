@@ -566,15 +566,11 @@ elif st.session_state.page == "Method":
     if "selected_method" not in st.session_state:
         st.session_state["selected_method"] = 'Select Method'
 
-    selected_method = st.selectbox("Select Method:",
-        options=["Select Method",
-        "Oral", "Nasal", "LMA", "Oral to Oral",
-        "Oral to Nasal", "Nasal to Oral", "Nasal to Nasal", "Tracheostomy to Oral"
-    ],
-        index=["Select Method","Oral", "Nasal", "LMA", "Oral to Oral","Oral to Nasal", "Nasal to Oral", "Nasal to Nasal", "Tracheostomy to Oral"].index(st.session_state["selected_method"]),
-    )
+    selected_method = st.selectbox("",["Select Method","Oral", "Nasal", "LMA", "Oral to Oral","Oral to Nasal", "Nasal to Oral", "Nasal to Nasal", "Tracheostomy to Oral"],
+    index=["Select Method","Oral", "Nasal", "LMA", "Oral to Oral","Oral to Nasal", "Nasal to Oral", "Nasal to Nasal", "Tracheostomy to Oral"].index(st.session_state["selected_method"]),)
 
-
+    st.session_state.selected_method = selected_method
+    
     # Multiselect for Airway Management Techniques and Medication Protocols
     st.markdown("### What airway management technique and/or their corresponding medication protocol was used during this course?")
     technique_options = [
