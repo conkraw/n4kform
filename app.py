@@ -566,7 +566,11 @@ elif st.session_state.page == "Method":
         "Oral", "Nasal", "LMA", "Oral to Oral",
         "Oral to Nasal", "Nasal to Oral", "Nasal to Nasal", "Tracheostomy to Oral"
     ]
-    selected_method = st.selectbox("Select Method:", method_options, key="airway_method")
+    # Check if the value exists in session state, else set a default
+    selected_method = st.selectbox("Select Method:", 
+                                    method_options, 
+                                    key="airway_method", 
+                                    index=method_options.index(st.session_state.get("airway_method", method_options[0])))
 
     # Multiselect for Airway Management Techniques and Medication Protocols
     st.markdown("### What airway management technique and/or their corresponding medication protocol was used during this course?")
@@ -582,12 +586,16 @@ elif st.session_state.page == "Method":
         "Sedation Only",
         "Others (Specify):"
     ]
-    selected_techniques = st.multiselect("Select Techniques:", technique_options, key="airway_techniques")
+    # Use the session state to pre-fill the multiselect options
+    selected_techniques = st.multiselect("Select Techniques:", 
+                                          technique_options, 
+                                          key="airway_techniques", 
+                                          default=st.session_state.get("airway_techniques", []))
 
     # If "Others" is selected, show an input box for specification
     if "Others (Specify):" in selected_techniques:
-        other_specification = st.text_input("Please specify:", key="other_specification")
-
+        other_specification = st.text_input("Please specify:", key="other_specification", value=st.session_state.get("other_specification", ""))
+    
     # Navigation buttons
     col1, col2 = st.columns(2)
     with col1:
@@ -600,7 +608,6 @@ elif st.session_state.page == "Method":
             st.session_state.page = "Method Details"  # Set next page (update this to your actual next page)
             st.rerun()
 
-import streamlit as st
 
 # Page for Method Details
 if st.session_state.page == "Method Details":
