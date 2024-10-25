@@ -503,7 +503,7 @@ elif st.session_state.page == "Difficult Airway Evaluation":
         
         # Known cyanotic heart disease
         st.markdown("### Known cyanotic heart disease (R to L shunt)? (Select ONE only)")
-        options_cyanotic = ['Select Risk Factor 2', 'Yes', 'No']
+        options_cyanotic = ['Select if Known cyanotic heart disease (R to L shunt)', 'Yes', 'No']
         
         # Initialize session state if not already done
         if "cyanotic" not in st.session_state:
