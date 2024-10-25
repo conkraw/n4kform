@@ -587,7 +587,6 @@ elif st.session_state.page == "Method":
     ]
     selected_techniques = st.multiselect("Select Techniques:", 
                                           technique_options, 
-                                          key="airway_techniques", 
                                           default=st.session_state.get("selected_techniques", []))
 
     st.session_state.advance_airway_procedure = selected_techniques
