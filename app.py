@@ -74,31 +74,40 @@ def custom_input(key, default_value="", input_type="text"):
     if key not in st.session_state:
         st.session_state[key] = default_value
 
-    # Create a Streamlit text input and center it with CSS
-    st.markdown(
-        """
-        <style>
-        .custom-input {
-            display: flex;
-            justify-content: center;
-        }
-        .custom-input input {
-            width: 100%;  /* Adjust width as needed */
-            max-width: 300px;  /* Set a maximum width */
-        }
-        </style>
-        """, unsafe_allow_html=True
-    )
+    # Create a Streamlit input based on the input_type
+    if input_type == "select":
+        options = ["Yes", "No"]
+        input_value = st.selectbox(
+            "",
+            options=options,
+            index=options.index(st.session_state[key]),
+            key=key,
+            label_visibility="collapsed"  # Hide label
+        )
+    else:  # Default to text input
+        st.markdown(
+            """
+            <style>
+            .custom-input {
+                display: flex;
+                justify-content: center;
+            }
+            .custom-input input {
+                width: 100%;
+                max-width: 300px;
+            }
+            </style>
+            """, unsafe_allow_html=True
+        )
 
-    # Create a centered input field
-    input_value = st.text_input(
-        "", 
-        value=st.session_state[key], 
-        key=key,
-        placeholder="", 
-        help="Enter your text here",
-        label_visibility="collapsed"  # Hide label to avoid double display
-    )
+        input_value = st.text_input(
+            "", 
+            value=st.session_state[key], 
+            key=key,
+            placeholder="", 
+            help="Enter your text here",
+            label_visibility="collapsed"  # Hide label
+        )
 
     # Update session state with user input if changed
     if input_value != st.session_state[key]:
@@ -428,11 +437,10 @@ elif st.session_state.page == "Course Information":
                     )
                     st.session_state.attempts[f'Attempt {attempt}']['cricoid_during'] = input_value
                 elif row_header == "Attempt Successful: Yes/No":
-                    current_value = st.session_state.attempts[f'Attempt {attempt}'].get('attempt_successful', "No")
                     input_value = custom_input(
                         f'attempt_successful_{attempt}',
-                        default_value=current_value,
-                        input_type="select"  # Ensure this can handle a dropdown for Yes/No
+                        default_value=st.session_state.attempts[f'Attempt {attempt}']['attempt_successful'],
+                        input_type="select"
                     )
                     st.session_state.attempts[f'Attempt {attempt}']['attempt_successful'] = input_value
 
@@ -447,8 +455,6 @@ elif st.session_state.page == "Course Information":
         if st.button("Next"):
             st.session_state.page = "Difficult Airway Evaluation"  # Set next page
             st.rerun()  # Rerun the app to reflect the new page
-
-
 
 
 elif st.session_state.page == "Difficult Airway Evaluation":
