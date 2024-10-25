@@ -421,11 +421,11 @@ elif st.session_state.page == "Course Information":
                         default_value=st.session_state.attempts[f'Attempt {attempt}']['cricoid_during'] or ""
                     )
                 elif row_header == "Attempt Successful: Yes/No":
-                    current_value = st.session_state.attempts[f'Attempt {attempt}']['attempt_successful']
+                    current_value = st.session_state.attempts[f'Attempt {attempt}'].get('attempt_successful', "No")
                     st.session_state.attempts[f'Attempt {attempt}']['attempt_successful'] = custom_input(
                         f'attempt_successful_{attempt}',
-                        default_value=current_value or "No",  # Default to "No" if None
-                        input_type="select"  # Assuming you want a dropdown for Yes/No
+                        default_value=current_value,
+                        input_type="select"  # Ensure this can handle a dropdown for Yes/No
                     )
 
     # Navigation buttons
