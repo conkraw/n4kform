@@ -622,18 +622,28 @@ elif st.session_state.page == "Method":
             st.session_state.page = "Method Details"  # Set next page (update this to your actual next page)
             st.rerun()
 
-# Page for Method Details
 if st.session_state.page == "Method Details":
     st.header("METHOD DETAILS")
 
     # Question about Oxygen provision
     st.markdown("### 1. Was Oxygen provided DURING any TI attempts for this course?")
     oxygen_options = ["YES", "NO", "ATTEMPTED but not done (explain on last page)"]
-    selected_oxygen = st.selectbox("Select an option:", oxygen_options, key="oxygen_provided")
+
+    # Initialize selected_oxygen in session state if not present
+    if "selected_oxygen" not in st.session_state:
+        st.session_state.selected_oxygen = oxygen_options[0]
+
+    selected_oxygen = st.selectbox("Select an option:", oxygen_options, index=oxygen_options.index(st.session_state.selected_oxygen))
+
+    # Update session state
+    st.session_state.selected_oxygen = selected_oxygen
 
     # Conditional input for explanation if "ATTEMPTED but not done" is selected
     if selected_oxygen == "ATTEMPTED but not done (explain on last page)":
-        explanation = st.text_area("Please explain:", key="oxygen_explanation")
+        if "oxygen_explanation" not in st.session_state:
+            st.session_state.oxygen_explanation = ""
+        explanation = st.text_area("Please explain:", value=st.session_state.oxygen_explanation)
+        st.session_state.oxygen_explanation = explanation  # Save explanation to session state
 
     # Additional section if "YES" is selected
     if selected_oxygen == "YES":
@@ -649,7 +659,14 @@ if st.session_state.page == "Method Details":
             "NIV with nasal prong interface - provide PEEP/PIP",
             "Other (device, FIO2, setting)"
         ]
-        selected_methods = st.multiselect("Select methods:", options)
+
+        if "selected_methods" not in st.session_state:
+            st.session_state.selected_methods = []
+
+        selected_methods = st.multiselect("Select methods:", options, default=st.session_state.selected_methods)
+
+        # Update session state for selected methods
+        st.session_state.selected_methods = selected_methods
 
         # Display Liter Flow and FIO2 inputs for each selected method
         if selected_methods:
@@ -670,12 +687,21 @@ if st.session_state.page == "Method Details":
                     st.markdown("")
                     st.markdown("")
                     st.markdown(f"**{method}**")
-                
-                with cols[1]:
-                    liter_flow = st.text_input("", key=f"liter_flow_{method.replace(' ', '_')}")
-                
-                with cols[2]:
-                    fio2 = st.text_input("", key=f"fio2_{method.replace(' ', '_')}")
+
+                liter_flow_key = f"liter_flow_{method.replace(' ', '_')}"
+                fio2_key = f"fio2_{method.replace(' ', '_')}"
+
+                # Initialize Liter Flow input in session state if not present
+                if liter_flow_key not in st.session_state:
+                    st.session_state[liter_flow_key] = ""
+                liter_flow = st.text_input("", value=st.session_state[liter_flow_key])
+                st.session_state[liter_flow_key] = liter_flow  # Save Liter Flow to session state
+
+                # Initialize FIO2 input in session state if not present
+                if fio2_key not in st.session_state:
+                    st.session_state[fio2_key] = ""
+                fio2 = st.text_input("", value=st.session_state[fio2_key])
+                st.session_state[fio2_key] = fio2  # Save FIO2 to session state
 
     # Navigation buttons
     col1, col2 = st.columns(2)
