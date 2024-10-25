@@ -380,8 +380,8 @@ elif st.session_state.page == "Course Information":
     for row_header in row_headers:
         cols = st.columns(len(attempt_numbers) + 1)  # Create extra column for headers
         with cols[0]:  # Column for row headers
-            st.write(row_header)  # Display header
-
+            reset_input(row_header, f"header_{row_header}")  
+            
         for attempt in attempt_numbers:
             with cols[attempt]:  # Adjust for 1-based indexing
                 attempt_key = f'Attempt {attempt}'
