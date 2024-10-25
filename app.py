@@ -441,7 +441,6 @@ elif st.session_state.page == "Course Information":
             st.session_state.page = "Difficult Airway Evaluation"  # Set next page
             st.rerun()  # Rerun the app to reflect the new page
 
-
 elif st.session_state.page == "Difficult Airway Evaluation":
     st.markdown("### Difficult Airway Evaluations (Choose one in each category):")
     
@@ -478,26 +477,31 @@ elif st.session_state.page == "Difficult Airway Evaluation":
                 index=options.index(st.session_state[f"evaluation_{idx}"]),  # Get current value
                 key=f"evaluation_{idx}"  # Unique key for each selectbox
             )
+            st.session_state[f"evaluation_{idx}"] = selected_option  # Save the selected option to session state
 
     # Difficult to Bag/Mask Ventilate
     st.markdown("### Difficult to Bag/Mask Ventilate? (Select ONE only)")
     options_bag = ["Yes", "No", "Not applicable (bag-mask ventilation not given)"]
     if "difficult_to_bag" not in st.session_state:
         st.session_state["difficult_to_bag"] = options_bag[0]  # Default to first option
-    st.selectbox("",
-                 options_bag,
-                 key="difficult_to_bag", 
-                 index=options_bag.index(st.session_state["difficult_to_bag"]))
+    st.session_state["difficult_to_bag"] = st.selectbox(
+        "",
+        options_bag,
+        key="difficult_to_bag", 
+        index=options_bag.index(st.session_state["difficult_to_bag"])
+    )
 
     # Known cyanotic heart disease
     st.markdown("### Known cyanotic heart disease (R to L shunt)?  (Select ONE only)")
     options_cyanotic = ["Yes", "No"]
     if "cyanotic" not in st.session_state:
         st.session_state["cyanotic"] = options_cyanotic[0]  # Default to first option
-    st.selectbox("",
-                 options_cyanotic, 
-                 key="cyanotic", 
-                 index=options_cyanotic.index(st.session_state["cyanotic"]))
+    st.session_state["cyanotic"] = st.selectbox(
+        "",
+        options_cyanotic, 
+        key="cyanotic", 
+        index=options_cyanotic.index(st.session_state["cyanotic"])
+    )
 
     # Navigation buttons
     col_prev, col_next = st.columns(2)
