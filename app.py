@@ -743,7 +743,12 @@ elif st.session_state.page == "Method Details II":
         "View FOR INTUBATOR: Direct / Indirect",
         "Other (please describe):"
     ]
-    selected_device = st.selectbox("Select device:", devices)
+
+    if "selected_device" not in st.session_state:
+        st.session_state.selected_device = devices[0]  # Default to "Select a Device"
+
+    selected_device = st.selectbox("Select device:", devices, index=devices.index(st.session_state.selected_device))
+    st.session_state.selected_device = selected_device  # Save selection
 
     # Tracheal Intubation Confirmation
     st.markdown("### Tracheal Intubation Confirmation (Check ALL that apply)")
@@ -757,12 +762,15 @@ elif st.session_state.page == "Method Details II":
         "Exhaled CO2 – capnography",
         "Others:"
     ]
-    selected_confirmation = st.multiselect("Select confirmation methods:", confirmation_options)
+
+    if "selected_confirmation" not in st.session_state:
+        st.session_state.selected_confirmation = []
+
+    selected_confirmation = st.multiselect("Select confirmation methods:", confirmation_options, default=st.session_state.selected_confirmation)
+    st.session_state.selected_confirmation = selected_confirmation  # Save selection
 
     image_path = "image.png"
-    
     st.markdown("### Glottic Exposure During Intubation (Check only ONE):")
-
     st.image(image_path, caption="Visual Reference for Glottic Exposure", use_column_width=True)
 
     glottic_exposure_options = [
@@ -773,12 +781,15 @@ elif st.session_state.page == "Method Details II":
         "IV = Non visualized epiglottis",
         "V = Not Applicable (e.g. blind nasotracheal)"
     ]
-    selected_glottic_exposure = st.selectbox("Select glottic exposure:", glottic_exposure_options)
+
+    if "selected_glottic_exposure" not in st.session_state:
+        st.session_state.selected_glottic_exposure = glottic_exposure_options[0]  # Default to "Select an option"
+
+    selected_glottic_exposure = st.selectbox("Select glottic exposure:", glottic_exposure_options, index=glottic_exposure_options.index(st.session_state.selected_glottic_exposure))
+    st.session_state.selected_glottic_exposure = selected_glottic_exposure  # Save selection
 
     # Events for Tracheal Intubation
     st.markdown("### Tracheal Intubation Associated Events (Check ALL that apply):")
-    
-    # List of events
     events = [
         "NONE",
         "Cardiac arrest – patient died",
@@ -802,19 +813,30 @@ elif st.session_state.page == "Method Details II":
         "Pain/Agitation, req’d additional meds AND delay in intubation",
         "Other (Please describe):"
     ]
-    
-    # Multi-select for events
-    selected_events = st.multiselect("Select events associated with tracheal intubation:", events)
-    
+
+    if "selected_events" not in st.session_state:
+        st.session_state.selected_events = []
+
+    selected_events = st.multiselect("Select events associated with tracheal intubation:", events, default=st.session_state.selected_events)
+    st.session_state.selected_events = selected_events  # Save selection
+
     # Description for "Other" option
     if "Other (Please describe):" in selected_events:
-        other_description = st.text_input("Please describe:", key="other_event_description")
-    
+        if "other_event_description" not in st.session_state:
+            st.session_state.other_event_description = ""
+        other_description = st.text_input("Please describe:", value=st.session_state.other_event_description)
+        st.session_state.other_event_description = other_description  # Save description
+
     # Pop-ups for selected events
     for event in selected_events:
         if event != "NONE":
             with st.expander(f"{event} - Link to Attempt #", expanded=True):
-                attempt = st.selectbox(f"Select Attempt # for {event}:", [f"Attempt {i}" for i in range(1, 9)], key=f"{event}_attempt")
+                attempt_key = f"{event}_attempt"
+                if attempt_key not in st.session_state:
+                    st.session_state[attempt_key] = "Attempt 1"  # Default value
+
+                attempt = st.selectbox(f"Select Attempt # for {event}:", [f"Attempt {i}" for i in range(1, 9)], index=int(st.session_state[attempt_key].split()[1]) - 1, key=attempt_key)
+                st.session_state[attempt_key] = attempt  # Save selection
 
     # Navigation buttons
     col1, col2 = st.columns(2)
