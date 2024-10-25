@@ -475,11 +475,13 @@ elif st.session_state.page == "Difficult Airway Evaluation":
                 "",
                 options=options,
                 index=options.index(st.session_state[f"evaluation_{idx}"]),  # Get current value
-                key=f"evaluation_{idx}"  # Unique key for each selectbox
+                key=f"evaluation_{idx}_selectbox"  # Unique key for each selectbox
             )
 
+            # Update session state
+            st.session_state[f"evaluation_{idx}"] = selected_option
 
-        # Difficult to Bag/Mask Ventilate
+    # Difficult to Bag/Mask Ventilate
     st.markdown("### Difficult to Bag/Mask Ventilate? (Select ONE only)")
     if "difficult_to_bag" not in st.session_state:
         st.session_state["difficult_to_bag"] = 'Select Whether the Patient Was Difficult to Bag/Mask Ventilate' 
@@ -509,7 +511,6 @@ elif st.session_state.page == "Difficult Airway Evaluation":
     
     # Update session state
     st.session_state["cyanotic"] = cyanotic
-    
 
 
     # Navigation buttons
