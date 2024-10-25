@@ -460,7 +460,7 @@ elif st.session_state.page == "Difficult Airway Evaluation":
     for idx, (question, options) in enumerate(questions):
         key = f"evaluation_{idx}"
         if key not in st.session_state:
-            st.session_state[key] = options[0]  # Default value
+            st.session_state[key] = f'Select Category {idx + 1}' 
 
     # Create the layout for questions
     for idx, (question, options) in enumerate(questions):
