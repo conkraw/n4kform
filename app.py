@@ -487,7 +487,7 @@ elif st.session_state.page == "Difficult Airway Evaluation":
         if "difficult_to_bag" not in st.session_state:
             st.session_state["difficult_to_bag"] = "" 
             
-        difficult_to_bag = st.selectbox("", options=options_bag, index=[options_bag].index(st.session_state.difficult_to_bag)).
+        difficult_to_bag = st.selectbox("", options=options_bag, options_bag.index(st.session_state["difficult_to_bag"]).
 
         # Initialize session state if not already done
     
