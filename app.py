@@ -372,104 +372,118 @@ elif st.session_state.page == "Course Information":
         "Attempt Successful: Yes/No"
     ]
 
-    # Define attempt numbers
-    attempt_numbers = range(1, 9)
-
     # Create the table-like layout
     with st.form("course_information_form"):  # Start the form
         for row_header in row_headers:
-            cols = st.columns(len(attempt_numbers) + 1)  # Create extra column for headers
+            cols = st.columns(len(range(1, 9)) + 1)  # Create extra column for headers
             with cols[0]:  # Column for row headers
-                reset_input(row_header, f"header_{row_header}")   # No default value for headers
+                st.write(row_header)  # Display row header
 
-            for attempt in attempt_numbers:
+            for attempt in range(1, 9):
                 with cols[attempt]:  # Adjust for 1-based indexing
                     if row_header == "Attempts for this COURSE":
-                        centered_input(str(attempt), f"attempt_course_{attempt}", width='50px', height='40px') 
+                        st.text_input(f"attempt_course_{attempt}", key=f"attempt_course_{attempt}")
                     elif row_header == "Who intubated (Fellow, Resident, etc)":
-                        st.session_state.attempts[f'Attempt {attempt}']['who_intubated'] = custom_input(
-                            f'who_intubated_{attempt}'
+                        st.session_state.attempts[f'Attempt {attempt}']['who_intubated'] = st.text_input(
+                            f'who_intubated_{attempt}', value=st.session_state.attempts[f'Attempt {attempt}']['who_intubated']
                         )
                     elif row_header == "Discipline (ICU, ENT, Surgery, etc)":
-                        st.session_state.attempts[f'Attempt {attempt}']['discipline'] = custom_input(
-                            f'discipline_{attempt}'
+                        st.session_state.attempts[f'Attempt {attempt}']['discipline'] = st.text_input(
+                            f'discipline_{attempt}', value=st.session_state.attempts[f'Attempt {attempt}']['discipline']
                         )
                     elif row_header == "PGY level (3rd year resident = PL3, 1st year fellow = PL4,  NP=yrs as NP, etc.)":
-                        st.session_state.attempts[f'Attempt {attempt}']['pgy_level'] = custom_input(
-                            f'pgy_level_{attempt}'
+                        st.session_state.attempts[f'Attempt {attempt}']['pgy_level'] = st.text_input(
+                            f'pgy_level_{attempt}', value=st.session_state.attempts[f'Attempt {attempt}']['pgy_level']
                         )
                     elif row_header == "ETT (or LMA) Size":
-                        st.session_state.attempts[f'Attempt {attempt}']['ett_size'] = custom_input(
-                            f'ett_size_{attempt}'
+                        st.session_state.attempts[f'Attempt {attempt}']['ett_size'] = st.text_input(
+                            f'ett_size_{attempt}', value=st.session_state.attempts[f'Attempt {attempt}']['ett_size']
                         )
                     elif row_header == "ETT type: cuffed/uncuffed/ NA":
-                        st.session_state.attempts[f'Attempt {attempt}']['ett_type'] = custom_input(
-                            f'ett_type_{attempt}'
+                        st.session_state.attempts[f'Attempt {attempt}']['ett_type'] = st.text_input(
+                            f'ett_type_{attempt}', value=st.session_state.attempts[f'Attempt {attempt}']['ett_type']
                         )
                     elif row_header == "Immediately prior to this attempt was cricoid pressure/external laryngeal manipulation provided?":
-                        st.session_state.attempts[f'Attempt {attempt}']['cricoid_prior'] = custom_input(
-                            f'cricoid_prior_{attempt}'
+                        st.session_state.attempts[f'Attempt {attempt}']['cricoid_prior'] = st.text_input(
+                            f'cricoid_prior_{attempt}', value=st.session_state.attempts[f'Attempt {attempt}']['cricoid_prior']
                         )
                     elif row_header == "During this attempt, was cricoid pressure/external laryngeal manipulation provided?":
-                        st.session_state.attempts[f'Attempt {attempt}']['cricoid_during'] = custom_input(
-                            f'cricoid_during_{attempt}'
+                        st.session_state.attempts[f'Attempt {attempt}']['cricoid_during'] = st.text_input(
+                            f'cricoid_during_{attempt}', value=st.session_state.attempts[f'Attempt {attempt}']['cricoid_during']
                         )
                     elif row_header == "Attempt Successful: Yes/No":
-                        st.session_state.attempts[f'Attempt {attempt}']['attempt_successful'] = custom_input(
-                            f'attempt_successful_{attempt}'
+                        st.session_state.attempts[f'Attempt {attempt}']['attempt_successful'] = st.selectbox(
+                            f'attempt_successful_{attempt}',
+                            options=["Yes", "No"],
+                            index=["Yes", "No"].index(st.session_state.attempts[f'Attempt {attempt}']['attempt_successful'])
                         )
 
-        # Ensure the session state is initialized for all relevant keys first
-        questions = [
-            ("Evaluation done before or after this course is completed?", ['Select Category 1', 'BEFORE', 'AFTER']),
-            ("Known prior history of difficult airway?", ['Select Category 2', 'YES', 'NO']),
-            ("Any Limited Neck Extension or (Maximal with or without sedation/paralytics) Severe Reduction?", ['Select Category 3', 'YES', 'NO']),
-            ("Widest Mouth Opening – How many Patient’s fingers between gum/incisors?", ['Select Category 4', '0 – 2', '≥ 3']),
-            ("Thyromental space – Patient’s fingers between chin and thyroid cartilage?", ['Select Category 5', '0 - 2', '≥ 3']),
-            ("Evidence of Upper Airway Obstruction or Anatomical Barrier to visualize glottic opening?", ['Select Category 6', 'YES', 'NO']),
-            ("Midfacial Hypoplasia?", ['Select Category 7', 'YES', 'NO']),
-            ("Any other signs of difficult airway exist?", ['Select Category 8', 'YES', 'NO']),
-        ]
+        # Navigation buttons
+        col_prev, col_next = st.columns(2)
+        with col_prev:
+            if st.button("Previous"):
+                st.session_state.page = "Indications"  # Go back to the previous page
+                st.rerun()  # Rerun the app to reflect the new page
+
+        with col_next:
+            if st.button("Next"):
+                st.session_state.page = "Difficult Airway Evaluation"  # Set next page
+                st.rerun()  # Rerun the app to reflect the new page
+
+
+elif st.session_state.page == "Difficult Airway Evaluation":
+    st.markdown("### Difficult Airway Evaluations (Choose one in each category):")
+    
+    # Define questions and options
+    questions = [
+        ("Evaluation done before or after this course is completed?", ['Select Category 1', 'BEFORE', 'AFTER']),
+        ("Known prior history of difficult airway?", ['Select Category 2', 'YES', 'NO']),
+        ("Any Limited Neck Extension or (Maximal with or without sedation/paralytics) Severe Reduction?", ['Select Category 3', 'YES', 'NO']),
+        ("Widest Mouth Opening – How many Patient’s fingers between gum/incisors?", ['Select Category 4', '0 – 2', '≥ 3']),
+        ("Thyromental space – Patient’s fingers between chin and thyroid cartilage?", ['Select Category 5', '0 - 2', '≥ 3']),
+        ("Evidence of Upper Airway Obstruction or Anatomical Barrier to visualize glottic opening?", ['Select Category 6', 'YES', 'NO']),
+        ("Midfacial Hypoplasia?", ['Select Category 7', 'YES', 'NO']),
+        ("Any other signs of difficult airway exist?", ['Select Category 8', 'YES', 'NO']),
+    ]
+
+    # Create the layout
+    for idx, (question, options) in enumerate(questions):
+        cols = st.columns([4, 1])
         
-        # Initialize session state for each question
-        for idx, (_, options) in enumerate(questions):
-            key = f"evaluation_{idx}"
-            if key not in st.session_state:
-                st.session_state[key] = options[0]  # Set default value
-        
-        # Now create the layout
-        st.markdown("### Difficult Airway Evaluations (Choose one in each category):")
-        
-        for idx, (question, options) in enumerate(questions):
-            cols = st.columns([4, 1])
+        with cols[0]:
+            st.write(f"{idx + 1}. {question}")  # Display question
             
-            with cols[0]:
-                question_box(f"{idx + 1}. {question}")
-                
-            with cols[1]:
-                # Create selectbox with options
-                selected_option = st.selectbox(
-                    "",
-                    options=options,
-                    index=options.index(st.session_state[f"evaluation_{idx}"]),
-                    key=f"evaluation_{idx}"  # Unique key for each selectbox
-                )
+        with cols[1]:
+            # Create selectbox with options
+            selected_option = st.selectbox(
+                "",
+                options=options,
+                index=options.index(st.session_state.get(f"evaluation_{idx}", options[0])),  # Get previous value or default
+                key=f"evaluation_{idx}"  # Unique key for each selectbox
+            )
 
-        # Create a select box for options
-        st.markdown("### Difficult to Bag/Mask Ventilate? (Select ONE only)")
-        options_bag = ["Yes", "No", "Not applicable (bag-mask ventilation not given)"]
-        selected_bag = st.selectbox("", options_bag, key="difficult_to_bag")
-        
-        # Known cyanotic heart disease (R to L shunt)
-        st.markdown("### Known cyanotic heart disease (R to L shunt)?  (Select ONE only)")
-        options_cyanotic = ["Yes", "No"]
-        selected_cyanotic = st.selectbox("", options_cyanotic, key="cyanotic")
+    # Create a select box for options
+    st.markdown("### Difficult to Bag/Mask Ventilate? (Select ONE only)")
+    options_bag = ["Yes", "No", "Not applicable (bag-mask ventilation not given)"]
+    selected_bag = st.selectbox("", options_bag, key="difficult_to_bag")
 
-        # Submit button for the form
-        submitted = st.form_submit_button("Next")
-        if submitted:
+    # Known cyanotic heart disease (R to L shunt)
+    st.markdown("### Known cyanotic heart disease (R to L shunt)?  (Select ONE only)")
+    options_cyanotic = ["Yes", "No"]
+    selected_cyanotic = st.selectbox("", options_cyanotic, key="cyanotic")
+
+    # Navigation buttons
+    col_prev, col_next = st.columns(2)
+    with col_prev:
+        if st.button("Previous"):
+            st.session_state.page = "Course Information"  # Go back to the previous page
+            st.rerun()  # Rerun the app to reflect the new page
+
+    with col_next:
+        if st.button("Next"):
             st.session_state.page = "Medications"  # Set next page
             st.rerun()  # Rerun the app to reflect the new page
+
 
 elif st.session_state.page == "Medications":
     st.header("MEDICATIONS")
