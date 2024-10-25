@@ -419,23 +419,16 @@ elif st.session_state.page == "Course Information":
                             f'attempt_successful_{attempt}'
                         )
 
-        # Submit button for the form
-        submitted = st.form_submit_button("Submit")
-        if submitted:
-            # Handle submission logic if needed
-            pass  # This can be left empty if no additional logic is needed
-
-    # Navigation buttons outside the form
-    col_prev, col_next = st.columns(2)
-    with col_prev:
-        if st.button("Previous"):
-            st.session_state.page = "Indications"  # Go back to the previous page
-            st.rerun()  # Rerun the app to reflect the new page
-
-    with col_next:
-        if st.button("Next"):
+        # Combined Submit and Next button
+        submit_next = st.form_submit_button("Submit and Next")
+        if submit_next:
             st.session_state.page = "Difficult Airway Evaluation"  # Set next page
             st.rerun()  # Rerun the app to reflect the new page
+
+    # Previous button outside the form
+    if st.button("Previous"):
+        st.session_state.page = "Indications"  # Go back to the previous page
+        st.rerun()  # Rerun the app to reflect the new page
 
 
 elif st.session_state.page == "Difficult Airway Evaluation":
