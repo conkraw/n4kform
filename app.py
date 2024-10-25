@@ -500,9 +500,9 @@ elif st.session_state.page == "Difficult Airway Evaluation":
         index=options_bag.index(st.session_state["difficult_to_bag"])  # Use the current value
     )
 
-# Update session state with the selected option
-st.session_state["difficult_to_bag"] = difficult_airway_history
+    st.session_state["difficult_to_bag"] = difficult_airway_history
     # Known cyanotic heart disease
+    
     st.markdown("### Known cyanotic heart disease (R to L shunt)?  (Select ONE only)")
     options_cyanotic = ["Select if Patient With Known cyanotic heart disease (R to L shunt)", "Yes", "No"]
     if "cyanotic" not in st.session_state:
