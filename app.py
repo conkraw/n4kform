@@ -346,17 +346,17 @@ elif st.session_state.page == "Course Information":
     </p>
     """, unsafe_allow_html=True)
 
-    # Initialize session state for attempts if not already done
+    # Initialize session state if not already done
     if 'attempts' not in st.session_state:
         st.session_state.attempts = {f'Attempt {i}': {
-            'who_intubated': None,
-            'discipline': None,
-            'pgy_level': None,
-            'ett_size': None,
-            'ett_type': None,
-            'cricoid_prior': None,
-            'cricoid_during': None,
-            'attempt_successful': None,
+            'who_intubated': "",
+            'discipline': "",
+            'pgy_level': "",
+            'ett_size': "",
+            'ett_type': "",
+            'cricoid_prior': "",
+            'cricoid_during': "",
+            'attempt_successful': "",
         } for i in range(1, 9)}
 
     # Define the row headers
@@ -379,47 +379,46 @@ elif st.session_state.page == "Course Information":
         for idx, row_header in enumerate(row_headers):
             with cols[idx]:
                 if row_header == "Attempts for this COURSE":
-                    st.text(f"Attempt {attempt}")  # Display attempt number
+                    centered_input(f"Attempt {attempt}", f"attempt_course_{attempt}", width='50px', height='40px') 
                 elif row_header == "Who intubated (Fellow, Resident, etc)":
-                    st.session_state.attempts[f'Attempt {attempt}']['who_intubated'] = st.text_input(
+                    st.session_state.attempts[f'Attempt {attempt}']['who_intubated'] = custom_input(
                         f'who_intubated_{attempt}',
-                        value=st.session_state.attempts[f'Attempt {attempt}']['who_intubated'] or ""
+                        default_value=st.session_state.attempts[f'Attempt {attempt}']['who_intubated']
                     )
                 elif row_header == "Discipline (ICU, ENT, Surgery, etc)":
-                    st.session_state.attempts[f'Attempt {attempt}']['discipline'] = st.text_input(
+                    st.session_state.attempts[f'Attempt {attempt}']['discipline'] = custom_input(
                         f'discipline_{attempt}',
-                        value=st.session_state.attempts[f'Attempt {attempt}']['discipline'] or ""
+                        default_value=st.session_state.attempts[f'Attempt {attempt}']['discipline']
                     )
                 elif row_header == "PGY level (3rd year resident = PL3, 1st year fellow = PL4,  NP=yrs as NP, etc.)":
-                    st.session_state.attempts[f'Attempt {attempt}']['pgy_level'] = st.text_input(
+                    st.session_state.attempts[f'Attempt {attempt}']['pgy_level'] = custom_input(
                         f'pgy_level_{attempt}',
-                        value=st.session_state.attempts[f'Attempt {attempt}']['pgy_level'] or ""
+                        default_value=st.session_state.attempts[f'Attempt {attempt}']['pgy_level']
                     )
                 elif row_header == "ETT (or LMA) Size":
-                    st.session_state.attempts[f'Attempt {attempt}']['ett_size'] = st.text_input(
+                    st.session_state.attempts[f'Attempt {attempt}']['ett_size'] = custom_input(
                         f'ett_size_{attempt}',
-                        value=st.session_state.attempts[f'Attempt {attempt}']['ett_size'] or ""
+                        default_value=st.session_state.attempts[f'Attempt {attempt}']['ett_size']
                     )
                 elif row_header == "ETT type: cuffed/uncuffed/ NA":
-                    st.session_state.attempts[f'Attempt {attempt}']['ett_type'] = st.text_input(
+                    st.session_state.attempts[f'Attempt {attempt}']['ett_type'] = custom_input(
                         f'ett_type_{attempt}',
-                        value=st.session_state.attempts[f'Attempt {attempt}']['ett_type'] or ""
+                        default_value=st.session_state.attempts[f'Attempt {attempt}']['ett_type']
                     )
                 elif row_header == "Immediately prior to this attempt was cricoid pressure/external laryngeal manipulation provided?":
-                    st.session_state.attempts[f'Attempt {attempt}']['cricoid_prior'] = st.text_input(
+                    st.session_state.attempts[f'Attempt {attempt}']['cricoid_prior'] = custom_input(
                         f'cricoid_prior_{attempt}',
-                        value=st.session_state.attempts[f'Attempt {attempt}']['cricoid_prior'] or ""
+                        default_value=st.session_state.attempts[f'Attempt {attempt}']['cricoid_prior']
                     )
                 elif row_header == "During this attempt, was cricoid pressure/external laryngeal manipulation provided?":
-                    st.session_state.attempts[f'Attempt {attempt}']['cricoid_during'] = st.text_input(
+                    st.session_state.attempts[f'Attempt {attempt}']['cricoid_during'] = custom_input(
                         f'cricoid_during_{attempt}',
-                        value=st.session_state.attempts[f'Attempt {attempt}']['cricoid_during'] or ""
+                        default_value=st.session_state.attempts[f'Attempt {attempt}']['cricoid_during']
                     )
                 elif row_header == "Attempt Successful: Yes/No":
-                    st.session_state.attempts[f'Attempt {attempt}']['attempt_successful'] = st.selectbox(
+                    st.session_state.attempts[f'Attempt {attempt}']['attempt_successful'] = custom_input(
                         f'attempt_successful_{attempt}',
-                        options=["Yes", "No"],
-                        index=["Yes", "No"].index(st.session_state.attempts[f'Attempt {attempt}']['attempt_successful'] or "Yes")
+                        default_value=st.session_state.attempts[f'Attempt {attempt}']['attempt_successful']
                     )
 
     # Navigation buttons
@@ -433,7 +432,6 @@ elif st.session_state.page == "Course Information":
         if st.button("Next"):
             st.session_state.page = "Difficult Airway Evaluation"  # Set next page
             st.rerun()  # Rerun the app to reflect the new page
-
 
 elif st.session_state.page == "Difficult Airway Evaluation":
     st.markdown("### Difficult Airway Evaluations (Choose one in each category):")
