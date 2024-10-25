@@ -598,14 +598,17 @@ elif st.session_state.page == "Method":
     # Update the session state
     st.session_state.selected_techniques = selected_techniques
 
+    # Initialize "Others" specification in session state
+    if "other_specification" not in st.session_state:
+        st.session_state.other_specification = ""
+
     # If "Others" is selected, show an input box for specification
     if "Others (Specify):" in selected_techniques:
-        other_specification = st.text_input("Please specify:", key="other_specification", value=st.session_state.get("other_specification", ""))
+        other_specification = st.text_input("Please specify:", 
+                                             value=st.session_state.other_specification)
+        st.session_state.other_specification = other_specification  # Update here
     else:
-        other_specification = ""  # Clear input if "Others" is not selected
-
-    # Save the "Others" specification
-    st.session_state.other_specification = other_specification
+        st.session_state.other_specification = ""  # Clear input if "Others" is not selected
 
     # Navigation buttons
     col1, col2 = st.columns(2)
