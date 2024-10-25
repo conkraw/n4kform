@@ -589,7 +589,7 @@ elif st.session_state.page == "Method":
                                           technique_options, 
                                           default=st.session_state.get("selected_techniques", []))
 
-    st.session_state.advance_airway_procedure = selected_techniques
+    st.session_state.selected_techniques = selected_techniques
     
     # Use the session state to pre-fill the multiselect options
     
