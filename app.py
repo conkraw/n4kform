@@ -572,7 +572,6 @@ elif st.session_state.page == "Method":
         "Oral to Nasal", "Nasal to Oral", "Nasal to Nasal", "Tracheostomy to Oral"
     ],
         index=["Select Method","Oral", "Nasal", "LMA", "Oral to Oral","Oral to Nasal", "Nasal to Oral", "Nasal to Nasal", "Tracheostomy to Oral"].index(st.session_state["selected_method"]),
-        key="selected_method_selectbox"  # Unique key for this selectbox
     )
 
 
