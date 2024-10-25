@@ -485,7 +485,7 @@ elif st.session_state.page == "Difficult Airway Evaluation":
         options_bag = ['Select Whether the Patient Was Difficult to Bag/Mask Ventilate', 'Yes', 'No', 'Not applicable (bag-mask ventilation not given)']
 
         if "difficult_to_bag" not in st.session_state:
-            st.session_state["difficult_to_bag"] = "" 
+            st.session_state["difficult_to_bag"] = 'Select Whether the Patient Was Difficult to Bag/Mask Ventilate' 
             
         difficult_to_bag = st.selectbox("", options=options_bag, index=options_bag.index(st.session_state["difficult_to_bag"]))
 
