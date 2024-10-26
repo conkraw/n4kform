@@ -1041,7 +1041,7 @@ if st.session_state.page == "Course Success":
             st.session_state.page = "Disposition"
             st.rerun()
 
-if st.session_state.page == "Disposition":
+elif st.session_state.page == "Disposition":
     st.header("DISPOSITION")
 
     # Disposition options
@@ -1074,9 +1074,14 @@ if st.session_state.page == "Disposition":
 
     # Transferred to checkboxes
     if disposition == "Transferred to":
-        st.session_state.transferred_to_PICU = st.checkbox("PICU", value=st.session_state.transferred_to_PICU)
-        st.session_state.transferred_to_NICU = st.checkbox("NICU", value=st.session_state.transferred_to_NICU)
-        st.session_state.transferred_to_CICU = st.checkbox("CICU", value=st.session_state.transferred_to_CICU)
+        transferred_to_PICU = st.checkbox("PICU", value=st.session_state.transferred_to_PICU)
+        transferred_to_NICU = st.checkbox("NICU", value=st.session_state.transferred_to_NICU)
+        transferred_to_CICU = st.checkbox("CICU", value=st.session_state.transferred_to_CICU)
+        
+        # Save the checkbox states when moving to the next page
+        st.session_state.transferred_to_PICU = transferred_to_PICU
+        st.session_state.transferred_to_NICU = transferred_to_NICU
+        st.session_state.transferred_to_CICU = transferred_to_CICU
 
     # Other disposition input
     if disposition == "Other":
@@ -1108,6 +1113,14 @@ if st.session_state.page == "Disposition":
 
 # Display current session state for debugging
 st.write("Current Session State:", st.session_state)
+
+if st.session_state.page == "Summary":
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Previous"):
+            st.session_state.page = "Disposition"
+            st.rerun()
+
 
 if st.session_state.page == "Summary":
     col1, col2 = st.columns(2)
