@@ -576,28 +576,28 @@ elif st.session_state.page == "Medications":
 
         with col1:
             st.markdown("### Pretreatment Dosage")
-            # Create input fields and use session state for default values
-            atropine_input = st.text_input("mg Atropine", value=st.session_state.atropine_dose)
-            glycopyrrolate_input = st.text_input("mcg Glycopyrrolate", value=st.session_state.glycopyrrolate_dose)
-            fentanyl_input = st.text_input("mcg Fentanyl", value=st.session_state.fentanyl_dose)
-            lidocaine_input = st.text_input("mg Lidocaine", value=st.session_state.lidocaine_dose)
-            vecuronium_input = st.text_input("mg Vecuronium", value=st.session_state.vecuronium_dose)
+            # Create input fields with unique keys
+            atropine_input = st.text_input("mg Atropine", value=st.session_state.atropine_dose, key="atropine_dose_input")
+            glycopyrrolate_input = st.text_input("mcg Glycopyrrolate", value=st.session_state.glycopyrrolate_dose, key="glycopyrrolate_dose_input")
+            fentanyl_input = st.text_input("mcg Fentanyl", value=st.session_state.fentanyl_dose, key="fentanyl_dose_input")
+            lidocaine_input = st.text_input("mg Lidocaine", value=st.session_state.lidocaine_dose, key="lidocaine_dose_input")
+            vecuronium_input = st.text_input("mg Vecuronium", value=st.session_state.vecuronium_dose, key="vecuronium_dose_input")
 
         with col2:
             st.markdown("### Paralysis Dosage")
-            rocuronium_input = st.text_input("mg Rocuronium", value=st.session_state.rocuronium_dose)
-            succinylcholine_input = st.text_input("mg Succinylcholine", value=st.session_state.succinylcholine_dose)
-            vecuronium_paralysis_input = st.text_input("mg Vecuronium", value=st.session_state.vecuronium_paralysis_dose)
-            pancuronium_input = st.text_input("mg Pancuronium", value=st.session_state.pancuronium_dose)
-            cisatracuronium_input = st.text_input("mg Cisatracuronium", value=st.session_state.cisatracuronium_dose)
+            rocuronium_input = st.text_input("mg Rocuronium", value=st.session_state.rocuronium_dose, key="rocuronium_dose_input")
+            succinylcholine_input = st.text_input("mg Succinylcholine", value=st.session_state.succinylcholine_dose, key="succinylcholine_dose_input")
+            vecuronium_paralysis_input = st.text_input("mg Vecuronium", value=st.session_state.vecuronium_paralysis_dose, key="vecuronium_paralysis_dose_input")
+            pancuronium_input = st.text_input("mg Pancuronium", value=st.session_state.pancuronium_dose, key="pancuronium_dose_input")
+            cisatracuronium_input = st.text_input("mg Cisatracuronium", value=st.session_state.cisatracuronium_dose, key="cisatracuronium_dose_input")
 
         with col3:
             st.markdown("### Induction Dosage")
-            propofol_input = st.text_input("mg Propofol", value=st.session_state.propofol_dose)
-            etomidate_input = st.text_input("mg Etomidate", value=st.session_state.etomidate_dose)
-            ketamine_input = st.text_input("mg Ketamine", value=st.session_state.ketamine_dose)
-            midazolam_input = st.text_input("mg Midazolam", value=st.session_state.midazolam_dose)
-            thiopental_input = st.text_input("mg Thiopental", value=st.session_state.thiopental_dose)
+            propofol_input = st.text_input("mg Propofol", value=st.session_state.propofol_dose, key="propofol_dose_input")
+            etomidate_input = st.text_input("mg Etomidate", value=st.session_state.etomidate_dose, key="etomidate_dose_input")
+            ketamine_input = st.text_input("mg Ketamine", value=st.session_state.ketamine_dose, key="ketamine_dose_input")
+            midazolam_input = st.text_input("mg Midazolam", value=st.session_state.midazolam_dose, key="midazolam_dose_input")
+            thiopental_input = st.text_input("mg Thiopental", value=st.session_state.thiopental_dose, key="thiopental_dose_input")
 
         # Atropine Indication
         st.markdown("### Atropine Indication")
@@ -646,8 +646,6 @@ elif st.session_state.page == "Medications":
             st.session_state.page = "Methods"  # Set next page
             st.rerun()
 
-    # Print the session state for debugging after button clicks
-    st.write("Session State after input:", st.session_state)
 
 
 
