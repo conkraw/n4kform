@@ -710,7 +710,8 @@ elif st.session_state.page == "Method Details":
 
             with cols[2]:
                 # FiO2 input
-                fio2 = st.text_input(f"FiO2 for {method}:", value=st.session_state.fio2[fio2_key], key=fio2_key)
+                #fio2 = st.text_input(f"FiO2 for {method}:", value=st.session_state.fio2[fio2_key], key=fio2_key)
+                fio2 = st.text_input("", value=st.session_state.fio2[fio2_key], key=fio2_key)
                 st.session_state.fio2[fio2_key] = fio2
 
     # Navigation buttons
