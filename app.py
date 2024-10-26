@@ -1063,7 +1063,7 @@ if st.session_state.page == "Disposition":
     )
     st.session_state.disposition = disposition  # Save selection
 
-    # Initialize transferred_to checkboxes
+    # Initialize transferred_to checkboxes if not already done
     if "transferred_to_PICU" not in st.session_state:
         st.session_state.transferred_to_PICU = False
     if "transferred_to_NICU" not in st.session_state:
@@ -1102,15 +1102,11 @@ if st.session_state.page == "Disposition":
     with col2:
         if st.button("Submit"):
             # Ensure checkbox states are saved before navigating away
-            st.session_state.transferred_to_PICU = st.session_state.transferred_to_PICU
-            st.session_state.transferred_to_NICU = st.session_state.transferred_to_NICU
-            st.session_state.transferred_to_CICU = st.session_state.transferred_to_CICU
-            
+            # No need to reassign, values are already in session_state
             # Navigate to the next page
             st.session_state.page = "Summary"  # Change to your final page
             st.rerun()
 
-st.write("Current Session State:", st.session_state)
 
 if st.session_state.page == "Summary":
     # Navigation buttons
