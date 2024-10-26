@@ -210,7 +210,7 @@ if st.session_state.page == "Starting Page":
                     st.session_state.form_data['date'] = None  # Or handle it as you prefer
 
             st.session_state.page = "Encounter Information"  # Set next page
-            st.experimental_rerun() 
+            st.rerun() 
 
 # Initialize form_data session state if not already done
 if 'form_data' not in st.session_state:
