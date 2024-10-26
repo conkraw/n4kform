@@ -916,17 +916,6 @@ elif st.session_state.page == "Method Details II":
         other_description = st.text_input("Please describe:", value=st.session_state.other_event_description)
         st.session_state.other_event_description = other_description  # Save description
 
-    # Pop-ups for selected events
-    for event in selected_events:
-        if event != "NONE":
-            with st.expander(f"{event} - Link to Attempt #", expanded=True):
-                attempt_key = f"{event}_attempt"
-                if attempt_key not in st.session_state:
-                    st.session_state[attempt_key] = "Attempt 1"  # Default value
-
-                attempt = st.selectbox(f"Select Attempt # for {event}:", [f"Attempt {i}" for i in range(1, 9)], index=int(st.session_state[attempt_key].split()[1]) - 1, key=attempt_key)
-                st.session_state[attempt_key] = attempt  # Save selection
-
     # Navigation buttons
     col1, col2 = st.columns(2)
     with col1:
