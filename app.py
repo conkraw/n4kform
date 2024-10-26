@@ -561,9 +561,6 @@ elif st.session_state.page == "Medications":
         if key not in st.session_state:
             st.session_state[key] = value
 
-    # Print the session state for debugging
-    st.write("Session State:", st.session_state)
-
     # Select box for drugs used
     no_drugs = st.selectbox("Have any drugs been used?", ["NO DRUGS USED", "DRUGS USED"], 
                             index=["NO DRUGS USED", "DRUGS USED"].index(st.session_state.no_drugs))
@@ -630,9 +627,6 @@ elif st.session_state.page == "Medications":
             st.session_state.thiopental_dose = thiopental_input
             st.session_state.atropine_indications = atropine_indications
             st.session_state.glycopyrrolate_indications = glycopyrrolate_indications
-
-            # Debugging output after submission
-            st.write("Input values updated:", st.session_state)
 
     # Navigation buttons
     col1, col2 = st.columns(2)
