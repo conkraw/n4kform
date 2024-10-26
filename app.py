@@ -987,13 +987,15 @@ if st.session_state.page == "Monitoring of Vital Signs":
 
 if st.session_state.page == "Course Success":
     st.header("COURSE SUCCESS")
-        # Checkboxes for failure explanations
+
+    # Checkboxes for failure explanations
     if "cannot_visualize" not in st.session_state:
         st.session_state.cannot_visualize = False
     if "cannot_place_device" not in st.session_state:
         st.session_state.cannot_place_device = False
     if "unstable_hemodynamics" not in st.session_state:
         st.session_state.unstable_hemodynamics = False
+
     # Successful tracheal intubation/advanced airway management
     if "course_success" not in st.session_state:
         st.session_state.course_success = "Yes"  # Default value
@@ -1005,9 +1007,10 @@ if st.session_state.page == "Course Success":
     )
     st.session_state.course_success = successful_intubation  # Save selection
 
+    # Initialize checkboxes only if course failed
     if successful_intubation == "No":
         st.markdown("If course failed, please explain briefly:")
-            
+
         cannot_visualize = st.checkbox("Cannot visualize vocal cords", value=st.session_state.cannot_visualize)
         cannot_place_device = st.checkbox("Cannot place device into trachea", value=st.session_state.cannot_place_device)
         unstable_hemodynamics = st.checkbox("Unstable hemodynamics", value=st.session_state.unstable_hemodynamics)
@@ -1019,18 +1022,19 @@ if st.session_state.page == "Course Success":
 
     # Navigation buttons
     col1, col2 = st.columns(2)
+    
     with col1:
         if st.button("Previous"):
-            # Set session state for checkboxes when Next is clicked
-            st.session_state.cannot_visualize = cannot_visualize
-            st.session_state.cannot_place_device = cannot_place_device
-            st.session_state.unstable_hemodynamics = unstable_hemodynamics
+            # Save checkbox states regardless of the selection
+            st.session_state.cannot_visualize = st.session_state.get('cannot_visualize', False)
+            st.session_state.cannot_place_device = st.session_state.get('cannot_place_device', False)
+            st.session_state.unstable_hemodynamics = st.session_state.get('unstable_hemodynamics', False)
             st.session_state.page = "Monitoring of Vital Signs"
             st.rerun()
 
     with col2:
         if st.button("Next"):
-            # Set session state for checkboxes when Next is clicked
+            # Save checkbox states when moving to the next page
             st.session_state.cannot_visualize = cannot_visualize
             st.session_state.cannot_place_device = cannot_place_device
             st.session_state.unstable_hemodynamics = unstable_hemodynamics
@@ -1041,6 +1045,7 @@ if st.session_state.page == "Course Success":
             # Navigate to the next page
             st.session_state.page = "Disposition"
             st.rerun()
+
 
 elif st.session_state.page == "Disposition":
     st.header("DISPOSITION")
