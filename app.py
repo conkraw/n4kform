@@ -180,26 +180,27 @@ def question_box(label):
     
     st.markdown(input_html, unsafe_allow_html=True)
 
-# Title of the application
 st.title("NEAR4KIDS QI COLLECTION FORM")
 
+# Initialize session state for page and user paragraph
 if 'page' not in st.session_state:
-    st.session_state.page = "Starting Page" # Default page
+    st.session_state.page = "Starting Page"  # Default page
 
 if 'user_paragraph' not in st.session_state:
     st.session_state.user_paragraph = ""
-    
+
 if st.session_state.page == "Starting Page":
+    # Text area for user input
+    user_paragraph = st.text_area("Please enter a paragraph:", value=st.session_state.user_paragraph)
+
     # Navigation buttons
-    user_paragraph = st.text_area("Please enter a paragraph:")
-    
     col_prev, col_next = st.columns(2)
 
     with col_next:
         if st.button("Next"):
             st.session_state.user_paragraph = user_paragraph
             st.session_state.page = "Encounter Information"  # Set next page
-            st.rerun()  # Rerun the app to reflect the new page
+            st.rerun() 
 
 # Initialize session state if not already done
 if 'form_data' not in st.session_state:
