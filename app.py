@@ -545,6 +545,74 @@ elif st.session_state.page == "Medications":
     
     st.session_state.no_drugs = no_drugs  # Save the selection
 
+    if no_drugs == "DRUGS USED":
+        # Pretreatment Dosage
+        st.markdown("### Pretreatment Dosage")
+        pretreatment_doses = {
+            "mg Atropine": "atropine_dose",
+            "mcg Glycopyrrolate": "glycopyrrolate_dose",
+            "mcg Fentanyl": "fentanyl_dose",
+            "mg Lidocaine": "lidocaine_dose",
+            "mg Vecuronium": "vecuronium_dose"
+        }
+
+        # Create columns for Pretreatment Dosages
+        cols = st.columns(5)
+        for col, (label, key) in zip(cols, pretreatment_doses.items()):
+            if key not in st.session_state:
+                st.session_state[key] = ""
+            col.text_input(label, value=st.session_state[key], key=key)
+
+        # Paralysis Dosage
+        st.markdown("### Paralysis Dosage")
+        paralysis_doses = {
+            "mg Rocuronium": "rocuronium_dose",
+            "mg Succinylcholine": "succinylcholine_dose",
+            "mg Vecuronium": "vecuronium_paralysis_dose",
+            "mg Pancuronium": "pancuronium_dose",
+            "mg Cisatracuronium": "cisatracuronium_dose"
+        }
+
+        # Create columns for Paralysis Dosages
+        cols = st.columns(5)
+        for col, (label, key) in zip(cols, paralysis_doses.items()):
+            if key not in st.session_state:
+                st.session_state[key] = ""
+            col.text_input(label, value=st.session_state[key], key=key)
+
+        # Induction Dosage
+        st.markdown("### Induction Dosage")
+        induction_doses = {
+            "mg Propofol": "propofol_dose",
+            "mg Etomidate": "etomidate_dose",
+            "mg Ketamine": "ketamine_dose",
+            "mg Midazolam": "midazolam_dose",
+            "mg Thiopental": "thiopental_dose"
+        }
+
+        # Create columns for Induction Dosages
+        cols = st.columns(5)
+        for col, (label, key) in zip(cols, induction_doses.items()):
+            if key not in st.session_state:
+                st.session_state[key] = ""
+            col.text_input(label, value=st.session_state[key], key=key)
+
+        # Atropine Indication
+        st.markdown("### Atropine Indication")
+        atropine_indications = st.multiselect("Select indications for Atropine:", 
+            ["Premed for TI", "Treatment of Bradycardia"],
+            default=[ind for ind in ["Premed for TI", "Treatment of Bradycardia"] if ind in st.session_state.get("atropine_indications", [])])
+
+        st.session_state.atropine_indications = atropine_indications  # Save selection
+
+        # Glycopyrrolate Indication
+        st.markdown("### Glycopyrrolate Indication")
+        glycopyrrolate_indications = st.multiselect("Select indications for Glycopyrrolate:", 
+            ["Premed for TI", "Treatment of Bradycardia"],
+            default=[ind for ind in ["Premed for TI", "Treatment of Bradycardia"] if ind in st.session_state.get("glycopyrrolate_indications", [])])
+
+        st.session_state.glycopyrrolate_indications = glycopyrrolate_indications  # Save selection
+
     # Navigation buttons
     col1, col2 = st.columns(2)
     with col1:
@@ -554,8 +622,9 @@ elif st.session_state.page == "Medications":
 
     with col2:
         if st.button("Next"):
-            st.session_state.page = "Method"  # Set next page
+            st.session_state.page = "Next Page"  # Set next page as needed
             st.rerun()
+
 
 elif st.session_state.page == "Method":
     st.header("METHOD")
