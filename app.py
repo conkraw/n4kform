@@ -908,16 +908,27 @@ elif st.session_state.page == "Method Details II":
     selected_events = st.multiselect("Select events associated with tracheal intubation:", events, default=st.session_state.selected_events)
     st.session_state.selected_events = selected_events  # Save selection
 
-    # Interactive pop-up for linking events to Attempt Numbers
-    attempt_mapping = {i: [] for i in range(1, 9)}  # Initialize mapping for up to 8 attempts
-
-    for event in selected_events:
-        if st.button(f"Link '{event}' to Attempt Number"):
-            attempt_number = st.selectbox("Select Attempt Number:", list(attempt_mapping.keys()))
-            attempt_mapping[attempt_number].append(event)  # Link event to the selected attempt number
-
-            st.session_state.attempt_mapping = attempt_mapping  # Save in session state
-            st.success(f"Linked '{event}' to Attempt Number {attempt_number}")
+    # Initialize attempt mapping if not already done
+    if "attempt_mapping" not in st.session_state:
+        st.session_state.attempt_mapping = {i: [] for i in range(1, 9)}  # Create mapping for attempts 1 to 8
+    
+    # Popup for linking events to attempt numbers
+    if selected_events:
+        event_to_link = st.selectbox("Select an event to link:", selected_events)
+        attempt_number = st.selectbox("Select Attempt Number:", list(range(1, 9)))
+        
+        if st.button("Link Event to Attempt"):
+            if event_to_link != "NONE":  # Ensure the selected event is valid
+                st.session_state.attempt_mapping[attempt_number].append(event_to_link)
+                st.success(f"Linked '{event_to_link}' to Attempt {attempt_number}!")
+            else:
+                st.warning("No valid event selected.")
+    
+    # Display linked events
+    st.markdown("### Linked Events:")
+    for attempt_number, events in st.session_state.attempt_mapping.items():
+        if events:
+            st.write(f"Attempt {attempt_number}: {', '.join(events)}")
 
     # Description for "Other" option
     if "Other (Please describe):" in selected_events:
