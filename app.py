@@ -608,8 +608,16 @@ elif st.session_state.page == "Medications":
             ["Premed for TI", "Treatment of Bradycardia"],
             default=st.session_state.glycopyrrolate_indications)
 
-        # Update session state only after inputs have been collected
-        if st.button("Submit"):
+    # Navigation buttons
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Previous"):
+            st.session_state.page = "Difficult Airway Evaluation"
+            st.rerun()
+
+    with col2:
+        if st.button("Next"):
+            # Update session state when moving to the next page
             st.session_state.atropine_dose = atropine_input
             st.session_state.glycopyrrolate_dose = glycopyrrolate_input
             st.session_state.fentanyl_dose = fentanyl_input
@@ -628,16 +636,7 @@ elif st.session_state.page == "Medications":
             st.session_state.atropine_indications = atropine_indications
             st.session_state.glycopyrrolate_indications = glycopyrrolate_indications
 
-    # Navigation buttons
-    col1, col2 = st.columns(2)
-    with col1:
-        if st.button("Previous"):
-            st.session_state.page = "Difficult Airway Evaluation"
-            st.rerun()
-
-    with col2:
-        if st.button("Next"):
-            st.session_state.page = "Method"  # Set next page
+            st.session_state.page = "Methods"  # Set next page
             st.rerun()
 
 
