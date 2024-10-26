@@ -622,50 +622,51 @@ elif st.session_state.page == "Method":
             st.session_state.page = "Method Details"  # Set next page (update this to your actual next page)
             st.rerun()
 
-import streamlit as st
-
-# Initialize session state variables
 if "selected_oxygen" not in st.session_state:
     st.session_state.selected_oxygen = "Select if Oxygen was Provided DURING any TI attempts for this course"
-if "selected_methods" not in st.session_state:
-    st.session_state.selected_methods = []
 if "oxygen_explanation" not in st.session_state:
     st.session_state.oxygen_explanation = ""
 
-# Main application logic
-st.header("METHOD DETAILS")
+# Main application logic based on the current page
+if st.session_state.page == "Method Details":
+    st.header("METHOD DETAILS")
+    if "selected_oxygen" not in st.session_state:
+        st.session_state.selected_oxygen = "Select if Oxygen was Provided DURING any TI attempts for this course"
+    if "oxygen_explanation" not in st.session_state:
+        st.session_state.oxygen_explanation = ""
+    # Question about Oxygen provision
+    st.markdown("### 1. Was Oxygen provided DURING any TI attempts for this course?")
+    oxygen_options = [
+        "Select if Oxygen was Provided DURING any TI attempts for this course",
+        "YES", 
+        "NO", 
+        "ATTEMPTED but not done (explain on last page)"
+    ]
 
-# Question about Oxygen provision
-st.markdown("### 1. Was Oxygen provided DURING any TI attempts for this course?")
-oxygen_options = [
-    "Select if Oxygen was Provided DURING any TI attempts for this course",
-    "YES", 
-    "NO", 
-    "ATTEMPTED but not done (explain on last page)"
-]
+    selected_oxygen = st.selectbox("Select an option:", oxygen_options, index=oxygen_options.index(st.session_state.selected_oxygen))
+    st.session_state.selected_oxygen = selected_oxygen
 
-selected_oxygen = st.selectbox("Select an option:", oxygen_options, index=oxygen_options.index(st.session_state.selected_oxygen))
-st.session_state.selected_oxygen = selected_oxygen
+    # Conditional input for explanation if "ATTEMPTED but not done" is selected
+    if selected_oxygen == "ATTEMPTED but not done (explain on last page)":
+        explanation = st.text_area("Please explain:", value=st.session_state.oxygen_explanation)
+        st.session_state.oxygen_explanation = explanation  # Save explanation to session state
 
-# Conditional input for explanation if "ATTEMPTED but not done" is selected
-if selected_oxygen == "ATTEMPTED but not done (explain on last page)":
-    explanation = st.text_area("Please explain:", value=st.session_state.oxygen_explanation)
-    st.session_state.oxygen_explanation = explanation  # Save explanation to session state
-
-# Navigation buttons
+    # Navigation buttons
     col1, col2 = st.columns(2)
     with col1:
-            if st.button("Previous"):
-                st.session_state.page = "Method"
-                st.rerun()
-        
+        if st.button("Previous"):
+            st.session_state.page = "Method"
+            st.experimental_rerun()
+
     with col2:
-            if st.button("Next"):
-                st.session_state.page = "Method Details II"  # Update this to your actual next page
-                st.rerun()
+        if st.button("Next"):
+            st.session_state.page = "Method Details II"  # Update this to your actual next page
+            st.experimental_rerun()
 
 elif st.session_state.page == "Method Details II":
     st.header("METHOD DETAILS II")
+    # Add additional content for Method Details II here
+
 
     # Device Selection (Dropdown)
     st.markdown("### Device (Check only ONE) Begin NEW course if NEW method / device used.")
