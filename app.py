@@ -212,7 +212,7 @@ if st.session_state.page == "Starting Page":
                 st.session_state.form_data['date'] = None  # No date provided
             
             st.session_state.page = "Encounter Information"  # Set next page
-            st.experimental_rerun() 
+            st.rerun() 
 
 # Page Navigation
 elif st.session_state.page == "Encounter Information":
