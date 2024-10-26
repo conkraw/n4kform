@@ -652,55 +652,6 @@ if selected_oxygen == "ATTEMPTED but not done (explain on last page)":
     explanation = st.text_area("Please explain:", value=st.session_state.oxygen_explanation)
     st.session_state.oxygen_explanation = explanation  # Save explanation to session state
 
-# Additional section if "YES" is selected
-if selected_oxygen == "YES":
-    st.markdown("### If Yes, How was the oxygen provided:")
-
-    options = [
-        "NC without nasal airway",
-        "NC with nasal airway",
-        "Oral airway with oxygen port",
-        "Through LMA",
-        "HFNC",
-        "NIV with nasal prong interface - provide PEEP/PIP",
-        "Other (device, FIO2, setting)"
-    ]
-
-    selected_methods = st.multiselect("Select methods:", options, default=st.session_state.selected_methods)
-    st.session_state.selected_methods = selected_methods  # Update session state for selected methods
-
-    # Display Liter Flow and FIO2 inputs for each selected method
-    if selected_methods:
-        st.write("#### Oxygen Provision Details")
-        cols = st.columns(4)  # Create four columns
-
-        with cols[0]:
-            st.markdown("**METHOD**")
-        with cols[1]:
-            st.markdown("**LITER FLOW**")
-        with cols[2]:
-            st.markdown("**FIO2**")
-
-        for method in selected_methods:
-            cols = st.columns(4)  # Create a row for each method
-
-            with cols[0]:
-                st.markdown(f"**{method}**")
-
-            # Create unique keys for Liter Flow and FIO2
-            liter_flow_key = f"liter_flow_{method.replace(' ', '_')}"
-            fio2_key = f"fio2_{method.replace(' ', '_')}"
-
-            # Create the text input for Liter Flow
-            liter_flow = st.text_input("Liter Flow:", value=st.session_state.get(liter_flow_key, ""), key=liter_flow_key)
-
-            # Create the text input for FIO2
-            fio2 = st.text_input("FIO2:", value=st.session_state.get(fio2_key, ""), key=fio2_key)
-
-            # Update session state immediately after input creation
-            st.session_state[liter_flow_key] = liter_flow
-            st.session_state[fio2_key] = fio2
-
 # Navigation buttons
     col1, col2 = st.columns(2)
     with col1:
