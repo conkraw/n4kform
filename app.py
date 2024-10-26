@@ -984,7 +984,6 @@ if st.session_state.page == "Monitoring of Vital Signs":
         if st.button("Next"):
             st.session_state.page = "Course Success"
             st.rerun()
-
 if st.session_state.page == "Course Success":
     st.header("COURSE SUCCESS")
 
@@ -1007,6 +1006,11 @@ if st.session_state.page == "Course Success":
     )
     st.session_state.course_success = successful_intubation  # Save selection
 
+    # Initialize other_failure variable
+    if "other_failure" not in st.session_state:
+        st.session_state.other_failure = ""  # Initialize if not present
+    other_failure = st.session_state.other_failure  # Get current value
+
     # Initialize variables for checkboxes only if the course failed
     if successful_intubation == "No":
         st.markdown("If course failed, please explain briefly:")
@@ -1015,10 +1019,8 @@ if st.session_state.page == "Course Success":
         cannot_place_device = st.checkbox("Cannot place device into trachea", value=st.session_state.cannot_place_device)
         unstable_hemodynamics = st.checkbox("Unstable hemodynamics", value=st.session_state.unstable_hemodynamics)
 
-        # Other failure explanation
-        if "other_failure" not in st.session_state:
-            st.session_state.other_failure = ""  # Initialize if not present
-        other_failure = st.text_input("Other (please explain):", value=st.session_state.other_failure)
+        # Other failure explanation input
+        other_failure = st.text_input("Other (please explain):", value=other_failure)
     else:
         # Ensure variables are defined even if not used
         cannot_visualize = st.session_state.cannot_visualize
@@ -1044,12 +1046,16 @@ if st.session_state.page == "Course Success":
             st.session_state.cannot_place_device = cannot_place_device
             st.session_state.unstable_hemodynamics = unstable_hemodynamics
             
-            # Save the other failure explanation if it's visible
+            # Save the other failure explanation
             st.session_state.other_failure = other_failure
 
             # Navigate to the next page
             st.session_state.page = "Disposition"
             st.rerun()
+
+# Debugging information (optional)
+st.write("Current Session State:", st.session_state)
+
 
 
 elif st.session_state.page == "Disposition":
