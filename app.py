@@ -816,7 +816,6 @@ elif st.session_state.page == "Method Details II":
     st.header("METHOD DETAILS II")
     # Add additional content for Method Details II here
 
-
     # Device Selection (Dropdown)
     st.markdown("### Device (Check only ONE) Begin NEW course if NEW method / device used.")
     devices = [
@@ -908,6 +907,17 @@ elif st.session_state.page == "Method Details II":
 
     selected_events = st.multiselect("Select events associated with tracheal intubation:", events, default=st.session_state.selected_events)
     st.session_state.selected_events = selected_events  # Save selection
+
+    # Interactive pop-up for linking events to Attempt Numbers
+    attempt_mapping = {i: [] for i in range(1, 9)}  # Initialize mapping for up to 8 attempts
+
+    for event in selected_events:
+        if st.button(f"Link '{event}' to Attempt Number"):
+            attempt_number = st.selectbox("Select Attempt Number:", list(attempt_mapping.keys()))
+            attempt_mapping[attempt_number].append(event)  # Link event to the selected attempt number
+
+            st.session_state.attempt_mapping = attempt_mapping  # Save in session state
+            st.success(f"Linked '{event}' to Attempt Number {attempt_number}")
 
     # Description for "Other" option
     if "Other (Please describe):" in selected_events:
