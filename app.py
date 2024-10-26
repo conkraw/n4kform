@@ -1002,35 +1002,15 @@ if st.session_state.page == "Course Success":
     if successful_intubation == "No":
         st.markdown("If course failed, please explain briefly:")
         
-        # Initialize checkbox states if they don't exist
-        if "cannot_visualize" not in st.session_state:
-            st.session_state.cannot_visualize = False
-        if "cannot_place_device" not in st.session_state:
-            st.session_state.cannot_place_device = False
-        if "unstable_hemodynamics" not in st.session_state:
-            st.session_state.unstable_hemodynamics = False
-
         # Checkbox inputs
-        cannot_visualize = st.checkbox("Cannot visualize vocal cords", 
-                                        value=st.session_state.cannot_visualize, 
-                                        key="cannot_visualize")
-        st.session_state.cannot_visualize = cannot_visualize  # Save state
-
-        cannot_place_device = st.checkbox("Cannot place device into trachea", 
-                                           value=st.session_state.cannot_place_device, 
-                                           key="cannot_place_device")
-        st.session_state.cannot_place_device = cannot_place_device  # Save state
-
-        unstable_hemodynamics = st.checkbox("Unstable hemodynamics", 
-                                             value=st.session_state.unstable_hemodynamics, 
-                                             key="unstable_hemodynamics")
-        st.session_state.unstable_hemodynamics = unstable_hemodynamics  # Save state
+        cannot_visualize = st.checkbox("Cannot visualize vocal cords")
+        cannot_place_device = st.checkbox("Cannot place device into trachea")
+        unstable_hemodynamics = st.checkbox("Unstable hemodynamics")
         
         # Other failure explanation
         if "other_failure" not in st.session_state:
             st.session_state.other_failure = ""  # Initialize if not present
         other_failure = st.text_input("Other (please explain):", value=st.session_state.other_failure)
-        st.session_state.other_failure = other_failure  # Save input
 
     # Navigation buttons
     col1, col2 = st.columns(2)
@@ -1041,6 +1021,14 @@ if st.session_state.page == "Course Success":
 
     with col2:
         if st.button("Next"):
+            # Set session state for checkboxes when Next is clicked
+            st.session_state.cannot_visualize = cannot_visualize
+            st.session_state.cannot_place_device = cannot_place_device
+            st.session_state.unstable_hemodynamics = unstable_hemodynamics
+            
+            # Save the other failure explanation
+            st.session_state.other_failure = other_failure
+
             st.session_state.page = "Disposition"
             st.rerun()
 
