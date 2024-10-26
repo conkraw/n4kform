@@ -266,10 +266,18 @@ if st.session_state.page == "Encounter Information":
         )
 
     # Next button outside the form
-    if st.button("Next"):
-        st.session_state.page = "Indications"  # Navigate to the next page
-        st.rerun()
+    #if st.button("Next"):
+    #    st.session_state.page = "Indications"  # Navigate to the next page
+    #    st.rerun()
 
+    col_prev, col_next = st.columns(2)
+    #with col_prev:
+    #    st.markdown("")
+
+    with col_next:
+        if st.button("Next"):
+            st.session_state.page = "Indications" # Set next page
+            st.rerun() 
 
         
 elif st.session_state.page == "Indications":
