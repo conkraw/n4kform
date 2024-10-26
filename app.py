@@ -726,13 +726,7 @@ elif st.session_state.page == "Method Details":
             st.session_state.page = "Method Details II"  # Update this to your actual next page
             st.rerun()  # Refresh the app to apply changes
 
-# Handle the next page (Method Details II)
-elif st.session_state.page == "Method Details II":
-    st.header("METHOD DETAILS II")
-    # Add content for Method Details II
-    st.write("Proceeding to Method Details II...")
 
-            
 elif st.session_state.page == "Method Details II":
     st.header("METHOD DETAILS II")
     # Add additional content for Method Details II here
