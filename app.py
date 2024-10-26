@@ -1044,7 +1044,7 @@ if st.session_state.page == "Course Success":
             st.session_state.cannot_place_device = cannot_place_device
             st.session_state.unstable_hemodynamics = unstable_hemodynamics
             
-            # Save the other failure explanation
+            # Save the other failure explanation if it's visible
             st.session_state.other_failure = other_failure
 
             # Navigate to the next page
