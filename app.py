@@ -525,7 +525,6 @@ elif st.session_state.page == "Difficult Airway Evaluation":
             st.session_state.page = "Medications"  # Set next page
             st.rerun()  # Rerun the app to reflect the new page
 
-
 elif st.session_state.page == "Medications":
     st.header("MEDICATIONS")
 
@@ -549,8 +548,6 @@ elif st.session_state.page == "Medications":
         st.session_state.lidocaine_dose = ""
     if "vecuronium_dose" not in st.session_state:
         st.session_state.vecuronium_dose = ""
-    if "vecuronium_paralysis_dose" not in st.session_state:
-        st.session_state.vecuronium_paralysis_dose = ""
     if "rocuronium_dose" not in st.session_state:
         st.session_state.rocuronium_dose = ""
     if "succinylcholine_dose" not in st.session_state:
@@ -569,6 +566,8 @@ elif st.session_state.page == "Medications":
         st.session_state.midazolam_dose = ""
     if "thiopental_dose" not in st.session_state:
         st.session_state.thiopental_dose = ""
+    if "vecuronium_paralysis_dose" not in st.session_state:
+        st.session_state.vecuronium_paralysis_dose = ""  # Added initialization
     if "atropine_indications" not in st.session_state:
         st.session_state.atropine_indications = []
     if "glycopyrrolate_indications" not in st.session_state:
@@ -586,42 +585,27 @@ elif st.session_state.page == "Medications":
 
         with col1:
             st.markdown("### Pretreatment Dosage")
-            pretreatment_doses = {
-                "mg Atropine": "atropine_dose",
-                "mcg Glycopyrrolate": "glycopyrrolate_dose",
-                "mcg Fentanyl": "fentanyl_dose",
-                "mg Lidocaine": "lidocaine_dose",
-                "mg Vecuronium": "vecuronium_dose"
-            }
-            # Create inputs for Pretreatment Dosages
-            for label, key in pretreatment_doses.items():
-                st.text_input(label, value=st.session_state[key], key=key)
+            st.session_state.atropine_dose = st.text_input("mg Atropine", value=st.session_state.atropine_dose, key="atropine_dose")
+            st.session_state.glycopyrrolate_dose = st.text_input("mcg Glycopyrrolate", value=st.session_state.glycopyrrolate_dose, key="glycopyrrolate_dose")
+            st.session_state.fentanyl_dose = st.text_input("mcg Fentanyl", value=st.session_state.fentanyl_dose, key="fentanyl_dose")
+            st.session_state.lidocaine_dose = st.text_input("mg Lidocaine", value=st.session_state.lidocaine_dose, key="lidocaine_dose")
+            st.session_state.vecuronium_dose = st.text_input("mg Vecuronium", value=st.session_state.vecuronium_dose, key="vecuronium_dose")
 
         with col2:
             st.markdown("### Paralysis Dosage")
-            paralysis_doses = {
-                "mg Rocuronium": "rocuronium_dose",
-                "mg Succinylcholine": "succinylcholine_dose",
-                "mg Vecuronium": "vecuronium_paralysis_dose",
-                "mg Pancuronium": "pancuronium_dose",
-                "mg Cisatracuronium": "cisatracuronium_dose"
-            }
-            # Create inputs for Paralysis Dosages
-            for label, key in paralysis_doses.items():
-                st.text_input(label, value=st.session_state[key], key=key)
+            st.session_state.rocuronium_dose = st.text_input("mg Rocuronium", value=st.session_state.rocuronium_dose, key="rocuronium_dose")
+            st.session_state.succinylcholine_dose = st.text_input("mg Succinylcholine", value=st.session_state.succinylcholine_dose, key="succinylcholine_dose")
+            st.session_state.vecuronium_paralysis_dose = st.text_input("mg Vecuronium", value=st.session_state.vecuronium_paralysis_dose, key="vecuronium_paralysis_dose")  # Use the new state variable
+            st.session_state.pancuronium_dose = st.text_input("mg Pancuronium", value=st.session_state.pancuronium_dose, key="pancuronium_dose")
+            st.session_state.cisatracuronium_dose = st.text_input("mg Cisatracuronium", value=st.session_state.cisatracuronium_dose, key="cisatracuronium_dose")
 
         with col3:
             st.markdown("### Induction Dosage")
-            induction_doses = {
-                "mg Propofol": "propofol_dose",
-                "mg Etomidate": "etomidate_dose",
-                "mg Ketamine": "ketamine_dose",
-                "mg Midazolam": "midazolam_dose",
-                "mg Thiopental": "thiopental_dose"
-            }
-            # Create inputs for Induction Dosages
-            for label, key in induction_doses.items():
-                st.text_input(label, value=st.session_state[key], key=key)
+            st.session_state.propofol_dose = st.text_input("mg Propofol", value=st.session_state.propofol_dose, key="propofol_dose")
+            st.session_state.etomidate_dose = st.text_input("mg Etomidate", value=st.session_state.etomidate_dose, key="etomidate_dose")
+            st.session_state.ketamine_dose = st.text_input("mg Ketamine", value=st.session_state.ketamine_dose, key="ketamine_dose")
+            st.session_state.midazolam_dose = st.text_input("mg Midazolam", value=st.session_state.midazolam_dose, key="midazolam_dose")
+            st.session_state.thiopental_dose = st.text_input("mg Thiopental", value=st.session_state.thiopental_dose, key="thiopental_dose")
 
         # Atropine Indication
         st.markdown("### Atropine Indication")
@@ -648,7 +632,7 @@ elif st.session_state.page == "Medications":
 
     with col2:
         if st.button("Next"):
-            st.session_state.page = "Method"  # Set next page
+            st.session_state.page = "Methods"  # Set next page
             st.rerun()
 
 
