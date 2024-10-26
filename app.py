@@ -183,6 +183,9 @@ def question_box(label):
 # Title of the application
 st.title("NEAR4KIDS QI COLLECTION FORM")
 
+if 'page' not in st.session_state:
+    st.session_state.page = "Starting Page"  # Default page
+    
 if st.session_state.page == "Starting Page":
     # Navigation buttons
     col_prev, col_next = st.columns(2)
@@ -199,8 +202,7 @@ if st.session_state.page == "Starting Page":
 # Initialize session state if not already done
 if 'form_data' not in st.session_state:
     st.session_state.form_data = {}
-if 'page' not in st.session_state:
-    st.session_state.page = "Encounter Information"  # Default page
+
 
 # Page Navigation
 elif st.session_state.page == "Encounter Information":
