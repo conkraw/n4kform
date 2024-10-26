@@ -623,15 +623,6 @@ elif st.session_state.page == "Method":
             st.rerun()
 
 
-Here’s how to modify your code to allow users to enter Liter Flow and FiO2 values for each selected oxygen provision method. This implementation will ensure that the inputs are saved in the session state, allowing users to navigate back and forth without losing their data.
-
-Updated Streamlit Code Example
-python
-Copy code
-import streamlit as st
-
-# Initialize session state variables
-
 # Main application logic based on the current page
 elif st.session_state.page == "Method Details":
     st.header("METHOD DETAILS")
