@@ -1002,19 +1002,27 @@ if st.session_state.page == "Course Success":
     if successful_intubation == "No":
         st.markdown("If course failed, please explain briefly:")
         
+        # Initialize checkbox states if they don't exist
+        if "cannot_visualize" not in st.session_state:
+            st.session_state.cannot_visualize = False
+        if "cannot_place_device" not in st.session_state:
+            st.session_state.cannot_place_device = False
+        if "unstable_hemodynamics" not in st.session_state:
+            st.session_state.unstable_hemodynamics = False
+
         # Checkbox inputs
         cannot_visualize = st.checkbox("Cannot visualize vocal cords", 
-                                        value=st.session_state.get("cannot_visualize", False), 
+                                        value=st.session_state.cannot_visualize, 
                                         key="cannot_visualize")
         st.session_state.cannot_visualize = cannot_visualize  # Save state
 
         cannot_place_device = st.checkbox("Cannot place device into trachea", 
-                                           value=st.session_state.get("cannot_place_device", False), 
+                                           value=st.session_state.cannot_place_device, 
                                            key="cannot_place_device")
         st.session_state.cannot_place_device = cannot_place_device  # Save state
 
         unstable_hemodynamics = st.checkbox("Unstable hemodynamics", 
-                                             value=st.session_state.get("unstable_hemodynamics", False), 
+                                             value=st.session_state.unstable_hemodynamics, 
                                              key="unstable_hemodynamics")
         st.session_state.unstable_hemodynamics = unstable_hemodynamics  # Save state
         
@@ -1035,6 +1043,7 @@ if st.session_state.page == "Course Success":
         if st.button("Next"):
             st.session_state.page = "Disposition"
             st.rerun()
+
 
 
 if st.session_state.page == "Disposition":
