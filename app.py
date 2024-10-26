@@ -656,12 +656,12 @@ if st.session_state.page == "Method Details":
     with col1:
         if st.button("Previous"):
             st.session_state.page = "Method"
-            st.experimental_rerun()
+            st.rerun()
 
     with col2:
         if st.button("Next"):
             st.session_state.page = "Method Details II"  # Update this to your actual next page
-            st.experimental_rerun()
+            st.rerun()
 
 elif st.session_state.page == "Method Details II":
     st.header("METHOD DETAILS II")
