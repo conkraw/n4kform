@@ -199,13 +199,22 @@ if st.session_state.page == "Starting Page":
     with col_next:
         if st.button("Next"):
             st.session_state.user_paragraph = user_paragraph
-            st.session_state.page = "Encounter Information"  # Set next page
-            st.rerun() 
 
-# Initialize session state if not already done
+            # Extract date from the user paragraph
+            if "Date:" in user_paragraph:
+                date_str = user_paragraph.split("Date:")[1].strip().split()[0]  # Gets the first token after "Date:"
+                try:
+                    # Try parsing the date
+                    st.session_state.form_data['date'] = datetime.datetime.strptime(date_str, "%Y-%m-%d").date()  # Adjust format as necessary
+                except ValueError:
+                    st.session_state.form_data['date'] = None  # Or handle it as you prefer
+
+            st.session_state.page = "Encounter Information"  # Set next page
+            st.experimental_rerun() 
+
+# Initialize form_data session state if not already done
 if 'form_data' not in st.session_state:
     st.session_state.form_data = {}
-
 
 # Page Navigation
 elif st.session_state.page == "Encounter Information":
@@ -216,10 +225,12 @@ elif st.session_state.page == "Encounter Information":
     # First line: Date, Time, Location
     col1, col2, col3 = st.columns(3)
     with col1:
+        # Display date input with a default from session state
         st.session_state.form_data['date'] = st.date_input(
             "Date:", 
             value=st.session_state.form_data.get('date', datetime.date.today())
         )
+    
     with col2:
         # Get current time in EST
         est = pytz.timezone('America/New_York')
@@ -282,11 +293,6 @@ elif st.session_state.page == "Encounter Information":
             options=["Yes", "No"], 
             index=["Yes", "No"].index(st.session_state.form_data.get('attending_physician_present', 'No'))
         )
-
-    # Next button outside the form
-    #if st.button("Next"):
-    #    st.session_state.page = "Indications"  # Navigate to the next page
-    #    st.rerun()
 
     col_prev, col_next = st.columns(2)
     with col_prev:
