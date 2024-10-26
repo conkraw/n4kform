@@ -622,13 +622,8 @@ elif st.session_state.page == "Method":
             st.session_state.page = "Method Details"  # Set next page (update this to your actual next page)
             st.rerun()
 
-if "selected_oxygen" not in st.session_state:
-    st.session_state.selected_oxygen = "Select if Oxygen was Provided DURING any TI attempts for this course"
-if "oxygen_explanation" not in st.session_state:
-    st.session_state.oxygen_explanation = ""
 
-# Main application logic based on the current page
-if st.session_state.page == "Method Details":
+elif st.session_state.page == "Method Details":
     st.header("METHOD DETAILS")
     if "selected_oxygen" not in st.session_state:
         st.session_state.selected_oxygen = "Select if Oxygen was Provided DURING any TI attempts for this course"
