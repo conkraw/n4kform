@@ -1065,15 +1065,16 @@ elif st.session_state.page == "Disposition":
     st.session_state.disposition = disposition  # Save selection
 
     # Initialize transferred_to checkboxes if not already done
-    if "transferred_to_PICU" not in st.session_state:
-        st.session_state.transferred_to_PICU = False
-    if "transferred_to_NICU" not in st.session_state:
-        st.session_state.transferred_to_NICU = False
-    if "transferred_to_CICU" not in st.session_state:
-        st.session_state.transferred_to_CICU = False
 
     # Transferred to checkboxes
     if disposition == "Transferred to":
+        if "transferred_to_PICU" not in st.session_state:
+            st.session_state.transferred_to_PICU = False
+        if "transferred_to_NICU" not in st.session_state:
+            st.session_state.transferred_to_NICU = False
+        if "transferred_to_CICU" not in st.session_state:
+            st.session_state.transferred_to_CICU = False
+        
         transferred_to_PICU = st.checkbox("PICU", value=st.session_state.transferred_to_PICU)
         transferred_to_NICU = st.checkbox("NICU", value=st.session_state.transferred_to_NICU)
         transferred_to_CICU = st.checkbox("CICU", value=st.session_state.transferred_to_CICU)
