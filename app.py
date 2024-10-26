@@ -286,8 +286,10 @@ elif st.session_state.page == "Encounter Information":
     #    st.rerun()
 
     col_prev, col_next = st.columns(2)
-    #with col_prev:
-    #    st.markdown("")
+    with col_prev:
+        if st.button("Previous"):
+            st.session_state.page = "Starting Page"
+            st.rerun()
 
     with col_next:
         if st.button("Next"):
