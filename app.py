@@ -1079,10 +1079,7 @@ elif st.session_state.page == "Disposition":
         transferred_to_CICU = st.checkbox("CICU", value=st.session_state.transferred_to_CICU)
         
         # Save the checkbox states when moving to the next page
-        st.session_state.transferred_to_PICU = transferred_to_PICU
-        st.session_state.transferred_to_NICU = transferred_to_NICU
-        st.session_state.transferred_to_CICU = transferred_to_CICU
-
+        
     # Other disposition input
     if disposition == "Other":
         if "other_disposition" not in st.session_state:
@@ -1102,11 +1099,15 @@ elif st.session_state.page == "Disposition":
     col1, col2 = st.columns(2)
     with col1:
         if st.button("Previous"):
+            st.session_state.transferred_to_PICU = transferred_to_PICU
+            st.session_state.transferred_to_NICU = transferred_to_NICU
+            st.session_state.transferred_to_CICU = transferred_to_CICU
+
             st.session_state.page = "Course Success"
             st.rerun()
 
     with col2:
-        if st.button("Submit"):
+        if st.button("Next"):
             # Navigate to the next page
             st.session_state.page = "Summary"  # Change to your final page
             st.rerun()
