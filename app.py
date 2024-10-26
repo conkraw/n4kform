@@ -702,16 +702,16 @@ if selected_oxygen == "YES":
             st.session_state[fio2_key] = fio2
 
 # Navigation buttons
-col1, col2 = st.columns(2)
+    col1, col2 = st.columns(2)
     with col1:
-        if st.button("Previous"):
-            st.session_state.page = "Method"
-            st.rerun()
-    
+            if st.button("Previous"):
+                st.session_state.page = "Method"
+                st.rerun()
+        
     with col2:
-        if st.button("Next"):
-            st.session_state.page = "Method Details II"  # Update this to your actual next page
-            st.rerun()
+            if st.button("Next"):
+                st.session_state.page = "Method Details II"  # Update this to your actual next page
+                st.rerun()
 
 elif st.session_state.page == "Method Details II":
     st.header("METHOD DETAILS II")
