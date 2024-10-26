@@ -622,13 +622,18 @@ elif st.session_state.page == "Method":
             st.session_state.page = "Method Details"  # Set next page (update this to your actual next page)
             st.rerun()
 
-
-elif st.session_state.page == "Method Details":
+# Main application logic based on the current page
+if st.session_state.page == "Method Details":
     st.header("METHOD DETAILS")
+    if "page" not in st.session_state:
+    st.session_state.page = "Method Details"
     if "selected_oxygen" not in st.session_state:
         st.session_state.selected_oxygen = "Select if Oxygen was Provided DURING any TI attempts for this course"
     if "oxygen_explanation" not in st.session_state:
         st.session_state.oxygen_explanation = ""
+    if "selected_methods" not in st.session_state:
+        st.session_state.selected_methods = []
+
     # Question about Oxygen provision
     st.markdown("### 1. Was Oxygen provided DURING any TI attempts for this course?")
     oxygen_options = [
@@ -646,17 +651,35 @@ elif st.session_state.page == "Method Details":
         explanation = st.text_area("Please explain:", value=st.session_state.oxygen_explanation)
         st.session_state.oxygen_explanation = explanation  # Save explanation to session state
 
+    # Show multiselect if "YES" is selected
+    if selected_oxygen == "YES":
+        st.markdown("### If Yes, how was the oxygen provided?")
+        methods_options = [
+            "NC without nasal airway",
+            "NC with nasal airway",
+            "Oral airway with oxygen port",
+            "Through LMA",
+            "HFNC",
+            "NIV with nasal prong interface – provide PEEP/PIP",
+            "Other (device, FiO2, Setting)"
+        ]
+
+        # Multiselect for oxygen provision methods
+        selected_methods = st.multiselect("Select methods:", methods_options, default=st.session_state.selected_methods)
+        st.session_state.selected_methods = selected_methods  # Save selected methods to session state
+
     # Navigation buttons
     col1, col2 = st.columns(2)
     with col1:
         if st.button("Previous"):
-            st.session_state.page = "Method"
-            st.rerun()
+            st.session_state.page = "Method"  # Update this to your actual previous page
+            st.rerun()  # Refresh the app to apply changes
 
     with col2:
         if st.button("Next"):
             st.session_state.page = "Method Details II"  # Update this to your actual next page
-            st.rerun()
+            st.rerun()  # Refresh the app to apply changes
+
 
 elif st.session_state.page == "Method Details II":
     st.header("METHOD DETAILS II")
