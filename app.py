@@ -1002,11 +1002,19 @@ if st.session_state.page == "Course Success":
     if successful_intubation == "No":
         st.markdown("If course failed, please explain briefly:")
         
-        # Checkbox inputs
-        cannot_visualize = st.checkbox("Cannot visualize vocal cords")
-        cannot_place_device = st.checkbox("Cannot place device into trachea")
-        unstable_hemodynamics = st.checkbox("Unstable hemodynamics")
-        
+        # Checkboxes for failure explanations
+        if "cannot_visualize" not in st.session_state:
+            st.session_state.cannot_visualize = False
+        cannot_visualize = st.checkbox("Cannot visualize vocal cords", value=st.session_state.cannot_visualize)
+
+        if "cannot_place_device" not in st.session_state:
+            st.session_state.cannot_place_device = False
+        cannot_place_device = st.checkbox("Cannot place device into trachea", value=st.session_state.cannot_place_device)
+
+        if "unstable_hemodynamics" not in st.session_state:
+            st.session_state.unstable_hemodynamics = False
+        unstable_hemodynamics = st.checkbox("Unstable hemodynamics", value=st.session_state.unstable_hemodynamics)
+
         # Other failure explanation
         if "other_failure" not in st.session_state:
             st.session_state.other_failure = ""  # Initialize if not present
@@ -1029,8 +1037,10 @@ if st.session_state.page == "Course Success":
             # Save the other failure explanation
             st.session_state.other_failure = other_failure
 
+            # Navigate to the next page
             st.session_state.page = "Disposition"
             st.rerun()
+
 
 
 
