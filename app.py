@@ -188,14 +188,13 @@ if 'page' not in st.session_state:
     
 if st.session_state.page == "Starting Page":
     # Navigation buttons
+    user_paragraph = st.text_area("Please enter a paragraph:")
+    
     col_prev, col_next = st.columns(2)
-    #with col_prev:
-    #    if st.button("Previous"):
-    #        st.session_state.page = "Indications"  # Go back to the previous page
-    #        st.rerun()  # Rerun the app to reflect the new page
 
     with col_next:
         if st.button("Next"):
+            st.session_state.user_paragraph = user_paragraph
             st.session_state.page = "Encounter Information"  # Set next page
             st.rerun()  # Rerun the app to reflect the new page
 
