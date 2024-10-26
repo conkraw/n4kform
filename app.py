@@ -556,12 +556,11 @@ elif st.session_state.page == "Medications":
             "mg Vecuronium": "vecuronium_dose"
         }
 
-        # Create columns for Pretreatment Dosages
-        cols = st.columns(5)
-        for col, (label, key) in zip(cols, pretreatment_doses.items()):
+        # Create inputs for Pretreatment Dosages
+        for label, key in pretreatment_doses.items():
             if key not in st.session_state:
                 st.session_state[key] = ""
-            col.text_input(label, value=st.session_state[key], key=key)
+            st.text_input(label, value=st.session_state[key], key=key)
 
         # Paralysis Dosage
         st.markdown("### Paralysis Dosage")
@@ -573,12 +572,11 @@ elif st.session_state.page == "Medications":
             "mg Cisatracuronium": "cisatracuronium_dose"
         }
 
-        # Create columns for Paralysis Dosages
-        cols = st.columns(5)
-        for col, (label, key) in zip(cols, paralysis_doses.items()):
+        # Create inputs for Paralysis Dosages
+        for label, key in paralysis_doses.items():
             if key not in st.session_state:
                 st.session_state[key] = ""
-            col.text_input(label, value=st.session_state[key], key=key)
+            st.text_input(label, value=st.session_state[key], key=key)
 
         # Induction Dosage
         st.markdown("### Induction Dosage")
@@ -590,12 +588,11 @@ elif st.session_state.page == "Medications":
             "mg Thiopental": "thiopental_dose"
         }
 
-        # Create columns for Induction Dosages
-        cols = st.columns(5)
-        for col, (label, key) in zip(cols, induction_doses.items()):
+        # Create inputs for Induction Dosages
+        for label, key in induction_doses.items():
             if key not in st.session_state:
                 st.session_state[key] = ""
-            col.text_input(label, value=st.session_state[key], key=key)
+            st.text_input(label, value=st.session_state[key], key=key)
 
         # Atropine Indication
         st.markdown("### Atropine Indication")
@@ -624,6 +621,7 @@ elif st.session_state.page == "Medications":
         if st.button("Next"):
             st.session_state.page = "Method"  # Set next page as needed
             st.rerun()
+
 
 
 elif st.session_state.page == "Method":
