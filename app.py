@@ -636,7 +636,7 @@ elif st.session_state.page == "Medications":
             st.session_state.atropine_indications = atropine_indications
             st.session_state.glycopyrrolate_indications = glycopyrrolate_indications
 
-            st.session_state.page = "Methods"  # Set next page
+            st.session_state.page = "Method"  # Set next page
             st.rerun()
 
 
