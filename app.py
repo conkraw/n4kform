@@ -549,6 +549,8 @@ elif st.session_state.page == "Medications":
         st.session_state.lidocaine_dose = ""
     if "vecuronium_dose" not in st.session_state:
         st.session_state.vecuronium_dose = ""
+    if "vecuronium_paralysis_dose" not in st.session_state:
+        st.session_state.vecuronium_paralysis_dose = ""
     if "rocuronium_dose" not in st.session_state:
         st.session_state.rocuronium_dose = ""
     if "succinylcholine_dose" not in st.session_state:
