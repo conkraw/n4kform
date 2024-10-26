@@ -896,6 +896,13 @@ elif st.session_state.page == "Method Details II":
     selected_confirmation = st.multiselect("Select confirmation methods:", confirmation_options, default=st.session_state.selected_confirmation)
     st.session_state.selected_confirmation = selected_confirmation  # Save selection
 
+    # Text input for 'Other' confirmation description
+    if "Others:" in selected_confirmation:
+        if "other_confirmation_description" not in st.session_state:
+            st.session_state.other_confirmation_description = ""
+        other_confirmation_description = st.text_input("Please describe the Other Confirmation Method:", value=st.session_state.other_confirmation_description)
+        st.session_state.other_confirmation_description = other_confirmation_description  # Save description
+
     # Events for Tracheal Intubation
     st.markdown("### Tracheal Intubation Associated Events (Check ALL that apply):")
     events = [
