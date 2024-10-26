@@ -184,7 +184,10 @@ def question_box(label):
 st.title("NEAR4KIDS QI COLLECTION FORM")
 
 if 'page' not in st.session_state:
-    st.session_state.page = "Starting Page"  # Default page
+    st.session_state.page = "Starting Page" # Default page
+
+if 'user_paragraph' not in st.session_state:
+    st.session_state.user_paragraph = ""
     
 if st.session_state.page == "Starting Page":
     # Navigation buttons
