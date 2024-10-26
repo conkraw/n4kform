@@ -870,6 +870,13 @@ elif st.session_state.page == "Method Details II":
     selected_device = st.selectbox("Select device:", devices, index=devices.index(st.session_state.selected_device))
     st.session_state.selected_device = selected_device  # Save selection
 
+    # Text input for 'Other' device description
+    if selected_device == "Other (please describe):":
+        if "other_device_description" not in st.session_state:
+            st.session_state.other_device_description = ""
+        other_device_description = st.text_input("Please describe the Other Device:", value=st.session_state.other_device_description)
+        st.session_state.other_device_description = other_device_description  # Save description
+
     # Tracheal Intubation Confirmation
     st.markdown("### Tracheal Intubation Confirmation (Check ALL that apply)")
     confirmation_options = [
@@ -888,25 +895,6 @@ elif st.session_state.page == "Method Details II":
 
     selected_confirmation = st.multiselect("Select confirmation methods:", confirmation_options, default=st.session_state.selected_confirmation)
     st.session_state.selected_confirmation = selected_confirmation  # Save selection
-
-    image_path = "image.png"
-    st.markdown("### Glottic Exposure During Intubation (Check only ONE):")
-    st.image(image_path, caption="Visual Reference for Glottic Exposure", use_column_width=True)
-
-    glottic_exposure_options = [
-        "Select an option",
-        "I = Visualized entire vocal cords",
-        "II = Visualized part of cords",
-        "III = Visualized epiglottis only",
-        "IV = Non visualized epiglottis",
-        "V = Not Applicable (e.g. blind nasotracheal)"
-    ]
-
-    if "selected_glottic_exposure" not in st.session_state:
-        st.session_state.selected_glottic_exposure = glottic_exposure_options[0]  # Default to "Select an option"
-
-    selected_glottic_exposure = st.selectbox("Select glottic exposure:", glottic_exposure_options, index=glottic_exposure_options.index(st.session_state.selected_glottic_exposure))
-    st.session_state.selected_glottic_exposure = selected_glottic_exposure  # Save selection
 
     # Events for Tracheal Intubation
     st.markdown("### Tracheal Intubation Associated Events (Check ALL that apply):")
@@ -940,6 +928,13 @@ elif st.session_state.page == "Method Details II":
     selected_events = st.multiselect("Select events associated with tracheal intubation:", events, default=st.session_state.selected_events)
     st.session_state.selected_events = selected_events  # Save selection
 
+    # Text input for 'Other' event description
+    if "Other (Please describe):" in selected_events:
+        if "other_event_description" not in st.session_state:
+            st.session_state.other_event_description = ""
+        other_event_description = st.text_input("Please describe the Other Tracheal Intubation Event:", value=st.session_state.other_event_description)
+        st.session_state.other_event_description = other_event_description  # Save description
+
     # Initialize attempt mapping if not already done
     if "attempt_mapping" not in st.session_state:
         st.session_state.attempt_mapping = {i: [] for i in range(1, 9)}  # Create mapping for attempts 1 to 8
@@ -962,13 +957,6 @@ elif st.session_state.page == "Method Details II":
         if events:
             st.write(f"Attempt {attempt_number}: {', '.join(events)}")
 
-    # Description for "Other" option
-    if "Other (Please describe):" in selected_events:
-        if "other_event_description" not in st.session_state:
-            st.session_state.other_event_description = ""
-        other_description = st.text_input("Please describe:", value=st.session_state.other_event_description)
-        st.session_state.other_event_description = other_description  # Save description
-
     # Navigation buttons
     col1, col2 = st.columns(2)
     with col1:
@@ -980,6 +968,7 @@ elif st.session_state.page == "Method Details II":
         if st.button("Next"):
             st.session_state.page = "Monitoring of Vital Signs"  # Update this to your actual next page
             st.rerun()
+
 
 
 if st.session_state.page == "Monitoring of Vital Signs":
