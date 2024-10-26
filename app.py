@@ -622,107 +622,96 @@ elif st.session_state.page == "Method":
             st.session_state.page = "Method Details"  # Set next page (update this to your actual next page)
             st.rerun()
 
-if st.session_state.page == "Method Details":
-    st.header("METHOD DETAILS")
+import streamlit as st
 
-    # Question about Oxygen provision
-    st.markdown("### 1. Was Oxygen provided DURING any TI attempts for this course?")
-    oxygen_options = ["Select if Oxygen was Provided DURING any TI attempts for this course", "YES", "NO", "ATTEMPTED but not done (explain on last page)"]
+# Initialize session state variables
+if "selected_oxygen" not in st.session_state:
+    st.session_state.selected_oxygen = "Select if Oxygen was Provided DURING any TI attempts for this course"
+if "selected_methods" not in st.session_state:
+    st.session_state.selected_methods = []
+if "oxygen_explanation" not in st.session_state:
+    st.session_state.oxygen_explanation = ""
 
-    # Initialize selected_oxygen in session state if not present
-    if "selected_oxygen" not in st.session_state:
-        st.session_state.selected_oxygen = oxygen_options[0]
+# Main application logic
+st.header("METHOD DETAILS")
 
-    selected_oxygen = st.selectbox("Select an option:", oxygen_options, index=oxygen_options.index(st.session_state.selected_oxygen))
+# Question about Oxygen provision
+st.markdown("### 1. Was Oxygen provided DURING any TI attempts for this course?")
+oxygen_options = [
+    "Select if Oxygen was Provided DURING any TI attempts for this course",
+    "YES", 
+    "NO", 
+    "ATTEMPTED but not done (explain on last page)"
+]
 
-    # Update session state immediately after selection
-    st.session_state.selected_oxygen = selected_oxygen
+selected_oxygen = st.selectbox("Select an option:", oxygen_options, index=oxygen_options.index(st.session_state.selected_oxygen))
+st.session_state.selected_oxygen = selected_oxygen
 
-    # Conditional input for explanation if "ATTEMPTED but not done" is selected
-    if selected_oxygen == "ATTEMPTED but not done (explain on last page)":
-        if "oxygen_explanation" not in st.session_state:
-            st.session_state.oxygen_explanation = ""
-        explanation = st.text_area("Please explain:", value=st.session_state.oxygen_explanation)
-        st.session_state.oxygen_explanation = explanation  # Save explanation to session state
+# Conditional input for explanation if "ATTEMPTED but not done" is selected
+if selected_oxygen == "ATTEMPTED but not done (explain on last page)":
+    explanation = st.text_area("Please explain:", value=st.session_state.oxygen_explanation)
+    st.session_state.oxygen_explanation = explanation  # Save explanation to session state
 
-    # Additional section if "YES" is selected
-    if selected_oxygen == "YES":
-        st.markdown("### If Yes, How was the oxygen provided:")
+# Additional section if "YES" is selected
+if selected_oxygen == "YES":
+    st.markdown("### If Yes, How was the oxygen provided:")
 
-        # Multi-select for oxygen provision methods
-        options = [
-            "NC without nasal airway",
-            "NC with nasal airway",
-            "Oral airway with oxygen port",
-            "Through LMA",
-            "HFNC",
-            "NIV with nasal prong interface - provide PEEP/PIP",
-            "Other (device, FIO2, setting)"
-        ]
+    options = [
+        "NC without nasal airway",
+        "NC with nasal airway",
+        "Oral airway with oxygen port",
+        "Through LMA",
+        "HFNC",
+        "NIV with nasal prong interface - provide PEEP/PIP",
+        "Other (device, FIO2, setting)"
+    ]
 
-        # Initialize selected_methods in session state if not present
-        if "selected_methods" not in st.session_state:
-            st.session_state.selected_methods = []
+    selected_methods = st.multiselect("Select methods:", options, default=st.session_state.selected_methods)
+    st.session_state.selected_methods = selected_methods  # Update session state for selected methods
 
-        selected_methods = st.multiselect("Select methods:", options, default=st.session_state.selected_methods)
+    # Display Liter Flow and FIO2 inputs for each selected method
+    if selected_methods:
+        st.write("#### Oxygen Provision Details")
+        cols = st.columns(4)  # Create four columns
 
-        # Update session state for selected methods immediately after selection
-        st.session_state.selected_methods = selected_methods
+        with cols[0]:
+            st.markdown("**METHOD**")
+        with cols[1]:
+            st.markdown("**LITER FLOW**")
+        with cols[2]:
+            st.markdown("**FIO2**")
 
-        # Display Liter Flow and FIO2 inputs for each selected method
-        if selected_methods:
-            st.write("#### Oxygen Provision Details")
-            cols = st.columns(4)  # Create four columns
+        for method in selected_methods:
+            cols = st.columns(4)  # Create a row for each method
 
             with cols[0]:
-                st.markdown("**METHOD**")
-            with cols[1]:
-                st.markdown("**LITER FLOW**")
-            with cols[2]:
-                st.markdown("**FIO2**")
+                st.markdown(f"**{method}**")
 
-            for method in selected_methods:
-                cols = st.columns(4)  # Create a row for each method
+            # Create unique keys for Liter Flow and FIO2
+            liter_flow_key = f"liter_flow_{method.replace(' ', '_')}"
+            fio2_key = f"fio2_{method.replace(' ', '_')}"
 
-                with cols[0]:
-                    st.markdown(f"**{method}**")
+            # Create the text input for Liter Flow
+            liter_flow = st.text_input("Liter Flow:", value=st.session_state.get(liter_flow_key, ""), key=liter_flow_key)
 
-                # Create unique keys for Liter Flow and FIO2
-                liter_flow_key = f"liter_flow_{method.replace(' ', '_')}"
-                fio2_key = f"fio2_{method.replace(' ', '_')}"
+            # Create the text input for FIO2
+            fio2 = st.text_input("FIO2:", value=st.session_state.get(fio2_key, ""), key=fio2_key)
 
-                # Initialize Liter Flow input in session state if not present
-                if liter_flow_key not in st.session_state:
-                    st.session_state[liter_flow_key] = ""
+            # Update session state immediately after input creation
+            st.session_state[liter_flow_key] = liter_flow
+            st.session_state[fio2_key] = fio2
 
-                # Create the text input for Liter Flow
-                liter_flow = st.text_input("", value=st.session_state[liter_flow_key], key=liter_flow_key)
+# Navigation buttons
+col1, col2 = st.columns(2)
+with col1:
+    if st.button("Previous"):
+        st.session_state.page = "Method"
+        st.rerun()
 
-                # Save the Liter Flow input immediately after creation
-                st.session_state[liter_flow_key] = liter_flow
-
-                # Initialize FIO2 input in session state if not present
-                if fio2_key not in st.session_state:
-                    st.session_state[fio2_key] = ""
-
-                # Create the text input for FIO2
-                fio2 = st.text_input("", value=st.session_state[fio2_key], key=fio2_key)
-
-                # Save the FIO2 input immediately after creation
-                st.session_state[fio2_key] = fio2
-
-    # Navigation buttons
-    col1, col2 = st.columns(2)
-    with col1:
-        if st.button("Previous"):
-            st.session_state.page = "Method"
-            st.rerun()
-
-    with col2:
-        if st.button("Next"):
-            st.session_state.page = "Method Details II"  # Update this to your actual next page
-            st.rerun()
-
+with col2:
+    if st.button("Next"):
+        st.session_state.page = "Method Details II"  # Update this to your actual next page
+        st.rerun()
 
 elif st.session_state.page == "Method Details II":
     st.header("METHOD DETAILS II")
