@@ -607,6 +607,24 @@ elif st.session_state.page == "Medications":
         glycopyrrolate_indications = st.multiselect("Select indications for Glycopyrrolate:", 
             ["Premed for TI", "Treatment of Bradycardia"],
             default=st.session_state.glycopyrrolate_indications)
+    else:
+        # Reset dosages and indications if no drugs are used
+        st.session_state.atropine_dose = ""
+        st.session_state.glycopyrrolate_dose = ""
+        st.session_state.fentanyl_dose = ""
+        st.session_state.lidocaine_dose = ""
+        st.session_state.vecuronium_dose = ""
+        st.session_state.rocuronium_dose = ""
+        st.session_state.succinylcholine_dose = ""
+        st.session_state.pancuronium_dose = ""
+        st.session_state.cisatracuronium_dose = ""
+        st.session_state.propofol_dose = ""
+        st.session_state.etomidate_dose = ""
+        st.session_state.ketamine_dose = ""
+        st.session_state.midazolam_dose = ""
+        st.session_state.thiopental_dose = ""
+        st.session_state.atropine_indications = []
+        st.session_state.glycopyrrolate_indications = []
 
     # Navigation buttons
     col1, col2 = st.columns(2)
@@ -618,27 +636,27 @@ elif st.session_state.page == "Medications":
     with col2:
         if st.button("Next"):
             # Update session state when moving to the next page
-            st.session_state.atropine_dose = atropine_input
-            st.session_state.glycopyrrolate_dose = glycopyrrolate_input
-            st.session_state.fentanyl_dose = fentanyl_input
-            st.session_state.lidocaine_dose = lidocaine_input
-            st.session_state.vecuronium_dose = vecuronium_input
-            st.session_state.rocuronium_dose = rocuronium_input
-            st.session_state.succinylcholine_dose = succinylcholine_input
-            st.session_state.vecuronium_paralysis_dose = vecuronium_paralysis_input
-            st.session_state.pancuronium_dose = pancuronium_input
-            st.session_state.cisatracuronium_dose = cisatracuronium_input
-            st.session_state.propofol_dose = propofol_input
-            st.session_state.etomidate_dose = etomidate_input
-            st.session_state.ketamine_dose = ketamine_input
-            st.session_state.midazolam_dose = midazolam_input
-            st.session_state.thiopental_dose = thiopental_input
-            st.session_state.atropine_indications = atropine_indications
-            st.session_state.glycopyrrolate_indications = glycopyrrolate_indications
+            if no_drugs == "DRUGS USED":
+                st.session_state.atropine_dose = atropine_input
+                st.session_state.glycopyrrolate_dose = glycopyrrolate_input
+                st.session_state.fentanyl_dose = fentanyl_input
+                st.session_state.lidocaine_dose = lidocaine_input
+                st.session_state.vecuronium_dose = vecuronium_input
+                st.session_state.rocuronium_dose = rocuronium_input
+                st.session_state.succinylcholine_dose = succinylcholine_input
+                st.session_state.vecuronium_paralysis_dose = vecuronium_paralysis_input
+                st.session_state.pancuronium_dose = pancuronium_input
+                st.session_state.cisatracuronium_dose = cisatracuronium_input
+                st.session_state.propofol_dose = propofol_input
+                st.session_state.etomidate_dose = etomidate_input
+                st.session_state.ketamine_dose = ketamine_input
+                st.session_state.midazolam_dose = midazolam_input
+                st.session_state.thiopental_dose = thiopental_input
+                st.session_state.atropine_indications = atropine_indications
+                st.session_state.glycopyrrolate_indications = glycopyrrolate_indications
 
             st.session_state.page = "Method"  # Set next page
             st.rerun()
-
 
 
 
