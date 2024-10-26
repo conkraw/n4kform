@@ -1110,6 +1110,7 @@ if st.session_state.page == "Disposition":
             st.session_state.page = "Summary"  # Change to your final page
             st.rerun()
 
+st.write("Current Session State:", st.session_state)
 
 if st.session_state.page == "Summary":
     # Navigation buttons
