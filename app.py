@@ -1041,9 +1041,6 @@ if st.session_state.page == "Course Success":
             st.session_state.page = "Disposition"
             st.rerun()
 
-
-
-
 if st.session_state.page == "Disposition":
     st.header("DISPOSITION")
 
@@ -1066,19 +1063,19 @@ if st.session_state.page == "Disposition":
     )
     st.session_state.disposition = disposition  # Save selection
 
+    # Initialize transferred_to checkboxes
+    if "transferred_to_PICU" not in st.session_state:
+        st.session_state.transferred_to_PICU = False
+    if "transferred_to_NICU" not in st.session_state:
+        st.session_state.transferred_to_NICU = False
+    if "transferred_to_CICU" not in st.session_state:
+        st.session_state.transferred_to_CICU = False
+
     # Transferred to checkboxes
     if disposition == "Transferred to":
-        if "transferred_to_PICU" not in st.session_state:
-            st.session_state.transferred_to_PICU = False
-        transferred_to_PICU = st.checkbox("PICU", value=st.session_state.transferred_to_PICU)
-
-        if "transferred_to_NICU" not in st.session_state:
-            st.session_state.transferred_to_NICU = False
-        transferred_to_NICU = st.checkbox("NICU", value=st.session_state.transferred_to_NICU)
-
-        if "transferred_to_CICU" not in st.session_state:
-            st.session_state.transferred_to_CICU = False
-        transferred_to_CICU = st.checkbox("CICU", value=st.session_state.transferred_to_CICU)
+        st.session_state.transferred_to_PICU = st.checkbox("PICU", value=st.session_state.transferred_to_PICU)
+        st.session_state.transferred_to_NICU = st.checkbox("NICU", value=st.session_state.transferred_to_NICU)
+        st.session_state.transferred_to_CICU = st.checkbox("CICU", value=st.session_state.transferred_to_CICU)
 
     # Other disposition input
     if disposition == "Other":
@@ -1104,14 +1101,15 @@ if st.session_state.page == "Disposition":
 
     with col2:
         if st.button("Submit"):
-            # Set session state for checkboxes when Submit is clicked
-            st.session_state.transferred_to_PICU = transferred_to_PICU
-            st.session_state.transferred_to_NICU = transferred_to_NICU
-            st.session_state.transferred_to_CICU = transferred_to_CICU
+            # Ensure checkbox states are saved before navigating away
+            st.session_state.transferred_to_PICU = st.session_state.transferred_to_PICU
+            st.session_state.transferred_to_NICU = st.session_state.transferred_to_NICU
+            st.session_state.transferred_to_CICU = st.session_state.transferred_to_CICU
             
             # Navigate to the next page
             st.session_state.page = "Summary"  # Change to your final page
             st.rerun()
+
 
 if st.session_state.page == "Summary":
     # Navigation buttons
