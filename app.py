@@ -546,53 +546,53 @@ elif st.session_state.page == "Medications":
     st.session_state.no_drugs = no_drugs  # Save the selection
 
     if no_drugs == "DRUGS USED":
-        # Pretreatment Dosage
-        st.markdown("### Pretreatment Dosage")
-        pretreatment_doses = {
-            "mg Atropine": "atropine_dose",
-            "mcg Glycopyrrolate": "glycopyrrolate_dose",
-            "mcg Fentanyl": "fentanyl_dose",
-            "mg Lidocaine": "lidocaine_dose",
-            "mg Vecuronium": "vecuronium_dose"
-        }
+        # Create columns for dosages
+        col1, col2, col3 = st.columns(3)
 
-        # Create inputs for Pretreatment Dosages
-        for label, key in pretreatment_doses.items():
-            if key not in st.session_state:
-                st.session_state[key] = ""
-            st.text_input(label, value=st.session_state[key], key=key)
+        with col1:
+            st.markdown("### Pretreatment Dosage")
+            pretreatment_doses = {
+                "mg Atropine": "atropine_dose",
+                "mcg Glycopyrrolate": "glycopyrrolate_dose",
+                "mcg Fentanyl": "fentanyl_dose",
+                "mg Lidocaine": "lidocaine_dose",
+                "mg Vecuronium": "vecuronium_dose"
+            }
+            # Create inputs for Pretreatment Dosages
+            for label, key in pretreatment_doses.items():
+                if key not in st.session_state:
+                    st.session_state[key] = ""
+                st.text_input(label, value=st.session_state[key], key=key)
 
-        # Paralysis Dosage
-        st.markdown("### Paralysis Dosage")
-        paralysis_doses = {
-            "mg Rocuronium": "rocuronium_dose",
-            "mg Succinylcholine": "succinylcholine_dose",
-            "mg Vecuronium": "vecuronium_paralysis_dose",
-            "mg Pancuronium": "pancuronium_dose",
-            "mg Cisatracuronium": "cisatracuronium_dose"
-        }
+        with col2:
+            st.markdown("### Paralysis Dosage")
+            paralysis_doses = {
+                "mg Rocuronium": "rocuronium_dose",
+                "mg Succinylcholine": "succinylcholine_dose",
+                "mg Vecuronium": "vecuronium_paralysis_dose",
+                "mg Pancuronium": "pancuronium_dose",
+                "mg Cisatracuronium": "cisatracuronium_dose"
+            }
+            # Create inputs for Paralysis Dosages
+            for label, key in paralysis_doses.items():
+                if key not in st.session_state:
+                    st.session_state[key] = ""
+                st.text_input(label, value=st.session_state[key], key=key)
 
-        # Create inputs for Paralysis Dosages
-        for label, key in paralysis_doses.items():
-            if key not in st.session_state:
-                st.session_state[key] = ""
-            st.text_input(label, value=st.session_state[key], key=key)
-
-        # Induction Dosage
-        st.markdown("### Induction Dosage")
-        induction_doses = {
-            "mg Propofol": "propofol_dose",
-            "mg Etomidate": "etomidate_dose",
-            "mg Ketamine": "ketamine_dose",
-            "mg Midazolam": "midazolam_dose",
-            "mg Thiopental": "thiopental_dose"
-        }
-
-        # Create inputs for Induction Dosages
-        for label, key in induction_doses.items():
-            if key not in st.session_state:
-                st.session_state[key] = ""
-            st.text_input(label, value=st.session_state[key], key=key)
+        with col3:
+            st.markdown("### Induction Dosage")
+            induction_doses = {
+                "mg Propofol": "propofol_dose",
+                "mg Etomidate": "etomidate_dose",
+                "mg Ketamine": "ketamine_dose",
+                "mg Midazolam": "midazolam_dose",
+                "mg Thiopental": "thiopental_dose"
+            }
+            # Create inputs for Induction Dosages
+            for label, key in induction_doses.items():
+                if key not in st.session_state:
+                    st.session_state[key] = ""
+                st.text_input(label, value=st.session_state[key], key=key)
 
         # Atropine Indication
         st.markdown("### Atropine Indication")
