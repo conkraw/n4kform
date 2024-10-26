@@ -536,10 +536,43 @@ elif st.session_state.page == "Medications":
     </p>
     """, unsafe_allow_html=True)
 
-    # Select box for drugs used
+    # Initialize session state variables if not already set
     if "no_drugs" not in st.session_state:
         st.session_state.no_drugs = "NO DRUGS USED"
+    if "atropine_dose" not in st.session_state:
+        st.session_state.atropine_dose = ""
+    if "glycopyrrolate_dose" not in st.session_state:
+        st.session_state.glycopyrrolate_dose = ""
+    if "fentanyl_dose" not in st.session_state:
+        st.session_state.fentanyl_dose = ""
+    if "lidocaine_dose" not in st.session_state:
+        st.session_state.lidocaine_dose = ""
+    if "vecuronium_dose" not in st.session_state:
+        st.session_state.vecuronium_dose = ""
+    if "rocuronium_dose" not in st.session_state:
+        st.session_state.rocuronium_dose = ""
+    if "succinylcholine_dose" not in st.session_state:
+        st.session_state.succinylcholine_dose = ""
+    if "pancuronium_dose" not in st.session_state:
+        st.session_state.pancuronium_dose = ""
+    if "cisatracuronium_dose" not in st.session_state:
+        st.session_state.cisatracuronium_dose = ""
+    if "propofol_dose" not in st.session_state:
+        st.session_state.propofol_dose = ""
+    if "etomidate_dose" not in st.session_state:
+        st.session_state.etomidate_dose = ""
+    if "ketamine_dose" not in st.session_state:
+        st.session_state.ketamine_dose = ""
+    if "midazolam_dose" not in st.session_state:
+        st.session_state.midazolam_dose = ""
+    if "thiopental_dose" not in st.session_state:
+        st.session_state.thiopental_dose = ""
+    if "atropine_indications" not in st.session_state:
+        st.session_state.atropine_indications = []
+    if "glycopyrrolate_indications" not in st.session_state:
+        st.session_state.glycopyrrolate_indications = []
 
+    # Select box for drugs used
     no_drugs = st.selectbox("Have any drugs been used?", ["NO DRUGS USED", "DRUGS USED"], 
                             index=["NO DRUGS USED", "DRUGS USED"].index(st.session_state.no_drugs))
     
@@ -560,8 +593,6 @@ elif st.session_state.page == "Medications":
             }
             # Create inputs for Pretreatment Dosages
             for label, key in pretreatment_doses.items():
-                if key not in st.session_state:
-                    st.session_state[key] = ""
                 st.text_input(label, value=st.session_state[key], key=key)
 
         with col2:
@@ -575,8 +606,6 @@ elif st.session_state.page == "Medications":
             }
             # Create inputs for Paralysis Dosages
             for label, key in paralysis_doses.items():
-                if key not in st.session_state:
-                    st.session_state[key] = ""
                 st.text_input(label, value=st.session_state[key], key=key)
 
         with col3:
@@ -590,15 +619,13 @@ elif st.session_state.page == "Medications":
             }
             # Create inputs for Induction Dosages
             for label, key in induction_doses.items():
-                if key not in st.session_state:
-                    st.session_state[key] = ""
                 st.text_input(label, value=st.session_state[key], key=key)
 
         # Atropine Indication
         st.markdown("### Atropine Indication")
         atropine_indications = st.multiselect("Select indications for Atropine:", 
             ["Premed for TI", "Treatment of Bradycardia"],
-            default=[ind for ind in ["Premed for TI", "Treatment of Bradycardia"] if ind in st.session_state.get("atropine_indications", [])])
+            default=st.session_state.atropine_indications)
 
         st.session_state.atropine_indications = atropine_indications  # Save selection
 
@@ -606,7 +633,7 @@ elif st.session_state.page == "Medications":
         st.markdown("### Glycopyrrolate Indication")
         glycopyrrolate_indications = st.multiselect("Select indications for Glycopyrrolate:", 
             ["Premed for TI", "Treatment of Bradycardia"],
-            default=[ind for ind in ["Premed for TI", "Treatment of Bradycardia"] if ind in st.session_state.get("glycopyrrolate_indications", [])])
+            default=st.session_state.glycopyrrolate_indications)
 
         st.session_state.glycopyrrolate_indications = glycopyrrolate_indications  # Save selection
 
@@ -619,7 +646,7 @@ elif st.session_state.page == "Medications":
 
     with col2:
         if st.button("Next"):
-            st.session_state.page = "Method"  # Set next page as needed
+            st.session_state.page = "Methods"  # Set next page
             st.rerun()
 
 
