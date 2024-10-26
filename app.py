@@ -536,42 +536,33 @@ elif st.session_state.page == "Medications":
     """, unsafe_allow_html=True)
 
     # Initialize session state variables if not already set
-    if "no_drugs" not in st.session_state:
-        st.session_state.no_drugs = "NO DRUGS USED"
-    if "atropine_dose" not in st.session_state:
-        st.session_state.atropine_dose = ""
-    if "glycopyrrolate_dose" not in st.session_state:
-        st.session_state.glycopyrrolate_dose = ""
-    if "fentanyl_dose" not in st.session_state:
-        st.session_state.fentanyl_dose = ""
-    if "lidocaine_dose" not in st.session_state:
-        st.session_state.lidocaine_dose = ""
-    if "vecuronium_dose" not in st.session_state:
-        st.session_state.vecuronium_dose = ""
-    if "rocuronium_dose" not in st.session_state:
-        st.session_state.rocuronium_dose = ""
-    if "succinylcholine_dose" not in st.session_state:
-        st.session_state.succinylcholine_dose = ""
-    if "pancuronium_dose" not in st.session_state:
-        st.session_state.pancuronium_dose = ""
-    if "cisatracuronium_dose" not in st.session_state:
-        st.session_state.cisatracuronium_dose = ""
-    if "propofol_dose" not in st.session_state:
-        st.session_state.propofol_dose = ""
-    if "etomidate_dose" not in st.session_state:
-        st.session_state.etomidate_dose = ""
-    if "ketamine_dose" not in st.session_state:
-        st.session_state.ketamine_dose = ""
-    if "midazolam_dose" not in st.session_state:
-        st.session_state.midazolam_dose = ""
-    if "thiopental_dose" not in st.session_state:
-        st.session_state.thiopental_dose = ""
-    if "vecuronium_paralysis_dose" not in st.session_state:
-        st.session_state.vecuronium_paralysis_dose = ""
-    if "atropine_indications" not in st.session_state:
-        st.session_state.atropine_indications = []
-    if "glycopyrrolate_indications" not in st.session_state:
-        st.session_state.glycopyrrolate_indications = []
+    default_values = {
+        "no_drugs": "NO DRUGS USED",
+        "atropine_dose": "",
+        "glycopyrrolate_dose": "",
+        "fentanyl_dose": "",
+        "lidocaine_dose": "",
+        "vecuronium_dose": "",
+        "rocuronium_dose": "",
+        "succinylcholine_dose": "",
+        "pancuronium_dose": "",
+        "cisatracuronium_dose": "",
+        "propofol_dose": "",
+        "etomidate_dose": "",
+        "ketamine_dose": "",
+        "midazolam_dose": "",
+        "thiopental_dose": "",
+        "vecuronium_paralysis_dose": "",
+        "atropine_indications": [],
+        "glycopyrrolate_indications": [],
+    }
+    
+    for key, value in default_values.items():
+        if key not in st.session_state:
+            st.session_state[key] = value
+
+    # Print the session state for debugging
+    st.write("Session State:", st.session_state)
 
     # Select box for drugs used
     no_drugs = st.selectbox("Have any drugs been used?", ["NO DRUGS USED", "DRUGS USED"], 
@@ -608,7 +599,7 @@ elif st.session_state.page == "Medications":
             midazolam_input = st.text_input("mg Midazolam", value=st.session_state.midazolam_dose, key="midazolam_dose")
             thiopental_input = st.text_input("mg Thiopental", value=st.session_state.thiopental_dose, key="thiopental_dose")
 
-        # Update session state after input using st.session_state directly
+        # Update session state after input
         st.session_state.atropine_dose = atropine_input
         st.session_state.glycopyrrolate_dose = glycopyrrolate_input
         st.session_state.fentanyl_dose = fentanyl_input
@@ -653,6 +644,8 @@ elif st.session_state.page == "Medications":
             st.session_state.page = "Methods"  # Set next page
             st.rerun()
 
+    # Print the session state for debugging after button clicks
+    st.write("Session State after input:", st.session_state)
 
 
 elif st.session_state.page == "Method":
