@@ -189,6 +189,9 @@ if 'page' not in st.session_state:
 if 'user_paragraph' not in st.session_state:
     st.session_state.user_paragraph = ""
 
+if 'form_data' not in st.session_state:
+    st.session_state.form_data = {}
+
 if st.session_state.page == "Starting Page":
     # Text area for user input
     user_paragraph = st.text_area("Please enter a paragraph:", value=st.session_state.user_paragraph)
@@ -199,22 +202,17 @@ if st.session_state.page == "Starting Page":
     with col_next:
         if st.button("Next"):
             st.session_state.user_paragraph = user_paragraph
-
+            
             # Extract date from the user paragraph
             if "Date:" in user_paragraph:
-                date_str = user_paragraph.split("Date:")[1].strip().split()[0]  # Gets the first token after "Date:"
-                try:
-                    # Try parsing the date
-                    st.session_state.form_data['date'] = datetime.datetime.strptime(date_str, "%Y-%m-%d").date()  # Adjust format as necessary
-                except ValueError:
-                    st.session_state.form_data['date'] = None  # Or handle it as you prefer
-
+                # Split the paragraph at "Date:" and extract the portion after it
+                date_part = user_paragraph.split("Date:")[1].strip()
+                st.session_state.form_data['date'] = date_part  # Store as string
+            else:
+                st.session_state.form_data['date'] = None  # No date provided
+            
             st.session_state.page = "Encounter Information"  # Set next page
-            st.rerun() 
-
-# Initialize form_data session state if not already done
-if 'form_data' not in st.session_state:
-    st.session_state.form_data = {}
+            st.experimental_rerun() 
 
 # Page Navigation
 elif st.session_state.page == "Encounter Information":
@@ -224,11 +222,12 @@ elif st.session_state.page == "Encounter Information":
 
     # First line: Date, Time, Location
     col1, col2, col3 = st.columns(3)
+    
     with col1:
-        # Display date input with a default from session state
-        st.session_state.form_data['date'] = st.date_input(
+        # Text input for date
+        st.session_state.form_data['date'] = st.text_input(
             "Date:", 
-            value=st.session_state.form_data.get('date', datetime.date.today())
+            value=st.session_state.form_data.get('date', '')
         )
     
     with col2:
