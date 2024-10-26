@@ -205,7 +205,9 @@ if st.session_state.page == "Encounter Information":
         with col1:
             st.session_state.form_data['date'] = st.date_input("Date:", value=st.session_state.form_data.get('date', datetime.date.today()))
         with col2:
-            st.session_state.form_data['time'] = st.text_input("Time:", value=st.session_state.form_data.get('time', ''))
+            # Use time_input to capture time
+            st.session_state.form_data['time'] = st.time_input("Time:", value=st.session_state.form_data.get('time', None))
+
         with col3:
             st.session_state.form_data['location'] = st.text_input("Location:", value=st.session_state.form_data.get('location', ''))
 
@@ -261,11 +263,24 @@ if st.session_state.page == "Encounter Information":
             )
 
         # Next button
-        submit_button = st.form_submit_button("Next")
-        if submit_button:
-            st.session_state.page = "Indications"  # Navigate to the next page
-            st.rerun() 
+        #submit_button = st.form_submit_button("Next")
+        #if submit_button:
+        #    st.session_state.page = "Indications"  # Navigate to the next page
+        #    st.rerun() 
 
+        col1, col2 = st.columns([1, 2])  # Adjust the ratio as needed
+        
+        with col1:
+            # Placeholder for the left column (can be empty or hold other content)
+            pass
+        
+        with col2:
+            # Next button
+            submit_button = st.form_submit_button("Next")
+            if submit_button:
+                st.session_state.page = "Indications"  # Navigate to the next page
+                st.rerun()
+        
 elif st.session_state.page == "Indications":
     # Indications section
     st.markdown("<h2 style='text-align: center;'>INDICATIONS</h2>", unsafe_allow_html=True)
