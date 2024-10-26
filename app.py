@@ -638,6 +638,7 @@ elif st.session_state.page == "Method Details":
         st.session_state.liter_flow = {}
     if "fio2" not in st.session_state:
         st.session_state.fio2 = {}
+    
     # Question about Oxygen provision
     st.markdown("### 1. Was Oxygen provided DURING any TI attempts for this course?")
     oxygen_options = [
@@ -672,6 +673,15 @@ elif st.session_state.page == "Method Details":
         selected_methods = st.multiselect("Select methods:", methods_options, default=st.session_state.selected_methods)
         st.session_state.selected_methods = selected_methods  # Save selected methods to session state
 
+        # Create a header for the columns
+        cols = st.columns(3)  # Create three columns
+        with cols[0]:
+            st.markdown("**METHOD**")
+        with cols[1]:
+            st.markdown("**LITER FLOW**")
+        with cols[2]:
+            st.markdown("**FIO2**")
+
         # Input for Liter Flow and FiO2 for each selected method
         for method in selected_methods:
             # Create unique keys for Liter Flow and FiO2
@@ -688,8 +698,6 @@ elif st.session_state.page == "Method Details":
             cols = st.columns(3)  # Create three columns
 
             with cols[0]:
-                st.markdown("")
-                st.markdown("")
                 st.markdown(f"**{method}**")  # Method name
 
             with cols[1]:
@@ -713,6 +721,13 @@ elif st.session_state.page == "Method Details":
         if st.button("Next"):
             st.session_state.page = "Method Details II"  # Update this to your actual next page
             st.rerun()  # Refresh the app to apply changes
+
+# Handle the next page (Method Details II)
+elif st.session_state.page == "Method Details II":
+    st.header("METHOD DETAILS II")
+    # Add content for Method Details II
+    st.write("Proceeding to Method Details II...")
+
             
 elif st.session_state.page == "Method Details II":
     st.header("METHOD DETAILS II")
