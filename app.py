@@ -181,6 +181,11 @@ def question_box(label):
 
 import streamlit as st
 import datetime
+import pytz  # Import the pytz library
+
+import streamlit as st
+import datetime
+import pytz
 
 # Title of the application
 st.title("NEAR4KIDS QI COLLECTION FORM")
@@ -207,8 +212,9 @@ if st.session_state.page == "Encounter Information":
                 value=st.session_state.form_data.get('date', datetime.date.today())
             )
         with col2:
-            # Time input with default handling to current time
-            current_time = datetime.datetime.now().time()
+            # Get current time in EST
+            est = pytz.timezone('America/New_York')
+            current_time = datetime.datetime.now(est).time()
             st.session_state.form_data['time'] = st.time_input("Time:", value=st.session_state.form_data.get('time', current_time))
 
         with col3:
@@ -269,10 +275,10 @@ if st.session_state.page == "Encounter Information":
             )
 
         # Layout for the Next button to be on the right
-        col_next, col_placeholder = st.columns([3, 1])  # Wider column for the button
+        col_next, col_placeholder = st.columns([4, 1])  # Wider column for the button
         with col_next:
-            submit_button = st.form_submit_button("Next")
-            if submit_button:
+            # Next button
+            if st.button("Next"):
                 st.session_state.page = "Indications"  # Navigate to the next page
                 st.rerun()
 
