@@ -1074,9 +1074,9 @@ if st.session_state.page == "Disposition":
 
     # Transferred to checkboxes
     if disposition == "Transferred to":
-        st.session_state.transferred_to_PICU = st.checkbox("PICU", value=st.session_state.transferred_to_PICU, key="transferred_to_PICU")
-        st.session_state.transferred_to_NICU = st.checkbox("NICU", value=st.session_state.transferred_to_NICU, key="transferred_to_NICU")
-        st.session_state.transferred_to_CICU = st.checkbox("CICU", value=st.session_state.transferred_to_CICU, key="transferred_to_CICU")
+        st.session_state.transferred_to_PICU = st.checkbox("PICU", value=st.session_state.transferred_to_PICU)
+        st.session_state.transferred_to_NICU = st.checkbox("NICU", value=st.session_state.transferred_to_NICU)
+        st.session_state.transferred_to_CICU = st.checkbox("CICU", value=st.session_state.transferred_to_CICU)
 
     # Other disposition input
     if disposition == "Other":
@@ -1105,6 +1105,7 @@ if st.session_state.page == "Disposition":
             # Navigate to the next page
             st.session_state.page = "Summary"  # Change to your final page
             st.rerun()
+
 
 
 st.write("Current Session State:", st.session_state)
