@@ -698,6 +698,8 @@ elif st.session_state.page == "Method Details":
             cols = st.columns(3)  # Create three columns
 
             with cols[0]:
+                st.markdown("")
+                st.markdown("")
                 st.markdown(f"**{method}**")  # Method name
 
             with cols[1]:
