@@ -205,8 +205,8 @@ if st.session_state.page == "Encounter Information":
     with col2:
         # Get current time in EST
         est = pytz.timezone('America/New_York')
-        current_time = datetime.datetime.now(est).time()
-        st.session_state.form_data['time'] = st.time_input("Time:", value=st.session_state.form_data.get('time', current_time))
+        current_time = datetime.datetime.now(est).strftime("%H:%M")  # Format time as HH:MM
+        st.session_state.form_data['time'] = st.time_input("Time:", value=st.session_state.form_data.get('time', datetime.datetime.strptime(current_time, "%H:%M").time()))
 
     with col3:
         st.session_state.form_data['location'] = st.text_input(
