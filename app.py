@@ -179,10 +179,6 @@ def question_box(label):
     
     st.markdown(input_html, unsafe_allow_html=True)
 
-
-import streamlit as st
-import datetime
-
 # Title of the application
 st.title("NEAR4KIDS QI COLLECTION FORM")
 
@@ -203,13 +199,20 @@ if st.session_state.page == "Encounter Information":
         # First line: Date, Time, Location
         col1, col2, col3 = st.columns(3)
         with col1:
-            st.session_state.form_data['date'] = st.date_input("Date:", value=st.session_state.form_data.get('date', datetime.date.today()))
+            st.session_state.form_data['date'] = st.date_input(
+                "Date:", 
+                value=st.session_state.form_data.get('date', datetime.date.today())
+            )
         with col2:
-            # Use time_input to capture time
-            st.session_state.form_data['time'] = st.time_input("Time:", value=st.session_state.form_data.get('time', None))
+            # Time input with default handling
+            time_value = st.session_state.form_data.get('time', datetime.time(0, 0))  # Default to midnight
+            st.session_state.form_data['time'] = st.time_input("Time:", value=time_value)
 
         with col3:
-            st.session_state.form_data['location'] = st.text_input("Location:", value=st.session_state.form_data.get('location', ''))
+            st.session_state.form_data['location'] = st.text_input(
+                "Location:", 
+                value=st.session_state.form_data.get('location', '')
+            )
 
         # Second line: Patient Gender, Patient Dosing Weight
         col4, col5 = st.columns(2)
@@ -263,23 +266,11 @@ if st.session_state.page == "Encounter Information":
             )
 
         # Next button
-        #submit_button = st.form_submit_button("Next")
-        #if submit_button:
-        #    st.session_state.page = "Indications"  # Navigate to the next page
-        #    st.rerun() 
+        submit_button = st.form_submit_button("Next")
+        if submit_button:
+            st.session_state.page = "Indications"  # Navigate to the next page
+            st.rerun()
 
-        col1, col2 = st.columns([1, 2])  # Adjust the ratio as needed
-        
-        with col1:
-            # Placeholder for the left column (can be empty or hold other content)
-            pass
-        
-        with col2:
-            # Next button
-            submit_button = st.form_submit_button("Next")
-            if submit_button:
-                st.session_state.page = "Indications"  # Navigate to the next page
-                st.rerun()
         
 elif st.session_state.page == "Indications":
     # Indications section
