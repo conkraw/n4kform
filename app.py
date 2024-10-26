@@ -1084,10 +1084,16 @@ elif st.session_state.page == "Disposition":
     if "transferred_to_CICU" not in st.session_state:
         st.session_state.transferred_to_CICU = False
 
-    # Transferred to checkboxes
-    transferred_to_PICU = st.checkbox("PICU", value=st.session_state.transferred_to_PICU)
-    transferred_to_NICU = st.checkbox("NICU", value=st.session_state.transferred_to_NICU)
-    transferred_to_CICU = st.checkbox("CICU", value=st.session_state.transferred_to_CICU)
+    # Transferred to checkboxes (only if "Transferred to" is selected)
+    if disposition == "Transferred to":
+        transferred_to_PICU = st.checkbox("PICU", value=st.session_state.transferred_to_PICU)
+        transferred_to_NICU = st.checkbox("NICU", value=st.session_state.transferred_to_NICU)
+        transferred_to_CICU = st.checkbox("CICU", value=st.session_state.transferred_to_CICU)
+    else:
+        # Reset checkboxes if disposition is not "Transferred to"
+        st.session_state.transferred_to_PICU = False
+        st.session_state.transferred_to_NICU = False
+        st.session_state.transferred_to_CICU = False
 
     # Other disposition input
     if disposition == "Other":
@@ -1126,6 +1132,7 @@ elif st.session_state.page == "Disposition":
             # Navigate to the next page
             st.session_state.page = "Summary"  # Change to your final page
             st.rerun()
+
 
 
 if st.session_state.page == "Summary":
