@@ -183,6 +183,19 @@ def question_box(label):
 # Title of the application
 st.title("NEAR4KIDS QI COLLECTION FORM")
 
+if st.session_state.page == "Starting Page":
+    # Navigation buttons
+    col_prev, col_next = st.columns(2)
+    #with col_prev:
+    #    if st.button("Previous"):
+    #        st.session_state.page = "Indications"  # Go back to the previous page
+    #        st.rerun()  # Rerun the app to reflect the new page
+
+    with col_next:
+        if st.button("Next"):
+            st.session_state.page = "Encounter Information"  # Set next page
+            st.rerun()  # Rerun the app to reflect the new page
+
 # Initialize session state if not already done
 if 'form_data' not in st.session_state:
     st.session_state.form_data = {}
@@ -190,7 +203,7 @@ if 'page' not in st.session_state:
     st.session_state.page = "Encounter Information"  # Default page
 
 # Page Navigation
-if st.session_state.page == "Encounter Information":
+elif st.session_state.page == "Encounter Information":
     # Header for Encounter Information
     st.header("ENCOUNTER INFORMATION")
     st.subheader("Patient Information")
