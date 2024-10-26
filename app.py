@@ -1116,5 +1116,7 @@ if st.session_state.page == "Summary":
             st.session_state.page = "Disposition"
             st.rerun()
 
+st.write("Current Session State:", st.session_state)
+
 
 
