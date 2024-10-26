@@ -1051,10 +1051,6 @@ if st.session_state.page == "Course Success":
             st.session_state.page = "Disposition"
             st.rerun()
 
-# Debugging information (optional)
-st.write("Current Session State:", st.session_state)
-
-
 
 elif st.session_state.page == "Disposition":
     st.header("DISPOSITION")
