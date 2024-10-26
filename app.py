@@ -1106,6 +1106,7 @@ if st.session_state.page == "Disposition":
             st.session_state.page = "Summary"  # Change to your final page
             st.rerun()
 
+# Display current session state for debugging
 st.write("Current Session State:", st.session_state)
 
 if st.session_state.page == "Summary":
@@ -1114,4 +1115,3 @@ if st.session_state.page == "Summary":
         if st.button("Previous"):
             st.session_state.page = "Disposition"
             st.rerun()
-
