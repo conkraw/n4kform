@@ -599,7 +599,7 @@ elif st.session_state.page == "Medications":
             midazolam_input = st.text_input("mg Midazolam", value=st.session_state.midazolam_dose, key="midazolam_dose")
             thiopental_input = st.text_input("mg Thiopental", value=st.session_state.thiopental_dose, key="thiopental_dose")
 
-        # Update session state after input
+        # Collect input values after input fields have been created
         st.session_state.atropine_dose = atropine_input
         st.session_state.glycopyrrolate_dose = glycopyrrolate_input
         st.session_state.fentanyl_dose = fentanyl_input
@@ -643,6 +643,10 @@ elif st.session_state.page == "Medications":
         if st.button("Next"):
             st.session_state.page = "Methods"  # Set next page
             st.rerun()
+
+    # Print the session state for debugging after button clicks
+    st.write("Session State after input:", st.session_state)
+
 
     # Print the session state for debugging after button clicks
     st.write("Session State after input:", st.session_state)
