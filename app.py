@@ -985,38 +985,71 @@ if st.session_state.page == "Monitoring of Vital Signs":
             st.session_state.page = "Course Success"
             st.rerun()
 
-# Navigation buttons
-col1, col2 = st.columns(2)
+if st.session_state.page == "Course Success":
+    st.header("COURSE SUCCESS")
 
-with col1:
-    if st.button("Previous"):
-        # Save checkbox states when moving to the previous page
-        if "cannot_visualize" in st.session_state:
-            st.session_state.cannot_visualize = st.session_state.cannot_visualize
-        if "cannot_place_device" in st.session_state:
-            st.session_state.cannot_place_device = st.session_state.cannot_place_device
-        if "unstable_hemodynamics" in st.session_state:
-            st.session_state.unstable_hemodynamics = st.session_state.unstable_hemodynamics
-        st.session_state.page = "Monitoring of Vital Signs"
-        st.rerun()
+    # Initialize checkboxes for failure explanations
+    if "cannot_visualize" not in st.session_state:
+        st.session_state.cannot_visualize = False
+    if "cannot_place_device" not in st.session_state:
+        st.session_state.cannot_place_device = False
+    if "unstable_hemodynamics" not in st.session_state:
+        st.session_state.unstable_hemodynamics = False
 
-with col2:
-    if st.button("Next"):
-        # Save checkbox states when moving to the next page
-        if "cannot_visualize" in st.session_state:
-            st.session_state.cannot_visualize = st.session_state.cannot_visualize
-        if "cannot_place_device" in st.session_state:
-            st.session_state.cannot_place_device = st.session_state.cannot_place_device
-        if "unstable_hemodynamics" in st.session_state:
-            st.session_state.unstable_hemodynamics = st.session_state.unstable_hemodynamics
+    # Successful tracheal intubation/advanced airway management
+    if "course_success" not in st.session_state:
+        st.session_state.course_success = "Yes"  # Default value
 
-        # Save the other failure explanation
-        if "other_failure" in st.session_state:
-            st.session_state.other_failure = st.session_state.other_failure
+    successful_intubation = st.selectbox(
+        "Successful tracheal intubation/advanced airway management:", 
+        ["Yes", "No"], 
+        index=["Yes", "No"].index(st.session_state.course_success)
+    )
+    st.session_state.course_success = successful_intubation  # Save selection
 
-        # Navigate to the next page
-        st.session_state.page = "Disposition"
-        st.rerun()
+    if successful_intubation == "No":
+        st.markdown("If course failed, please explain briefly:")
+        
+        cannot_visualize = st.checkbox("Cannot visualize vocal cords", value=st.session_state.cannot_visualize)
+        cannot_place_device = st.checkbox("Cannot place device into trachea", value=st.session_state.cannot_place_device)
+        unstable_hemodynamics = st.checkbox("Unstable hemodynamics", value=st.session_state.unstable_hemodynamics)
+
+        # Other failure explanation
+        if "other_failure" not in st.session_state:
+            st.session_state.other_failure = ""  # Initialize if not present
+        other_failure = st.text_input("Other (please explain):", value=st.session_state.other_failure)
+
+    # Navigation buttons
+    col1, col2 = st.columns(2)
+
+    with col1:
+        if st.button("Previous"):
+            # Save checkbox states when moving to the previous page
+            if "cannot_visualize" in st.session_state:
+                st.session_state.cannot_visualize = cannot_visualize
+            if "cannot_place_device" in st.session_state:
+                st.session_state.cannot_place_device = cannot_place_device
+            if "unstable_hemodynamics" in st.session_state:
+                st.session_state.unstable_hemodynamics = unstable_hemodynamics
+            st.session_state.page = "Monitoring of Vital Signs"
+            st.rerun()
+
+    with col2:
+        if st.button("Next"):
+            # Save checkbox states when moving to the next page
+            if "cannot_visualize" in st.session_state:
+                st.session_state.cannot_visualize = cannot_visualize
+            if "cannot_place_device" in st.session_state:
+                st.session_state.cannot_place_device = cannot_place_device
+            if "unstable_hemodynamics" in st.session_state:
+                st.session_state.unstable_hemodynamics = unstable_hemodynamics
+            
+            # Save the other failure explanation
+            st.session_state.other_failure = other_failure
+
+            # Navigate to the next page
+            st.session_state.page = "Disposition"
+            st.rerun()
 
 
 
