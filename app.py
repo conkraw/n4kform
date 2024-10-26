@@ -623,10 +623,11 @@ elif st.session_state.page == "Method":
             st.rerun()
 
 
+
 # Main application logic based on the current page
 elif st.session_state.page == "Method Details":
     st.header("METHOD DETAILS")
-
+    
     if "selected_oxygen" not in st.session_state:
         st.session_state.selected_oxygen = "Select if Oxygen was Provided DURING any TI attempts for this course"
     if "oxygen_explanation" not in st.session_state:
@@ -637,7 +638,6 @@ elif st.session_state.page == "Method Details":
         st.session_state.liter_flow = {}
     if "fio2" not in st.session_state:
         st.session_state.fio2 = {}
-
     # Question about Oxygen provision
     st.markdown("### 1. Was Oxygen provided DURING any TI attempts for this course?")
     oxygen_options = [
@@ -684,13 +684,21 @@ elif st.session_state.page == "Method Details":
             if fio2_key not in st.session_state.fio2:
                 st.session_state.fio2[fio2_key] = ""
 
-            # Liter Flow input
-            liter_flow = st.text_input(f"Liter Flow for {method}:", value=st.session_state.liter_flow[liter_flow_key], key=liter_flow_key)
-            st.session_state.liter_flow[liter_flow_key] = liter_flow
+            # Create columns for each method input
+            cols = st.columns(3)  # Create three columns
 
-            # FiO2 input
-            fio2 = st.text_input(f"FiO2 for {method}:", value=st.session_state.fio2[fio2_key], key=fio2_key)
-            st.session_state.fio2[fio2_key] = fio2
+            with cols[0]:
+                st.markdown(f"**{method}**")  # Method name
+
+            with cols[1]:
+                # Liter Flow input
+                liter_flow = st.text_input(f"Liter Flow for {method}:", value=st.session_state.liter_flow[liter_flow_key], key=liter_flow_key)
+                st.session_state.liter_flow[liter_flow_key] = liter_flow
+
+            with cols[2]:
+                # FiO2 input
+                fio2 = st.text_input(f"FiO2 for {method}:", value=st.session_state.fio2[fio2_key], key=fio2_key)
+                st.session_state.fio2[fio2_key] = fio2
 
     # Navigation buttons
     col1, col2 = st.columns(2)
@@ -703,7 +711,7 @@ elif st.session_state.page == "Method Details":
         if st.button("Next"):
             st.session_state.page = "Method Details II"  # Update this to your actual next page
             st.rerun()  # Refresh the app to apply changes
-
+            
 elif st.session_state.page == "Method Details II":
     st.header("METHOD DETAILS II")
     # Add additional content for Method Details II here
