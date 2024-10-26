@@ -179,6 +179,9 @@ def question_box(label):
     
     st.markdown(input_html, unsafe_allow_html=True)
 
+import streamlit as st
+import datetime
+
 # Title of the application
 st.title("NEAR4KIDS QI COLLECTION FORM")
 
@@ -204,9 +207,9 @@ if st.session_state.page == "Encounter Information":
                 value=st.session_state.form_data.get('date', datetime.date.today())
             )
         with col2:
-            # Time input with default handling
-            time_value = st.session_state.form_data.get('time', datetime.time(0, 0))  # Default to midnight
-            st.session_state.form_data['time'] = st.time_input("Time:", value=time_value)
+            # Time input with default handling to current time
+            current_time = datetime.datetime.now().time()
+            st.session_state.form_data['time'] = st.time_input("Time:", value=st.session_state.form_data.get('time', current_time))
 
         with col3:
             st.session_state.form_data['location'] = st.text_input(
@@ -265,11 +268,14 @@ if st.session_state.page == "Encounter Information":
                 index=["Yes", "No"].index(st.session_state.form_data.get('attending_physician_present', 'No'))
             )
 
-        # Next button
-        submit_button = st.form_submit_button("Next")
-        if submit_button:
-            st.session_state.page = "Indications"  # Navigate to the next page
-            st.rerun()
+        # Layout for the Next button to be on the right
+        col_next, col_placeholder = st.columns([3, 1])  # Wider column for the button
+        with col_next:
+            submit_button = st.form_submit_button("Next")
+            if submit_button:
+                st.session_state.page = "Indications"  # Navigate to the next page
+                st.rerun()
+
 
         
 elif st.session_state.page == "Indications":
