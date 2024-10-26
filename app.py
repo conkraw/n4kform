@@ -622,7 +622,7 @@ elif st.session_state.page == "Medications":
 
     with col2:
         if st.button("Next"):
-            st.session_state.page = "Next Page"  # Set next page as needed
+            st.session_state.page = "Method"  # Set next page as needed
             st.rerun()
 
 
