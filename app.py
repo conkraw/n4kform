@@ -704,7 +704,8 @@ elif st.session_state.page == "Method Details":
 
             with cols[1]:
                 # Liter Flow input
-                liter_flow = st.text_input(f"Liter Flow for {method}:", value=st.session_state.liter_flow[liter_flow_key], key=liter_flow_key)
+                #liter_flow = st.text_input(f"Liter Flow for {method}:", value=st.session_state.liter_flow[liter_flow_key], key=liter_flow_key)
+                liter_flow = st.text_input("", value=st.session_state.liter_flow[liter_flow_key], key=liter_flow_key)
                 st.session_state.liter_flow[liter_flow_key] = liter_flow
 
             with cols[2]:
