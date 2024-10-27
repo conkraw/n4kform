@@ -252,7 +252,6 @@ if st.session_state.page == "Starting Page":
             st.rerun()
 
 # Page Navigation
-# Page Navigation
 elif st.session_state.page == "Encounter Information":
     # Header for Encounter Information
     st.header("ENCOUNTER INFORMATION")
@@ -360,8 +359,10 @@ elif st.session_state.page == "Encounter Information":
         if missing_fields:
             st.warning(f"Please fill in the following: {', '.join(missing_fields)}")
         else:
+            # Move to the next page
             st.session_state.page = "Indications"  # Set next page
             st.rerun()
+
 
 
         
