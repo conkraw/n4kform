@@ -180,6 +180,10 @@ def question_box(label):
     
     st.markdown(input_html, unsafe_allow_html=True)
 
+import streamlit as st
+import pytz
+import datetime
+
 st.title("NEAR4KIDS QI COLLECTION FORM")
 
 # Initialize session state for page and user paragraph
@@ -203,16 +207,25 @@ if st.session_state.page == "Starting Page":
         if st.button("Next"):
             st.session_state.user_paragraph = user_paragraph
             
-            # Extract date from the user paragraph
+            # Extract date and time from the user paragraph
+            date_part = None
+            time_part = None
+
             if "Date:" in user_paragraph:
-                # Split the paragraph at "Date:" and extract the portion after it
                 date_part = user_paragraph.split("Date:")[1].strip()
-                st.session_state.form_data['date'] = date_part  # Store as string
-            else:
-                st.session_state.form_data['date'] = None  # No date provided
+            if "Date/ Time:" in user_paragraph:
+                datetime_part = user_paragraph.split("Date/ Time:")[1].strip()
+                if datetime_part:
+                    date_time = datetime_part.split()
+                    if len(date_time) >= 2:
+                        date_part = date_time[0]  # Assuming format: "MM/DD/YYYY HH:MM:SS"
+                        time_part = date_time[1]
+
+            st.session_state.form_data['date'] = date_part if date_part else None
+            st.session_state.form_data['time'] = time_part if time_part else None
             
             st.session_state.page = "Encounter Information"  # Set next page
-            st.rerun() 
+            st.rerun()
 
 # Page Navigation
 elif st.session_state.page == "Encounter Information":
@@ -222,7 +235,7 @@ elif st.session_state.page == "Encounter Information":
 
     # First line: Date, Time, Location
     col1, col2, col3 = st.columns(3)
-    
+
     with col1:
         # Text input for date
         st.session_state.form_data['date'] = st.text_input(
@@ -231,10 +244,11 @@ elif st.session_state.page == "Encounter Information":
         )
     
     with col2:
-        # Get current time in EST
-        est = pytz.timezone('America/New_York')
-        current_time = datetime.datetime.now(est).strftime("%H:%M")  # Format time as HH:MM
-        st.session_state.form_data['time'] = st.time_input("Time:", value=st.session_state.form_data.get('time', datetime.datetime.strptime(current_time, "%H:%M").time()))
+        # Time input as text
+        st.session_state.form_data['time'] = st.text_input(
+            "Time:", 
+            value=st.session_state.form_data.get('time', '')
+        )
 
     with col3:
         st.session_state.form_data['location'] = st.text_input(
@@ -302,7 +316,8 @@ elif st.session_state.page == "Encounter Information":
     with col_next:
         if st.button("Next"):
             st.session_state.page = "Indications" # Set next page
-            st.rerun() 
+            st.rerun()
+
 
         
 elif st.session_state.page == "Indications":
