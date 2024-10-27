@@ -261,14 +261,12 @@ elif st.session_state.page == "Encounter Information":
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        # Text input for date
         st.session_state.form_data['date'] = st.text_input(
             "Date:", 
             value=st.session_state.form_data.get('date', '')
         )
     
     with col2:
-        # Time input as text
         st.session_state.form_data['time'] = st.text_input(
             "Time:", 
             value=st.session_state.form_data.get('time', '')
@@ -337,31 +335,32 @@ elif st.session_state.page == "Encounter Information":
             st.rerun()
 
     with col_next:
-        # Validation check for required fields
-        missing_fields = []
-        if st.session_state.form_data['patient_gender'] == "Select Gender":
-            missing_fields.append("Patient Gender")
-        if st.session_state.form_data['dosing_weight'] == "":
-            missing_fields.append("Patient Dosing Weight")
-        if st.session_state.form_data['time'] == "":
-            missing_fields.append("Time")
-        if st.session_state.form_data['location'] == "":
-            missing_fields.append("Location")
-        if st.session_state.form_data['pager_number'] == "":
-            missing_fields.append("Pager Number")
-        if st.session_state.form_data['diagnosis'] == "Select if patient have a suspected or confirmed diagnosis of an emerging epidemic/novel lung disease":
-            missing_fields.append("Diagnosis")
-        if st.session_state.form_data['family_member_present'] == "Select if Family Member Present":
-            missing_fields.append("Family Member Present")
-        if st.session_state.form_data['attending_physician_present'] == "Select if Attending Physician Present":
-            missing_fields.append("Attending Physician Present")
+        # Only proceed if button is clicked
+        if st.button("Next"):
+            # Validation check for required fields
+            missing_fields = []
+            if st.session_state.form_data['patient_gender'] == "Select Gender":
+                missing_fields.append("Patient Gender")
+            if st.session_state.form_data['dosing_weight'] == "":
+                missing_fields.append("Patient Dosing Weight")
+            if st.session_state.form_data['time'] == "":
+                missing_fields.append("Time")
+            if st.session_state.form_data['location'] == "":
+                missing_fields.append("Location")
+            if st.session_state.form_data['pager_number'] == "":
+                missing_fields.append("Pager Number")
+            if st.session_state.form_data['diagnosis'] == "Select if patient have a suspected or confirmed diagnosis of an emerging epidemic/novel lung disease":
+                missing_fields.append("Diagnosis")
+            if st.session_state.form_data['family_member_present'] == "Select if Family Member Present":
+                missing_fields.append("Family Member Present")
+            if st.session_state.form_data['attending_physician_present'] == "Select if Attending Physician Present":
+                missing_fields.append("Attending Physician Present")
 
-        if missing_fields:
-            st.warning(f"Please fill in the following: {', '.join(missing_fields)}")
-        else:
-            # Move to the next page
-            st.session_state.page = "Indications"  # Set next page
-            st.rerun()
+            if missing_fields:
+                st.warning(f"Please fill in the following: {', '.join(missing_fields)}")
+            else:
+                st.session_state.page = "Indications"  # Set next page
+                st.rerun()
 
 
 
