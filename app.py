@@ -180,10 +180,6 @@ def question_box(label):
     
     st.markdown(input_html, unsafe_allow_html=True)
 
-import streamlit as st
-import pytz
-import datetime
-
 st.title("NEAR4KIDS QI COLLECTION FORM")
 
 # Initialize session state for page and user paragraph
@@ -212,7 +208,13 @@ if st.session_state.page == "Starting Page":
             time_part = None
 
             if "Date:" in user_paragraph:
-                date_part = user_paragraph.split("Date:")[1].strip()
+                # Extract portion after "Date:" and stop at the first period
+                date_section = user_paragraph.split("Date:")[1]
+                if '.' in date_section:
+                    date_part = date_section.split('.')[0].strip()
+                else:
+                    date_part = date_section.strip()
+                    
             if "Date/ Time:" in user_paragraph:
                 datetime_part = user_paragraph.split("Date/ Time:")[1].strip()
                 if datetime_part:
@@ -315,9 +317,8 @@ elif st.session_state.page == "Encounter Information":
 
     with col_next:
         if st.button("Next"):
-            st.session_state.page = "Indications" # Set next page
+            st.session_state.page = "Indications"  # Set next page
             st.rerun()
-
 
         
 elif st.session_state.page == "Indications":
