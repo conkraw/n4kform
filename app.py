@@ -252,6 +252,7 @@ if st.session_state.page == "Starting Page":
             st.rerun()
 
 # Page Navigation
+# Page Navigation
 elif st.session_state.page == "Encounter Information":
     # Header for Encounter Information
     st.header("ENCOUNTER INFORMATION")
