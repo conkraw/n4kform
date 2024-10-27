@@ -285,22 +285,22 @@ elif st.session_state.page == "Encounter Information":
     with col4:
         st.session_state.form_data['patient_gender'] = st.selectbox(
             "Patient Gender:", 
-            options=["Male", "Female", "Other"], 
-            index=["Male", "Female", "Other"].index(st.session_state.form_data.get('patient_gender', 'Male'))
+            options=["Select Gender", "Male", "Female", "Other"], 
+            index=["Select Gender", "Male", "Female", "Other"].index(st.session_state.form_data.get('patient_gender', 'Select Gender'))
         )
     with col5:
         st.session_state.form_data['dosing_weight'] = st.selectbox(
             "Patient Dosing Weight (kg):", 
-            options=list(range(1, 201)),  
-            index=list(range(1, 201)).index(st.session_state.form_data.get('dosing_weight', 1))
+            options=["Select Weight"] + list(range(1, 201)),  
+            index=["Select Weight"] + list(range(1, 201)).index(st.session_state.form_data.get('dosing_weight', 1))
         )
 
     # Diagnosis query
     st.write("AT THE TIME OF INTUBATION, did this patient have a suspected or confirmed diagnosis of an emerging epidemic/novel lung disease?")
     st.session_state.form_data['diagnosis'] = st.selectbox(
         "Diagnosis:", 
-        options=["Yes", "No"], 
-        index=["Yes", "No"].index(st.session_state.form_data.get('diagnosis', 'No'))
+        options=["Select Diagnosis", "Yes", "No"], 
+        index=["Select Diagnosis", "Yes", "No"].index(st.session_state.form_data.get('diagnosis', 'Select Diagnosis'))
     )
 
     # Form Completed By and Pager Number
@@ -321,14 +321,14 @@ elif st.session_state.page == "Encounter Information":
     with col8:
         st.session_state.form_data['family_member_present'] = st.selectbox(
             "Family Member Present:", 
-            options=["Yes", "No"], 
-            index=["Yes", "No"].index(st.session_state.form_data.get('family_member_present', 'No'))
+            options=["Select if Family Member Present", "Yes", "No"], 
+            index=["Select if Family Member Present", "Yes", "No"].index(st.session_state.form_data.get('family_member_present', 'Select if Family Member Present'))
         )
     with col9:
         st.session_state.form_data['attending_physician_present'] = st.selectbox(
             "Attending Physician Present:", 
-            options=["Yes", "No"], 
-            index=["Yes", "No"].index(st.session_state.form_data.get('attending_physician_present', 'No'))
+            options=["Select if Attending Physician Present", "Yes", "No"], 
+            index=["Select if Attending Physician Present", "Yes", "No"].index(st.session_state.form_data.get('attending_physician_present', 'Select if Attending Physician Present'))
         )
 
     col_prev, col_next = st.columns(2)
@@ -339,8 +339,24 @@ elif st.session_state.page == "Encounter Information":
 
     with col_next:
         if st.button("Next"):
-            st.session_state.page = "Indications"  # Set next page
-            st.rerun()
+            # Validation check for required fields
+            missing_fields = []
+            if st.session_state.form_data['patient_gender'] == "Select Gender":
+                missing_fields.append("Patient Gender")
+            if st.session_state.form_data['dosing_weight'] == "Select Weight":
+                missing_fields.append("Patient Dosing Weight")
+            if st.session_state.form_data['diagnosis'] == "Select Diagnosis":
+                missing_fields.append("Diagnosis")
+            if st.session_state.form_data['family_member_present'] == "Select if Family Member Present":
+                missing_fields.append("Family Member Present")
+            if st.session_state.form_data['attending_physician_present'] == "Select if Attending Physician Present":
+                missing_fields.append("Attending Physician Present")
+
+            if missing_fields:
+                st.warning(f"Please select: {', '.join(missing_fields)}")
+            else:
+                st.session_state.page = "Indications"  # Set next page
+                st.rerun()
 
         
 elif st.session_state.page == "Indications":
