@@ -297,9 +297,9 @@ elif st.session_state.page == "Encounter Information":
     # Diagnosis query
     st.write("AT THE TIME OF INTUBATION, did this patient have a suspected or confirmed diagnosis of an emerging epidemic/novel lung disease?")
     st.session_state.form_data['diagnosis'] = st.selectbox(
-        "Diagnosis:", 
-        options=["Select Diagnosis", "Yes", "No"], 
-        index=["Select Diagnosis", "Yes", "No"].index(st.session_state.form_data.get('diagnosis', 'Select Diagnosis'))
+        "Select if patient have a suspected or confirmed diagnosis of an emerging epidemic/novel lung disease:", 
+        options=["Select if patient have a suspected or confirmed diagnosis", "Yes", "No"], 
+        index=["Select if patient have a suspected or confirmed diagnosis", "Yes", "No"].index(st.session_state.form_data.get('diagnosis', 'Select if patient have a suspected or confirmed diagnosis'))
     )
 
     # Form Completed By and Pager Number
@@ -343,7 +343,13 @@ elif st.session_state.page == "Encounter Information":
             missing_fields.append("Patient Gender")
         if st.session_state.form_data['dosing_weight'] == "":
             missing_fields.append("Patient Dosing Weight")
-        if st.session_state.form_data['diagnosis'] == "Select Diagnosis":
+        if st.session_state.form_data['time'] == "":
+            missing_fields.append("Time")
+        if st.session_state.form_data['location'] == "":
+            missing_fields.append("Location")
+        if st.session_state.form_data['pager_number'] == "":
+            missing_fields.append("Pager Number")
+        if st.session_state.form_data['diagnosis'] == "Select if patient have a suspected or confirmed diagnosis of an emerging epidemic/novel lung disease":
             missing_fields.append("Diagnosis")
         if st.session_state.form_data['family_member_present'] == "Select if Family Member Present":
             missing_fields.append("Family Member Present")
@@ -351,7 +357,7 @@ elif st.session_state.page == "Encounter Information":
             missing_fields.append("Attending Physician Present")
 
         if missing_fields:
-            st.warning(f"Please select: {', '.join(missing_fields)}")
+            st.warning(f"Please fill in the following: {', '.join(missing_fields)}")
         else:
             st.session_state.page = "Indications"  # Set next page
             st.rerun()
