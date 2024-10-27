@@ -289,10 +289,9 @@ elif st.session_state.page == "Encounter Information":
             index=["Select Gender", "Male", "Female", "Other"].index(st.session_state.form_data.get('patient_gender', 'Select Gender'))
         )
     with col5:
-        st.session_state.form_data['dosing_weight'] = st.selectbox(
+        st.session_state.form_data['dosing_weight'] = st.text_input(
             "Patient Dosing Weight (kg):", 
-            options=["Select Weight"] + list(range(1, 201)),  
-            index=["Select Weight"] + list(range(1, 201)).index(st.session_state.form_data.get('dosing_weight', 1))
+            value=st.session_state.form_data.get('dosing_weight', '')
         )
 
     # Diagnosis query
@@ -338,25 +337,25 @@ elif st.session_state.page == "Encounter Information":
             st.rerun()
 
     with col_next:
-        if st.button("Next"):
-            # Validation check for required fields
-            missing_fields = []
-            if st.session_state.form_data['patient_gender'] == "Select Gender":
-                missing_fields.append("Patient Gender")
-            if st.session_state.form_data['dosing_weight'] == "Select Weight":
-                missing_fields.append("Patient Dosing Weight")
-            if st.session_state.form_data['diagnosis'] == "Select Diagnosis":
-                missing_fields.append("Diagnosis")
-            if st.session_state.form_data['family_member_present'] == "Select if Family Member Present":
-                missing_fields.append("Family Member Present")
-            if st.session_state.form_data['attending_physician_present'] == "Select if Attending Physician Present":
-                missing_fields.append("Attending Physician Present")
+        # Validation check for required fields
+        missing_fields = []
+        if st.session_state.form_data['patient_gender'] == "Select Gender":
+            missing_fields.append("Patient Gender")
+        if st.session_state.form_data['dosing_weight'] == "":
+            missing_fields.append("Patient Dosing Weight")
+        if st.session_state.form_data['diagnosis'] == "Select Diagnosis":
+            missing_fields.append("Diagnosis")
+        if st.session_state.form_data['family_member_present'] == "Select if Family Member Present":
+            missing_fields.append("Family Member Present")
+        if st.session_state.form_data['attending_physician_present'] == "Select if Attending Physician Present":
+            missing_fields.append("Attending Physician Present")
 
-            if missing_fields:
-                st.warning(f"Please select: {', '.join(missing_fields)}")
-            else:
-                st.session_state.page = "Indications"  # Set next page
-                st.rerun()
+        if missing_fields:
+            st.warning(f"Please select: {', '.join(missing_fields)}")
+        else:
+            st.session_state.page = "Indications"  # Set next page
+            st.rerun()
+
 
         
 elif st.session_state.page == "Indications":
