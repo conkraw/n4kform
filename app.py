@@ -349,7 +349,7 @@ elif st.session_state.page == "Encounter Information":
                 missing_fields.append("Location")
             if st.session_state.form_data['pager_number'] == "":
                 missing_fields.append("Pager Number")
-            if st.session_state.form_data['diagnosis'] == "Select if patient have a suspected or confirmed diagnosis of an emerging epidemic/novel lung disease":
+            if st.session_state.form_data['diagnosis'] == "Select if patient have a suspected or confirmed diagnosis":
                 missing_fields.append("Diagnosis")
             if st.session_state.form_data['family_member_present'] == "Select if Family Member Present":
                 missing_fields.append("Family Member Present")
