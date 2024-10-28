@@ -346,6 +346,12 @@ elif st.session_state.page == "Encounter Information":
             index=["Select if Attending Physician Present", "Yes", "No"].index(st.session_state.form_data.get('attending_physician_present', 'Select if Attending Physician Present'))
         )
 
+    st.session_state.form_data['airway_bundle'] = st.selectbox(
+            "Airway Bundle/Pink Sheet Completed – Front AND Back:", 
+            options=["Select if Airway Bundle/Pink Sheet Completed", "Yes", "No"], 
+            index=["Select if Airway Bundle/Pink Sheet Completed", "Yes", "No"].index(st.session_state.form_data.get('airway_bundle', 'Select if Airway Bundle/Pink Sheet Completed'))
+        )
+
     col_prev, col_next = st.columns(2)
     with col_prev:
         if st.button("Previous"):
@@ -373,6 +379,8 @@ elif st.session_state.page == "Encounter Information":
                 missing_fields.append("Family Member Present")
             if st.session_state.form_data['attending_physician_present'] == "Select if Attending Physician Present":
                 missing_fields.append("Attending Physician Present")
+            if st.session_state.form_data['airway_bundle'] == "Select if Airway Bundle/Pink Sheet Completed":
+                missing_fields.append("Airway Bundle/Pink Sheet Present")
 
             if missing_fields:
                 st.warning(f"Please fill in the following: {', '.join(missing_fields)}")
