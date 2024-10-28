@@ -1296,8 +1296,10 @@ elif st.session_state.page == "Disposition":
 elif st.session_state.page == "Summary":
     st.header("SUMMARY")
     firebase_key = st.secrets["FIREBASE_KEY"]
-    cred = credentials.Certificate(json.loads(firebase_key))
-    firebase_admin.initialize_app(cred)
+
+    if not firebase_admin._apps:
+        cred = credentials.Certificate(json.loads(firebase_key))
+        firebase_admin.initialize_app(cred)
     
     # Access Firestore
     db = firestore.client()
