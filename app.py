@@ -1293,11 +1293,18 @@ elif st.session_state.page == "Disposition":
             st.rerun()
 
 # Initialize Firebase if not already initialized
-if 'firebase_initialized' not in st.session_state:
+if 'firebase_app' not in st.session_state:
     firebase_key = st.secrets["FIREBASE_KEY"]
     cred = credentials.Certificate(json.loads(firebase_key))
-    firebase_admin.initialize_app(cred)
-    st.session_state.firebase_initialized = True
+    
+    # Initialize the app with a unique name if it hasn't been initialized
+    try:
+        firebase_admin.initialize_app(cred, name="my_firebase_app")
+        st.session_state.firebase_app = True
+    except ValueError:
+        # App already exists, no action needed
+        pass
+
 
 # Access Firestore
 db = firestore.client()
