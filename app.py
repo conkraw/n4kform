@@ -1293,7 +1293,6 @@ elif st.session_state.page == "Disposition":
             st.rerun()
 
 
-
 # Initialize Firebase if not already initialized
 if 'firebase_app' not in st.session_state:
     try:
@@ -1312,11 +1311,6 @@ if 'firebase_app' not in st.session_state:
     except Exception as e:
         st.error(f"Error during Firebase initialization: {str(e)}")
 
-# Now you can use st.session_state.db throughout your app
-
-# Use the Firestore client from session state
-#db = st.session_state.db
-
 # Check if form_data exists in session state
 if 'form_data' not in st.session_state:
     st.session_state.form_data = {}
@@ -1334,26 +1328,23 @@ elif st.session_state.page == "Summary":
 
     with col_submit:
         if st.button("Submit"):
-            # Validate form data before uploading
-            required_fields = ['form_completed_by', 'airway_bundle', 'date', 'time']
-            missing_fields = [field for field in required_fields if field not in st.session_state.form_data]
+            # Upload data to Firebase
+            try:
+                # Use the Firestore client from session state
+                db = st.session_state.db  # Access the Firestore client from session state
+                db.collection("N4KFORMW").add({
+                    "form_completed_by": st.session_state.form_data['form_completed_by'],
+                    "airway_bundle": st.session_state.form_data['airway_bundle'],
+                    "date": st.session_state.form_data['date'],
+                    "time": st.session_state.form_data['time'],
+                })
+                st.success("Form submitted successfully!")
+            except Exception as e:
+                st.error(f"An error occurred while submitting the form: {e}")
 
-            if missing_fields:
-                st.warning(f"Please fill in the following fields: {', '.join(missing_fields)}")
-            else:
-                # Upload data to Firebase
-                try:
-                    db.collection("N4KFORMW").add({
-                        "form_completed_by": st.session_state.form_data['form_completed_by'],
-                        "airway_bundle": st.session_state.form_data['airway_bundle'],
-                        "date": st.session_state.form_data['date'],
-                        "time": st.session_state.form_data['time'],
-                    })
-                    st.success("Form submitted successfully!")
-                    # Optionally navigate to a confirmation page or reset the form
-                    st.session_state.page = "Confirmation"  # Set next page if needed
-                    st.rerun()  # Refresh the app to show the next page
-                except Exception as e:
-                    st.error(f"An error occurred while submitting the form: {e}")
+            # Optionally navigate to a confirmation page or reset the form
+            #st.session_state.page = "Confirmation"  # Set next page if needed
+            st.rerun()
+
 
 
