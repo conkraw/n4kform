@@ -1292,31 +1292,51 @@ elif st.session_state.page == "Disposition":
             st.session_state.page = "Summary"  # Change to your final page
             st.rerun()
 
+# Initialize Firebase if not already initialized
+if 'firebase_initialized' not in st.session_state:
+    firebase_key = st.secrets["FIREBASE_KEY"]
+    cred = credentials.Certificate(json.loads(firebase_key))
+    firebase_admin.initialize_app(cred)
+    st.session_state.firebase_initialized = True
+
+# Access Firestore
+db = firestore.client()
+
+# Check if form_data exists in session state
+if 'form_data' not in st.session_state:
+    st.session_state.form_data = {}
 
 elif st.session_state.page == "Summary":
+    # Header for Summary Page
     st.header("SUMMARY")
-    firebase_key = st.secrets["FIREBASE_KEY"]
 
-    if not firebase_admin._apps:
-        cred = credentials.Certificate(json.loads(firebase_key))
-        firebase_admin.initialize_app(cred)
+    # Display form data for review
+    st.write("Here is the information you provided:")
+    for key, value in st.session_state.form_data.items():
+        st.write(f"**{key.replace('_', ' ').title()}:** {value}")
+
+    col_prev, col_submit = st.columns(2)
     
-    # Access Firestore
-    db = firestore.client()
-    
-    # Access Firestore collection name
-    firestore_collection = st.secrets["FIRESTORE_COLLECTION"]
-    
-    # Submit Button
-    if st.button("Submit"):
-        data_to_upload = {
-            "form_completed_by": st.session_state.form_completed_by,
-            "airway_bundle": st.session_state.airway_bundle,
-            "date": st.session_state.date,
-            "time": st.session_state.time
-        }
-        
-        db.collection(firestore_collection).add(data_to_upload)
-        
-        st.success("Data submitted successfully!")
+    with col_prev:
+        if st.button("Previous"):
+            st.session_state.page = "Disposition"
+            st.rerun()
+
+    with col_submit:
+        if st.button("Submit"):
+            # Upload data to Firebase
+            try:
+                db.collection("N4KFORM").add({
+                    "form_completed_by": st.session_state.form_data['form_completed_by'],
+                    "airway_bundle": st.session_state.form_data['airway_bundle'],
+                    "date": st.session_state.form_data['date'],
+                    "time": st.session_state.form_data['time'],
+                })
+                st.success("Form submitted successfully!")
+            except Exception as e:
+                st.error(f"An error occurred while submitting the form: {e}")
+
+            # Optionally navigate to a confirmation page or reset the form
+            st.session_state.page = "Confirmation"  # Set next page if needed
+            st.rerun()
 
