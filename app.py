@@ -1311,9 +1311,9 @@ elif st.session_state.page == "Summary":
     st.header("SUMMARY")
 
     # Display form data for review
-    st.write("Here is the information you provided:")
-    for key, value in st.session_state.form_data.items():
-        st.write(f"**{key.replace('_', ' ').title()}:** {value}")
+    #st.write("Here is the information you provided:")
+    #for key, value in st.session_state.form_data.items():
+    #    st.write(f"**{key.replace('_', ' ').title()}:** {value}")
 
     col_prev, col_submit = st.columns(2)
     
