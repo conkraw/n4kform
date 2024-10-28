@@ -1292,6 +1292,11 @@ elif st.session_state.page == "Disposition":
             st.session_state.page = "Summary"  # Change to your final page
             st.rerun()
 
+import streamlit as st
+import firebase_admin
+from firebase_admin import credentials, firestore
+import json
+
 # Initialize Firebase if not already initialized
 if 'firebase_app' not in st.session_state:
     firebase_key = st.secrets["FIREBASE_KEY"]
@@ -1314,6 +1319,7 @@ if 'db' not in st.session_state:
         st.session_state.db = firestore.client()
     except Exception as e:
         st.error(f"Failed to connect to Firestore: {str(e)}")
+        st.stop()  # Stop the app if Firestore cannot be connected
 
 # Use the Firestore client from session state
 db = st.session_state.db
@@ -1356,5 +1362,6 @@ elif st.session_state.page == "Summary":
                     st.rerun()  # Refresh the app to show the next page
                 except Exception as e:
                     st.error(f"An error occurred while submitting the form: {e}")
+
 
 
