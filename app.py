@@ -1292,10 +1292,6 @@ elif st.session_state.page == "Disposition":
             st.session_state.page = "Summary"  # Change to your final page
             st.rerun()
 
-import streamlit as st
-import firebase_admin
-from firebase_admin import credentials, firestore
-import json
 
 # Initialize Firebase if not already initialized
 if 'firebase_app' not in st.session_state:
@@ -1306,20 +1302,19 @@ if 'firebase_app' not in st.session_state:
     try:
         firebase_admin.initialize_app(cred, name="my_firebase_app")
         st.session_state.firebase_app = True
+        st.session_state.db = firestore.client()  # Initialize Firestore client here
     except ValueError as e:
         # Handle already initialized app
         if "already exists" in str(e):
-            pass  # App is already initialized
+            # If the app is already initialized, get the Firestore client
+            st.session_state.db = firestore.client()
         else:
             st.error(f"Failed to initialize Firebase: {str(e)}")
 
-# Access Firestore and store it in session state
+# Check if Firestore client is initialized
 if 'db' not in st.session_state:
-    try:
-        st.session_state.db = firestore.client()
-    except Exception as e:
-        st.error(f"Failed to connect to Firestore: {str(e)}")
-        st.stop()  # Stop the app if Firestore cannot be connected
+    st.error("Firestore client not initialized. Please check Firebase configuration.")
+    st.stop()  # Stop the app if Firestore cannot be connected
 
 # Use the Firestore client from session state
 db = st.session_state.db
@@ -1350,7 +1345,7 @@ elif st.session_state.page == "Summary":
             else:
                 # Upload data to Firebase
                 try:
-                    db.collection("N4KFORM").add({
+                    db.collection("N4KFORMW").add({
                         "form_completed_by": st.session_state.form_data['form_completed_by'],
                         "airway_bundle": st.session_state.form_data['airway_bundle'],
                         "date": st.session_state.form_data['date'],
@@ -1362,6 +1357,5 @@ elif st.session_state.page == "Summary":
                     st.rerun()  # Refresh the app to show the next page
                 except Exception as e:
                     st.error(f"An error occurred while submitting the form: {e}")
-
 
 
