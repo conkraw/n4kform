@@ -1006,24 +1006,19 @@ elif st.session_state.page == "Method Details II":
         other_confirmation_description = st.text_input("Please describe the Other Confirmation Method:", value=st.session_state.other_confirmation_description)
         st.session_state.other_confirmation_description = other_confirmation_description  # Save description
 
-    #GLOTTIC Exposure
     st.markdown("### Glottic Exposure During Intubation [Check only ONE]:")
-    glottic = [
+    glottic_options = [
         "Select a Glottic Exposure",
         "I = Visualized entire vocal cords",
         "II = Visualized part of cords",
         "III = Visualized epiglottis only",
         "IV = Non visualized epiglottis",
-        "V =  Not Applicable (e.g. blind nasotracheal)"
+        "V = Not Applicable (e.g. blind nasotracheal)"
     ]
+    
+    glottic_exposure = st.selectbox("Select Glottic Exposure:", glottic_options, index=glottic_options.index(st.session_state.glottic_exposure))
+    st.session_state.glottic_exposure = glottic_exposure
 
-    if "glottic_exposure" not in st.session_state:
-        st.session_state.glottic_exposure = glottic[0]  # Default to "Select a Glottic Exposure"
-
-    selected_device = st.selectbox("Select Glottic Exposure:", glottic, index=glottic.index(st.session_state.glottic_exposure))
-    st.session_state.glottic_exposure = glottic_exposure  # Save selection
-
-    # Events for Tracheal Intubation
     st.markdown("### Tracheal Intubation Associated Events (Check ALL that apply):")
     events = [
         "NONE",
