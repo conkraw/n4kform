@@ -1007,6 +1007,7 @@ elif st.session_state.page == "Method Details II":
         st.session_state.other_confirmation_description = other_confirmation_description  # Save description
 
     st.markdown("### Glottic Exposure During Intubation [Check only ONE]:")
+    st.image("image.png", caption="Glottic Exposure Diagram", use_column_width=True)  # Add the image here
     glottic_options = [
         "Select a Glottic Exposure",
         "I = Visualized entire vocal cords",
