@@ -220,10 +220,54 @@ if st.session_state.page == "Starting Page":
             elif "grade 5" in user_paragraph.lower() or "grade v" in user_paragraph.lower():
                 st.session_state.glottic_exposure = "V = Not Applicable (e.g. blind nasotracheal)"
 
-            # Extract date, time, performed by, etc. as you have it...
+            # Extracting Date:
+            date_part = None
+            time_part = None
+            performed_by = None
+            attending_physician_present = "No"  # Default value
 
+            if "Date:" in user_paragraph:
+                date_section = user_paragraph.split("Date:")[1]
+                if '.' in date_section:
+                    date_part = date_section.split('.')[0].strip()
+                else:
+                    date_part = date_section.strip()
+
+            # Extracting Date/ Time:
+            if "Date/ Time:" in user_paragraph:
+                datetime_part = user_paragraph.split("Date/ Time:")[1].strip()
+                if datetime_part:
+                    date_time = datetime_part.split()
+                    if len(date_time) >= 2:
+                        date_part = date_time[0]
+                        time_part = date_time[1]
+
+            # Extracting Performed by:
+            if "Performed by:" in user_paragraph:
+                performed_by_section = user_paragraph.split("Performed by:")[1]
+                if '.' in performed_by_section:
+                    performed_by = performed_by_section.split('.')[0].strip()
+                else:
+                    performed_by = performed_by_section.strip()
+
+            # Extracting Present and supervised procedure:
+            if "Present and supervised procedure:" in user_paragraph:
+                attending_physician_present = "Yes"  # Set default to Yes
+                physician_section = user_paragraph.split("Present and supervised procedure:")[1]
+                if '.' in physician_section:
+                    physician_name = physician_section.split('.')[0].strip()
+                else:
+                    physician_name = physician_section.strip()
+
+            # Store extracted data in form_data
+            st.session_state.form_data['date'] = date_part if date_part else None
+            st.session_state.form_data['time'] = time_part if time_part else None
+            st.session_state.form_data['form_completed_by'] = performed_by if performed_by else ''
+            st.session_state.form_data['attending_physician_present'] = attending_physician_present
+            
             st.session_state.page = "Encounter Information"  # Set next page
             st.rerun()
+
 
 # Page Navigation
 elif st.session_state.page == "Encounter Information":
