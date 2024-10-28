@@ -1293,31 +1293,29 @@ elif st.session_state.page == "Disposition":
             st.rerun()
 
 
+
 # Initialize Firebase if not already initialized
 if 'firebase_app' not in st.session_state:
-    firebase_key = st.secrets["FIREBASE_KEY"]
-    cred = credentials.Certificate(json.loads(firebase_key))
-    
-    # Try to initialize Firebase app
     try:
+        firebase_key = st.secrets["FIREBASE_KEY"]
+        cred = credentials.Certificate(json.loads(firebase_key))
+        
+        # Initialize Firebase app
         firebase_admin.initialize_app(cred, name="my_firebase_app")
         st.session_state.firebase_app = True
         st.session_state.db = firestore.client()  # Initialize Firestore client here
     except ValueError as e:
-        # Handle already initialized app
         if "already exists" in str(e):
-            # If the app is already initialized, get the Firestore client
-            st.session_state.db = firestore.client()
+            st.session_state.db = firestore.client()  # Initialize Firestore client if already exists
         else:
             st.error(f"Failed to initialize Firebase: {str(e)}")
+    except Exception as e:
+        st.error(f"Error during Firebase initialization: {str(e)}")
 
-# Check if Firestore client is initialized
-if 'db' not in st.session_state:
-    st.error("Firestore client not initialized. Please check Firebase configuration.")
-    st.stop()  # Stop the app if Firestore cannot be connected
+# Now you can use st.session_state.db throughout your app
 
 # Use the Firestore client from session state
-db = st.session_state.db
+#db = st.session_state.db
 
 # Check if form_data exists in session state
 if 'form_data' not in st.session_state:
