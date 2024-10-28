@@ -1308,20 +1308,20 @@ elif st.session_state.page == "Summary":
     firestore_collection = st.secrets["FIRESTORE_COLLECTION"]
     
     # Ensure session states are initialized
-    if 'form_completed_by' not in st.session_state:
-        st.session_state.form_completed_by = ""
-    if 'airway_bundle' not in st.session_state:
-        st.session_state.airway_bundle = ""
-    if 'date' not in st.session_state:
-        st.session_state.date = ""
-    if 'time' not in st.session_state:
-        st.session_state.time = ""
+    #if 'form_completed_by' not in st.session_state:
+    #    st.session_state.form_completed_by = ""
+    #if 'airway_bundle' not in st.session_state:
+    #    st.session_state.airway_bundle = ""
+    #if 'date' not in st.session_state:
+    #    st.session_state.date = ""
+    #if 'time' not in st.session_state:
+    #    st.session_state.time = ""
     
     # Input fields
-    st.session_state.form_completed_by = st.text_input("Form Completed By:", value=st.session_state.form_completed_by)
-    st.session_state.airway_bundle = st.text_input("Airway Bundle:", value=st.session_state.airway_bundle)
-    st.session_state.date = st.text_input("Date:", value=st.session_state.date)
-    st.session_state.time = st.text_input("Time:", value=st.session_state.time)
+    #st.session_state.form_completed_by = st.text_input("Form Completed By:", value=st.session_state.form_completed_by)
+    #st.session_state.airway_bundle = st.text_input("Airway Bundle:", value=st.session_state.airway_bundle)
+    #st.session_state.date = st.text_input("Date:", value=st.session_state.date)
+    #st.session_state.time = st.text_input("Time:", value=st.session_state.time)
     
     # Submit Button
     if st.button("Submit"):
