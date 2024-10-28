@@ -1301,7 +1301,7 @@ if st.session_state.page == "Summary":
     #        st.rerun()
 
     # Load Firebase credentials from secrets
-    firebase_key = st.secrets["firebase"]["key"]
+    firebase_key = st.secrets["FIREBASE"]["FIREBASE_KEY"]
     cred = credentials.Certificate(firebase_key)
     firebase_admin.initialize_app(cred)
     
