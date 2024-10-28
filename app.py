@@ -1010,7 +1010,7 @@ elif st.session_state.page == "Method Details II":
     st.markdown("### Glottic Exposure During Intubation [Check only ONE]:")
     glottic = [
         "Select a Glottic Exposure",
-        "I = Visualized entire vocal cords ",
+        "I = Visualized entire vocal cords",
         "II = Visualized part of cords",
         "III = Visualized epiglottis only",
         "IV = Non visualized epiglottis",
