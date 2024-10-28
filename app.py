@@ -180,6 +180,8 @@ def question_box(label):
     
     st.markdown(input_html, unsafe_allow_html=True)
 
+import streamlit as st
+
 st.title("NEAR4KIDS QI COLLECTION FORM")
 
 # Initialize session state for page and user paragraph
@@ -192,6 +194,9 @@ if 'user_paragraph' not in st.session_state:
 if 'form_data' not in st.session_state:
     st.session_state.form_data = {}
 
+if 'glottic_exposure' not in st.session_state:
+    st.session_state.glottic_exposure = "Select a Glottic Exposure"  # Default to "Select a Glottic Exposure"
+
 if st.session_state.page == "Starting Page":
     # Text area for user input
     user_paragraph = st.text_area("Please enter a paragraph:", value=st.session_state.user_paragraph)
@@ -203,51 +208,20 @@ if st.session_state.page == "Starting Page":
         if st.button("Next"):
             st.session_state.user_paragraph = user_paragraph
             
-            # Extract date and time from the user paragraph
-            date_part = None
-            time_part = None
-            performed_by = None
-            attending_physician_present = "No"  # Default value
+            # Logic to check for grade inputs and assign glottic exposure
+            if "grade 1" in user_paragraph.lower() or "grade i" in user_paragraph.lower():
+                st.session_state.glottic_exposure = "I = Visualized entire vocal cords"
+            elif "grade 2" in user_paragraph.lower() or "grade ii" in user_paragraph.lower():
+                st.session_state.glottic_exposure = "II = Visualized part of cords"
+            elif "grade 3" in user_paragraph.lower() or "grade iii" in user_paragraph.lower():
+                st.session_state.glottic_exposure = "III = Visualized epiglottis only"
+            elif "grade 4" in user_paragraph.lower() or "grade iv" in user_paragraph.lower():
+                st.session_state.glottic_exposure = "IV = Non visualized epiglottis"
+            elif "grade 5" in user_paragraph.lower() or "grade v" in user_paragraph.lower():
+                st.session_state.glottic_exposure = "V = Not Applicable (e.g. blind nasotracheal)"
 
-            # Extracting Date:
-            if "Date:" in user_paragraph:
-                date_section = user_paragraph.split("Date:")[1]
-                if '.' in date_section:
-                    date_part = date_section.split('.')[0].strip()
-                else:
-                    date_part = date_section.strip()
-                    
-            # Extracting Date/ Time:
-            if "Date/ Time:" in user_paragraph:
-                datetime_part = user_paragraph.split("Date/ Time:")[1].strip()
-                if datetime_part:
-                    date_time = datetime_part.split()
-                    if len(date_time) >= 2:
-                        date_part = date_time[0]
-                        time_part = date_time[1]
+            # Extract date, time, performed by, etc. as you have it...
 
-            # Extracting Performed by:
-            if "Performed by:" in user_paragraph:
-                performed_by_section = user_paragraph.split("Performed by:")[1]
-                if '.' in performed_by_section:
-                    performed_by = performed_by_section.split('.')[0].strip()
-                else:
-                    performed_by = performed_by_section.strip()
-
-            # Extracting Present and supervised procedure:
-            if "Present and supervised procedure:" in user_paragraph:
-                attending_physician_present = "Yes"  # Set default to Yes
-                physician_section = user_paragraph.split("Present and supervised procedure:")[1]
-                if '.' in physician_section:
-                    physician_name = physician_section.split('.')[0].strip()
-                else:
-                    physician_name = physician_section.strip()
-
-            st.session_state.form_data['date'] = date_part if date_part else None
-            st.session_state.form_data['time'] = time_part if time_part else None
-            st.session_state.form_data['form_completed_by'] = performed_by if performed_by else ''
-            st.session_state.form_data['attending_physician_present'] = attending_physician_present
-            
             st.session_state.page = "Encounter Information"  # Set next page
             st.rerun()
 
@@ -987,6 +961,23 @@ elif st.session_state.page == "Method Details II":
             st.session_state.other_confirmation_description = ""
         other_confirmation_description = st.text_input("Please describe the Other Confirmation Method:", value=st.session_state.other_confirmation_description)
         st.session_state.other_confirmation_description = other_confirmation_description  # Save description
+
+    #GLOTTIC Exposure
+    st.markdown("### Glottic Exposure During Intubation [Check only ONE]:")
+    glottic = [
+        "Select a Glottic Exposure",
+        "I = Visualized entire vocal cords ",
+        "II = Visualized part of cords",
+        "III = Visualized epiglottis only",
+        "IV = Non visualized epiglottis",
+        "V =  Not Applicable (e.g. blind nasotracheal)"
+    ]
+
+    if "glottic_exposure" not in st.session_state:
+        st.session_state.glottic_exposure = glottic[0]  # Default to "Select a Glottic Exposure"
+
+    selected_device = st.selectbox("Select Glottic Exposure:", glottic, index=glottic.index(st.session_state.glottic_exposure))
+    st.session_state.glottic_exposure = glottic_exposure  # Save selection
 
     # Events for Tracheal Intubation
     st.markdown("### Tracheal Intubation Associated Events (Check ALL that apply):")
