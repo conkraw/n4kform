@@ -1334,7 +1334,7 @@ elif st.session_state.page == "Summary":
             try:
                 # Use the Firestore client from session state
                 db = st.session_state.db  # Access the Firestore client from session state
-                db.collection("N4KFORM").add({
+                db.collection("N4KFORMW").add({
                     "form_completed_by": st.session_state.form_data['form_completed_by'],
                     "airway_bundle": st.session_state.form_data['airway_bundle'],
                     "date": st.session_state.form_data['date'],
