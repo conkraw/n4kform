@@ -313,9 +313,9 @@ elif st.session_state.page == "Encounter Information":
     # Diagnosis query
     st.write("AT THE TIME OF INTUBATION, did this patient have a suspected or confirmed diagnosis of an emerging epidemic/novel lung disease?")
     st.session_state.form_data['diagnosis'] = st.selectbox(
-        "Select if patient have a suspected or confirmed diagnosis of an emerging epidemic/novel lung disease:", 
-        options=["Select if patient have a suspected or confirmed diagnosis", "Yes", "No"], 
-        index=["Select if patient have a suspected or confirmed diagnosis", "Yes", "No"].index(st.session_state.form_data.get('diagnosis', 'Select if patient have a suspected or confirmed diagnosis'))
+        "Select if patient has a suspected or confirmed diagnosis of an emerging epidemic/novel lung disease:", 
+        options=["Select if patient has a suspected or confirmed diagnosis", "Yes", "No"], 
+        index=["Select if patient has a suspected or confirmed diagnosis", "Yes", "No"].index(st.session_state.form_data.get('diagnosis', 'Select if patient has a suspected or confirmed diagnosis'))
     )
 
     # Form Completed By and Pager Number
@@ -367,7 +367,7 @@ elif st.session_state.page == "Encounter Information":
                 missing_fields.append("Location")
             if st.session_state.form_data['pager_number'] == "":
                 missing_fields.append("Pager Number")
-            if st.session_state.form_data['diagnosis'] == "Select if patient have a suspected or confirmed diagnosis":
+            if st.session_state.form_data['diagnosis'] == "Select if patient has a suspected or confirmed diagnosis":
                 missing_fields.append("Diagnosis")
             if st.session_state.form_data['family_member_present'] == "Select if Family Member Present":
                 missing_fields.append("Family Member Present")
