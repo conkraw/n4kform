@@ -1350,7 +1350,7 @@ elif st.session_state.page == "Summary":
             else:
                 # Upload data to Firebase
                 try:
-                    db.collection("N4KFORMW").add({
+                    db.collection("N4KFORM").add({
                         "form_completed_by": st.session_state.form_data['form_completed_by'],
                         "airway_bundle": st.session_state.form_data['airway_bundle'],
                         "date": st.session_state.form_data['date'],
