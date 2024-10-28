@@ -1293,49 +1293,48 @@ elif st.session_state.page == "Disposition":
 
 
 
-if st.session_state.page == "Summary":
-    #col1, col2 = st.columns(2)
-    #with col1:
-    #    if st.button("Previous"):
-    #        st.session_state.page = "Disposition"
-    #        st.rerun()
+import streamlit as st
+import firebase_admin
+from firebase_admin import credentials, firestore
+import json
 
-    # Load Firebase credentials from secrets
-    firebase_key = st.secrets["FIREBASE_COLLECTION"]["FIREBASE_KEY"]
-    cred = credentials.Certificate(firebase_key)
-    firebase_admin.initialize_app(cred)
+# Load Firebase credentials from secrets
+firebase_key = st.secrets["FIREBASE_KEY"]
+cred = credentials.Certificate(json.loads(firebase_key))
+firebase_admin.initialize_app(cred)
+
+# Access Firestore
+db = firestore.client()
+
+# Access Firestore collection name
+firestore_collection = st.secrets["FIRESTORE_COLLECTION"]
+
+# Ensure session states are initialized
+if 'form_completed_by' not in st.session_state:
+    st.session_state.form_completed_by = ""
+if 'airway_bundle' not in st.session_state:
+    st.session_state.airway_bundle = ""
+if 'date' not in st.session_state:
+    st.session_state.date = ""
+if 'time' not in st.session_state:
+    st.session_state.time = ""
+
+# Input fields
+st.session_state.form_completed_by = st.text_input("Form Completed By:", value=st.session_state.form_completed_by)
+st.session_state.airway_bundle = st.text_input("Airway Bundle:", value=st.session_state.airway_bundle)
+st.session_state.date = st.text_input("Date:", value=st.session_state.date)
+st.session_state.time = st.text_input("Time:", value=st.session_state.time)
+
+# Submit Button
+if st.button("Submit"):
+    data_to_upload = {
+        "form_completed_by": st.session_state.form_completed_by,
+        "airway_bundle": st.session_state.airway_bundle,
+        "date": st.session_state.date,
+        "time": st.session_state.time
+    }
     
-    # Access Firestore
-    db = firestore.client()
+    db.collection(firestore_collection).add(data_to_upload)
     
-    # Ensure session states are initialized
-    if 'form_completed_by' not in st.session_state:
-        st.session_state.form_completed_by = ""
-    if 'airway_bundle' not in st.session_state:
-        st.session_state.airway_bundle = ""
-    if 'date' not in st.session_state:
-        st.session_state.date = ""
-    if 'time' not in st.session_state:
-        st.session_state.time = ""
-    
-    # Example input fields for user to fill
-    st.session_state.form_completed_by = st.text_input("Form Completed By:", value=st.session_state.form_completed_by)
-    st.session_state.airway_bundle = st.text_input("Airway Bundle:", value=st.session_state.airway_bundle)
-    st.session_state.date = st.text_input("Date:", value=st.session_state.date)
-    st.session_state.time = st.text_input("Time:", value=st.session_state.time)
-    
-    # Submit Button
-    if st.button("Submit"):
-        # Create a dictionary of the data to upload
-        data_to_upload = {
-            "form_completed_by": st.session_state.form_completed_by,
-            "airway_bundle": st.session_state.airway_bundle,
-            "date": st.session_state.date,
-            "time": st.session_state.time
-        }
-        
-        # Upload data to Firestore
-        db.collection("N4KFORM").add(data_to_upload)
-        
-        st.success("Data submitted successfully!")
+    st.success("Data submitted successfully!")
 
