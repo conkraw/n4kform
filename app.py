@@ -1344,6 +1344,6 @@ elif st.session_state.page == "Summary":
                 st.error(f"An error occurred while submitting the form: {e}")
 
             # Optionally navigate to a confirmation page or reset the form
-            st.session_state.page = "Confirmation"  # Set next page if needed
+            #st.session_state.page = "Confirmation"  # Set next page if needed
             st.rerun()
 
