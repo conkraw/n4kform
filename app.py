@@ -1,5 +1,6 @@
 import streamlit as st
 import datetime
+import json
 import pytz
 import firebase_admin
 from firebase_admin import credentials, firestore
@@ -1292,49 +1293,44 @@ elif st.session_state.page == "Disposition":
             st.rerun()
 
 
-
-import streamlit as st
-import firebase_admin
-from firebase_admin import credentials, firestore
-import json
-
-# Load Firebase credentials from secrets
-firebase_key = st.secrets["FIREBASE_KEY"]
-cred = credentials.Certificate(json.loads(firebase_key))
-firebase_admin.initialize_app(cred)
-
-# Access Firestore
-db = firestore.client()
-
-# Access Firestore collection name
-firestore_collection = st.secrets["FIRESTORE_COLLECTION"]
-
-# Ensure session states are initialized
-if 'form_completed_by' not in st.session_state:
-    st.session_state.form_completed_by = ""
-if 'airway_bundle' not in st.session_state:
-    st.session_state.airway_bundle = ""
-if 'date' not in st.session_state:
-    st.session_state.date = ""
-if 'time' not in st.session_state:
-    st.session_state.time = ""
-
-# Input fields
-st.session_state.form_completed_by = st.text_input("Form Completed By:", value=st.session_state.form_completed_by)
-st.session_state.airway_bundle = st.text_input("Airway Bundle:", value=st.session_state.airway_bundle)
-st.session_state.date = st.text_input("Date:", value=st.session_state.date)
-st.session_state.time = st.text_input("Time:", value=st.session_state.time)
-
-# Submit Button
-if st.button("Submit"):
-    data_to_upload = {
-        "form_completed_by": st.session_state.form_completed_by,
-        "airway_bundle": st.session_state.airway_bundle,
-        "date": st.session_state.date,
-        "time": st.session_state.time
-    }
+elif st.session_state.page == "Summary":
+    st.header("SUMMARY")
+    firebase_key = st.secrets["FIREBASE_KEY"]
+    cred = credentials.Certificate(json.loads(firebase_key))
+    firebase_admin.initialize_app(cred)
     
-    db.collection(firestore_collection).add(data_to_upload)
+    # Access Firestore
+    db = firestore.client()
     
-    st.success("Data submitted successfully!")
+    # Access Firestore collection name
+    firestore_collection = st.secrets["FIRESTORE_COLLECTION"]
+    
+    # Ensure session states are initialized
+    if 'form_completed_by' not in st.session_state:
+        st.session_state.form_completed_by = ""
+    if 'airway_bundle' not in st.session_state:
+        st.session_state.airway_bundle = ""
+    if 'date' not in st.session_state:
+        st.session_state.date = ""
+    if 'time' not in st.session_state:
+        st.session_state.time = ""
+    
+    # Input fields
+    st.session_state.form_completed_by = st.text_input("Form Completed By:", value=st.session_state.form_completed_by)
+    st.session_state.airway_bundle = st.text_input("Airway Bundle:", value=st.session_state.airway_bundle)
+    st.session_state.date = st.text_input("Date:", value=st.session_state.date)
+    st.session_state.time = st.text_input("Time:", value=st.session_state.time)
+    
+    # Submit Button
+    if st.button("Submit"):
+        data_to_upload = {
+            "form_completed_by": st.session_state.form_completed_by,
+            "airway_bundle": st.session_state.airway_bundle,
+            "date": st.session_state.date,
+            "time": st.session_state.time
+        }
+        
+        db.collection(firestore_collection).add(data_to_upload)
+        
+        st.success("Data submitted successfully!")
 
