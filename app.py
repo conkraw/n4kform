@@ -970,7 +970,7 @@ elif st.session_state.page == "Method Details II":
     if "selected_device" not in st.session_state:
         st.session_state.selected_device = devices[0]  # Default to "Select a Device"
 
-    selected_device = st.selectbox("Select device:", devices, index=devices.index(st.session_state.selected_device))
+    selected_device = st.selectbox("Select Device:", devices, index=devices.index(st.session_state.selected_device))
     st.session_state.selected_device = selected_device  # Save selection
 
     # Text input for 'Other' device description
