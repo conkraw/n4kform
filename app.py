@@ -1297,17 +1297,26 @@ if 'firebase_app' not in st.session_state:
     firebase_key = st.secrets["FIREBASE_KEY"]
     cred = credentials.Certificate(json.loads(firebase_key))
     
-    # Initialize the app with a unique name if it hasn't been initialized
+    # Try to initialize Firebase app
     try:
         firebase_admin.initialize_app(cred, name="my_firebase_app")
         st.session_state.firebase_app = True
-    except ValueError:
-        # App already exists, no action needed
-        pass
+    except ValueError as e:
+        # Handle already initialized app
+        if "already exists" in str(e):
+            pass  # App is already initialized
+        else:
+            st.error(f"Failed to initialize Firebase: {str(e)}")
 
+# Access Firestore and store it in session state
+if 'db' not in st.session_state:
+    try:
+        st.session_state.db = firestore.client()
+    except Exception as e:
+        st.error(f"Failed to connect to Firestore: {str(e)}")
 
-# Access Firestore
-db = firestore.client()
+# Use the Firestore client from session state
+db = st.session_state.db
 
 # Check if form_data exists in session state
 if 'form_data' not in st.session_state:
@@ -1316,12 +1325,7 @@ if 'form_data' not in st.session_state:
 elif st.session_state.page == "Summary":
     # Header for Summary Page
     st.header("SUMMARY")
-
-    # Display form data for review
-    #st.write("Here is the information you provided:")
-    #for key, value in st.session_state.form_data.items():
-    #    st.write(f"**{key.replace('_', ' ').title()}:** {value}")
-
+    
     col_prev, col_submit = st.columns(2)
     
     with col_prev:
@@ -1331,19 +1335,26 @@ elif st.session_state.page == "Summary":
 
     with col_submit:
         if st.button("Submit"):
-            # Upload data to Firebase
-            try:
-                db.collection("N4KFORM").add({
-                    "form_completed_by": st.session_state.form_data['form_completed_by'],
-                    "airway_bundle": st.session_state.form_data['airway_bundle'],
-                    "date": st.session_state.form_data['date'],
-                    "time": st.session_state.form_data['time'],
-                })
-                st.success("Form submitted successfully!")
-            except Exception as e:
-                st.error(f"An error occurred while submitting the form: {e}")
+            # Validate form data before uploading
+            required_fields = ['form_completed_by', 'airway_bundle', 'date', 'time']
+            missing_fields = [field for field in required_fields if field not in st.session_state.form_data]
 
-            # Optionally navigate to a confirmation page or reset the form
-            #st.session_state.page = "Confirmation"  # Set next page if needed
-            st.rerun()
+            if missing_fields:
+                st.warning(f"Please fill in the following fields: {', '.join(missing_fields)}")
+            else:
+                # Upload data to Firebase
+                try:
+                    db.collection("N4KFORMW").add({
+                        "form_completed_by": st.session_state.form_data['form_completed_by'],
+                        "airway_bundle": st.session_state.form_data['airway_bundle'],
+                        "date": st.session_state.form_data['date'],
+                        "time": st.session_state.form_data['time'],
+                    })
+                    st.success("Form submitted successfully!")
+                    # Optionally navigate to a confirmation page or reset the form
+                    st.session_state.page = "Confirmation"  # Set next page if needed
+                    st.rerun()  # Refresh the app to show the next page
+                except Exception as e:
+                    st.error(f"An error occurred while submitting the form: {e}")
+
 
