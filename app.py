@@ -1333,26 +1333,32 @@ elif st.session_state.page == "Summary":
             try:
                 # Use the Firestore client from session state
                 db = st.session_state.db  # Access the Firestore client from session state
+                
+                # Get values
+                airway_bundle = st.session_state.form_data['airway_bundle']
+                selected_oxygen = st.session_state.form_data.get('selected_oxygen', "")
+                
                 form_data = {
                     "form_completed_by": st.session_state.form_data['form_completed_by'],
-                    "airway_bundle": st.session_state.form_data['airway_bundle'],
+                    "airway_bundle": airway_bundle,
                     "date": st.session_state.form_data['date'],
                     "time": st.session_state.form_data['time'],
                 }
                 db.collection("N4KFORMW").add(form_data)
                 st.success("Form submitted successfully!")
 
-                # Check if Airway Bundle is "No" before sending email
-                if form_data['airway_bundle'] == "No":
+                # Check conditions for sending email
+                if airway_bundle == "No" or selected_oxygen in ["No", "ATTEMPTED but not done (explain on last page)"]:
                     # Prepare email data
                     to_email = st.secrets["general"]["email"]  # Replace with your email from secrets
-                    subject = "Form Submission Confirmation"
+                    subject = "Form Submission Notification"
                     message = f"""
-                    <p>Your form has been submitted successfully!</p>
+                    <p>Your form has been submitted.</p>
                     <p><strong>Completed By:</strong> {form_data['form_completed_by']}</p>
-                    <p><strong>Airway Bundle:</strong> {form_data['airway_bundle']}</p>
+                    <p><strong>Airway Bundle:</strong> {airway_bundle}</p>
                     <p><strong>Date:</strong> {form_data['date']}</p>
                     <p><strong>Time:</strong> {form_data['time']}</p>
+                    <p><strong>Selected Oxygen:</strong> {selected_oxygen}</p>
                     """
 
                     # Upload email data to Firebase
@@ -1373,4 +1379,5 @@ elif st.session_state.page == "Summary":
             # Optionally navigate to a confirmation page or reset the form
             #st.session_state.page = "Confirmation"  # Set next page if needed
             st.rerun()
+
 
