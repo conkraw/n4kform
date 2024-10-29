@@ -2,10 +2,9 @@ import streamlit as st
 import firebase_admin
 from firebase_admin import credentials, firestore
 import json
-import base64
 from docx import Document
 import io
-import datetime
+import base64
 
 # Initialize Firebase
 def initialize_firebase():
@@ -28,27 +27,16 @@ def get_firestore():
         except Exception as e:
             st.error(f"Failed to connect to Firestore: {str(e)}")
 
-# Form submission and document generation
-def submit_form():
+# Submit form and upload document
+def submit_form(text_input):
     if st.button("Submit"):
         try:
             db = st.session_state.db
             
-            # Get values
-            airway_bundle = st.session_state.form_data['airway_bundle']
-            #selected_oxygen = st.session_state.selected_oxygen.strip()
-            
-            form_data = {
-                "form_completed_by": st.session_state.form_data['form_completed_by'],
-                "airway_bundle": airway_bundle,
-                "date": st.session_state.form_data['date'].strftime("%Y-%m-%d"),  # Convert date to string
-                "time": st.session_state.form_data['time'].strftime("%H:%M:%S"),  # Convert time to string
-            }
             # Create a Word document
             doc = Document()
-            doc.add_heading('Form Submission', level=1)
-            for key, value in form_data.items():
-                doc.add_paragraph(f"{key.replace('_', ' ').title()}: {value}")
+            doc.add_heading('Text Input Submission', level=1)
+            doc.add_paragraph(text_input)
             
             # Save the document to a BytesIO object
             doc_stream = io.BytesIO()
@@ -58,17 +46,12 @@ def submit_form():
             # Encode the document in base64
             encoded_file = base64.b64encode(doc_stream.read()).decode('utf-8')
 
-            # Upload form data
-            form_ref = db.collection("N4KFORMW").add(form_data)
-            st.success("Form submitted successfully!")
-
             # Upload document to Firestore
             file_data = {
-                "file_name": "form_submission.docx",
+                "file_name": "text_input_submission.docx",
                 "file_content": encoded_file,
-                "form_ref": form_ref.id
             }
-            db.collection("UploadedDocuments").add(file_data)
+            db.collection("N4KFORMW").add(file_data)
             st.success("Document uploaded successfully!")
 
         except Exception as e:
@@ -78,24 +61,13 @@ def submit_form():
 def main():
     initialize_firebase()
     get_firestore()
+
+    st.header("Simple Firestore Document Upload")
+
+    text_input = st.text_area("Enter your text here:")
     
-    # Initialize form data
-    if 'form_data' not in st.session_state:
-        st.session_state.form_data = {
-            "form_completed_by": "",
-            "airway_bundle": "",
-            "date": "",
-            "time": ""
-        }
-
-    st.header("Form Submission")
-
-    st.session_state.form_data['form_completed_by'] = st.text_input("Completed By")
-    st.session_state.form_data['airway_bundle'] = st.selectbox("Was the Airway Bundle Completed?", ["Yes", "No"])
-    st.session_state.form_data['date'] = st.date_input("Date")
-    st.session_state.form_data['time'] = st.time_input("Time")
-
-    submit_form()
+    if text_input:
+        submit_form(text_input)
 
 if __name__ == "__main__":
     main()
