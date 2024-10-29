@@ -1336,8 +1336,8 @@ elif st.session_state.page == "Summary":
                 
                 # Get values
                 airway_bundle = st.session_state.form_data['airway_bundle']
-                selected_oxygen = st.session_state.form_data.get('selected_oxygen', "").strip()  # Use strip() to remove extra spaces
-                st.write("Selected Oxygen Value:", selected_oxygen)
+                selected_oxygen = st.session_state.selected_oxygen.strip()
+                #st.write("Selected Oxygen Value:", selected_oxygen)
                 
                 form_data = {
                     "form_completed_by": st.session_state.form_data['form_completed_by'],
