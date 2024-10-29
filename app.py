@@ -1292,7 +1292,6 @@ elif st.session_state.page == "Disposition":
             st.session_state.page = "Summary"  # Change to your final page
             st.rerun()
 
-
 if 'firebase_initialized' not in st.session_state:
     firebase_key = st.secrets["FIREBASE_KEY"]
     cred = credentials.Certificate(json.loads(firebase_key))
@@ -1343,28 +1342,30 @@ elif st.session_state.page == "Summary":
                 db.collection("N4KFORMW").add(form_data)
                 st.success("Form submitted successfully!")
 
-                # Prepare email data
-                to_email = st.secrets["general"]["email"]  # Replace with your email from secrets
-                subject = "Form Submission Confirmation"
-                message = f"""
-                <p>Your form has been submitted successfully!</p>
-                <p><strong>Completed By:</strong> {form_data['form_completed_by']}</p>
-                <p><strong>Airway Bundle:</strong> {form_data['airway_bundle']}</p>
-                <p><strong>Date:</strong> {form_data['date']}</p>
-                <p><strong>Time:</strong> {form_data['time']}</p>
-                """
+                # Check if Airway Bundle is "Yes" before sending email
+                if form_data['airway_bundle'] == "Yes":
+                    # Prepare email data
+                    to_email = st.secrets["general"]["email"]  # Replace with your email from secrets
+                    subject = "Form Submission Confirmation"
+                    message = f"""
+                    <p>Your form has been submitted successfully!</p>
+                    <p><strong>Completed By:</strong> {form_data['form_completed_by']}</p>
+                    <p><strong>Airway Bundle:</strong> {form_data['airway_bundle']}</p>
+                    <p><strong>Date:</strong> {form_data['date']}</p>
+                    <p><strong>Time:</strong> {form_data['time']}</p>
+                    """
 
-                # Upload email data to Firebase
-                email_data = {
-                    "to": to_email,
-                    "message": {
-                        "subject": subject,
-                        "html": message,
-                    },
-                    **form_data  # Include form data if needed
-                }
-                db.collection("N4KFORMW").add(email_data)  # Add email data to the Firestore collection
-                st.success("Email notification sent successfully!")
+                    # Upload email data to Firebase
+                    email_data = {
+                        "to": to_email,
+                        "message": {
+                            "subject": subject,
+                            "html": message,
+                        },
+                        **form_data  # Include form data if needed
+                    }
+                    db.collection("N4KFORMW").add(email_data)  # Add email data to the Firestore collection
+                    st.success("Email notification sent successfully!")
 
             except Exception as e:
                 st.error(f"An error occurred while submitting the form: {e}")
