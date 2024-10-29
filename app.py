@@ -1350,7 +1350,7 @@ elif st.session_state.page == "Summary":
                 # Check conditions for sending email
                 if (airway_bundle == "No" or
                     selected_oxygen == "" or  # Check if blank
-                    selected_oxygen == "No" or 
+                    selected_oxygen == "NO" or 
                     selected_oxygen == "ATTEMPTED but not done (explain on last page)"):
                     
                     # Prepare email data
