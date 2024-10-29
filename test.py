@@ -40,10 +40,9 @@ def submit_form():
             form_data = {
                 "form_completed_by": st.session_state.form_data['form_completed_by'],
                 "airway_bundle": airway_bundle,
-                "date": st.session_state.form_data['date'],
-                "time": st.session_state.form_data['time'],
+                "date": st.session_state.form_data['date'].strftime("%Y-%m-%d"),  # Convert date to string
+                "time": st.session_state.form_data['time'].strftime("%H:%M:%S"),  # Convert time to string
             }
-
             # Create a Word document
             doc = Document()
             doc.add_heading('Form Submission', level=1)
