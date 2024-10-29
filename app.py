@@ -1336,7 +1336,7 @@ elif st.session_state.page == "Summary":
                 
                 # Get values
                 airway_bundle = st.session_state.form_data['airway_bundle']
-                selected_oxygen = st.session_state.form_data.get('selected_oxygen', "")
+                selected_oxygen = st.session_state.form_data.get('selected_oxygen', "").strip()  # Use strip() to remove extra spaces
                 
                 form_data = {
                     "form_completed_by": st.session_state.form_data['form_completed_by'],
@@ -1348,7 +1348,11 @@ elif st.session_state.page == "Summary":
                 st.success("Form submitted successfully!")
 
                 # Check conditions for sending email
-                if airway_bundle == "No" or selected_oxygen in ["No", "ATTEMPTED but not done (explain on last page)"]:
+                if (airway_bundle == "No" or
+                    selected_oxygen == "" or  # Check if blank
+                    selected_oxygen == "No" or 
+                    selected_oxygen == "ATTEMPTED but not done (explain on last page)"):
+                    
                     # Prepare email data
                     to_email = st.secrets["general"]["email"]  # Replace with your email from secrets
                     subject = "Form Submission Notification"
@@ -1379,5 +1383,4 @@ elif st.session_state.page == "Summary":
             # Optionally navigate to a confirmation page or reset the form
             #st.session_state.page = "Confirmation"  # Set next page if needed
             st.rerun()
-
 
