@@ -1342,8 +1342,8 @@ elif st.session_state.page == "Summary":
                 db.collection("N4KFORMW").add(form_data)
                 st.success("Form submitted successfully!")
 
-                # Check if Airway Bundle is "Yes" before sending email
-                if form_data['airway_bundle'] == "Yes":
+                # Check if Airway Bundle is "No" before sending email
+                if form_data['airway_bundle'] == "No":
                     # Prepare email data
                     to_email = st.secrets["general"]["email"]  # Replace with your email from secrets
                     subject = "Form Submission Confirmation"
