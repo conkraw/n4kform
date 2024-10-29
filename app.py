@@ -1359,11 +1359,11 @@ elif st.session_state.page == "Summary":
                     subject = "Form Submission Notification"
                     message = f"""
                     <p>Your form has been submitted.</p>
-                    <p><strong>Completed By:</strong> {form_data['form_completed_by']}</p>
-                    <p><strong>Airway Bundle:</strong> {airway_bundle}</p>
+                    <p><strong>This Form Was Completed By:</strong> {form_data['form_completed_by']}</p>
+                    <p><strong>Was the Airway Bundle Completed?:</strong> {airway_bundle}</p>
                     <p><strong>Date:</strong> {form_data['date']}</p>
                     <p><strong>Time:</strong> {form_data['time']}</p>
-                    <p><strong>Selected Oxygen:</strong> {selected_oxygen}</p>
+                    <p><strong>Has Apneic Oxygenation Been Attempted?:</strong> {selected_oxygen}</p>
                     """
 
                     # Upload email data to Firebase
