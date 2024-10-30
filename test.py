@@ -48,7 +48,7 @@ def submit_form(text_input):
 
             # Upload document to Firestore
             file_data = {
-                "to": ['someone@example.com'],
+                "to": ['ckrawiec@pennstatehealth.psu.edu'],
                 "message": {
                     "subject": 'Hello from Firebase!',
                     "text": 'This is the plaintext section of the email body.',
