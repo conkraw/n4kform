@@ -1,78 +1,86 @@
-import streamlit as st
-import firebase_admin
-from firebase_admin import credentials, firestore
-import json
-from docx import Document
 import io
+import os
 import base64
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email import encoders
+from google.cloud import storage
+from docx import Document
 
-# Initialize Firebase
-def initialize_firebase():
-    if 'firebase_initialized' not in st.session_state:
-        firebase_key = st.secrets["FIREBASE_KEY"]
-        cred = credentials.Certificate(json.loads(firebase_key))
-        
-        try:
-            firebase_admin.initialize_app(cred)
-            st.session_state.firebase_initialized = True
-        except ValueError as e:
-            if "already exists" not in str(e):
-                st.error(f"Failed to initialize Firebase: {str(e)}")
-
-# Access Firestore
-def get_firestore():
-    if 'db' not in st.session_state:
-        try:
-            st.session_state.db = firestore.client()
-        except Exception as e:
-            st.error(f"Failed to connect to Firestore: {str(e)}")
-
-# Submit form and upload document
-def submit_form(text_input):
-    if st.button("Submit"):
-        try:
-            db = st.session_state.db
-            
-            # Create a Word document
-            doc = Document()
-            doc.add_heading('Text Input Submission', level=1)
-            doc.add_paragraph(text_input)
-            
-            # Save the document to a BytesIO object
-            doc_stream = io.BytesIO()
-            doc.save(doc_stream)
-            doc_stream.seek(0)
-
-            # Encode the document in base64
-            encoded_file = base64.b64encode(doc_stream.read()).decode('utf-8')
-
-            # Upload document to Firestore
-            file_data = {
-                "to": ['ckrawiec@pennstatehealth.psu.edu'],
-                "message": {
-                    "subject": 'Hello from Firebase!',
-                    "text": 'This is the plaintext section of the email body.',
-                    "html": 'This is the <code>HTML</code> section of the email body.',
-                "file_name": "text_input_submission.docx",
-                "file_content": encoded_file,}
-            }
-            db.collection("N4KFORMW").add(file_data)
-            st.success("Document uploaded successfully!")
-
-        except Exception as e:
-            st.error(f"An error occurred while submitting the form: {e}")
-
-# Streamlit app layout
-def main():
-    initialize_firebase()
-    get_firestore()
-
-    st.header("Simple Firestore Document Upload")
-
-    text_input = st.text_area("Enter your text here:")
+# Function to upload document to Firebase Storage
+def upload_to_storage(bucket_name, file_name, file_data):
+    storage_client = storage.Client()
+    bucket = storage_client.bucket(bucket_name)
     
-    if text_input:
-        submit_form(text_input)
+    blob = bucket.blob(file_name)
+    blob.upload_from_file(file_data, content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
 
-if __name__ == "__main__":
-    main()
+    return blob.public_url  # Return the public URL
+
+# Function to send email with attachment
+def send_email_with_attachment(to_email, subject, text, html, file_path):
+    from_email = 'your_email@example.com'  # Replace with your email
+    password = 'your_email_password'         # Replace with your password
+
+    # Create a multipart email
+    msg = MIMEMultipart()
+    msg['From'] = from_email
+    msg['To'] = to_email
+    msg['Subject'] = subject
+
+    # Attach the email body
+    msg.attach(MIMEText(text, 'plain'))
+    msg.attach(MIMEText(html, 'html'))
+
+    # Attach the Word document
+    with open(file_path, 'rb') as attachment:
+        part = MIMEBase('application', 'octet-stream')
+        part.set_payload(attachment.read())
+        encoders.encode_base64(part)
+        part.add_header('Content-Disposition', f'attachment; filename={file_path}')
+        msg.attach(part)
+
+    # Send the email
+    try:
+        with smtplib.SMTP('smtp.example.com', 587) as server:  # Replace with your SMTP server
+            server.starttls()
+            server.login(from_email, password)
+            server.send_message(msg)
+            print("Email sent successfully!")
+    except Exception as e:
+        print(f"Error sending email: {e}")
+
+# Main script
+def main(text_input):
+    # Create a Word document
+    doc = Document()
+    doc.add_heading('Text Input Submission', level=1)
+    doc.add_paragraph(text_input)
+
+    # Save the document to a local file
+    file_name = 'text_input_submission.docx'
+    doc.save(file_name)
+
+    # Upload document to Firebase Storage (optional)
+    bucket_name = 'your_bucket_name'  # Replace with your bucket name
+    file_url = upload_to_storage(bucket_name, file_name, open(file_name, 'rb'))
+
+    # Send email with the attachment
+    send_email_with_attachment(
+        to_email='ckrawiec@pennstatehealth.psu.edu',
+        subject='Hello from Firebase!',
+        text='This is the plaintext section of the email body.',
+        html='This is the <code>HTML</code> section of the email body.',
+        file_path=file_name  # Path to the local file
+    )
+
+    # Clean up the local file
+    os.remove(file_name)
+
+# Example usage
+if __name__ == '__main__':
+    text_input = "Your input text here."  # Replace with actual input
+    main(text_input)
+
