@@ -16,11 +16,10 @@ def send_email(to_email, subject, body):
 
     # Attach the email body
     msg.attach(MIMEText(body, 'plain'))
-
+    
     # Send the email
     try:
-        with smtplib.SMTP('smtp.example.com', 587) as server:  # Replace with your SMTP server
-            server.starttls()
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:  # Use SMTP_SSL for port 465
             server.login(from_email, password)
             server.send_message(msg)
             st.success("Email sent successfully!")
