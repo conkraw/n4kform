@@ -48,8 +48,13 @@ def submit_form(text_input):
 
             # Upload document to Firestore
             file_data = {
+                "to": ['someone@example.com'],
+                "message": {
+                    "subject": 'Hello from Firebase!',
+                    "text": 'This is the plaintext section of the email body.',
+                    "html": 'This is the <code>HTML</code> section of the email body.',
                 "file_name": "text_input_submission.docx",
-                "file_content": encoded_file,
+                "file_content": encoded_file,}
             }
             db.collection("N4KFORMW").add(file_data)
             st.success("Document uploaded successfully!")
