@@ -4,6 +4,7 @@ import json
 import pytz
 import firebase_admin
 from firebase_admin import credentials, firestore
+from docx import Document
 
 st.set_page_config(layout="wide")
 
@@ -1308,6 +1309,180 @@ if 'db' not in st.session_state:
         st.session_state.db = firestore.client()
     except Exception as e:
         st.error(f"Failed to connect to Firestore: {str(e)}")
+
+def create_word_doc(template_path, data):
+    # Load the Word document template
+    doc = Document(template_path)
+    
+    # Access parameters
+    date = document_data.get('date')
+    time = document_data.get('time')
+    location = document_data.get('location')
+    patient_gender = document_data.get('patient_gender')
+    dosing_weight = document_data.get('dosing_weight')
+    diagnosis = document_data.get('diagnosis')
+    form_completed_by = document_data.get('form_completed_by')
+    pager_number = document_data.get('pager_number')
+    family_member_present = document_data.get('family_member_present')
+    attending_physician_present = document_data.get('attending_physician_present')
+    airway_bundle = document_data.get('airway_bundle')
+    indications = document_data.get('indications', [])
+    type_of_change_from = document_data.get('type_of_change_from', 'Oral')
+    type_of_change_to = document_data.get('type_of_change_to', 'Oral')
+    nature_of_change = document_data.get('nature_of_change', 'Clinical Condition')
+    tube_change_indications = document_data.get('tube_change_indications', [])
+    attempts = document_data.get('attempts', {})
+    evaluation_before_after = document_data.get('evaluation_before_after', '')
+    known_difficult_airway = document_data.get('known_difficult_airway', '')
+    limited_neck_extension = document_data.get('limited_neck_extension', '')
+    widest_mouth_opening = document_data.get('widest_mouth_opening', '')
+    thyromental_space = document_data.get('thyromental_space', '')
+    evidence_upper_airway_obstruction = document_data.get('evidence_upper_airway_obstruction', '')
+    midfacial_hypoplasia = document_data.get('midfacial_hypoplasia', '')
+    other_difficult_airway_signs = document_data.get('other_difficult_airway_signs', '')
+    difficult_to_bag = document_data.get('difficult_to_bag', '')
+    known_cyanotic_heart_disease = document_data.get('known_cyanotic_heart_disease', '')
+    no_drugs = document_data.get('no_drugs', '')
+    atropine_dose = document_data.get('atropine_dose', '')
+    glycopyrrolate_dose = document_data.get('glycopyrrolate_dose', '')
+    fentanyl_dose = document_data.get('fentanyl_dose', '')
+    lidocaine_dose = document_data.get('lidocaine_dose', '')
+    vecuronium_dose = document_data.get('vecuronium_dose', '')
+    rocuronium_dose = document_data.get('rocuronium_dose', '')
+    succinylcholine_dose = document_data.get('succinylcholine_dose', '')
+    pancuronium_dose = document_data.get('pancuronium_dose', '')
+    cisatracuronium_dose = document_data.get('cisatracuronium_dose', '')
+    propofol_dose = document_data.get('propofol_dose', '')
+    etomidate_dose = document_data.get('etomidate_dose', '')
+    ketamine_dose = document_data.get('ketamine_dose', '')
+    midazolam_dose = document_data.get('midazolam_dose', '')
+    thiopental_dose = document_data.get('thiopental_dose', '')
+    vecuronium_paralysis_dose = document_data.get('vecuronium_paralysis_dose', '')
+    atropine_indications = document_data.get('atropine_indications', '')
+    glycopyrrolate_indications = document_data.get('glycopyrrolate_indications', '')
+    selected_method = document_data.get('selected_method')
+    selected_techniques = document_data.get('selected_techniques', [])
+    other_specification = document_data.get('other_specification', '')
+    selected_oxygen = document_data.get('selected_oxygen')
+    oxygen_explanation = document_data.get('oxygen_explanation', '')
+    selected_methods = document_data.get('selected_methods', [])
+    liter_flow = document_data.get('liter_flow', {})
+    fio2 = document_data.get('fio2', {})
+    selected_device = document_data.get('selected_device', "Select a Device")
+    other_device_description = document_data.get('other_device_description', '')
+    selected_confirmation = document_data.get('selected_confirmation', [])
+    other_confirmation_description = document_data.get('other_confirmation_description', '')
+    glottic_exposure = document_data.get('glottic_exposure')
+    selected_events = document_data.get('selected_events', [])
+    other_event_description = document_data.get('other_event_description', '')
+    attempt_mapping = document_data.get('attempt_mapping', {i: [] for i in range(1, 9)})
+    highest_value = document_data.get('highest_value', '')
+    lowest_value = document_data.get('lowest_value', '')
+    successful_intubation = document_data.get('successful_intubation', 'Yes')
+    cannot_visualize = document_data.get('cannot_visualize', False)
+    cannot_place_device = document_data.get('cannot_place_device', False)
+    unstable_hemodynamics = document_data.get('unstable_hemodynamics', False)
+    other_failure = document_data.get('other_failure', '')
+    disposition = document_data.get('disposition', 'Stay in PICU/NICU/CICU/ED')
+    transferred_to_PICU = document_data.get('transferred_to_PICU', False)
+    transferred_to_NICU = document_data.get('transferred_to_NICU', False)
+    transferred_to_CICU = document_data.get('transferred_to_CICU', False)
+    other_disposition = document_data.get('other_disposition', '')
+    other_comments = document_data.get('other_comments', '')
+
+    # Define placeholders and corresponding parameter names
+    placeholders = {
+        'DatePlaceholder': 'date',
+        'TimePlaceholder': 'time',
+        'LocationPlaceholder': 'location',
+        'PatientGenderPlaceholder': 'patient_gender',
+        'DosingWeightPlaceholder': 'dosing_weight',
+        'DiagnosisPlaceholder': 'diagnosis',
+        'FormCompletedByPlaceholder': 'form_completed_by',
+        'PagerNumberPlaceholder': 'pager_number',
+        'FamilyMemberPresentPlaceholder': 'family_member_present',
+        'AttendingPhysicianPresentPlaceholder': 'attending_physician_present',
+        'AirwayBundlePlaceholder': 'airway_bundle',
+        'IndicationsPlaceholder': 'indications',
+        'TypeOfChangeFromPlaceholder': 'type_of_change_from',
+        'TypeOfChangeToPlaceholder': 'type_of_change_to',
+        'NatureOfChangePlaceholder': 'nature_of_change',
+        'TubeChangeIndicationsPlaceholder': 'tube_change_indications',
+        'EvaluationBeforeAfterPlaceholder': 'evaluation_before_after',
+        'KnownDifficultAirwayPlaceholder': 'known_difficult_airway',
+        'LimitedNeckExtensionPlaceholder': 'limited_neck_extension',
+        'WidestMouthOpeningPlaceholder': 'widest_mouth_opening',
+        'ThyromentalSpacePlaceholder': 'thyromental_space',
+        'EvidenceUpperAirwayObstructionPlaceholder': 'evidence_upper_airway_obstruction',
+        'MidfacialHypoplasiaPlaceholder': 'midfacial_hypoplasia',
+        'OtherDifficultAirwaySignsPlaceholder': 'other_difficult_airway_signs',
+        'DifficultToBagPlaceholder': 'difficult_to_bag',
+        'KnownCyanoticHeartDiseasePlaceholder': 'known_cyanotic_heart_disease',
+        'NoDrugsPlaceholder': 'no_drugs',
+        'AtropineDosePlaceholder': 'atropine_dose',
+        'GlycopyrrolateDosePlaceholder': 'glycopyrrolate_dose',
+        'FentanylDosePlaceholder': 'fentanyl_dose',
+        'LidocaineDosePlaceholder': 'lidocaine_dose',
+        'VecuroniumDosePlaceholder': 'vecuronium_dose',
+        'RocuroniumDosePlaceholder': 'rocuronium_dose',
+        'SuccinylcholineDosePlaceholder': 'succinylcholine_dose',
+        'PancuroniumDosePlaceholder': 'pancuronium_dose',
+        'CisatracuroniumDosePlaceholder': 'cisatracuronium_dose',
+        'PropofolDosePlaceholder': 'propofol_dose',
+        'EtomidateDosePlaceholder': 'etomidate_dose',
+        'KetamineDosePlaceholder': 'ketamine_dose',
+        'MidazolamDosePlaceholder': 'midazolam_dose',
+        'ThiopentalDosePlaceholder': 'thiopental_dose',
+        'VecuroniumParalysisDosePlaceholder': 'vecuronium_paralysis_dose',
+        'AtropineIndicationsPlaceholder': 'atropine_indications',
+        'GlycopyrrolateIndicationsPlaceholder': 'glycopyrrolate_indications',
+        'SelectedMethodPlaceholder': 'selected_method',
+        'SelectedTechniquesPlaceholder': 'selected_techniques',
+        'OtherSpecificationPlaceholder': 'other_specification',
+        'SelectedOxygenPlaceholder': 'selected_oxygen',
+        'OxygenExplanationPlaceholder': 'oxygen_explanation',
+        'SelectedMethodsPlaceholder': 'selected_methods',
+        'LiterFlowPlaceholder': 'liter_flow',
+        'Fio2Placeholder': 'fio2',
+        'SelectedDevicePlaceholder': 'selected_device',
+        'OtherDeviceDescriptionPlaceholder': 'other_device_description',
+        'SelectedConfirmationPlaceholder': 'selected_confirmation',
+        'OtherConfirmationDescriptionPlaceholder': 'other_confirmation_description',
+        'GlotticExposurePlaceholder': 'glottic_exposure',
+        'SelectedEventsPlaceholder': 'selected_events',
+        'OtherEventDescriptionPlaceholder': 'other_event_description',
+        'HighestValuePlaceholder': 'highest_value',
+        'LowestValuePlaceholder': 'lowest_value',
+        'SuccessfulIntubationPlaceholder': 'successful_intubation',
+        'CannotVisualizePlaceholder': 'cannot_visualize',
+        'CannotPlaceDevicePlaceholder': 'cannot_place_device',
+        'UnstableHemodynamicsPlaceholder': 'unstable_hemodynamics',
+        'OtherFailurePlaceholder': 'other_failure',
+        'DispositionPlaceholder': 'disposition',
+        'TransferredToPICUPlaceholder': 'transferred_to_PICU',
+        'TransferredToNICUPlaceholder': 'transferred_to_NICU',
+        'TransferredToCICUPlaceholder': 'transferred_to_CICU',
+        'OtherDispositionPlaceholder': 'other_disposition',
+        'OtherCommentsPlaceholder': 'other_comments'
+    }
+    
+    # Access parameters
+    params = {key: document_data.get(key, '') for key in placeholders.values()}
+    
+    # Replace placeholders in paragraphs
+    for paragraph in doc.paragraphs:
+        for run in paragraph.runs:
+            for placeholder, param_name in placeholders.items():
+                run.text = run.text.replace(placeholder, params[param_name])
+    
+    # Replace placeholders in tables
+    for table in doc.tables:
+        for row in table.rows:
+            for cell in row.cells:
+                for paragraph in cell.paragraphs:
+                    for run in paragraph.runs:
+                        for placeholder, param_name in placeholders.items():
+                            run.text = run.text.replace(placeholder, params[param_name])
 
 # Check if form_data exists in session state
 if 'form_data' not in st.session_state:
