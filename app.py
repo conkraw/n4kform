@@ -391,9 +391,6 @@ elif st.session_state.page == "Encounter Information":
                 st.session_state.page = "Indications"  # Set next page
                 st.rerun()
 
-
-
-        
 elif st.session_state.page == "Indications":
     # Indications section
     st.markdown("<h2 style='text-align: center;'>INDICATIONS</h2>", unsafe_allow_html=True)
@@ -1319,9 +1316,6 @@ if 'form_data' not in st.session_state:
 elif st.session_state.page == "Summary":
     # Header for Summary Page
     st.header("SUMMARY")
-    st.markdown("## Session State")
-    for key, value in st.session_state.items():
-        st.markdown(f"- **{key}**: {value}")
     col_prev, col_submit = st.columns(2)
     
     with col_prev:
@@ -1331,6 +1325,44 @@ elif st.session_state.page == "Summary":
 
     with col_submit:
         if st.button("Submit"):
+            document_data = {
+            'date': st.session_state.form_data.get('date', ''),
+            'time': st.session_state.form_data.get('time', ''),
+            'location': st.session_state.form_data.get('location', ''),
+            'patient_gender': st.session_state.form_data.get('patient_gender', ''),
+            'dosing_weight': st.session_state.form_data.get('dosing_weight', ''),
+            'diagnosis': st.session_state.form_data.get('diagnosis', ''),
+            'form_completed_by': st.session_state.form_data.get('form_completed_by', ''),
+            'pager_number': st.session_state.form_data.get('pager_number', ''),
+            'family_member_present': st.session_state.form_data.get('family_member_present', ''),
+            'attending_physician_present': st.session_state.form_data.get('attending_physician_present', ''),
+            'airway_bundle': st.session_state.form_data.get('airway_bundle', ''),
+            'indications': st.session_state.get('indications', []),
+            'type_of_change_from': st.session_state.get('type_of_change_from', 'Oral'),
+            'type_of_change_to': st.session_state.get('type_of_change_to', 'Oral'),
+            'nature_of_change': st.session_state.get('nature_of_change', 'Clinical Condition'),
+            'tube_change_indications': st.session_state.get('tube_change_indications', []),
+            'attempts': {attempt: {
+            'who_intubated': st.session_state.attempts[attempt]['who_intubated'],
+            'discipline': st.session_state.attempts[attempt]['discipline'],
+            'pgy_level': st.session_state.attempts[attempt]['pgy_level'],
+            'ett_size': st.session_state.attempts[attempt]['ett_size'],
+            'ett_type': st.session_state.attempts[attempt]['ett_type'],
+            'cricoid_prior': st.session_state.attempts[attempt]['cricoid_prior'],
+            'cricoid_during': st.session_state.attempts[attempt]['cricoid_during'],
+            'attempt_successful': st.session_state.attempts[attempt]['attempt_successful'],
+            } for attempt in st.session_state.attempts},
+            'evaluation_before_after': st.session_state.get('evaluation_0', ''),
+            'known_difficult_airway': st.session_state.get('evaluation_1', ''),
+            'limited_neck_extension': st.session_state.get('evaluation_2', ''),
+            'widest_mouth_opening': st.session_state.get('evaluation_3', ''),
+            'thyromental_space': st.session_state.get('evaluation_4', ''),
+            'evidence_upper_airway_obstruction': st.session_state.get('evaluation_5', ''),
+            'midfacial_hypoplasia': st.session_state.get('evaluation_6', ''),
+            'other_difficult_airway_signs': st.session_state.get('evaluation_7', ''),
+            'difficult_to_bag': st.session_state.get('difficult_to_bag', ''),
+            'known_cyanotic_heart_disease': st.session_state.get('cyanotic', '')
+            }
             # Upload data to Firebase
             try:
                 # Use the Firestore client from session state
