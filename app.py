@@ -1319,9 +1319,9 @@ if 'form_data' not in st.session_state:
 elif st.session_state.page == "Summary":
     # Header for Summary Page
     st.header("SUMMARY")
-    st.write("Session State:")
+    st.markdown("## Session State")
     for key, value in st.session_state.items():
-        st.write(f"{key}: {value}")
+        st.markdown(f"- **{key}**: {value}")
     col_prev, col_submit = st.columns(2)
     
     with col_prev:
