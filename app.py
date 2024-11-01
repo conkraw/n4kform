@@ -1399,7 +1399,7 @@ if st.session_state.page == "Summary":
                 
                 # Define subject and message for email
                 subject = "White Form Submission"
-                message = f"Here is the White Form.<br><br>Date: {document_data['date']}<br>Time: {document_data['time']}<br>Form Completed By: {form_completed_by}"
+                message = f"Here is the White Form.<br><br>Date: {document_data['date']}<br>Time: {document_data['time']}<br>Form Completed By:"
 
                 # Prepare the email recipients
                 to_emails = [st.secrets["general"]["email_r"]]  # Designated email
@@ -1414,7 +1414,6 @@ if st.session_state.page == "Summary":
                     },
                     "date": date,
                 }
-
 
                 # Firestore upload
                 db = st.session_state.db
