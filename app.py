@@ -1641,7 +1641,16 @@ elif st.session_state.page == "Summary":
 
             except Exception as e:
                 st.error(f"An error occurred while submitting the form: {e}")
-
+                st.exception(e)
+                
+        if st.session_state.doc_file:
+            with open(st.session_state.doc_file, 'rb') as f:
+                st.download_button(
+                    label="Download Word Document",
+                    data=f,
+                    file_name=st.session_state.doc_file.split("/")[-1],
+                    mime='application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                )
             # Optionally navigate to a confirmation page or reset the form
             #st.session_state.page = "Confirmation"  # Set next page if needed
             st.rerun()
