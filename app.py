@@ -1595,6 +1595,7 @@ elif st.session_state.page == "Summary":
             try:
                 # Create the Word document
                 st.session_state.doc_file = create_word_doc(template_path, document_data)
+                st.write("Document file path:", st.session_state.doc_file)
                 st.success("Document created successfully!")
                 
                 # Use the Firestore client from session state
