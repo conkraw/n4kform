@@ -1391,7 +1391,10 @@ def create_word_doc(template_path, data):
     other_comments = document_data.get('other_comments', '')
 
     # Define placeholders and corresponding parameter names
-    placeholders = {
+    placeholders1 = {
+        'DatePlaceholder': 'date',
+        'TimePlaceholder': 'time'}    
+    placeholders1 = {
         'DatePlaceholder': 'date',
         'TimePlaceholder': 'time',
         'LocationPlaceholder': 'location',
