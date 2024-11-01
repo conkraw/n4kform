@@ -1657,5 +1657,5 @@ elif st.session_state.page == "Summary":
                     mime='application/vnd.openxmlformats-officedocument.wordprocessingml.document'
                 )
 
-            #st.rerun()
+            st.rerun()
 
