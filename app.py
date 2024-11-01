@@ -1484,7 +1484,9 @@ def create_word_doc(template_path, data):
                         for placeholder, param_name in placeholders.items():
                             run.text = run.text.replace(placeholder, params[param_name])
 
-# Check if form_data exists in session state
+if 'doc_file' not in st.session_state:
+    st.session_state.doc_file = None
+
 if 'form_data' not in st.session_state:
     st.session_state.form_data = {}
 
