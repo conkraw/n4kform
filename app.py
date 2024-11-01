@@ -1318,6 +1318,10 @@ def create_word_doc(template_path, data):
         'TimePlaceholder': 'time',
         # Add more placeholders here...
     }
+    output_path = 'output_document.docx'  # Change this to your desired path
+    doc.save(output_path)
+
+    return output_path
     
     params = {key: data.get(key, '') for key in placeholders.values()}
     
