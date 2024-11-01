@@ -1656,7 +1656,6 @@ elif st.session_state.page == "Summary":
                     file_name=st.session_state.doc_file.split("/")[-1],
                     mime='application/vnd.openxmlformats-officedocument.wordprocessingml.document'
                 )
-            # Optionally navigate to a confirmation page or reset the form
-            #st.session_state.page = "Confirmation"  # Set next page if needed
-            st.rerun()
+
+            #st.rerun()
 
