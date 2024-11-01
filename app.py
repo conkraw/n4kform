@@ -1399,7 +1399,7 @@ if st.session_state.page == "Summary":
                 
                 # Define subject and message for email
                 subject = "White Form Submission"
-                message = f"Here is the White Form.<br><br>Date: {date}<br>Time: {time}<br>Form Completed By: "
+                message = f"Here is the White Form.<br><br>Date: {document_data['date']}<br>Time: {document_data['time']}<br>Form Completed By: {form_completed_by}"
 
                 # Prepare the email recipients
                 to_emails = [st.secrets["general"]["email_r"]]  # Designated email
