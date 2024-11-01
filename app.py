@@ -1487,15 +1487,14 @@ def create_word_doc(template_path, data):
                         for placeholder, param_name in placeholders.items():
                             run.text = run.text.replace(placeholder, params[param_name])
 
-if 'doc_file' not in st.session_state:
-    st.session_state.doc_file = None
-
-if 'form_data' not in st.session_state:
-    st.session_state.form_data = {}
-
 elif st.session_state.page == "Summary":
     # Header for Summary Page
     st.header("SUMMARY")
+    if 'doc_file' not in st.session_state:
+        st.session_state.doc_file = None
+
+    if 'form_data' not in st.session_state:
+        st.session_state.form_data = {}
     col_prev, col_submit = st.columns(2)
     
     with col_prev:
