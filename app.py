@@ -1367,6 +1367,14 @@ if st.session_state.page == "Summary":
                 db.collection("N4KFORMW").add(document_data)
                 st.success("Form submitted successfully!")
 
+                with open(st.session_state.doc_file, 'rb') as f:
+                st.download_button(
+                    label="Download Word Document",
+                    data=f,
+                    file_name=st.session_state.doc_file.split("/")[-1],
+                    mime='application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                )
+
             except Exception as e:
                 st.error(f"An error occurred: {e}")
 
