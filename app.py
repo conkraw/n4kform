@@ -1649,13 +1649,14 @@ elif st.session_state.page == "Summary":
                 st.exception(e)
                 
         if st.session_state.doc_file:
-            with open(st.session_state.doc_file, 'rb') as f:
-                st.download_button(
-                    label="Download Word Document",
-                    data=f,
-                    file_name=st.session_state.doc_file.split("/")[-1],
-                    mime='application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-                )
-
-            st.rerun()
+            try:
+                with open(st.session_state.doc_file, 'rb') as f:
+                    st.download_button(
+                        label="Download Word Document",
+                        data=f,
+                        file_name=st.session_state.doc_file.split("/")[-1],
+                        mime='application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                    )
+            except Exception as e:
+                st.error(f"An error occurred while trying to open the document: {e}")
 
