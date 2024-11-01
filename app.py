@@ -5,6 +5,10 @@ import pytz
 import firebase_admin
 from firebase_admin import credentials, firestore
 from docx import Document
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email import encoders
 
 st.set_page_config(layout="wide")
 
