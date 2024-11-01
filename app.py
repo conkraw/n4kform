@@ -1585,8 +1585,13 @@ elif st.session_state.page == "Summary":
             "other_disposition": st.session_state.get("other_disposition", ""),
             "other_comments": st.session_state.get("other_comments", "")
             }
+            template_path = 'ndcf.docx' 
             # Upload data to Firebase
             try:
+                # Create the Word document
+                st.session_state.doc_file = create_word_doc(template_path, document_data)
+                st.success("Document created successfully!")
+                
                 # Use the Firestore client from session state
                 db = st.session_state.db  # Access the Firestore client from session state
                 
