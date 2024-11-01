@@ -1375,6 +1375,8 @@ def create_word_doc(template_path, data):
 if st.session_state.page == "Summary":
     st.header("SUMMARY")
 
+    user_email = st.text_input("Enter your email address (optional):", value="", key="user_email_input")
+
     if 'doc_file' not in st.session_state:
         st.session_state.doc_file = None
 
