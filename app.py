@@ -1563,7 +1563,7 @@ elif st.session_state.page == "Summary":
             "selected_methods": st.session_state.get("selected_methods", []),
             "liter_flow": st.session_state.get("liter_flow", {}),
             "fio2": st.session_state.get("fio2", {}),
-            "selected_device": st.session_state.get("selected_device", devices[0]),
+            "selected_device": st.session_state.get("selected_device", ""),
             "other_device_description": st.session_state.get("other_device_description", ""),
             "selected_confirmation": st.session_state.get("selected_confirmation", []),
             "other_confirmation_description": st.session_state.get("other_confirmation_description", ""),
