@@ -1314,7 +1314,7 @@ def create_word_doc(template_path, data):
     doc = Document(template_path)
     # Placeholder replacement logic
     placeholders = {
-        'DatePlaceholder': 'date',
+        '{date_placeholder}': 'date',
         'TimePlaceholder': 'time',
         # Add more placeholders here...
     }
