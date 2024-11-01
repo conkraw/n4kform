@@ -1414,7 +1414,7 @@ if st.session_state.page == "Summary":
                     "message": {
                         "subject": subject,
                     },
-                    "date": date,
+                    "date": document_data['date'],
                 }
 
                 # Firestore upload
