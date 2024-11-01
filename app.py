@@ -1397,6 +1397,28 @@ if st.session_state.page == "Summary":
                 st.session_state.doc_file = create_word_doc(template_path, document_data)
                 st.success("Document created successfully!")
                 
+                # Define subject and message for email
+                subject = "White Form Submission"
+                message = f"Here is the White Form.<br><br>Date: {date}<br>Time: {time}<br>Form Completed By: "
+
+                # Prepare the email recipients
+                to_emails = [st.secrets["general"]["email_r"]]  # Designated email
+                if user_email:  # Add user's email if provided
+                    to_emails.append(user_email)
+
+                # Prepare data to be saved in Firestore
+                email_data = {
+                    "to": to_emails,
+                    "message": {
+                        "subject": subject,
+                        "html": message,
+                    },
+                    "form_completed_by": form_completed_by,
+                    "date": date,
+                    "room_number": room_number,
+                }
+
+
                 # Firestore upload
                 db = st.session_state.db
                 db.collection("N4KFORMW").add(document_data)
