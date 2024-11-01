@@ -1411,11 +1411,8 @@ if st.session_state.page == "Summary":
                     "to": to_emails,
                     "message": {
                         "subject": subject,
-                        "html": message,
                     },
-                    "form_completed_by": form_completed_by,
                     "date": date,
-                    "room_number": room_number,
                 }
 
 
