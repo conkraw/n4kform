@@ -1290,6 +1290,37 @@ elif st.session_state.page == "Disposition":
             st.session_state.page = "Summary"  # Change to your final page
             st.rerun()
 
+# Function to send email with attachment
+def send_email_with_attachment(to_emails, subject, body, file_path):
+    from_email = st.secrets["general"]["email"]
+    password = st.secrets["general"]["email_password"]
+
+    # Create a multipart email
+    msg = MIMEMultipart()
+    msg['From'] = from_email
+    msg['To'] = ', '.join(to_emails)  # Join multiple email addresses
+    msg['Subject'] = subject
+
+    # Attach the email body
+    msg.attach(MIMEText(body, 'html'))
+
+    # Attach the Word document
+    with open(file_path, 'rb') as attachment:
+        part = MIMEBase('application', 'octet-stream')
+        part.set_payload(attachment.read())
+        encoders.encode_base64(part)
+        part.add_header('Content-Disposition', f'attachment; filename={file_path.split("/")[-1]}')
+        msg.attach(part)
+
+    # Send the email using SMTP with SSL
+    try:
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
+            server.login(from_email, password)
+            server.send_message(msg)
+            st.success("Email sent successfully!")
+    except Exception as e:
+        st.error(f"Error sending email: {e}")
+        
 if 'firebase_initialized' not in st.session_state:
     firebase_key = st.secrets["FIREBASE_KEY"]
     cred = credentials.Certificate(json.loads(firebase_key))
@@ -1318,7 +1349,7 @@ def create_word_doc(template_path, data):
         'TimePlaceholder': 'time',
         # Add more placeholders here...
     }
-    output_path = 'output_document.docx'  # Change this to your desired path
+    output_path = 'n4k_dcf.docx'  # Change this to your desired path
     doc.save(output_path)
 
     return output_path
@@ -1370,6 +1401,9 @@ if st.session_state.page == "Summary":
                 db = st.session_state.db
                 db.collection("N4KFORMW").add(document_data)
                 st.success("Form submitted successfully!")
+
+                # Send email with attachment
+                send_email_with_attachment(to_emails, subject, message, st.session_state.doc_file)
 
                 with open(st.session_state.doc_file, 'rb') as f:
                     st.download_button(
