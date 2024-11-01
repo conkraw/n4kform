@@ -1337,7 +1337,7 @@ def create_word_doc(template_path, data):
                             run.text = run.text.replace(placeholder, params[param_name])
 
 # Summary Page Logic
-elif st.session_state.page == "Summary":
+if st.session_state.page == "Summary":
     st.header("SUMMARY")
 
     if 'doc_file' not in st.session_state:
