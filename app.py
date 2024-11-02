@@ -1349,19 +1349,20 @@ if 'db' not in st.session_state:
 
 def create_word_doc(template_path, data):
     doc = Document(template_path)
-    
-    # Define your placeholders mapping
+
+    # Define your placeholders
     placeholders = {
-        '{date_placeholder}': data.get('date', ''),
-        '{time_placeholder}': data.get('time', ''),
-        # Add more placeholders if needed
+        '{date_placeholder}': data['date'],
+        '{time_placeholder}': data['time'],
+        # Add more placeholders as needed...
     }
-    
+
     # Replace placeholders in paragraphs
     for paragraph in doc.paragraphs:
         for run in paragraph.runs:
             for placeholder, value in placeholders.items():
-                run.text = run.text.replace(placeholder, value)
+                if placeholder in run.text:
+                    run.text = run.text.replace(placeholder, value)
 
     # Replace placeholders in tables
     for table in doc.tables:
@@ -1370,9 +1371,10 @@ def create_word_doc(template_path, data):
                 for paragraph in cell.paragraphs:
                     for run in paragraph.runs:
                         for placeholder, value in placeholders.items():
-                            run.text = run.text.replace(placeholder, value)
+                            if placeholder in run.text:
+                                run.text = run.text.replace(placeholder, value)
 
-    output_path = 'n4k_dcf.docx'  # Change this to your desired path
+    output_path = 'n4k_dcf.docx'  # Change this to your desired output path
     doc.save(output_path)
 
     return output_path
