@@ -1349,33 +1349,33 @@ if 'db' not in st.session_state:
 
 def create_word_doc(template_path, data):
     doc = Document(template_path)
-    # Placeholder replacement logic
-    placeholders = {
-        '{date_placeholder}': 'date',
-        '{time_placeholder}': 'time',
-        # Add more placeholders here...
-    }
-    output_path = 'n4k_dcf.docx'  # Change this to your desired path
-    doc.save(output_path)
-
-    return output_path
     
-    params = {key: data.get(key, '') for key in placeholders.values()}
+    # Define your placeholders mapping
+    placeholders = {
+        '{date_placeholder}': data.get('date', ''),
+        '{time_placeholder}': data.get('time', ''),
+        # Add more placeholders if needed
+    }
     
     # Replace placeholders in paragraphs
     for paragraph in doc.paragraphs:
         for run in paragraph.runs:
-            for placeholder, param_name in placeholders.items():
-                run.text = run.text.replace(placeholder, params[param_name])
-    
+            for placeholder, value in placeholders.items():
+                run.text = run.text.replace(placeholder, value)
+
     # Replace placeholders in tables
     for table in doc.tables:
         for row in table.rows:
             for cell in row.cells:
                 for paragraph in cell.paragraphs:
                     for run in paragraph.runs:
-                        for placeholder, param_name in placeholders.items():
-                            run.text = run.text.replace(placeholder, params[param_name])
+                        for placeholder, value in placeholders.items():
+                            run.text = run.text.replace(placeholder, value)
+
+    output_path = 'n4k_dcf.docx'  # Change this to your desired path
+    doc.save(output_path)
+
+    return output_path
 
 # Summary Page Logic
 if st.session_state.page == "Summary":
