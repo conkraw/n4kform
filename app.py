@@ -1377,6 +1377,7 @@ def create_word_doc(template_path, data):
 
     return output_path
 
+
 # Summary Page Logic
 if st.session_state.page == "Summary":
     st.header("SUMMARY")
