@@ -1352,7 +1352,7 @@ def create_word_doc(template_path, data):
     # Placeholder replacement logic
     placeholders = {
         '{date_placeholder}': 'date',
-        'TimePlaceholder': 'time',
+        '{time_placeholder}': 'time',
         # Add more placeholders here...
     }
     output_path = 'n4k_dcf.docx'  # Change this to your desired path
