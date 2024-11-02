@@ -1399,6 +1399,7 @@ if st.session_state.page == "Summary":
                 'date': st.session_state.form_data.get('date', ''),
                 'time': st.session_state.form_data.get('time', ''),
             }
+            st.write(st.session_state.form_data['date'])
             template_path = 'nqf.docx' 
 
             try:
