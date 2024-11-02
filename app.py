@@ -1354,7 +1354,7 @@ def create_word_doc(template_path, data):
     placeholders = {
         '{date_placeholder}': data['date'],
         '{time_placeholder}': data['time'],
-        '{location_placeholder}:data['location'],
+        '{location_placeholder}': data['location'],
         # Add more placeholders as needed...
     }
 
