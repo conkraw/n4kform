@@ -1433,7 +1433,7 @@ if st.session_state.page == "Summary":
                 st.success("Form submitted successfully!")
 
                 # Send email with attachment
-                send_email_with_attachment(to_emails, subject, message, st.session_state.doc_file)
+                #send_email_with_attachment(to_emails, subject, message, st.session_state.doc_file)
 
                 with open(st.session_state.doc_file, 'rb') as f:
                     st.download_button(
