@@ -564,9 +564,10 @@ if 'db' not in st.session_state:
         st.error(f"Failed to connect to Firestore: {str(e)}")
 
 from docx import Document
+from lxml import etree
 
 def create_word_doc(template_path, data):
-    # Load the Word document template
+    # Load the Word document
     doc = Document(template_path)
 
     # Define your placeholders
@@ -589,7 +590,6 @@ def create_word_doc(template_path, data):
     def replace_placeholders_in_paragraph(paragraph):
         for run in paragraph.runs:
             for placeholder, value in placeholders.items():
-                # Only replace if the placeholder is found in the run text
                 if placeholder in run.text:
                     print(f"Replacing {placeholder} with {value}")  # Debugging log
                     run.text = run.text.replace(placeholder, value)
@@ -610,20 +610,21 @@ def create_word_doc(template_path, data):
     for table in doc.tables:
         replace_placeholders_in_table(table)
 
-    # If shapes are used (optional, depending on template)
+    # Access shapes (textboxes and other elements) and replace placeholders
     def replace_placeholders_in_shapes(doc):
-        for shape in doc.element.body:
-            if shape.tag.endswith('shape'):  # Check if the element is a shape (text box)
-                # Attempt to iterate through text elements in the shape
-                for element in shape.iter():
-                    if element.tag.endswith('t'):  # 't' is the tag for text
-                        text = element.text
-                        for placeholder, value in placeholders.items():
-                            if placeholder in text:
-                                print(f"Replacing in shape: {placeholder} with {value}")  # Debugging log
-                                element.text = text.replace(placeholder, value)
+        # Get the underlying XML tree for the document
+        doc_xml = doc.element
+        # Search for text within shapes (textboxes)
+        for shape in doc_xml.xpath('//w:shapetype'):
+            # Access the shape's text, if it has any
+            for text_element in shape.xpath('.//w:t'):
+                text = text_element.text
+                for placeholder, value in placeholders.items():
+                    if placeholder in text:
+                        print(f"Replacing {placeholder} in shape with {value}")  # Debugging log
+                        text_element.text = text.replace(placeholder, value)
 
-    # Only replace placeholders in shapes if they exist
+    # Try replacing placeholders in shapes
     try:
         replace_placeholders_in_shapes(doc)
     except Exception as e:
