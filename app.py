@@ -566,47 +566,38 @@ if 'db' not in st.session_state:
 from docx import Document
 
 def create_word_doc(template_path, data):
-    # Load the Word document
     doc = Document(template_path)
 
     # Define your placeholders
     placeholders = {
-        '<<date_placeholder>>': data.get('date', ''),
-        '<<time_placeholder>>': data.get('time', ''),
-        '<<location_placeholder>>': data.get('location', ''),
-        '<<sex_placeholder>>': data.get('patient_gender', ''),
-        '<<weight_placeholder>>': data.get('weight', ''),
-        '<<performed_by_placeholder>>': data.get('form_completed_by', ''),
-        '<<pager_placeholder>>': data.get('pager_number', ''),
-        '<<family_placeholder>>': data.get('family_member_present', ''),
-        '<<attending_placeholder>>': data.get('attending_physician_present', ''),
-        '<<diagnostic_category>>': data.get('diagnostic_category', ''),
-        '<<type_from>>': data.get('type_of_change_from', ''),
+        '<<date_placeholder>>': data['date'],
+        '<<time_placeholder>>': data['time'],
+        '<<location_placeholder>>': data['location'],
+        '<<sex_placeholder>>': data['patient_gender'],
         # Add more placeholders as needed...
     }
 
-    # Function to replace placeholders in text within paragraphs
-    def replace_placeholders_in_paragraph(paragraph):
-        # Check if we have any placeholder in the paragraph
+    # Replace placeholders in paragraphs
+    for paragraph in doc.paragraphs:
         for run in paragraph.runs:
             for placeholder, value in placeholders.items():
                 if placeholder in run.text:
-                    print(f"DEBUG: Replacing {placeholder} with {value}")  # Debugging log
                     run.text = run.text.replace(placeholder, value)
-                else:
-                    print(f"DEBUG: No match for {placeholder} in run.text: {run.text}")  # Debugging log
 
-    # Replace placeholders in paragraphs (main body)
-    for paragraph in doc.paragraphs:
-        print(f"DEBUG: Processing paragraph: {paragraph.text}")  # Debugging log
-        replace_placeholders_in_paragraph(paragraph)
+    # Replace placeholders in tables
+    for table in doc.tables:
+        for row in table.rows:
+            for cell in row.cells:
+                for paragraph in cell.paragraphs:
+                    for run in paragraph.runs:
+                        for placeholder, value in placeholders.items():
+                            if placeholder in run.text:
+                                run.text = run.text.replace(placeholder, value)
 
-    # Save the updated document
-    output_path = 'n4k_dcf_updated.docx'  # Change this to your desired output path
+    output_path = 'n4k_dcf.docx'  # Change this to your desired output path
     doc.save(output_path)
-    print(f"DEBUG: Document saved as: {output_path}")  # Debugging log
-    return output_path
 
+    return output_path
 # Summary Page Logic
 if st.session_state.page == "Summary":
     st.header("SUMMARY")
