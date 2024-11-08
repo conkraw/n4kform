@@ -321,12 +321,12 @@ elif st.session_state.page == "Encounter Information":
         )
 
     # Diagnosis query
-    st.write("AT THE TIME OF INTUBATION, did this patient have a suspected or confirmed diagnosis of an emerging epidemic/novel lung disease?")
-    st.session_state.form_data['diagnosis'] = st.selectbox(
-        "Select if patient has a suspected or confirmed diagnosis of an emerging epidemic/novel lung disease:", 
-        options=["Select if patient has a suspected or confirmed diagnosis", "Yes", "No"], 
-        index=["Select if patient has a suspected or confirmed diagnosis", "Yes", "No"].index(st.session_state.form_data.get('diagnosis', 'Select if patient has a suspected or confirmed diagnosis'))
-    )
+   # st.write("AT THE TIME OF INTUBATION, did this patient have a suspected or confirmed diagnosis of an emerging epidemic/novel lung disease?")
+   # st.session_state.form_data['diagnosis'] = st.selectbox(
+   #     "Select if patient has a suspected or confirmed diagnosis of an emerging epidemic/novel lung disease:", 
+   #     options=["Select if patient has a suspected or confirmed diagnosis", "Yes", "No"], 
+   #     index=["Select if patient has a suspected or confirmed diagnosis", "Yes", "No"].index(st.session_state.form_data.get('diagnosis', 'Select if patient has a suspected or confirmed diagnosis'))
+   #)
 
     # Form Completed By and Pager Number
     col6, col7 = st.columns(2)
