@@ -587,20 +587,24 @@ def create_word_doc(template_path, data):
 
     # Function to replace placeholders in text within paragraphs
     def replace_placeholders_in_paragraph(paragraph):
+        # Check if we have any placeholder in the paragraph
         for run in paragraph.runs:
             for placeholder, value in placeholders.items():
                 if placeholder in run.text:
-                    print(f"Replacing {placeholder} with {value}")  # Debugging log
+                    print(f"DEBUG: Replacing {placeholder} with {value}")  # Debugging log
                     run.text = run.text.replace(placeholder, value)
+                else:
+                    print(f"DEBUG: No match for {placeholder} in run.text: {run.text}")  # Debugging log
 
     # Replace placeholders in paragraphs (main body)
     for paragraph in doc.paragraphs:
+        print(f"DEBUG: Processing paragraph: {paragraph.text}")  # Debugging log
         replace_placeholders_in_paragraph(paragraph)
 
     # Save the updated document
     output_path = 'n4k_dcf_updated.docx'  # Change this to your desired output path
     doc.save(output_path)
-    print(f"Document saved as: {output_path}")
+    print(f"DEBUG: Document saved as: {output_path}")  # Debugging log
     return output_path
 
 # Summary Page Logic
