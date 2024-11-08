@@ -10,7 +10,7 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
 import smtplib
-
+import pandas as pd 
 
 st.set_page_config(layout="wide")
 
@@ -562,56 +562,7 @@ if 'db' not in st.session_state:
         st.session_state.db = firestore.client()
     except Exception as e:
         st.error(f"Failed to connect to Firestore: {str(e)}")
-
-import re
-from docx import Document
-
-def create_word_doc(template_path, data):
-    # Load the Word document
-    doc = Document(template_path)
-
-    # Define your placeholders and corresponding session state values to replace them
-    placeholders = {
-        '<<dateplaceholder>>': data.get('date', ''),
-        '<<time_placeholder>>': data.get('time', ''),
-        '<<location_placeholder>>': data.get('location', ''),
-        '<<patient_gender_placeholder>>': data.get('patient_gender', ''),
-        '<<weight_placeholder>>': data.get('weight', ''),
-        '<<form_completed_by_placeholder>>': data.get('form_completed_by', ''),
-        '<<pager_number_placeholder>>': data.get('pager_number', ''),
-        '<<family_member_present_placeholder>>': data.get('family_member_present', ''),
-        '<<attending_physician_present_placeholder>>': data.get('attending_physician_present', ''),
-        '<<type_of_change_from_placeholder>>': data.get('type_of_change_from', ''),
-        '<<diagnostic_category_placeholder>>': data.get('diagnostic_category', ''),
-    }
-
-    # Replace placeholders in paragraphs using regular expressions
-    for paragraph in doc.paragraphs:
-        for run in paragraph.runs:  # Loop through each run in the paragraph
-            for placeholder, value in placeholders.items():
-                # Create a case-insensitive regex pattern that matches the placeholder exactly
-                pattern = re.compile(re.escape(placeholder), re.IGNORECASE)
-                if pattern.search(run.text):  # Check if the placeholder exists in the run's text
-                    run.text = pattern.sub(value, run.text)  # Replace the placeholder with the actual value
-
-    # Replace placeholders in tables using regular expressions
-    for table in doc.tables:
-        for row in table.rows:
-            for cell in row.cells:
-                for paragraph in cell.paragraphs:
-                    for run in paragraph.runs:
-                        for placeholder, value in placeholders.items():
-                            # Create a case-insensitive regex pattern that matches the placeholder exactly
-                            pattern = re.compile(re.escape(placeholder), re.IGNORECASE)
-                            if pattern.search(run.text):  # Check if the placeholder exists in the run's text
-                                run.text = pattern.sub(value, run.text)  # Replace the placeholder with the actual value
-
-    # Save the modified document to a new file
-    output_path = 'output_file.docx'  # Change this to your desired output path
-    doc.save(output_path)
-    
-    return output_path
-
+        
 
 # Summary Page Logic
 if st.session_state.page == "Summary":
@@ -631,6 +582,7 @@ if st.session_state.page == "Summary":
 
     with col_submit:
         if st.button("Submit"):
+            # Collect form data into document_data dictionary
             document_data = {
                 'date': st.session_state.form_data.get('date', ''),
                 'time': st.session_state.form_data.get('time', ''),
@@ -641,43 +593,34 @@ if st.session_state.page == "Summary":
                 'pager_number':st.session_state.form_data['pager_number'],
                 'family_member_present':st.session_state.form_data['family_member_present'],
                 'attending_physician_present':st.session_state.form_data['attending_physician_present'],
-                #'airway_bundle':st.session_state.form_data['airway_bundle'],
                 'type_of_change_from':st.session_state['type_of_change_from'],
-                #'type_of_change_to':st.session_state['type_of_change_to'],
                 'diagnostic_category':st.session_state.form_data['diagnostic_category'],
             }
-            st.write(st.session_state.form_data['date'])
-            template_path = 'ntq.docx' 
 
+            st.write(st.session_state.form_data['date'])
+            
+            # Step 1: Convert the document_data dictionary to a pandas DataFrame
+            df = pd.DataFrame([document_data])  # Wrap in a list to create a single-row DataFrame
+
+            # Step 2: Convert the DataFrame to CSV
+            csv_data = df.to_csv(index=False).encode('utf-8')
+
+            # Step 3: Provide a download button for the CSV
+            st.download_button(
+                label="Download CSV",
+                data=csv_data,
+                file_name="form_data.csv",
+                mime="text/csv"
+            )
+
+            # Optional: continue with the Word document creation or other tasks as needed
             try:
+                template_path = 'ntq.docx'
                 st.session_state.doc_file = create_word_doc(template_path, document_data)
                 st.success("Document created successfully!")
-                
-                # Define subject and message for email
-                subject = "White Form Submission"
-                message = f"Here is the White Form.<br><br>Date: {document_data['date']}<br>Time: {document_data['time']}<br>Form Completed By:"
 
-                # Prepare the email recipients
-                to_emails = [st.secrets["general"]["email_r"]]  # Designated email
-                if user_email:  # Add user's email if provided
-                    to_emails.append(user_email)
-
-                # Prepare data to be saved in Firestore
-                email_data = {
-                    "to": to_emails,
-                    "message": {
-                        "subject": subject,
-                    },
-                    "date": document_data['date'],
-                }
-
-                # Firestore upload
-                db = st.session_state.db
-                db.collection("N4KFORMW").add(document_data)
-                st.success("Form submitted successfully!")
-
-                # Send email with attachment
-                #send_email_with_attachment(to_emails, subject, message, st.session_state.doc_file)
+                # Send email with attachment (commented out)
+                # send_email_with_attachment(to_emails, subject, message, st.session_state.doc_file)
 
                 with open(st.session_state.doc_file, 'rb') as f:
                     st.download_button(
@@ -689,7 +632,5 @@ if st.session_state.page == "Summary":
 
             except Exception as e:
                 st.error(f"An error occurred: {e}")
-
-
 
 
