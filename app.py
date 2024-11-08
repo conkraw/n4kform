@@ -563,28 +563,26 @@ if 'db' not in st.session_state:
     except Exception as e:
         st.error(f"Failed to connect to Firestore: {str(e)}")
 
-from docx import Document
-
 import re
 from docx import Document
 
-def create_word_doc(template_path):
+def create_word_doc(template_path, data):
     # Load the Word document
     doc = Document(template_path)
 
     # Define your placeholders and corresponding session state values to replace them
     placeholders = {
-        '<<date_placeholder>>': st.session_state.form_data.get('date', ''),
-        '<<time_placeholder>>': st.session_state.form_data.get('time', ''),
-        '<<location_placeholder>>': st.session_state.form_data.get('location', ''),
-        '<<patient_gender_placeholder>>': st.session_state.form_data.get('patient_gender', ''),
-        '<<weight_placeholder>>': st.session_state.form_data.get('dosing_weight', ''),
-        '<<form_completed_by_placeholder>>': st.session_state.form_data.get('form_completed_by', ''),
-        '<<pager_number_placeholder>>': st.session_state.form_data.get('pager_number', ''),
-        '<<family_member_present_placeholder>>': st.session_state.form_data.get('family_member_present', ''),
-        '<<attending_physician_present_placeholder>>': st.session_state.form_data.get('attending_physician_present', ''),
-        '<<type_of_change_from_placeholder>>': st.session_state.get('type_of_change_from', ''),
-        '<<diagnostic_category_placeholder>>': st.session_state.form_data.get('diagnostic_category', ''),
+        '<<date_placeholder>>': data.get('date', ''),
+        '<<time_placeholder>>': data.get('time', ''),
+        '<<location_placeholder>>': data.get('location', ''),
+        '<<patient_gender_placeholder>>': data.get('patient_gender', ''),
+        '<<weight_placeholder>>': data.get('weight', ''),
+        '<<form_completed_by_placeholder>>': data.get('form_completed_by', ''),
+        '<<pager_number_placeholder>>': data.get('pager_number', ''),
+        '<<family_member_present_placeholder>>': data.get('family_member_present', ''),
+        '<<attending_physician_present_placeholder>>': data.get('attending_physician_present', ''),
+        '<<type_of_change_from_placeholder>>': data.get('type_of_change_from', ''),
+        '<<diagnostic_category_placeholder>>': data.get('diagnostic_category', ''),
     }
 
     # Replace placeholders in paragraphs using regular expressions
@@ -613,6 +611,7 @@ def create_word_doc(template_path):
     doc.save(output_path)
     
     return output_path
+
 
 # Summary Page Logic
 if st.session_state.page == "Summary":
