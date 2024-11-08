@@ -194,12 +194,9 @@ import streamlit as st
 
 st.title("NEAR4KIDS QI COLLECTION FORM")
 
-# Initialize session state for page and user paragraph
+# Initialize session state for page and form data
 if 'page' not in st.session_state:
-    st.session_state.page = "Starting Page"  # Default page
-
-if 'user_paragraph' not in st.session_state:
-    st.session_state.user_paragraph = ""
+    st.session_state.page = "Encounter Information"  # Directly start with the Encounter Information page
 
 if 'form_data' not in st.session_state:
     st.session_state.form_data = {}
@@ -207,80 +204,8 @@ if 'form_data' not in st.session_state:
 if 'glottic_exposure' not in st.session_state:
     st.session_state.glottic_exposure = "Select a Glottic Exposure"  # Default to "Select a Glottic Exposure"
 
-if st.session_state.page == "Starting Page":
-    # Text area for user input
-    user_paragraph = st.text_area("Please enter a paragraph:", value=st.session_state.user_paragraph)
-
-    # Navigation buttons
-    col_prev, col_next = st.columns(2)
-
-    with col_next:
-        if st.button("Next"):
-            st.session_state.user_paragraph = user_paragraph
-            
-            # Logic to check for grade inputs and assign glottic exposure
-            if "grade 1" in user_paragraph.lower() or "grade i" in user_paragraph.lower():
-                st.session_state.glottic_exposure = "I = Visualized entire vocal cords"
-            elif "grade 2" in user_paragraph.lower() or "grade ii" in user_paragraph.lower():
-                st.session_state.glottic_exposure = "II = Visualized part of cords"
-            elif "grade 3" in user_paragraph.lower() or "grade iii" in user_paragraph.lower():
-                st.session_state.glottic_exposure = "III = Visualized epiglottis only"
-            elif "grade 4" in user_paragraph.lower() or "grade iv" in user_paragraph.lower():
-                st.session_state.glottic_exposure = "IV = Non visualized epiglottis"
-            elif "grade 5" in user_paragraph.lower() or "grade v" in user_paragraph.lower():
-                st.session_state.glottic_exposure = "V = Not Applicable (e.g. blind nasotracheal)"
-
-            # Extracting Date:
-            date_part = None
-            time_part = None
-            performed_by = None
-            attending_physician_present = "No"  # Default value
-
-            if "Date:" in user_paragraph:
-                date_section = user_paragraph.split("Date:")[1]
-                if '.' in date_section:
-                    date_part = date_section.split('.')[0].strip()
-                else:
-                    date_part = date_section.strip()
-
-            # Extracting Date/ Time:
-            if "Date/ Time:" in user_paragraph:
-                datetime_part = user_paragraph.split("Date/ Time:")[1].strip()
-                if datetime_part:
-                    date_time = datetime_part.split()
-                    if len(date_time) >= 2:
-                        date_part = date_time[0]
-                        time_part = date_time[1]
-
-            # Extracting Performed by:
-            if "Performed by:" in user_paragraph:
-                performed_by_section = user_paragraph.split("Performed by:")[1]
-                if '.' in performed_by_section:
-                    performed_by = performed_by_section.split('.')[0].strip()
-                else:
-                    performed_by = performed_by_section.strip()
-
-            # Extracting Present and supervised procedure:
-            if "Present and supervised procedure:" in user_paragraph:
-                attending_physician_present = "Yes"  # Set default to Yes
-                physician_section = user_paragraph.split("Present and supervised procedure:")[1]
-                if '.' in physician_section:
-                    physician_name = physician_section.split('.')[0].strip()
-                else:
-                    physician_name = physician_section.strip()
-
-            # Store extracted data in form_data
-            st.session_state.form_data['date'] = date_part if date_part else None
-            st.session_state.form_data['time'] = time_part if time_part else None
-            st.session_state.form_data['form_completed_by'] = performed_by if performed_by else ''
-            st.session_state.form_data['attending_physician_present'] = attending_physician_present
-            
-            st.session_state.page = "Encounter Information"  # Set next page
-            st.rerun()
-
-
-# Page Navigation
-elif st.session_state.page == "Encounter Information":
+# Page: Encounter Information
+if st.session_state.page == "Encounter Information":
     # Header for Encounter Information
     st.header("ENCOUNTER INFORMATION")
     st.subheader("Patient Information")
@@ -349,15 +274,15 @@ elif st.session_state.page == "Encounter Information":
         )
 
     st.session_state.form_data['airway_bundle'] = st.selectbox(
-            "Airway Bundle/Pink Sheet Completed – Front AND Back:", 
-            options=["Select if Airway Bundle/Pink Sheet Completed", "Yes", "No"], 
-            index=["Select if Airway Bundle/Pink Sheet Completed", "Yes", "No"].index(st.session_state.form_data.get('airway_bundle', 'Select if Airway Bundle/Pink Sheet Completed'))
-        )
+        "Airway Bundle/Pink Sheet Completed – Front AND Back:", 
+        options=["Select if Airway Bundle/Pink Sheet Completed", "Yes", "No"], 
+        index=["Select if Airway Bundle/Pink Sheet Completed", "Yes", "No"].index(st.session_state.form_data.get('airway_bundle', 'Select if Airway Bundle/Pink Sheet Completed'))
+    )
 
-    if 'diagnostic_category' not in st.session_state.form_data:
-        st.session_state.form_data['diagnostic_category'] = "Select Diagnostic Category"
-    
     # Handle the multiselect for diagnostic categories
+    if 'diagnostic_category' not in st.session_state.form_data:
+        st.session_state.form_data['diagnostic_category'] = []
+
     st.session_state.diagnostic_category = st.multiselect(
         "Diagnostic Category (Check as many as apply):",
         options=[
@@ -370,7 +295,7 @@ elif st.session_state.page == "Encounter Information":
             "Neurological (excluding Traumatic Brain Injury)",
             "Trauma (including Traumatic Brain Injury",
         ],
-        default=st.session_state.get('diagnostic_category', [])
+        default=st.session_state.form_data.get('diagnostic_category', [])
     )
     
     # Validation and navigation logic
@@ -409,6 +334,7 @@ elif st.session_state.page == "Encounter Information":
             else:
                 st.session_state.page = "Indications"  # Set next page
                 st.rerun()
+
 
 elif st.session_state.page == "Indications":
     # Indications section
