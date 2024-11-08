@@ -354,50 +354,61 @@ elif st.session_state.page == "Encounter Information":
             index=["Select if Airway Bundle/Pink Sheet Completed", "Yes", "No"].index(st.session_state.form_data.get('airway_bundle', 'Select if Airway Bundle/Pink Sheet Completed'))
         )
 
+    if 'diagnostic_category' not in st.session_state.form_data:
+        st.session_state.form_data['diagnostic_category'] = "Select Diagnostic Category"
+    
+    # Handle the multiselect for diagnostic categories
     st.session_state.diagnostic_category = st.multiselect(
-            "Diagnostic Category (Check as many as apply):",
-            options=["Select Diagnostic Category",
-                "Cardiac - Surgical",
-                "Cardiac - Medical",
-                "Respiratory - Upper Airway",
-                "Respiratory - Lower Airway/Pulmonary",
-                "Sepsis/Shock",
-                "Neurological (excluding Traumatic Brain Injury)",
-                "Trauma (including Traumatic Brain Injury",
-            ],
-            default=st.session_state.get('diagnostic_category', [])
-        )
-
+        "Diagnostic Category (Check as many as apply):",
+        options=[
+            "Select Diagnostic Category",
+            "Cardiac - Surgical",
+            "Cardiac - Medical",
+            "Respiratory - Upper Airway",
+            "Respiratory - Lower Airway/Pulmonary",
+            "Sepsis/Shock",
+            "Neurological (excluding Traumatic Brain Injury)",
+            "Trauma (including Traumatic Brain Injury",
+        ],
+        default=st.session_state.get('diagnostic_category', [])
+    )
+    
+    # Validation and navigation logic
     col_prev, col_next = st.columns(2)
     with col_prev:
         if st.button("Previous"):
             st.session_state.page = "Starting Page"
             st.rerun()
-
+    
     with col_next:
         # Only proceed if button is clicked
         if st.button("Next"):
             # Validation check for required fields
             missing_fields = []
-            if st.session_state.form_data['patient_gender'] == "Select Gender":
+            
+            # Use .get() to safely check session_state keys
+            if st.session_state.form_data.get('patient_gender', 'Select Gender') == "Select Gender":
                 missing_fields.append("Patient Gender")
-            if st.session_state.form_data['dosing_weight'] == "":
+            if st.session_state.form_data.get('dosing_weight', "") == "":
                 missing_fields.append("Patient Dosing Weight")
-            if st.session_state.form_data['time'] == "":
+            if st.session_state.form_data.get('time', "") == "":
                 missing_fields.append("Time")
-            if st.session_state.form_data['location'] == "":
+            if st.session_state.form_data.get('location', "") == "":
                 missing_fields.append("Location")
-            if st.session_state.form_data['pager_number'] == "":
+            if st.session_state.form_data.get('pager_number', "") == "":
                 missing_fields.append("Pager Number")
-            if st.session_state.form_data['family_member_present'] == "Select if Family Member Present":
+            if st.session_state.form_data.get('family_member_present', 'Select if Family Member Present') == "Select if Family Member Present":
                 missing_fields.append("Family Member Present")
-            if st.session_state.form_data['attending_physician_present'] == "Select if Attending Physician Present":
+            if st.session_state.form_data.get('attending_physician_present', 'Select if Attending Physician Present') == "Select if Attending Physician Present":
                 missing_fields.append("Attending Physician Present")
-            if st.session_state.form_data['airway_bundle'] == "Select if Airway Bundle/Pink Sheet Completed":
+            if st.session_state.form_data.get('airway_bundle', 'Select if Airway Bundle/Pink Sheet Completed') == "Select if Airway Bundle/Pink Sheet Present":
                 missing_fields.append("Airway Bundle/Pink Sheet Present")
-            if st.session_state.form_data['diagnostic_category'] == "Select Diagnostic Category":
+            
+            # Check if diagnostic_category is selected correctly
+            diagnostic_category = st.session_state.form_data.get('diagnostic_category', 'Select Diagnostic Category')
+            if diagnostic_category == "Select Diagnostic Category":
                 missing_fields.append("Diagnostic Category")
-
+    
             if missing_fields:
                 st.warning(f"Please fill in the following: {', '.join(missing_fields)}")
             else:
