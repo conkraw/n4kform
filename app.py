@@ -362,6 +362,20 @@ elif st.session_state.page == "Encounter Information":
             index=["Select if Airway Bundle/Pink Sheet Completed", "Yes", "No"].index(st.session_state.form_data.get('airway_bundle', 'Select if Airway Bundle/Pink Sheet Completed'))
         )
 
+    st.session_state.diagnostic_category = st.multiselect(
+            "Check as many as apply:",
+            options=["Select Diagnostic Category",
+                "Cardiac - Surgical",
+                "Cardiac - Medical",
+                "Respiratory - Upper Airway",
+                "Respiratory - Lower Airway/Pulmonary",
+                "Sepsis/Shock",
+                "Neurological (excluding Traumatic Brain Injury)",
+                "Trauma (including Traumatic Brain Injury",
+            ],
+            default=st.session_state.get('diagnostic_category', [])
+        )
+
     col_prev, col_next = st.columns(2)
     with col_prev:
         if st.button("Previous"):
@@ -383,14 +397,14 @@ elif st.session_state.page == "Encounter Information":
                 missing_fields.append("Location")
             if st.session_state.form_data['pager_number'] == "":
                 missing_fields.append("Pager Number")
-            if st.session_state.form_data['diagnosis'] == "Select if patient has a suspected or confirmed diagnosis":
-                missing_fields.append("Diagnosis")
             if st.session_state.form_data['family_member_present'] == "Select if Family Member Present":
                 missing_fields.append("Family Member Present")
             if st.session_state.form_data['attending_physician_present'] == "Select if Attending Physician Present":
                 missing_fields.append("Attending Physician Present")
             if st.session_state.form_data['airway_bundle'] == "Select if Airway Bundle/Pink Sheet Completed":
                 missing_fields.append("Airway Bundle/Pink Sheet Present")
+            if st.session_state.form_data['diagnostic_category'] == "Select Diagnostic Category":
+                missing_fields.append("Diagnostic Category")
 
             if missing_fields:
                 st.warning(f"Please fill in the following: {', '.join(missing_fields)}")
