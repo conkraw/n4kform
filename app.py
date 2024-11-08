@@ -566,9 +566,10 @@ if 'db' not in st.session_state:
 from docx import Document
 
 def create_word_doc(template_path, data):
+    # Load the Word document
     doc = Document(template_path)
 
-    # Define your placeholders
+    # Define your placeholders and corresponding data to replace them
     placeholders = {
         '<<date_placeholder>>': data['date'],
         '<<time_placeholder>>': data['time'],
@@ -577,9 +578,9 @@ def create_word_doc(template_path, data):
 
     # Replace placeholders in paragraphs
     for paragraph in doc.paragraphs:
-        for run in paragraph.runs:
+        for run in paragraph.runs:  # Loop through each run in the paragraph
             for placeholder, value in placeholders.items():
-                if placeholder in run.text:
+                if placeholder in run.text:  # Check if the placeholder is in the text
                     run.text = run.text.replace(placeholder, value)
 
     # Replace placeholders in tables
@@ -592,9 +593,12 @@ def create_word_doc(template_path, data):
                             if placeholder in run.text:
                                 run.text = run.text.replace(placeholder, value)
 
+    # Save the modified document to a new file
     output_path = 'n4k_dcf.docx'  # Change this to your desired output path
     doc.save(output_path)
+    
     return output_path
+
 
 # Summary Page Logic
 if st.session_state.page == "Summary":
