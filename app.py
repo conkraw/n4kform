@@ -611,26 +611,4 @@ if st.session_state.page == "Summary":
                 data=csv_data,
                 file_name="form_data.csv",
                 mime="text/csv"
-            )
-
-            # Optional: continue with the Word document creation or other tasks as needed
-            try:
-                template_path = 'ntq.docx'
-                st.session_state.doc_file = create_word_doc(template_path, document_data)
-                st.success("Document created successfully!")
-
-                # Send email with attachment (commented out)
-                # send_email_with_attachment(to_emails, subject, message, st.session_state.doc_file)
-
-                with open(st.session_state.doc_file, 'rb') as f:
-                    st.download_button(
-                        label="Download Word Document",
-                        data=f,
-                        file_name=st.session_state.doc_file.split("/")[-1],
-                        mime='application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-                    )
-
-            except Exception as e:
-                st.error(f"An error occurred: {e}")
-
-
+                )
