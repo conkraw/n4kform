@@ -403,11 +403,6 @@ elif st.session_state.page == "Encounter Information":
                 missing_fields.append("Attending Physician Present")
             if st.session_state.form_data.get('airway_bundle', 'Select if Airway Bundle/Pink Sheet Completed') == "Select if Airway Bundle/Pink Sheet Present":
                 missing_fields.append("Airway Bundle/Pink Sheet Present")
-            
-            # Check if diagnostic_category is selected correctly
-            diagnostic_category = st.session_state.form_data.get('diagnostic_category', 'Select Diagnostic Category')
-            if diagnostic_category == "Select Diagnostic Category":
-                missing_fields.append("Diagnostic Category")
     
             if missing_fields:
                 st.warning(f"Please fill in the following: {', '.join(missing_fields)}")
