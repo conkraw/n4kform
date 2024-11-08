@@ -565,24 +565,24 @@ if 'db' not in st.session_state:
 
 from docx import Document
 
-def create_word_doc(template_path):
+def create_word_doc(template_path,data):
     # Load the Word document
     doc = Document(template_path)
 
     # Define your placeholders and corresponding session state values to replace them
     placeholders = {
-        '<<date_placeholder>>': st.session_state.form_data.get('date', ''),
-        '<<time_placeholder>>': st.session_state.form_data.get('time', ''),
-        '<<location_placeholder>>': st.session_state.form_data.get('location', ''),
-        '<<sex_placeholder>>': st.session_state.form_data.get('patient_gender', ''),
-        '<<weight_placeholder>>': st.session_state.form_data.get('dosing_weight', ''),
-        '<<form_completed_by_placeholder>>': st.session_state.form_data.get('form_completed_by', ''),
-        '<<pager_number_placeholder>>': st.session_state.form_data.get('pager_number', ''),
-        '<<family_member_present_placeholder>>': st.session_state.form_data.get('family_member_present', ''),
-        '<<attending_physician_present_placeholder>>': st.session_state.form_data.get('attending_physician_present', ''),
-        '<<type_of_change_from_placeholder>>': st.session_state.get('type_of_change_from', ''),
-        '<<diagnostic_category_placeholder>>': st.session_state.form_data.get('diagnostic_category', '')
-}
+        '<<date_placeholder>>': data['date'],
+        '<<time_placeholder>>': data['time'],
+        '<<location_placeholder>>': data['location'],
+        '<<patient_gender_placeholder>>': data['patient_gender'],
+        '<<weight_placeholder>>': data['weight'],
+        '<<form_completed_by_placeholder>>': data['form_completed_by'],
+        '<<pager_number_placeholder>>': data['pager_number'],
+        '<<family_member_present_placeholder>>': data['family_member_present'],
+        '<<attending_physician_present_placeholder>>': data['attending_physician_present'],
+        '<<type_of_change_from_placeholder>>': data['type_of_change_from'],
+        '<<diagnostic_category_placeholder>>': data['diagnostic_category'],
+    }
 
     # Replace placeholders in paragraphs
     for paragraph in doc.paragraphs:
