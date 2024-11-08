@@ -1367,17 +1367,18 @@ def create_word_doc(template_path, data):
 
     # Define your placeholders
     placeholders = {
-        '{date_placeholder}': data['date'],
-        '{time_placeholder}': data['time'],
-        '{location_placeholder}': data['location'],
-        '{sex_placeholder}': data['patient_gender'],
-        '{weight_placeholder}': data['weight'],
-        '{performed_by_placeholder}': data['form_completed_by'],
-        '{pager_placeholder}': data['pager_number'],
-        '{family_placeholder}': data['family_member_present'],
-        '{attending_placeholder}': data['attending_physician_present'],
-        '{diagnostic_category}': data['diagnostic_category'],
-        '{type_from}':data['type_of_change_from'],
+    '<<date_placeholder>>': data['date'],
+    '<<time_placeholder>>': data['time'],
+    '<<location_placeholder>>': data['location'],
+    '<<sex_placeholder>>': data['patient_gender'],
+    '<<weight_placeholder>>': data['weight'],
+    '<<performed_by_placeholder>>': data['form_completed_by'],
+    '<<pager_placeholder>>': data['pager_number'],
+    '<<family_placeholder>>': data['family_member_present'],
+    '<<attending_placeholder>>': data['attending_physician_present'],
+    '<<diagnostic_category>>': data['diagnostic_category'],
+    '<<type_from>>':data['type_of_change_from'],
+
         # Add more placeholders as needed...
     }
 
