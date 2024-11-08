@@ -1361,6 +1361,7 @@ if 'db' not in st.session_state:
 
 from docx import Document
 
+
 def create_word_doc(template_path, data):
     doc = Document(template_path)
 
@@ -1383,15 +1384,22 @@ def create_word_doc(template_path, data):
     def replace_in_run(run, placeholders):
         for placeholder, value in placeholders.items():
             if placeholder in run.text:
+                print(f"Replacing {placeholder} with {value}")  # Debug line
                 run.text = run.text.replace(placeholder, value)
 
     # Replace placeholders in paragraphs
+    print("Checking paragraphs for placeholders...")
     for paragraph in doc.paragraphs:
         for run in paragraph.runs:
             replace_in_run(run, placeholders)
 
     # Replace placeholders in tables
+    print("Checking tables for placeholders...")
     for table in doc.tables:
+        if not table.rows:  # Skip if the table is empty
+            print("Skipping empty table")
+            continue
+
         for row in table.rows:
             for cell in row.cells:
                 for paragraph in cell.paragraphs:
@@ -1399,25 +1407,27 @@ def create_word_doc(template_path, data):
                         replace_in_run(run, placeholders)
 
     # Replace placeholders in headers (if any)
+    print("Checking headers for placeholders...")
     for section in doc.sections:
         for header in section.header.paragraphs:
             for run in header.runs:
                 replace_in_run(run, placeholders)
 
     # Replace placeholders in footers (if any)
+    print("Checking footers for placeholders...")
     for section in doc.sections:
         for footer in section.footer.paragraphs:
             for run in footer.runs:
                 replace_in_run(run, placeholders)
 
     # Replace placeholders in any inline shapes/text boxes (if any)
+    print("Checking inline shapes (textboxes) for placeholders...")
     for shape in doc.inline_shapes:
         if shape.type == 3:  # Check if the shape is a text box (type 3)
             if shape.text_frame is not None:
                 for paragraph in shape.text_frame.paragraphs:
                     for run in paragraph.runs:
                         replace_in_run(run, placeholders)
-
     output_path = 'n4k_dcf.docx'  # Change this to your desired output path
     doc.save(output_path)
 
