@@ -572,7 +572,7 @@ def create_word_doc(template_path, data):
 
     # Define your placeholders and corresponding session state values to replace them
     placeholders = {
-        '<<date_placeholder>>': data.get('date', ''),
+        '<<dateplaceholder>>': data.get('date', ''),
         '<<time_placeholder>>': data.get('time', ''),
         '<<location_placeholder>>': data.get('location', ''),
         '<<patient_gender_placeholder>>': data.get('patient_gender', ''),
