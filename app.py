@@ -564,6 +564,8 @@ if 'db' not in st.session_state:
         st.error(f"Failed to connect to Firestore: {str(e)}")
 
 from docx import Document
+from docx.oxml.ns import qn
+from docx.oxml import OxmlElement
 
 def create_word_doc(template_path, data):
     # Load the Word document
@@ -601,6 +603,18 @@ def create_word_doc(template_path, data):
                     for paragraph in cell.paragraphs:
                         replace_placeholders_in_paragraph(paragraph)
 
+    # Function to replace text placeholders in shapes
+    def replace_placeholders_in_shapes(doc):
+        for shape in doc.element.body:
+            if shape.tag.endswith('shape'):  # Check if the element is a shape (text box)
+                # Iterate through all text runs inside the shape
+                for element in shape.iter():
+                    if element.tag.endswith('t'):  # 't' is the tag for text
+                        text = element.text
+                        for placeholder, value in placeholders.items():
+                            if placeholder in text:
+                                element.text = text.replace(placeholder, value)
+
     # Replace placeholders in paragraphs
     for paragraph in doc.paragraphs:
         replace_placeholders_in_paragraph(paragraph)
@@ -608,6 +622,9 @@ def create_word_doc(template_path, data):
     # Replace placeholders in table cells (including merged and split cells)
     for table in doc.tables:
         replace_placeholders_in_table(table)
+
+    # Replace placeholders in shapes (textboxes, shapes, etc.)
+    replace_placeholders_in_shapes(doc)
 
     # Save the updated document
     output_path = 'n4k_dcf.docx'  # Change this to your desired output path
@@ -649,7 +666,7 @@ if st.session_state.page == "Summary":
                 'diagnostic_category':st.session_state.form_data['diagnostic_category'],
             }
             st.write(st.session_state.form_data['date'])
-            template_path = 'nqf (2).docx' 
+            template_path = 'ntq.docx' 
 
             try:
                 st.session_state.doc_file = create_word_doc(template_path, document_data)
