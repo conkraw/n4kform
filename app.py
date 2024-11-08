@@ -1433,8 +1433,8 @@ if st.session_state.page == "Summary":
                 'attending_physician_present':st.session_state.form_data['attending_physician_present'],
                 'airway_bundle':st.session_state.form_data['airway_bundle'],
                 'diagnostic_category':st.session_state.form_data['diagnostic_category'],
-                'type_of_change_from':st.session_state.form_data['type_of_change_from'],
-                'type_of_change_to':st.session_state.form_data['type_of_change_to'],
+                'type_of_change_from':st.session_state['type_of_change_from'],
+                'type_of_change_to':st.session_state['type_of_change_to'],
             }
             st.write(st.session_state.form_data['date'])
             template_path = 'nqf.docx' 
