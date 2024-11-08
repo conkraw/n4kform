@@ -572,9 +572,6 @@ def create_word_doc(template_path, data):
     placeholders = {
         '<<date_placeholder>>': data['date'],
         '<<time_placeholder>>': data['time'],
-        '<<location_placeholder>>': data['location'],
-        '<<sex_placeholder>>': data['patient_gender'],
-        '<<type_from>>':data['type_of_change_from'],
         # Add more placeholders as needed...
     }
 
@@ -597,8 +594,8 @@ def create_word_doc(template_path, data):
 
     output_path = 'n4k_dcf.docx'  # Change this to your desired output path
     doc.save(output_path)
-
     return output_path
+
 # Summary Page Logic
 if st.session_state.page == "Summary":
     st.header("SUMMARY")
