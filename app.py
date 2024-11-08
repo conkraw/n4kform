@@ -1369,6 +1369,12 @@ def create_word_doc(template_path, data):
         '{location_placeholder}': data['location'],
         '{sex_placeholder}': data['patient_gender'],
         '{weight_placeholder}':data['weight'],
+        '{performed_by_placeholder}':data['form_completed_by'],
+        '{pager_placeholder}':data['pager_number']
+        '{family_placeholder}':data['family_member_present']
+        '{attending_placeholder}':data['attending_physician_present']
+        '{airway_bundle}':data['airway_bundle']
+        '{diagnostic_category}':data['diagnostic_category']
         # Add more placeholders as needed...
     }
 
@@ -1418,7 +1424,13 @@ if st.session_state.page == "Summary":
                 'time': st.session_state.form_data.get('time', ''),
                 'location': st.session_state.form_data.get('location',''),
                 'patient_gender': st.session_state.form_data['patient_gender'],
-                'weight': st.session_state.form_data['dosing_weight']
+                'weight': st.session_state.form_data['dosing_weight'],
+                'form_completed_by':st.session_state.form_data['form_completed_by'],
+                'pager_number':st.session_state.form_data['pager_number'],
+                'family_member_present':st.session_state.form_data['family_member_present'],
+                'attending_physician_present':st.session_state.form_data['attending_physician_present'],
+                'airway_bundle':st.session_state.form_data['airway_bundle'],
+                'diagnostic_category':st.session_state.form_data['diagnostic_category'],
             }
             st.write(st.session_state.form_data['date'])
             template_path = 'nqf.docx' 
