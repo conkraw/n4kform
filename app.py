@@ -279,11 +279,11 @@ if st.session_state.page == "Encounter Information":
         index=["Select if Airway Bundle/Pink Sheet Completed", "Yes", "No"].index(st.session_state.form_data.get('airway_bundle', 'Select if Airway Bundle/Pink Sheet Completed'))
     )
 
-    # Handle the multiselect for diagnostic categories
     if 'diagnostic_category' not in st.session_state.form_data:
         st.session_state.form_data['diagnostic_category'] = []
-
-    st.session_state.diagnostic_category = st.multiselect(
+    
+    # Update the session state with selected diagnostic categories
+    st.session_state.form_data['diagnostic_category'] = st.multiselect(
         "Diagnostic Category (Check as many as apply):",
         options=[
             "Select Diagnostic Category",
@@ -293,7 +293,7 @@ if st.session_state.page == "Encounter Information":
             "Respiratory - Lower Airway/Pulmonary",
             "Sepsis/Shock",
             "Neurological (excluding Traumatic Brain Injury)",
-            "Trauma (including Traumatic Brain Injury",
+            "Trauma (including Traumatic Brain Injury)",
         ],
         default=st.session_state.form_data.get('diagnostic_category', [])
     )
