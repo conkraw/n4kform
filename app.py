@@ -1370,11 +1370,11 @@ def create_word_doc(template_path, data):
         '{sex_placeholder}': data['patient_gender'],
         '{weight_placeholder}':data['weight'],
         '{performed_by_placeholder}':data['form_completed_by'],
-        #'{pager_placeholder}':data['pager_number'],
-        #'{family_placeholder}':data['family_member_present'],
-        #'{attending_placeholder}':data['attending_physician_present'],
-        #'{airway_bundle}':data['airway_bundle'],
-        #'{diagnostic_category}':data['diagnostic_category'],
+        '{pager_placeholder}':data['pager_number'],
+        '{family_placeholder}':data['family_member_present'],
+        '{attending_placeholder}':data['attending_physician_present'],
+        '{airway_bundle}':data['airway_bundle'],
+        '{diagnostic_category}':data['diagnostic_category'],
         # Add more placeholders as needed...
     }
 
