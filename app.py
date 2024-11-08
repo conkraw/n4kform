@@ -1361,27 +1361,52 @@ if 'db' not in st.session_state:
 
 from docx import Document
 
+from docx import Document
 
 def create_word_doc(template_path, data):
+    # Load the Word document
     doc = Document(template_path)
 
     # Define your placeholders
     placeholders = {
-    '<<date_placeholder>>': data['date'],
-    '<<time_placeholder>>': data['time'],
-    '<<location_placeholder>>': data['location'],
-    '<<sex_placeholder>>': data['patient_gender'],
-    '<<weight_placeholder>>': data['weight'],
-    '<<performed_by_placeholder>>': data['form_completed_by'],
-    '<<pager_placeholder>>': data['pager_number'],
-    '<<family_placeholder>>': data['family_member_present'],
-    '<<attending_placeholder>>': data['attending_physician_present'],
-    '<<diagnostic_category>>': data['diagnostic_category'],
-    '<<type_from>>':data['type_of_change_from'],
-
+        '<<date_placeholder>>': data.get('date', ''),
+        '<<time_placeholder>>': data.get('time', ''),
+        '<<location_placeholder>>': data.get('location', ''),
+        '<<sex_placeholder>>': data.get('patient_gender', ''),
+        '<<weight_placeholder>>': data.get('weight', ''),
+        '<<performed_by_placeholder>>': data.get('form_completed_by', ''),
+        '<<pager_placeholder>>': data.get('pager_number', ''),
+        '<<family_placeholder>>': data.get('family_member_present', ''),
+        '<<attending_placeholder>>': data.get('attending_physician_present', ''),
+        '<<diagnostic_category>>': data.get('diagnostic_category', ''),
+        '<<type_from>>': data.get('type_of_change_from', ''),
         # Add more placeholders as needed...
     }
-    
+
+    # Function to replace placeholders in text within paragraphs
+    def replace_placeholders_in_paragraph(paragraph):
+        for run in paragraph.runs:
+            for placeholder, value in placeholders.items():
+                if placeholder in run.text:
+                    run.text = run.text.replace(placeholder, value)
+
+    # Function to iterate through table rows and handle merged and split cells
+    def replace_placeholders_in_table(table):
+        for row in table.rows:
+            for cell in row.cells:
+                # Check if the cell has actual content (real cell or part of merged cells)
+                if cell.text.strip():  # Only replace in non-empty cells
+                    for paragraph in cell.paragraphs:
+                        replace_placeholders_in_paragraph(paragraph)
+
+    # Replace placeholders in paragraphs
+    for paragraph in doc.paragraphs:
+        replace_placeholders_in_paragraph(paragraph)
+
+    # Replace placeholders in table cells (including merged and split cells)
+    for table in doc.tables:
+        replace_placeholders_in_table(table)
+
     # Save the updated document
     output_path = 'n4k_dcf.docx'  # Change this to your desired output path
     doc.save(output_path)
