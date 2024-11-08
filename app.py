@@ -633,7 +633,7 @@ if st.session_state.page == "Summary":
                 'diagnostic_category':st.session_state.form_data['diagnostic_category'],
             }
             st.write(st.session_state.form_data['date'])
-            template_path = 'ntq.docx' 
+            template_path = 'nqf.docx' 
 
             try:
                 st.session_state.doc_file = create_word_doc(template_path, document_data)
