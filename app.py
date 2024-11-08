@@ -564,6 +564,8 @@ if 'db' not in st.session_state:
         st.error(f"Failed to connect to Firestore: {str(e)}")
 
 from docx import Document
+from docx import Document
+import os
 
 def create_word_doc(template_path, data):
     # Load the Word document
@@ -573,7 +575,15 @@ def create_word_doc(template_path, data):
     placeholders = {
         '<<date_placeholder>>': data['date'],
         '<<time_placeholder>>': data['time'],
-        # Add more placeholders as needed...
+        '<<location_placeholder>>': data['location'],
+        '<<patient_gender_placeholder>>': data['patient_gender'],
+        '<<weight_placeholder>>': data['weight'],
+        '<<form_completed_by_placeholder>>': data['form_completed_by'],
+        '<<pager_number_placeholder>>': data['pager_number'],
+        '<<family_member_present_placeholder>>': data['family_member_present'],
+        '<<attending_physician_present_placeholder>>': data['attending_physician_present'],
+        '<<type_of_change_from_placeholder>>': data['type_of_change_from'],
+        '<<diagnostic_category_placeholder>>': data['diagnostic_category'],
     }
 
     # Replace placeholders in paragraphs
@@ -594,11 +604,10 @@ def create_word_doc(template_path, data):
                                 run.text = run.text.replace(placeholder, value)
 
     # Save the modified document to a new file
-    output_path = 'n4k_dcf.docx'  # Change this to your desired output path
+    output_path = 'output_file.docx'  # Change this to your desired output path
     doc.save(output_path)
     
     return output_path
-
 
 # Summary Page Logic
 if st.session_state.page == "Summary":
