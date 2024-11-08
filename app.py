@@ -1359,6 +1359,8 @@ if 'db' not in st.session_state:
     except Exception as e:
         st.error(f"Failed to connect to Firestore: {str(e)}")
 
+from docx import Document
+
 def create_word_doc(template_path, data):
     doc = Document(template_path)
 
@@ -1368,24 +1370,25 @@ def create_word_doc(template_path, data):
         '{time_placeholder}': data['time'],
         '{location_placeholder}': data['location'],
         '{sex_placeholder}': data['patient_gender'],
-        '{weight_placeholder}':data['weight'],
-        '{performed_by_placeholder}':data['form_completed_by'],
-        '{pager_placeholder}':data['pager_number'],
-        '{family_placeholder}':data['family_member_present'],
-        '{attending_placeholder}':data['attending_physician_present'],
-        #'{airway_bundle}':data['airway_bundle'],
-        #'{tube_from}':data['type_of_change_from'],
-        #'{tube_to}':data['type_of_change_to'],
-        '{diagnostic_category}':data['diagnostic_category'],
+        '{weight_placeholder}': data['weight'],
+        '{performed_by_placeholder}': data['form_completed_by'],
+        '{pager_placeholder}': data['pager_number'],
+        '{family_placeholder}': data['family_member_present'],
+        '{attending_placeholder}': data['attending_physician_present'],
+        '{diagnostic_category}': data['diagnostic_category'],
         # Add more placeholders as needed...
     }
+
+    # Function to replace placeholders in runs
+    def replace_in_run(run, placeholders):
+        for placeholder, value in placeholders.items():
+            if placeholder in run.text:
+                run.text = run.text.replace(placeholder, value)
 
     # Replace placeholders in paragraphs
     for paragraph in doc.paragraphs:
         for run in paragraph.runs:
-            for placeholder, value in placeholders.items():
-                if placeholder in run.text:
-                    run.text = run.text.replace(placeholder, value)
+            replace_in_run(run, placeholders)
 
     # Replace placeholders in tables
     for table in doc.tables:
@@ -1393,9 +1396,27 @@ def create_word_doc(template_path, data):
             for cell in row.cells:
                 for paragraph in cell.paragraphs:
                     for run in paragraph.runs:
-                        for placeholder, value in placeholders.items():
-                            if placeholder in run.text:
-                                run.text = run.text.replace(placeholder, value)
+                        replace_in_run(run, placeholders)
+
+    # Replace placeholders in headers (if any)
+    for section in doc.sections:
+        for header in section.header.paragraphs:
+            for run in header.runs:
+                replace_in_run(run, placeholders)
+
+    # Replace placeholders in footers (if any)
+    for section in doc.sections:
+        for footer in section.footer.paragraphs:
+            for run in footer.runs:
+                replace_in_run(run, placeholders)
+
+    # Replace placeholders in any inline shapes/text boxes (if any)
+    for shape in doc.inline_shapes:
+        if shape.type == 3:  # Check if the shape is a text box (type 3)
+            if shape.text_frame is not None:
+                for paragraph in shape.text_frame.paragraphs:
+                    for run in paragraph.runs:
+                        replace_in_run(run, placeholders)
 
     output_path = 'n4k_dcf.docx'  # Change this to your desired output path
     doc.save(output_path)
