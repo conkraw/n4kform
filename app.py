@@ -1362,6 +1362,7 @@ def create_word_doc(template_path, data):
         '{time_placeholder}': data['time'],
         '{location_placeholder}': data['location'],
         '{sex_placeholder}': data['patient_gender'],
+        '{weight_placeholder}':data['weight'],
         # Add more placeholders as needed...
     }
 
@@ -1411,6 +1412,7 @@ if st.session_state.page == "Summary":
                 'time': st.session_state.form_data.get('time', ''),
                 'location': st.session_state.form_data.get('location',''),
                 'patient_gender': st.session_state.form_data['patient_gender'],
+                'weight': st.session_state.form_data['weight']
             }
             st.write(st.session_state.form_data['date'])
             template_path = 'nqf.docx' 
