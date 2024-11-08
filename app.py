@@ -564,7 +564,6 @@ if 'db' not in st.session_state:
         st.error(f"Failed to connect to Firestore: {str(e)}")
 
 from docx import Document
-from lxml import etree
 
 def create_word_doc(template_path, data):
     # Load the Word document
@@ -594,48 +593,15 @@ def create_word_doc(template_path, data):
                     print(f"Replacing {placeholder} with {value}")  # Debugging log
                     run.text = run.text.replace(placeholder, value)
 
-    # Function to replace placeholders in table cells (including merged and split cells)
-    def replace_placeholders_in_table(table):
-        for row in table.rows:
-            for cell in row.cells:
-                if cell.text.strip():  # Only replace in non-empty cells
-                    for paragraph in cell.paragraphs:
-                        replace_placeholders_in_paragraph(paragraph)
-
     # Replace placeholders in paragraphs (main body)
     for paragraph in doc.paragraphs:
         replace_placeholders_in_paragraph(paragraph)
-
-    # Replace placeholders in tables
-    for table in doc.tables:
-        replace_placeholders_in_table(table)
-
-    # Access shapes (textboxes and other elements) and replace placeholders
-    def replace_placeholders_in_shapes(doc):
-        # Get the underlying XML tree for the document
-        doc_xml = doc.element
-        # Search for text within shapes (textboxes)
-        for shape in doc_xml.xpath('//w:shapetype'):
-            # Access the shape's text, if it has any
-            for text_element in shape.xpath('.//w:t'):
-                text = text_element.text
-                for placeholder, value in placeholders.items():
-                    if placeholder in text:
-                        print(f"Replacing {placeholder} in shape with {value}")  # Debugging log
-                        text_element.text = text.replace(placeholder, value)
-
-    # Try replacing placeholders in shapes
-    try:
-        replace_placeholders_in_shapes(doc)
-    except Exception as e:
-        print(f"Error processing shapes: {e}")  # Handle any errors with shape processing
 
     # Save the updated document
     output_path = 'n4k_dcf_updated.docx'  # Change this to your desired output path
     doc.save(output_path)
     print(f"Document saved as: {output_path}")
     return output_path
-
 
 # Summary Page Logic
 if st.session_state.page == "Summary":
