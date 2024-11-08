@@ -564,11 +564,9 @@ if 'db' not in st.session_state:
         st.error(f"Failed to connect to Firestore: {str(e)}")
 
 from docx import Document
-from docx.oxml.ns import qn
-from docx.oxml import OxmlElement
 
 def create_word_doc(template_path, data):
-    # Load the Word document
+    # Load the Word document template
     doc = Document(template_path)
 
     # Define your placeholders
@@ -591,44 +589,50 @@ def create_word_doc(template_path, data):
     def replace_placeholders_in_paragraph(paragraph):
         for run in paragraph.runs:
             for placeholder, value in placeholders.items():
+                # Only replace if the placeholder is found in the run text
                 if placeholder in run.text:
+                    print(f"Replacing {placeholder} with {value}")  # Debugging log
                     run.text = run.text.replace(placeholder, value)
 
-    # Function to iterate through table rows and handle merged and split cells
+    # Function to replace placeholders in table cells (including merged and split cells)
     def replace_placeholders_in_table(table):
         for row in table.rows:
             for cell in row.cells:
-                # Check if the cell has actual content (real cell or part of merged cells)
                 if cell.text.strip():  # Only replace in non-empty cells
                     for paragraph in cell.paragraphs:
                         replace_placeholders_in_paragraph(paragraph)
 
-    # Function to replace text placeholders in shapes
+    # Replace placeholders in paragraphs (main body)
+    for paragraph in doc.paragraphs:
+        replace_placeholders_in_paragraph(paragraph)
+
+    # Replace placeholders in tables
+    for table in doc.tables:
+        replace_placeholders_in_table(table)
+
+    # If shapes are used (optional, depending on template)
     def replace_placeholders_in_shapes(doc):
         for shape in doc.element.body:
             if shape.tag.endswith('shape'):  # Check if the element is a shape (text box)
-                # Iterate through all text runs inside the shape
+                # Attempt to iterate through text elements in the shape
                 for element in shape.iter():
                     if element.tag.endswith('t'):  # 't' is the tag for text
                         text = element.text
                         for placeholder, value in placeholders.items():
                             if placeholder in text:
+                                print(f"Replacing in shape: {placeholder} with {value}")  # Debugging log
                                 element.text = text.replace(placeholder, value)
 
-    # Replace placeholders in paragraphs
-    for paragraph in doc.paragraphs:
-        replace_placeholders_in_paragraph(paragraph)
-
-    # Replace placeholders in table cells (including merged and split cells)
-    for table in doc.tables:
-        replace_placeholders_in_table(table)
-
-    # Replace placeholders in shapes (textboxes, shapes, etc.)
-    replace_placeholders_in_shapes(doc)
+    # Only replace placeholders in shapes if they exist
+    try:
+        replace_placeholders_in_shapes(doc)
+    except Exception as e:
+        print(f"Error processing shapes: {e}")  # Handle any errors with shape processing
 
     # Save the updated document
-    output_path = 'n4k_dcf.docx'  # Change this to your desired output path
+    output_path = 'n4k_dcf_updated.docx'  # Change this to your desired output path
     doc.save(output_path)
+    print(f"Document saved as: {output_path}")
     return output_path
 
 
