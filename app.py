@@ -1382,89 +1382,91 @@ def create_word_doc(template_path, data):
         # Add more placeholders as needed...
     }
 
-    def replace_placeholders_in_doc(doc, placeholders):
-        """
-        Function to replace placeholders in both paragraphs and table cells.
-        """
-        # Loop through paragraphs in the entire document
-        for paragraph in doc.paragraphs:
-            for run in paragraph.runs:
-                for placeholder, value in placeholders.items():
-                    if placeholder in run.text:
-                        print(f"Found placeholder: {placeholder} in paragraph: {run.text}")  # Debugging output
-                        run.text = run.text.replace(placeholder, value)
-    
-        # Loop through tables to handle cells
-        for table in doc.tables:
-            for row in table.rows:
-                for cell in row.cells:
-                    # Iterate over paragraphs in the cell
+from docx import Document
+
+def replace_placeholders_in_doc(doc, placeholders):
+    """
+    Function to replace placeholders in both paragraphs and table cells.
+    """
+    # Loop through paragraphs in the entire document
+    for paragraph in doc.paragraphs:
+        for run in paragraph.runs:
+            for placeholder, value in placeholders.items():
+                if placeholder in run.text:
+                    print(f"Found placeholder: {placeholder} in paragraph: {run.text}")  # Debugging output
+                    run.text = run.text.replace(placeholder, value)
+
+    # Loop through tables to handle cells
+    for table in doc.tables:
+        for row in table.rows:
+            for cell in row.cells:
+                # Iterate over paragraphs in the cell
+                for paragraph in cell.paragraphs:
+                    for run in paragraph.runs:
+                        for placeholder, value in placeholders.items():
+                            if placeholder in run.text:
+                                print(f"Found placeholder: {placeholder} in cell: {run.text}")  # Debugging output
+                                run.text = run.text.replace(placeholder, value)
+
+def handle_merged_cells(doc, placeholders):
+    """
+    Function to handle merged table cells and replace placeholders in them.
+    """
+    for table in doc.tables:
+        for row in table.rows:
+            for cell in row.cells:
+                # Merged cells will have multiple references in the XML structure
+                # Ensure you're iterating over every cell in the merged group
+                if len(cell._tc.getchildren()) > 1:  # Merged cells typically have more than one reference in the XML
                     for paragraph in cell.paragraphs:
                         for run in paragraph.runs:
                             for placeholder, value in placeholders.items():
                                 if placeholder in run.text:
-                                    print(f"Found placeholder: {placeholder} in cell: {run.text}")  # Debugging output
+                                    print(f"Found placeholder in merged cell: {placeholder} in cell: {run.text}")  # Debugging output
                                     run.text = run.text.replace(placeholder, value)
-    
-    def handle_merged_cells(doc, placeholders):
-        """
-        Function to handle merged table cells and replace placeholders in them.
-        """
-        for table in doc.tables:
-            for row in table.rows:
-                for cell in row.cells:
-                    # Merged cells will have multiple references in the XML structure
-                    # Ensure you're iterating over every cell in the merged group
-                    if len(cell._tc.getchildren()) > 1:  # Merged cells typically have more than one reference in the XML
-                        for paragraph in cell.paragraphs:
-                            for run in paragraph.runs:
-                                for placeholder, value in placeholders.items():
-                                    if placeholder in run.text:
-                                        print(f"Found placeholder in merged cell: {placeholder} in cell: {run.text}")  # Debugging output
-                                        run.text = run.text.replace(placeholder, value)
-    
-    def debug_placeholder_replacement(doc, placeholders):
-        """
-        Function for debugging purposes to track where the placeholders are found and replaced.
-        """
-        # Loop through paragraphs in the entire document
-        for paragraph in doc.paragraphs:
-            for run in paragraph.runs:
-                for placeholder, value in placeholders.items():
-                    if placeholder in run.text:
-                        print(f"Found placeholder: {placeholder} in paragraph: {run.text}")  # Debugging output
-                        run.text = run.text.replace(placeholder, value)
-    
-        # Loop through tables to handle cells
-        for table in doc.tables:
-            for row in table.rows:
-                for cell in row.cells:
-                    for paragraph in cell.paragraphs:
-                        for run in paragraph.runs:
-                            for placeholder, value in placeholders.items():
-                                if placeholder in run.text:
-                                    print(f"Found placeholder: {placeholder} in cell: {run.text}")  # Debugging output
-                                    run.text = run.text.replace(placeholder, value)
-    
-    def replace_placeholders_in_docx(template_path, placeholders, output_path):
-        """
-        Main function to load the doc, replace placeholders, and save the output.
-        """
-        doc = Document(template_path)
-    
-        # Replace placeholders in paragraphs and table cells
-        replace_placeholders_in_doc(doc, placeholders)
-    
-        # Handle merged table cells
-        handle_merged_cells(doc, placeholders)
-    
-        # Debugging - check which placeholders were replaced
-        debug_placeholder_replacement(doc, placeholders)
-    
-        # Save the updated document
-        output_path = 'n4k_dcf.docx'  # Change this to your desired output path
-        doc.save(output_path)
-        return output_path
+
+def debug_placeholder_replacement(doc, placeholders):
+    """
+    Function for debugging purposes to track where the placeholders are found and replaced.
+    """
+    # Loop through paragraphs in the entire document
+    for paragraph in doc.paragraphs:
+        for run in paragraph.runs:
+            for placeholder, value in placeholders.items():
+                if placeholder in run.text:
+                    print(f"Found placeholder: {placeholder} in paragraph: {run.text}")  # Debugging output
+                    run.text = run.text.replace(placeholder, value)
+
+    # Loop through tables to handle cells
+    for table in doc.tables:
+        for row in table.rows:
+            for cell in row.cells:
+                for paragraph in cell.paragraphs:
+                    for run in paragraph.runs:
+                        for placeholder, value in placeholders.items():
+                            if placeholder in run.text:
+                                print(f"Found placeholder: {placeholder} in cell: {run.text}")  # Debugging output
+                                run.text = run.text.replace(placeholder, value)
+
+def replace_placeholders_in_docx(template_path, placeholders, output_path):
+    """
+    Main function to load the doc, replace placeholders, and save the output.
+    """
+    doc = Document(template_path)
+
+    # Replace placeholders in paragraphs and table cells
+    replace_placeholders_in_doc(doc, placeholders)
+
+    # Handle merged table cells
+    handle_merged_cells(doc, placeholders)
+
+    # Debugging - check which placeholders were replaced
+    debug_placeholder_replacement(doc, placeholders)
+
+    # Save the updated document
+    output_path = 'n4k_dcf.docx'  # Change this to your desired output path
+    doc.save(output_path)
+    return output_path
 
 
 # Summary Page Logic
