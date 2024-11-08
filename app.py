@@ -594,7 +594,7 @@ if st.session_state.page == "Summary":
                 'family_member_present':st.session_state.form_data['family_member_present'],
                 'attending_physician_present':st.session_state.form_data['attending_physician_present'],
                 'type_of_change_from':st.session_state['type_of_change_from'],
-                'diagnostic_category':st.session_state.form_data['diagnostic_category'],
+                'diagnostic_category': ", ".join(st.session_state.form_data['diagnostic_category']) if isinstance(st.session_state.form_data.get('diagnostic_category', []), list) else st.session_state.form_data.get('diagnostic_category', ''),
             }
 
             st.write(st.session_state.form_data['date'])
