@@ -1377,7 +1377,7 @@ def create_word_doc(template_path, data):
         '{family_placeholder}': data['family_member_present'],
         '{attending_placeholder}': data['attending_physician_present'],
         '{diagnostic_category}': data['diagnostic_category'],
-        '{type_from}':data['type_change_from'],
+        '{type_from}':data['type_of_change_from'],
         # Add more placeholders as needed...
     }
 
