@@ -652,8 +652,7 @@ if st.session_state.page == "Summary":
             )
 
             # Step 4: Generate PDFs for the collected form data (in-memory)
-            # Assuming 'dcf.pdf' is the path to your PDF template
-            pdf_template = 'dcf.pdf'  # Replace this with the correct path to your PDF template
+            pdf_template = 'dcfx.pdf'  # Replace this with the correct path to your PDF template
 
             # Read the CSV from the in-memory bytes (csv_data)
             data = pd.read_csv(io.BytesIO(csv_data))
