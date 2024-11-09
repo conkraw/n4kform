@@ -11,6 +11,8 @@ from email.mime.base import MIMEBase
 from email import encoders
 import smtplib
 import pandas as pd 
+from PyPDF2 import PdfReader, PdfWriter
+from PyPDF2.generic import NameObject, BooleanObject
 
 st.set_page_config(layout="wide")
 
