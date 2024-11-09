@@ -11,7 +11,7 @@ from email.mime.base import MIMEBase
 from email import encoders
 import smtplib
 import pandas as pd
-from pdfrw import PdfReader, PdfWriter
+from pdfrw import PdfReader, PdfWriter, PdfDict
 import io
 
 st.set_page_config(layout="wide")
