@@ -25,6 +25,9 @@ st.set_page_config(layout="wide")
 from PyPDF2 import PdfReader, PdfWriter
 from PyPDF2.generic import NameObject, BooleanObject
 
+from PyPDF2 import PdfReader, PdfWriter
+from PyPDF2.generic import NameObject, BooleanObject
+
 def set_need_appearances_writer(writer: PdfWriter):
     """Ensure the appearance flag is set to true for all fields."""
     try:
@@ -65,12 +68,13 @@ def fill_pdf_form(template_path, output_buffer, form_data):
         page = reader.pages[page_num]
 
         # Get the annotations (form fields) from the page
-        fields = page.get("/Annots")
+        annotations = page.get("/Annots")
+        
+        if annotations:
+            for annotation in annotations:
+                # Dereference the annotation (resolve indirect object)
+                field = annotation.get_object()
 
-        if fields:
-            for field in fields:
-                field = field.get_object()  # Resolve the indirect object to access the field
-                
                 # Get the field name
                 key = field.get("/T")
                 
@@ -652,13 +656,11 @@ if 'db' not in st.session_state:
 
 # Function to fill the form fields in a PDF template
 
-# Summary Page Logic
 if st.session_state.page == "Summary":
     st.header("SUMMARY")
 
     user_email = st.text_input("Enter your email address (optional):", value="", key="user_email_input")
 
-    # Ensure doc_file is initialized in session state
     if 'doc_file' not in st.session_state:
         st.session_state.doc_file = None
 
@@ -669,9 +671,9 @@ if st.session_state.page == "Summary":
             st.session_state.page = "Disposition"
             st.rerun()
 
-    with col_submit:
+    with col_submit:     
         if st.button("Submit"):
-            # Collect form data from session_state
+            # Collect form data into document_data dictionary
             document_data = {
                 'date': st.session_state.form_data.get('date', ''),
                 'time': st.session_state.form_data.get('time', ''),
@@ -686,27 +688,8 @@ if st.session_state.page == "Summary":
                 'diagnostic_category': ", ".join(st.session_state.form_data['diagnostic_category']) if isinstance(st.session_state.form_data.get('diagnostic_category', []), list) else st.session_state.form_data.get('diagnostic_category', ''),
             }
 
-            # Convert the form data to a DataFrame (to save as CSV)
-            df = pd.DataFrame([document_data])
-
-            # Save CSV to a file in memory
-            csv_file = io.BytesIO()
-            df.to_csv(csv_file, index=False)
-            csv_file.seek(0)  # Rewind file pointer to start of the file
-
-            # Save the CSV data to session_state for later use (download)
-            st.session_state.csv_data = csv_file.getvalue()
-
-            # Provide download button for the CSV
-            st.download_button(
-                label="Download CSV",
-                data=st.session_state.csv_data,
-                file_name="form_data.csv",
-                mime="text/csv"
-            )
-
             # Path to the existing PDF template
-            template_path = 'dcf.pdf'  # Ensure the correct path for the PDF template
+            template_path = 'dcf.pdf'  # Update with actual path
             output_buffer = io.BytesIO()  # Buffer to hold the filled PDF
 
             # Fill the template with the form data
@@ -720,3 +703,4 @@ if st.session_state.page == "Summary":
                 file_name="filled_form.pdf",
                 mime="application/pdf"
             )
+
