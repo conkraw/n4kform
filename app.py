@@ -25,8 +25,11 @@ st.set_page_config(layout="wide")
 from PyPDF2 import PdfReader, PdfWriter
 from PyPDF2.generic import NameObject, BooleanObject
 
-# Function to set the 'NeedAppearances' flag in the PDF
+from PyPDF2 import PdfReader, PdfWriter
+from PyPDF2.generic import NameObject, BooleanObject
+
 def set_need_appearances_writer(writer: PdfWriter):
+    """Ensure the appearance flag is set to true for all fields."""
     try:
         catalog = writer._root_object
         if "/AcroForm" not in catalog:
@@ -36,33 +39,37 @@ def set_need_appearances_writer(writer: PdfWriter):
         writer._root_object["/AcroForm"][need_appearances] = BooleanObject(True)
         return writer
     except Exception as e:
-        print('set_need_appearances_writer() catch : ', repr(e))
+        print('set_need_appearances_writer() error: ', repr(e))
         return writer
 
-# Function to fill the PDF form fields
 def fill_pdf_form(template_path, output_buffer, form_data):
+    """Fills the form fields in a PDF with the given form data."""
     reader = PdfReader(template_path)
     writer = PdfWriter()
 
-    # Iterate over each page and fill the form fields
+    # Iterate over each page and attempt to fill the form fields
     for page_num in range(len(reader.pages)):
         page = reader.pages[page_num]
 
-        # Get annotations (form fields) from the page
+        # Get the annotations (form fields) from the page
         fields = page.get("/Annots")
 
-        # Ensure that 'fields' is not None and is iterable
         if fields:
             for field in fields:
-                # Resolve IndirectObject to actual object
-                field = field.get_object()  # Resolve the indirect object
+                field = field.get_object()  # Resolve IndirectObject to actual field object
 
+                # Get the field name
                 key = field.get("/T")
+
                 if key:
                     key = key[1:-1]  # Remove parentheses from the field name
+                    
+                    # If the field name is in the form_data dictionary, update its value
                     if key in form_data:
                         value = form_data[key]
-                        if isinstance(value, bool):  # Handle checkbox/radio button
+                        
+                        # Handle checkboxes and radio buttons (which are boolean)
+                        if isinstance(value, bool):
                             field.update({
                                 "/V": "/Yes" if value else "/Off"
                             })
@@ -70,14 +77,14 @@ def fill_pdf_form(template_path, output_buffer, form_data):
                             field.update({
                                 "/V": f"({value})"
                             })
-        else:
-            print(f"No fields found on page {page_num + 1}")  # Debugging line to check if annotations are missing
-        
-        # Add the page to the writer
+
+        # Add the page to the writer (after modifying the fields)
         writer.add_page(page)
 
-    # Set the appearance flag
+    # Set the appearance flag to make sure all fields show the updated values
     set_need_appearances_writer(writer)
+
+    # Write the filled PDF to the output buffer
     writer.write(output_buffer)
 
 
