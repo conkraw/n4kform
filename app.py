@@ -707,9 +707,11 @@ if st.session_state.page == "Summary":
                 'tube_change_indications': str(rows['tube_change_indications']),
                 'diagnostic_category': str(rows['diagnostic_category']),
             }
+
             for attempt in range(1, 9):
                 attempt_key = f"Attempt {attempt}"
         
+                # Add dynamic fields for each attempt
                 field_dictionary_1[f'who_intubated_{attempt}'] = str(rows.get(f'who_intubated_{attempt}', ''))
                 field_dictionary_1[f'discipline_{attempt}'] = str(rows.get(f'discipline_{attempt}', ''))
                 field_dictionary_1[f'pgy_level_{attempt}'] = str(rows.get(f'pgy_level_{attempt}', ''))
@@ -738,7 +740,7 @@ if st.session_state.page == "Summary":
                     data=pdf_output,
                     file_name=f"filled_form_{i}.pdf",
                     mime="application/pdf",
-                    key=f"download_pdf_{unique_key}" 
+                    key=f"download_pdf_unique" 
                 )
             subject = "White Form Submission"
             message = f"Here is the White Form.<br><br>Date: {document_data['date']}<br>Time: {document_data['time']}<br>Form Completed By: {document_data['form_completed_by']}"
