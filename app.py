@@ -603,27 +603,6 @@ if 'db' not in st.session_state:
 
 # Function to fill the form fields in a PDF template
 
-def fill_pdf_form(template_path, output_path, form_data):
-    # Read the template PDF
-    template_pdf = PdfReader(template_path)
-    annotations = template_pdf.pages[0]['/Annots']
-    
-    # Loop through each field in the form and fill it with the provided form_data
-    for annotation in annotations:
-        key = annotation['/T'][1:-1]  # Get field name (remove parentheses)
-        
-        if key in form_data:
-            value = form_data[key]
-            # Set the value of the form field
-            annotation.update(
-                pdfrw.PdfDict(V=f'({value})')
-            )
-    
-    # Write the filled form to the output PDF
-    writer = PdfWriter()
-    writer.addpage(template_pdf.pages[0])
-    writer.write(output_path)
-
 # Summary Page Logic
 if st.session_state.page == "Summary":
     st.header("SUMMARY")
