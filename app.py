@@ -526,8 +526,94 @@ elif st.session_state.page == "Course Information":
 
     with col_next:
         if st.button("Next"):
+            st.session_state.page = "Difficult Airway Evaluation"  # Set next page
+            st.rerun()  # Rerun the app to reflect the new page
+
+elif st.session_state.page == "Difficult Airway Evaluation":
+    st.markdown("### Difficult Airway Evaluations (Choose one in each category):")
+    
+    # Define questions and options
+    questions = [
+        ("Evaluation done before or after this course is completed?", ['Select Category 1', 'BEFORE', 'AFTER']),
+        ("Known prior history of difficult airway?", ['Select Category 2', 'YES', 'NO']),
+        ("Any Limited Neck Extension or (Maximal with or without sedation/paralytics) Severe Reduction?", ['Select Category 3', 'YES', 'NO']),
+        ("Widest Mouth Opening – How many Patient’s fingers between gum/incisors?", ['Select Category 4', '0 – 2', '≥ 3']),
+        ("Thyromental space – Patient’s fingers between chin and thyroid cartilage?", ['Select Category 5', '0 - 2', '≥ 3']),
+        ("Evidence of Upper Airway Obstruction or Anatomical Barrier to visualize glottic opening?", ['Select Category 6', 'YES', 'NO']),
+        ("Midfacial Hypoplasia?", ['Select Category 7', 'YES', 'NO']),
+        ("Any other signs of difficult airway exist?", ['Select Category 8', 'YES', 'NO']),
+    ]
+
+    # Ensure session state is initialized for each question
+    for idx, (question, options) in enumerate(questions):
+        key = f"evaluation_{idx}"
+        if key not in st.session_state:
+            st.session_state[key] = f'Select Category {idx + 1}' 
+
+    # Create the layout for questions
+    for idx, (question, options) in enumerate(questions):
+        cols = st.columns([4, 1])
+        
+        with cols[0]:
+            question_box(f"{idx + 1}. {question}")  # Display question
+            
+        with cols[1]:
+            # Create selectbox with options
+            selected_option = st.selectbox(
+                "",
+                options=options,
+                index=options.index(st.session_state[f"evaluation_{idx}"]),  # Get current value
+                key=f"evaluation_{idx}_selectbox"  # Unique key for each selectbox
+            )
+
+            # Update session state
+            st.session_state[f"evaluation_{idx}"] = selected_option
+
+    # Difficult to Bag/Mask Ventilate
+    st.markdown("### Difficult to Bag/Mask Ventilate? (Select ONE only)")
+    if "difficult_to_bag" not in st.session_state:
+        st.session_state["difficult_to_bag"] = 'Select Whether the Patient Was Difficult to Bag/Mask Ventilate' 
+    
+    difficult_to_bag = st.selectbox(
+        "",
+        options=['Select Whether the Patient Was Difficult to Bag/Mask Ventilate', 'Yes', 'No', 'Not applicable (bag-mask ventilation not given)'],
+        index=['Select Whether the Patient Was Difficult to Bag/Mask Ventilate', 'Yes', 'No', 'Not applicable (bag-mask ventilation not given)'].index(st.session_state["difficult_to_bag"]),
+        key="difficult_to_bag_selectbox"  # Unique key for this selectbox
+    )
+    
+    # Update session state
+    st.session_state["difficult_to_bag"] = difficult_to_bag
+    
+    
+    # Known cyanotic heart disease
+    st.markdown("### Known cyanotic heart disease (R to L shunt)? (Select ONE only)")
+    if "cyanotic" not in st.session_state:
+        st.session_state["cyanotic"] = 'Select if Patient With Known cyanotic heart disease'
+    
+    cyanotic = st.selectbox(
+        "",
+        options=['Select if Patient With Known cyanotic heart disease', 'Yes', 'No'],
+        index=['Select if Patient With Known cyanotic heart disease', 'Yes', 'No'].index(st.session_state["cyanotic"]),
+        key="cyanotic_selectbox"  # Unique key for this selectbox
+    )
+    
+    # Update session state
+    st.session_state["cyanotic"] = cyanotic
+
+
+    # Navigation buttons
+    col_prev, col_next = st.columns(2)
+    with col_prev:
+        if st.button("Previous"):
+            st.session_state.page = "Course Information"  # Go back to the previous page
+            st.rerun()  # Rerun the app to reflect the new page
+
+    with col_next:
+        if st.button("Next"):
             st.session_state.page = "Summary"  # Set next page
             st.rerun()  # Rerun the app to reflect the new page
+
+
 
 def send_email_with_attachment(to_emails, subject, body, pdf_buffer):
     # Email credentials from Streamlit secrets
@@ -636,6 +722,7 @@ if st.session_state.page == "Summary":
                 'nature_of_change': st.session_state['nature_of_change'],
                 'tube_change_indications': st.session_state['tube_change_indications'],
                 'diagnostic_category': ", ".join(st.session_state.form_data['diagnostic_category']) if isinstance(st.session_state.form_data.get('diagnostic_category', []), list) else st.session_state.form_data.get('diagnostic_category', ''),
+                'difficult_to_bag': st.session_state['difficult_to_bag']
             }
 
             for attempt in range(1, 9):
@@ -708,6 +795,7 @@ if st.session_state.page == "Summary":
                 'nature_of_change': str(rows['nature_of_change']),
                 'tube_change_indications': str(rows['tube_change_indications']),
                 'diagnostic_category': str(rows['diagnostic_category']),
+                'difficult_to_bag': str(rows['difficult_to_bag']),
                 
                 # Manually fill for each attempt
                 'who_intubated_1': str(rows['who_intubated_1']),
