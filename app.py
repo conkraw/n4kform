@@ -706,20 +706,81 @@ if st.session_state.page == "Summary":
                 'nature_of_change': str(rows['nature_of_change']),
                 'tube_change_indications': str(rows['tube_change_indications']),
                 'diagnostic_category': str(rows['diagnostic_category']),
+                
+                # Manually fill for each attempt
+                'who_intubated_1': str(rows['who_intubated_1']),
+                'discipline_1': str(rows['discipline_1']),
+                'pgy_level_1': str(rows['pgy_level_1']),
+                'ett_size_1': str(rows['ett_size_1']),
+                'ett_type_1': str(rows['ett_type_1']),
+                'cricoid_prior_1': str(rows['cricoid_prior_1']),
+                'cricoid_during_1': str(rows['cricoid_during_1']),
+                'attempt_successful_1': str(rows['attempt_successful_1']),
+            
+                'who_intubated_2': str(rows['who_intubated_2']),
+                'discipline_2': str(rows['discipline_2']),
+                'pgy_level_2': str(rows['pgy_level_2']),
+                'ett_size_2': str(rows['ett_size_2']),
+                'ett_type_2': str(rows['ett_type_2']),
+                'cricoid_prior_2': str(rows['cricoid_prior_2']),
+                'cricoid_during_2': str(rows['cricoid_during_2']),
+                'attempt_successful_2': str(rows['attempt_successful_2']),
+            
+                'who_intubated_3': str(rows['who_intubated_3']),
+                'discipline_3': str(rows['discipline_3']),
+                'pgy_level_3': str(rows['pgy_level_3']),
+                'ett_size_3': str(rows['ett_size_3']),
+                'ett_type_3': str(rows['ett_type_3']),
+                'cricoid_prior_3': str(rows['cricoid_prior_3']),
+                'cricoid_during_3': str(rows['cricoid_during_3']),
+                'attempt_successful_3': str(rows['attempt_successful_3']),
+            
+                'who_intubated_4': str(rows['who_intubated_4']),
+                'discipline_4': str(rows['discipline_4']),
+                'pgy_level_4': str(rows['pgy_level_4']),
+                'ett_size_4': str(rows['ett_size_4']),
+                'ett_type_4': str(rows['ett_type_4']),
+                'cricoid_prior_4': str(rows['cricoid_prior_4']),
+                'cricoid_during_4': str(rows['cricoid_during_4']),
+                'attempt_successful_4': str(rows['attempt_successful_4']),
+            
+                'who_intubated_5': str(rows['who_intubated_5']),
+                'discipline_5': str(rows['discipline_5']),
+                'pgy_level_5': str(rows['pgy_level_5']),
+                'ett_size_5': str(rows['ett_size_5']),
+                'ett_type_5': str(rows['ett_type_5']),
+                'cricoid_prior_5': str(rows['cricoid_prior_5']),
+                'cricoid_during_5': str(rows['cricoid_during_5']),
+                'attempt_successful_5': str(rows['attempt_successful_5']),
+            
+                'who_intubated_6': str(rows['who_intubated_6']),
+                'discipline_6': str(rows['discipline_6']),
+                'pgy_level_6': str(rows['pgy_level_6']),
+                'ett_size_6': str(rows['ett_size_6']),
+                'ett_type_6': str(rows['ett_type_6']),
+                'cricoid_prior_6': str(rows['cricoid_prior_6']),
+                'cricoid_during_6': str(rows['cricoid_during_6']),
+                'attempt_successful_6': str(rows['attempt_successful_6']),
+            
+                'who_intubated_7': str(rows['who_intubated_7']),
+                'discipline_7': str(rows['discipline_7']),
+                'pgy_level_7': str(rows['pgy_level_7']),
+                'ett_size_7': str(rows['ett_size_7']),
+                'ett_type_7': str(rows['ett_type_7']),
+                'cricoid_prior_7': str(rows['cricoid_prior_7']),
+                'cricoid_during_7': str(rows['cricoid_during_7']),
+                'attempt_successful_7': str(rows['attempt_successful_7']),
+            
+                'who_intubated_8': str(rows['who_intubated_8']),
+                'discipline_8': str(rows['discipline_8']),
+                'pgy_level_8': str(rows['pgy_level_8']),
+                'ett_size_8': str(rows['ett_size_8']),
+                'ett_type_8': str(rows['ett_type_8']),
+                'cricoid_prior_8': str(rows['cricoid_prior_8']),
+                'cricoid_during_8': str(rows['cricoid_during_8']),
+                'attempt_successful_8': str(rows['attempt_successful_8'])
             }
 
-            for attempt in range(1, 9):
-                attempt_key = f"Attempt {attempt}"
-        
-                # Add dynamic fields for each attempt
-                field_dictionary_1[f'who_intubated_{attempt}'] = str(rows.get(f'who_intubated_{attempt}', ''))
-                field_dictionary_1[f'discipline_{attempt}'] = str(rows.get(f'discipline_{attempt}', ''))
-                field_dictionary_1[f'pgy_level_{attempt}'] = str(rows.get(f'pgy_level_{attempt}', ''))
-                field_dictionary_1[f'ett_size_{attempt}'] = str(rows.get(f'ett_size_{attempt}', ''))
-                field_dictionary_1[f'ett_type_{attempt}'] = str(rows.get(f'ett_type_{attempt}', ''))
-                field_dictionary_1[f'cricoid_prior_{attempt}'] = str(rows.get(f'cricoid_prior_{attempt}', ''))
-                field_dictionary_1[f'cricoid_during_{attempt}'] = str(rows.get(f'cricoid_during_{attempt}', ''))
-                field_dictionary_1[f'attempt_successful_{attempt}'] = str(rows.get(f'attempt_successful_{attempt}', ''))
                 
                 # Add the page to the writer and fill the form
                 pdf_writer.add_page(pdf.pages[0])
