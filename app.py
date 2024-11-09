@@ -564,7 +564,28 @@ if 'db' not in st.session_state:
         st.session_state.db = firestore.client()
     except Exception as e:
         st.error(f"Failed to connect to Firestore: {str(e)}")
-        
+
+# Function to fill the form fields in a PDF template
+        def fill_pdf_form(template_path, output_path, form_data):
+            # Read the template PDF
+            template_pdf = PdfReader(template_path)
+            annotations = template_pdf.pages[0]['/Annots']
+            
+            # Loop through each field in the form and fill it with the provided form_data
+            for annotation in annotations:
+                key = annotation['/T'][1:-1]  # Get field name (remove parentheses)
+                
+                if key in form_data:
+                    value = form_data[key]
+                    # Set the value of the form field
+                    annotation.update(
+                        pdfrw.PdfDict(V=f'({value})')
+                    )
+            
+            # Write the filled form to the output PDF
+            writer = PdfWriter()
+            writer.addpage(template_pdf.pages[0])
+            writer.write(output_path)
 
 # Summary Page Logic
 if st.session_state.page == "Summary":
@@ -581,37 +602,8 @@ if st.session_state.page == "Summary":
         if st.button("Previous"):
             st.session_state.page = "Disposition"
             st.rerun()
-
-    import pandas as pd
-import streamlit as st
-from pdfrw import PdfReader, PdfWriter
-import io
-
-# Function to fill the form fields in a PDF template
-def fill_pdf_form(template_path, output_path, form_data):
-    # Read the template PDF
-    template_pdf = PdfReader(template_path)
-    annotations = template_pdf.pages[0]['/Annots']
-    
-    # Loop through each field in the form and fill it with the provided form_data
-    for annotation in annotations:
-        key = annotation['/T'][1:-1]  # Get field name (remove parentheses)
-        
-        if key in form_data:
-            value = form_data[key]
-            # Set the value of the form field
-            annotation.update(
-                pdfrw.PdfDict(V=f'({value})')
-            )
-    
-    # Write the filled form to the output PDF
-    writer = PdfWriter()
-    writer.addpage(template_pdf.pages[0])
-    writer.write(output_path)
-
-# Your existing form submission code
-with col_submit:
-    if st.button("Submit"):
+    with col_submit:
+        if st.button("Submit"):
         # Collect form data into document_data dictionary
         document_data = {
             'date': st.session_state.form_data.get('date', ''),
@@ -656,3 +648,7 @@ with col_submit:
             file_name="filled_form.pdf",
             mime="application/pdf"
         )
+
+
+
+
