@@ -16,6 +16,36 @@ import io
 
 st.set_page_config(layout="wide")
 
+import pandas as pd
+import streamlit as st
+from pdfrw import PdfReader, PdfWriter, PdfDict  # Ensure these imports are here
+import io
+
+# Function to fill the form fields in a PDF template
+def fill_pdf_form(template_path, output_buffer, form_data):
+    # Read the template PDF
+    template_pdf = PdfReader(template_path)
+    annotations = template_pdf.pages[0]['/Annots']
+
+    # Loop through each annotation (form field) in the PDF and fill it with form data
+    for annotation in annotations:
+        field_name = annotation['/T'][1:-1]  # Get field name (remove parentheses)
+
+        # Check if this field is in the form_data
+        if field_name in form_data:
+            value = form_data[field_name]
+            # Set the value of the form field
+            annotation.update(
+                PdfDict(V=f'({value})')  # Ensure this uses PdfDict correctly
+            )
+
+    # Write the filled form to the output PDF
+    writer = PdfWriter()
+    writer.addpage(template_pdf.pages[0])
+    writer.write(output_buffer)
+
+# Your form submission and PDF creation code
+
 def reset_inputx(default_value, key):
     # Initialize the key in session state if it doesn't exist
     if key not in st.session_state:
@@ -603,35 +633,7 @@ if st.session_state.page == "Summary":
         if st.button("Previous"):
             st.session_state.page = "Disposition"
             st.rerun()
-import pandas as pd
-import streamlit as st
-from pdfrw import PdfReader, PdfWriter, PdfDict  # Ensure these imports are here
-import io
-
-# Function to fill the form fields in a PDF template
-def fill_pdf_form(template_path, output_buffer, form_data):
-    # Read the template PDF
-    template_pdf = PdfReader(template_path)
-    annotations = template_pdf.pages[0]['/Annots']
-
-    # Loop through each annotation (form field) in the PDF and fill it with form data
-    for annotation in annotations:
-        field_name = annotation['/T'][1:-1]  # Get field name (remove parentheses)
-
-        # Check if this field is in the form_data
-        if field_name in form_data:
-            value = form_data[field_name]
-            # Set the value of the form field
-            annotation.update(
-                PdfDict(V=f'({value})')  # Ensure this uses PdfDict correctly
-            )
-
-    # Write the filled form to the output PDF
-    writer = PdfWriter()
-    writer.addpage(template_pdf.pages[0])
-    writer.write(output_buffer)
-
-# Your form submission and PDF creation code
+            
     with col_submit:
         if st.button("Submit"):
             # Collect form data into document_data dictionary
