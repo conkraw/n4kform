@@ -57,7 +57,7 @@ def generate_filled_pdf_from_csv_row(pdf_template, row_data):
     }
 
     # Update the form field values in the PDF
-    pdf_writer.updatePageFormFieldValues(pdf_writer.pages[0], field_mapping)
+    pdf_writer.update_page_form_field_values(pdf_writer.pages[0], field_mapping)
 
     # Write the PDF to an in-memory buffer
     pdf_buffer = io.BytesIO()
