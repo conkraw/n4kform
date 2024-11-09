@@ -727,13 +727,15 @@ if st.session_state.page == "Summary":
                 pdf_writer.write(pdf_output)
                 pdf_output.seek(0)  # Rewind to the beginning of the buffer
 
+                unique_key = str(uuid.uuid4()) 
+                
                 # Provide the filled PDF for download
                 st.download_button(
                     label=f"Download Filled PDF {i}",
                     data=pdf_output,
                     file_name=f"filled_form_{i}.pdf",
                     mime="application/pdf",
-                    key=f"download_pdf_{i}" 
+                    key=f"download_pdf_{unique_key}" 
                 )
             subject = "White Form Submission"
             message = f"Here is the White Form.<br><br>Date: {document_data['date']}<br>Time: {document_data['time']}<br>Form Completed By: {document_data['form_completed_by']}"
