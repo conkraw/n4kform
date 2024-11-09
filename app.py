@@ -682,7 +682,7 @@ if st.session_state.page == "Summary":
                 'location': str(rows['location']),
                 'patient_gender': str(rows['patient_gender']),
                 'weight': str(rows['weight']),
-                'form_completed_by': str(rows['form_completed_by']),
+                'formCompletedBy': str(rows['form_completed_by']),
                 'pager_number': str(rows['pager_number']),
                 'family_member_present': str(rows['family_member_present']),
                 'attending_physician_present': str(rows['attending_physician_present']),
@@ -723,5 +723,5 @@ if st.session_state.page == "Summary":
             st.success("Form submitted successfully!")
         
             # Send email with the PDF attachment
-            send_email_with_attachment(to_emails, subject, message, pdf_output)
+            #send_email_with_attachment(to_emails, subject, message, pdf_output)
 
