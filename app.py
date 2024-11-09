@@ -619,6 +619,7 @@ if st.session_state.page == "Summary":
         if st.button("Submit"):
             # Collect form data into document_data dictionary
             document_data = {
+                'airway_bundle': st.session_state.form_data['airway_bundle'],
                 'date': st.session_state.form_data.get('date', ''),
                 'time': st.session_state.form_data.get('time', ''),
                 'location': st.session_state.form_data.get('location', ''),
@@ -628,7 +629,11 @@ if st.session_state.page == "Summary":
                 'pager_number': st.session_state.form_data['pager_number'],
                 'family_member_present': st.session_state.form_data['family_member_present'],
                 'attending_physician_present': st.session_state.form_data['attending_physician_present'],
+                'indications': st.session_state.form_data['indications'],
                 'type_of_change_from': st.session_state['type_of_change_from'],
+                'type_of_change_to': st.session_state['type_of_change_to'],
+                'nature_of_change': st.session_state['nature_of_change'],
+                'tube_change_indications': st.session_state['tube_change_indications'],
                 'diagnostic_category': ", ".join(st.session_state.form_data['diagnostic_category']) if isinstance(st.session_state.form_data.get('diagnostic_category', []), list) else st.session_state.form_data.get('diagnostic_category', ''),
             }
             
@@ -672,19 +677,23 @@ if st.session_state.page == "Summary":
 
                 # Extract the form fields and map them to CSV row values
                 field_dictionary_1 = {
-                    'date': str(rows['date']),
-                    'time': str(rows['time']),
-                    'location': str(rows['location']),
-                    'patient_gender': str(rows['patient_gender']),
-                    'weight': str(rows['weight']),
-                    'form_completed_by': str(rows['form_completed_by']),
-                    'pager_number': str(rows['pager_number']),
-                    'family_member_present': str(rows['family_member_present']),
-                    'attending_physician_present': str(rows['attending_physician_present']),
-                    'type_of_change_from': str(rows['type_of_change_from']),
-                    'diagnostic_category': str(rows['diagnostic_category']),
-                }
-
+                'airway_bundle': str(rows['airway_bundle']),
+                'date': str(rows['date']),
+                'time': str(rows['time']),
+                'location': str(rows['location']),
+                'patient_gender': str(rows['patient_gender']),
+                'weight': str(rows['weight']),
+                'form_completed_by': str(rows['form_completed_by']),
+                'pager_number': str(rows['pager_number']),
+                'family_member_present': str(rows['family_member_present']),
+                'attending_physician_present': str(rows['attending_physician_present']),
+                'indications': str(rows['indications']),
+                'type_of_change_from': str(rows['type_of_change_from']),
+                'type_of_change_to': str(rows['type_of_change_to']),
+                'nature_of_change': str(rows['nature_of_change']),
+                'tube_change_indications': str(rows['tube_change_indications']),
+                'diagnostic_category': str(rows['diagnostic_category']),
+            }
                 # Add the page to the writer and fill the form
                 pdf_writer.add_page(pdf.pages[0])
                 pdf_writer.update_page_form_field_values(pdf_writer.pages[0], field_dictionary_1)
