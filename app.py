@@ -10,7 +10,9 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
 import smtplib
-import pandas as pd 
+import pandas as pd st
+from pdfrw import PdfReader, PdfWriter
+import io
 
 st.set_page_config(layout="wide")
 
@@ -580,35 +582,77 @@ if st.session_state.page == "Summary":
             st.session_state.page = "Disposition"
             st.rerun()
 
-    with col_submit:
-        if st.button("Submit"):
-            # Collect form data into document_data dictionary
-            document_data = {
-                'date': st.session_state.form_data.get('date', ''),
-                'time': st.session_state.form_data.get('time', ''),
-                'location': st.session_state.form_data.get('location',''),
-                'patient_gender': st.session_state.form_data['patient_gender'],
-                'weight': st.session_state.form_data['dosing_weight'],
-                'form_completed_by':st.session_state.form_data['form_completed_by'],
-                'pager_number':st.session_state.form_data['pager_number'],
-                'family_member_present':st.session_state.form_data['family_member_present'],
-                'attending_physician_present':st.session_state.form_data['attending_physician_present'],
-                'type_of_change_from':st.session_state['type_of_change_from'],
-                'diagnostic_category': ", ".join(st.session_state.form_data['diagnostic_category']) if isinstance(st.session_state.form_data.get('diagnostic_category', []), list) else st.session_state.form_data.get('diagnostic_category', ''),
-            }
+    import pandas as pd
+import streamlit as st
+from pdfrw import PdfReader, PdfWriter
+import io
 
-            st.write(st.session_state.form_data['date'])
-            
-            # Step 1: Convert the document_data dictionary to a pandas DataFrame
-            df = pd.DataFrame([document_data])  # Wrap in a list to create a single-row DataFrame
+# Function to fill the form fields in a PDF template
+def fill_pdf_form(template_path, output_path, form_data):
+    # Read the template PDF
+    template_pdf = PdfReader(template_path)
+    annotations = template_pdf.pages[0]['/Annots']
+    
+    # Loop through each field in the form and fill it with the provided form_data
+    for annotation in annotations:
+        key = annotation['/T'][1:-1]  # Get field name (remove parentheses)
+        
+        if key in form_data:
+            value = form_data[key]
+            # Set the value of the form field
+            annotation.update(
+                pdfrw.PdfDict(V=f'({value})')
+            )
+    
+    # Write the filled form to the output PDF
+    writer = PdfWriter()
+    writer.addpage(template_pdf.pages[0])
+    writer.write(output_path)
 
-            # Step 2: Convert the DataFrame to CSV
-            csv_data = df.to_csv(index=False).encode('utf-8')
+# Your existing form submission code
+with col_submit:
+    if st.button("Submit"):
+        # Collect form data into document_data dictionary
+        document_data = {
+            'date': st.session_state.form_data.get('date', ''),
+            'time': st.session_state.form_data.get('time', ''),
+            'location': st.session_state.form_data.get('location', ''),
+            'patient_gender': st.session_state.form_data['patient_gender'],
+            'weight': st.session_state.form_data['dosing_weight'],
+            'form_completed_by': st.session_state.form_data['form_completed_by'],
+            'pager_number': st.session_state.form_data['pager_number'],
+            'family_member_present': st.session_state.form_data['family_member_present'],
+            'attending_physician_present': st.session_state.form_data['attending_physician_present'],
+            'type_of_change_from': st.session_state['type_of_change_from'],
+            'diagnostic_category': ", ".join(st.session_state.form_data['diagnostic_category']) if isinstance(st.session_state.form_data.get('diagnostic_category', []), list) else st.session_state.form_data.get('diagnostic_category', ''),
+        }
 
-            # Step 3: Provide a download button for the CSV
-            st.download_button(
-                label="Download CSV",
-                data=csv_data,
-                file_name="form_data.csv",
-                mime="text/csv"
-                )
+        # Step 1: Convert the document_data dictionary to a pandas DataFrame
+        df = pd.DataFrame([document_data])  # Wrap in a list to create a single-row DataFrame
+
+        # Step 2: Convert the DataFrame to CSV
+        csv_data = df.to_csv(index=False).encode('utf-8')
+
+        # Step 3: Provide a download button for the CSV
+        st.download_button(
+            label="Download CSV",
+            data=csv_data,
+            file_name="form_data.csv",
+            mime="text/csv"
+        )
+
+        # Step 4: Fill the form fields in the existing PDF template
+        template_path = 'dcf.pdf'  # Path to your PDF template
+        output_buffer = io.BytesIO()  # To save the filled PDF in memory
+
+        # Fill the template with the form data
+        fill_pdf_form(template_path, output_buffer, document_data)
+
+        # Provide a download button for the filled PDF
+        output_buffer.seek(0)  # Move the pointer to the start of the buffer
+        st.download_button(
+            label="Download PDF",
+            data=output_buffer,
+            file_name="filled_form.pdf",
+            mime="application/pdf"
+        )
