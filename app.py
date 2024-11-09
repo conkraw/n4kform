@@ -22,8 +22,10 @@ from PyPDF2.generic import NameObject, BooleanObject
 
 st.set_page_config(layout="wide")
 
-# Function to fill the form fields in a PDF template using PyMuPDF (fitz)
+from PyPDF2 import PdfReader, PdfWriter
+from PyPDF2.generic import NameObject, BooleanObject
 
+# Function to set the 'NeedAppearances' flag in the PDF
 def set_need_appearances_writer(writer: PdfWriter):
     try:
         catalog = writer._root_object
@@ -45,10 +47,14 @@ def fill_pdf_form(template_path, output_buffer, form_data):
     # Iterate over each page and fill the form fields
     for page_num in range(len(reader.pages)):
         page = reader.pages[page_num]
-        fields = page.get("/Annots")
         
+        # Get annotations (form fields) from the page
+        fields = page.get("/Annots")
         if fields:
             for field in fields:
+                # Resolve IndirectObject to actual object
+                field = field.get_object()  # Resolve the indirect object
+
                 key = field.get("/T")
                 if key:
                     key = key[1:-1]  # Remove parentheses from the field name
@@ -62,11 +68,14 @@ def fill_pdf_form(template_path, output_buffer, form_data):
                             field.update({
                                 "/V": f"({value})"
                             })
+        
+        # Add the page to the writer
         writer.add_page(page)
 
     # Set the appearance flag
     set_need_appearances_writer(writer)
     writer.write(output_buffer)
+
 
     
 def reset_inputx(default_value, key):
