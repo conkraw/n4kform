@@ -30,14 +30,14 @@ def set_need_appearances_writer(writer: PdfWriter):
         print('set_need_appearances_writer() catch : ', repr(e))
         return writer
 
-# Function to generate a filled PDF in memory based on a CSV row
+# Function to generate a filled PDF in memory based on the row data
 def generate_filled_pdf_from_csv_row(pdf_template, row_data):
     # Create an in-memory PDF writer
     pdf_writer = PdfWriter()
-    
+
     # Set the 'NeedAppearances' flag to True
     pdf_writer = set_need_appearances_writer(pdf_writer)
-    
+
     # Read the PDF template
     pdf_reader = PdfReader(pdf_template)
     pdf_writer.add_page(pdf_reader.pages[0])
@@ -57,8 +57,13 @@ def generate_filled_pdf_from_csv_row(pdf_template, row_data):
         'diagnostic_category': str(row_data['diagnostic_category']),
     }
 
-    # Update the form field values in the PDF
-    pdf_writer.update_page_form_field_values(pdf_writer.pages[0], field_mapping)
+    # Instead of `updatePageFormFieldValues`, we use `addPage` and manually populate the fields
+    for field_name, field_value in field_mapping.items():
+        for field in pdf_reader.pages[0]['/Annots']:
+            if field.get('/T')[1:-1] == field_name:  # Check the field name
+                field.update({
+                    "/V": field_value  # Set the field value
+                })
 
     # Write the PDF to an in-memory buffer
     pdf_buffer = io.BytesIO()
@@ -66,6 +71,7 @@ def generate_filled_pdf_from_csv_row(pdf_template, row_data):
     pdf_buffer.seek(0)  # Rewind the buffer to the start
 
     return pdf_buffer
+
 
 def reset_inputx(default_value, key):
     # Initialize the key in session state if it doesn't exist
