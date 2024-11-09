@@ -47,9 +47,11 @@ def fill_pdf_form(template_path, output_buffer, form_data):
     # Iterate over each page and fill the form fields
     for page_num in range(len(reader.pages)):
         page = reader.pages[page_num]
-        
+
         # Get annotations (form fields) from the page
         fields = page.get("/Annots")
+
+        # Ensure that 'fields' is not None and is iterable
         if fields:
             for field in fields:
                 # Resolve IndirectObject to actual object
@@ -68,6 +70,8 @@ def fill_pdf_form(template_path, output_buffer, form_data):
                             field.update({
                                 "/V": f"({value})"
                             })
+        else:
+            print(f"No fields found on page {page_num + 1}")  # Debugging line to check if annotations are missing
         
         # Add the page to the writer
         writer.add_page(page)
@@ -77,7 +81,6 @@ def fill_pdf_form(template_path, output_buffer, form_data):
     writer.write(output_buffer)
 
 
-    
 def reset_inputx(default_value, key):
     # Initialize the key in session state if it doesn't exist
     if key not in st.session_state:
