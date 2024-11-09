@@ -25,13 +25,6 @@ st.set_page_config(layout="wide")
 from PyPDF2 import PdfReader, PdfWriter
 from PyPDF2.generic import NameObject, BooleanObject
 
-from PyPDF2 import PdfReader, PdfWriter
-from PyPDF2.generic import NameObject, BooleanObject
-
-
-from PyPDF2 import PdfReader, PdfWriter
-from PyPDF2.generic import NameObject, BooleanObject
-
 def set_need_appearances_writer(writer: PdfWriter):
     """Ensure the appearance flag is set to true for all fields."""
     try:
@@ -76,8 +69,8 @@ def fill_pdf_form(template_path, output_buffer, form_data):
 
         if fields:
             for field in fields:
-                field = field.get_object()  # Resolve indirect objects
-
+                field = field.get_object()  # Resolve the indirect object to access the field
+                
                 # Get the field name
                 key = field.get("/T")
                 
@@ -106,7 +99,6 @@ def fill_pdf_form(template_path, output_buffer, form_data):
 
     # Write the filled PDF to the output buffer
     writer.write(output_buffer)
-
 
 
 def reset_inputx(default_value, key):
