@@ -636,6 +636,19 @@ if st.session_state.page == "Summary":
                 'tube_change_indications': st.session_state['tube_change_indications'],
                 'diagnostic_category': ", ".join(st.session_state.form_data['diagnostic_category']) if isinstance(st.session_state.form_data.get('diagnostic_category', []), list) else st.session_state.form_data.get('diagnostic_category', ''),
             }
+
+            for attempt in range(1, 9):
+            attempt_key = f"Attempt {attempt}"
+            
+            # Adding each attempt-related field to the document_data dictionary
+            document_data[f'who_intubated_{attempt}'] = st.session_state.attempts[attempt_key]['who_intubated']
+            document_data[f'discipline_{attempt}'] = st.session_state.attempts[attempt_key]['discipline']
+            document_data[f'pgy_level_{attempt}'] = st.session_state.attempts[attempt_key]['pgy_level']
+            document_data[f'ett_size_{attempt}'] = st.session_state.attempts[attempt_key]['ett_size']
+            document_data[f'ett_type_{attempt}'] = st.session_state.attempts[attempt_key]['ett_type']
+            document_data[f'cricoid_prior_{attempt}'] = st.session_state.attempts[attempt_key]['cricoid_prior']
+            document_data[f'cricoid_during_{attempt}'] = st.session_state.attempts[attempt_key]['cricoid_during']
+            document_data[f'attempt_successful_{attempt}'] = st.session_state.attempts[attempt_key]['attempt_successful']
             
             # Step 1: Convert the document_data dictionary to a pandas DataFrame
             df = pd.DataFrame([document_data])  # Wrap in a list to create a single-row DataFrame
