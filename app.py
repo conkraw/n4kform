@@ -21,37 +21,34 @@ st.set_page_config(layout="wide")
 
 # Function to fill the form fields in a PDF template using PyMuPDF (fitz)
 
-
 def fill_pdf_form(template_path, output_buffer, form_data):
-    # Open the template PDF
     reader = PdfReader(template_path)
     writer = PdfWriter()
 
-    # Go through each page (usually just the first page for form filling)
     for page_num in range(len(reader.pages)):
         page = reader.pages[page_num]
-
-        # Get the form fields (annotations) in the page
         fields = page.get("/Annots")
 
-        # If form fields exist, fill them with the data from form_data
         if fields:
             for field in fields:
                 key = field.get("/T")
                 if key:
                     key = key[1:-1]  # Remove parentheses from the field name
-
                     if key in form_data:
                         value = form_data[key]
-                        field.update({
-                            "/V": f"({value})",  # Set the value of the form field
-                        })
+                        if isinstance(value, bool):  # Handle checkbox/radio button
+                            field.update({
+                                "/V": "/Yes" if value else "/Off"
+                            })
+                        else:
+                            field.update({
+                                "/V": f"({value})"
+                            })
 
-        # Add the page to the writer
         writer.add_page(page)
 
-    # Write the filled PDF to the output buffer
     writer.write(output_buffer)
+    
 def reset_inputx(default_value, key):
     # Initialize the key in session state if it doesn't exist
     if key not in st.session_state:
@@ -618,10 +615,8 @@ if st.session_state.page == "Summary":
         if st.button("Previous"):
             st.session_state.page = "Disposition"
             st.rerun()
-            
-    with col_submit:
+    with col_submit:     
         if st.button("Submit"):
-            # Collect form data into document_data dictionary
             document_data = {
                 'date': st.session_state.form_data.get('date', ''),
                 'time': st.session_state.form_data.get('time', ''),
@@ -635,26 +630,33 @@ if st.session_state.page == "Summary":
                 'type_of_change_from': st.session_state['type_of_change_from'],
                 'diagnostic_category': ", ".join(st.session_state.form_data['diagnostic_category']) if isinstance(st.session_state.form_data.get('diagnostic_category', []), list) else st.session_state.form_data.get('diagnostic_category', ''),
             }
-    
+        
             # Convert form data to DataFrame (as in your existing code)
             df = pd.DataFrame([document_data])
-            csv_data = df.to_csv(index=False).encode('utf-8')
-    
+            
+            # Save CSV to a file (on disk or in memory)
+            csv_file = io.BytesIO()
+            df.to_csv(csv_file, index=False)
+            csv_file.seek(0)  # Rewind file pointer to start of the file
+        
+            # Save to Streamlit session_state for later use
+            st.session_state.csv_data = csv_file.getvalue()
+        
             # Provide download button for the CSV
             st.download_button(
                 label="Download CSV",
-                data=csv_data,
+                data=st.session_state.csv_data,
                 file_name="form_data.csv",
                 mime="text/csv"
             )
-    
+        
             # Path to the existing PDF template
-            template_path = 'dcf.pdf'  # Update with actual path
+            template_path = 'dcf.pdf'  # Make sure this path is correct
             output_buffer = io.BytesIO()  # Buffer to hold the filled PDF
-    
+        
             # Fill the template with the form data
             fill_pdf_form(template_path, output_buffer, document_data)
-    
+        
             # Provide a download button for the filled PDF
             output_buffer.seek(0)  # Rewind buffer
             st.download_button(
