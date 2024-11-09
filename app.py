@@ -629,7 +629,7 @@ if st.session_state.page == "Summary":
                 'pager_number': st.session_state.form_data['pager_number'],
                 'family_member_present': st.session_state.form_data['family_member_present'],
                 'attending_physician_present': st.session_state.form_data['attending_physician_present'],
-                'indications': st.session_state.form_data['indications'],
+                'indications': st.session_state['indications'],
                 'type_of_change_from': st.session_state['type_of_change_from'],
                 'type_of_change_to': st.session_state['type_of_change_to'],
                 'nature_of_change': st.session_state['nature_of_change'],
