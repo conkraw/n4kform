@@ -28,6 +28,9 @@ from PyPDF2.generic import NameObject, BooleanObject
 from PyPDF2 import PdfReader, PdfWriter
 from PyPDF2.generic import NameObject, BooleanObject
 
+from PyPDF2 import PdfReader, PdfWriter
+from PyPDF2.generic import NameObject, BooleanObject
+
 def set_need_appearances_writer(writer: PdfWriter):
     """Ensure the appearance flag is set to true for all fields."""
     try:
