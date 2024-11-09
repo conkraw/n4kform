@@ -10,7 +10,7 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
 import smtplib
-import pandas as pd st
+import pandas as pd
 from pdfrw import PdfReader, PdfWriter
 import io
 
