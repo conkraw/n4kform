@@ -732,7 +732,8 @@ if st.session_state.page == "Summary":
                     label=f"Download Filled PDF {i}",
                     data=pdf_output,
                     file_name=f"filled_form_{i}.pdf",
-                    mime="application/pdf"
+                    mime="application/pdf",
+                    key=f"download_pdf_{i}" 
                 )
             subject = "White Form Submission"
             message = f"Here is the White Form.<br><br>Date: {document_data['date']}<br>Time: {document_data['time']}<br>Form Completed By: {document_data['form_completed_by']}"
