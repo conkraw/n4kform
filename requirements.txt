@@ -11,3 +11,4 @@ PyPDF2
 pdfrw
 Flask
 fitz
+pypdf
