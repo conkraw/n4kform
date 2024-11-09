@@ -28,6 +28,10 @@ from PyPDF2.generic import NameObject, BooleanObject
 from PyPDF2 import PdfReader, PdfWriter
 from PyPDF2.generic import NameObject, BooleanObject
 
+
+from PyPDF2 import PdfReader, PdfWriter
+from PyPDF2.generic import NameObject, BooleanObject
+
 def set_need_appearances_writer(writer: PdfWriter):
     """Ensure the appearance flag is set to true for all fields."""
     try:
@@ -43,11 +47,27 @@ def set_need_appearances_writer(writer: PdfWriter):
         return writer
 
 def fill_pdf_form(template_path, output_buffer, form_data):
-    """Fills the form fields in a PDF with the given form data."""
+    """Fill the form fields in a PDF using the given form data."""
     reader = PdfReader(template_path)
     writer = PdfWriter()
 
-    # Iterate over each page and attempt to fill the form fields
+    # Define the fields to be mapped (you know the field names already)
+    # This assumes that form_data keys match the PDF field names
+    field_mapping = {
+        "date": form_data.get("date", ""),
+        "time": form_data.get("time", ""),
+        "location": form_data.get("location", ""),
+        "patient_gender": form_data.get("patient_gender", ""),
+        "weight": form_data.get("weight", ""),
+        "form_completed_by": form_data.get("form_completed_by", ""),
+        "pager_number": form_data.get("pager_number", ""),
+        "family_member_present": form_data.get("family_member_present", ""),
+        "attending_physician_present": form_data.get("attending_physician_present", ""),
+        "type_of_change_from": form_data.get("type_of_change_from", ""),
+        "diagnostic_category": form_data.get("diagnostic_category", "")
+    }
+
+    # Iterate over each page in the PDF and fill in the form fields
     for page_num in range(len(reader.pages)):
         page = reader.pages[page_num]
 
@@ -56,19 +76,19 @@ def fill_pdf_form(template_path, output_buffer, form_data):
 
         if fields:
             for field in fields:
-                field = field.get_object()  # Resolve IndirectObject to actual field object
+                field = field.get_object()  # Resolve indirect objects
 
                 # Get the field name
                 key = field.get("/T")
-
+                
                 if key:
-                    key = key[1:-1]  # Remove parentheses from the field name
+                    key = key[1:-1]  # Remove parentheses around the field name
                     
-                    # If the field name is in the form_data dictionary, update its value
-                    if key in form_data:
-                        value = form_data[key]
+                    # If the field name exists in the field_mapping, update its value
+                    if key in field_mapping:
+                        value = field_mapping[key]
                         
-                        # Handle checkboxes and radio buttons (which are boolean)
+                        # If the value is a boolean (for checkboxes or radio buttons)
                         if isinstance(value, bool):
                             field.update({
                                 "/V": "/Yes" if value else "/Off"
@@ -86,6 +106,7 @@ def fill_pdf_form(template_path, output_buffer, form_data):
 
     # Write the filled PDF to the output buffer
     writer.write(output_buffer)
+
 
 
 def reset_inputx(default_value, key):
