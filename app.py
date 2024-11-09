@@ -14,6 +14,7 @@ import pandas as pd
 import io
 from PyPDF2 import PdfFileWriter, PdfFileReader
 from PyPDF2.generic import BooleanObject, NameObject, IndirectObject
+import uuid
 
 st.set_page_config(layout="wide")
 
