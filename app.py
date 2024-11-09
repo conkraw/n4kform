@@ -722,7 +722,18 @@ if st.session_state.page == "Summary":
                 'nature_of_change': st.session_state['nature_of_change'],
                 'tube_change_indications': st.session_state['tube_change_indications'],
                 'diagnostic_category': ", ".join(st.session_state.form_data['diagnostic_category']) if isinstance(st.session_state.form_data.get('diagnostic_category', []), list) else st.session_state.form_data.get('diagnostic_category', ''),
-                'difficult_to_bag': st.session_state['difficult_to_bag']
+                'difficult_to_bag': st.session_state['difficult_to_bag'],
+                'evaluation_1': st.session_state['evaluation_1'],
+                'evaluation_2': st.session_state['evaluation_2'],
+                'evaluation_3': st.session_state['evaluation_3'],
+                'evaluation_4': st.session_state['evaluation_4'],
+                'evaluation_5': st.session_state['evaluation_5'],
+                'evaluation_6': st.session_state['evaluation_6'],
+                'evaluation_7': st.session_state['evaluation_7'],
+                'evaluation_8': st.session_state['evaluation_8'],
+                'evaluation_9': st.session_state['evaluation_9'],
+                'cyanotic': st.session_state['cyanotic'],
+                
             }
 
             for attempt in range(1, 9):
@@ -868,15 +879,33 @@ if st.session_state.page == "Summary":
                 'ett_type_8': str(rows['ett_type_8']),
                 'cricoid_prior_8': str(rows['cricoid_prior_8']),
                 'cricoid_during_8': str(rows['cricoid_during_8']),
-                'attempt_successful_8': str(rows['attempt_successful_8'])
+                'attempt_successful_8': str(rows['attempt_successful_8']),
+
+                'evaluation_1': str(rows['evaluation_1']),
+                'evaluation_2': str(rows['evaluation_2']),
+                'evaluation_3': str(rows['evaluation_3']),
+                'evaluation_4': str(rows['evaluation_4']),
+                'evaluation_5': str(rows['evaluation_5']),
+                'evaluation_6': str(rows['evaluation_6']),
+                'evaluation_7': str(rows['evaluation_7']),
+                'evaluation_8': str(rows['evaluation_8']),    
+                'evaluation_9': str(rows['evaluation_9']),
+
+                'cyanotic': str(rows['cyanotic']),
+
+                
             }
 
                 
                 # Add the page to the writer and fill the form
                 pdf_writer.add_page(pdf.pages[0])
                 pdf_writer.update_page_form_field_values(pdf_writer.pages[0], field_dictionary_1)
+                
                 pdf_writer.add_page(pdf.pages[1])
                 pdf_writer.update_page_form_field_values(pdf_writer.pages[1], field_dictionary_1)
+                
+                pdf_writer.add_page(pdf.pages[2])
+                pdf_writer.update_page_form_field_values(pdf_writer.pages[2], field_dictionary_1)
                 
                 # Create a BytesIO stream to hold the output PDF
                 pdf_output = io.BytesIO()
