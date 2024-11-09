@@ -12,8 +12,8 @@ from email import encoders
 import smtplib
 import pandas as pd 
 import io
-from PyPDF2 import PdfReader, PdfWriter
-from PyPDF2.generic import NameObject, BooleanObject
+from PyPDF2 import PdfFileWriter, PdfFileReader
+from PyPDF2.generic import BooleanObject, NameObject, IndirectObject
 
 st.set_page_config(layout="wide")
 
