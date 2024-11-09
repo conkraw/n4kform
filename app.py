@@ -17,61 +17,19 @@ from PyPDF2.generic import NameObject, BooleanObject
 
 st.set_page_config(layout="wide")
 
-def set_need_appearances_writer(writer: PdfWriter):
+def set_need_appearances_writer(writer: PdfFileWriter):
     try:
         catalog = writer._root_object
         if "/AcroForm" not in catalog:
             writer._root_object.update({
-                NameObject("/AcroForm"): writer._add_object({})})
+                NameObject("/AcroForm"): IndirectObject(len(writer._objects), 0, writer)})
         need_appearances = NameObject("/NeedAppearances")
         writer._root_object["/AcroForm"][need_appearances] = BooleanObject(True)
         return writer
+
     except Exception as e:
         print('set_need_appearances_writer() catch : ', repr(e))
         return writer
-
-# Function to generate a filled PDF in memory based on the row data
-def generate_filled_pdf_from_csv_row(pdf_template, row_data):
-    # Create an in-memory PDF writer
-    pdf_writer = PdfWriter()
-
-    # Set the 'NeedAppearances' flag to True
-    pdf_writer = set_need_appearances_writer(pdf_writer)
-
-    # Read the PDF template
-    pdf_reader = PdfReader(pdf_template)
-    pdf_writer.add_page(pdf_reader.pages[0])
-
-    # Create a dictionary to map PDF fields to CSV data (row_data)
-    field_mapping = {
-        'date': str(row_data['date']),
-        'time': str(row_data['time']),
-        'location': str(row_data['location']),
-        'patient_gender': str(row_data['patient_gender']),
-        'weight': str(row_data['weight']),
-        'form_completed_by': str(row_data['form_completed_by']),
-        'pager_number': str(row_data['pager_number']),
-        'family_member_present': "Yes" if row_data['family_member_present'] else "No",
-        'attending_physician_present': "Yes" if row_data['attending_physician_present'] else "No",
-        'type_of_change_from': str(row_data['type_of_change_from']),
-        'diagnostic_category': str(row_data['diagnostic_category']),
-    }
-
-    # Instead of `updatePageFormFieldValues`, we use `addPage` and manually populate the fields
-    for field_name, field_value in field_mapping.items():
-        for field in pdf_reader.pages[0]['/Annots']:
-            if field.get('/T')[1:-1] == field_name:  # Check the field name
-                field.update({
-                    "/V": field_value  # Set the field value
-                })
-
-    # Write the PDF to an in-memory buffer
-    pdf_buffer = io.BytesIO()
-    pdf_writer.write(pdf_buffer)
-    pdf_buffer.seek(0)  # Rewind the buffer to the start
-
-    return pdf_buffer
-
 
 def reset_inputx(default_value, key):
     # Initialize the key in session state if it doesn't exist
@@ -678,12 +636,42 @@ if st.session_state.page == "Summary":
             pdf_template = 'dcf.pdf'  # Replace this with the correct path to your PDF template
 
             # Generate a filled PDF from the document_data
-            pdf_buffer = generate_filled_pdf_from_csv_row(pdf_template, document_data)
+            #pdf_buffer = generate_filled_pdf_from_csv_row(pdf_template, document_data)
+
+            data = pd.read_csv(csv_data) 
+            
+            pdf = PdfFileReader(open(pdf_template, "rb"), strict=False) 
+            
+            if "/AcroForm" in pdf.trailer["/Root"]:
+                pdf.trailer["/Root"]["/AcroForm"].update(
+                    {NameObject("/NeedAppearances"): BooleanObject(True)})
+            pdf_fields = [str(x) for x in pdf.getFields().keys()] # List of all pdf field names
+            csv_fields = data.columns.tolist()
+            
+            i = 0 #Filename numerical prefix
+            for j, rows in data.iterrows():
+                i += 1
+                pdf2 = PdfFileWriter()
+                set_need_appearances_writer(pdf2)
+                if "/AcroForm" in pdf2._root_object:
+                    pdf2._root_object["/AcroForm"].update(
+                        {NameObject("/NeedAppearances"): BooleanObject(True)})
+                
+                # Key = pdf_field_name : Value = csv_field_value
+                field_dictionary_1 = {'date': str(rows['date']),}
+                
+                temp_out_dir = os.path.normpath(os.path.join(pdfout,str(i) + '.pdf'))
+                pdf2.addPage(pdf.getPage(0))
+                pdf2.updatePageFormFieldValues(pdf2.getPage(0), field_dictionary_1)
+        
+                outputStream = open(temp_out_dir, "wb")
+                pdf2.write(outputStream)
+                outputStream.close()
 
             # Provide a download button for the generated PDF
             st.download_button(
                 label="Download PDF",
-                data=pdf_buffer,
+                data=outputStream,
                 file_name="filled_form.pdf",
                 mime="application/pdf"
             )
