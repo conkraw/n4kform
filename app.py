@@ -580,6 +580,25 @@ if 'db' not in st.session_state:
     except Exception as e:
         st.error(f"Failed to connect to Firestore: {str(e)}")
         
+import io
+import os
+import pandas as pd
+from PyPDF2 import PdfFileWriter, PdfFileReader
+from PyPDF2.generic import BooleanObject, NameObject, IndirectObject
+import streamlit as st
+
+def set_need_appearances_writer(writer: PdfFileWriter):
+    try:
+        catalog = writer._root_object
+        if "/AcroForm" not in catalog:
+            writer._root_object.update({
+                NameObject("/AcroForm"): IndirectObject(len(writer._objects), 0, writer)})
+        need_appearances = NameObject("/NeedAppearances")
+        writer._root_object["/AcroForm"][need_appearances] = BooleanObject(True)
+        return writer
+    except Exception as e:
+        print('set_need_appearances_writer() catch : ', repr(e))
+        return writer
 
 if st.session_state.page == "Summary":
     st.header("SUMMARY")
@@ -615,8 +634,6 @@ if st.session_state.page == "Summary":
                 'diagnostic_category': ", ".join(st.session_state.form_data['diagnostic_category']) if isinstance(st.session_state.form_data.get('diagnostic_category', []), list) else st.session_state.form_data.get('diagnostic_category', ''),
             }
 
-            st.write(st.session_state.form_data['date'])
-
             # Step 1: Convert the document_data dictionary to a pandas DataFrame
             df = pd.DataFrame([document_data])  # Wrap in a list to create a single-row DataFrame
 
@@ -635,43 +652,55 @@ if st.session_state.page == "Summary":
             # Assuming 'dcf.pdf' is the path to your PDF template
             pdf_template = 'dcf.pdf'  # Replace this with the correct path to your PDF template
 
-            # Generate a filled PDF from the document_data
-            #pdf_buffer = generate_filled_pdf_from_csv_row(pdf_template, document_data)
+            # Read the CSV from the in-memory bytes (csv_data)
+            data = pd.read_csv(io.BytesIO(csv_data))
 
-            data = pd.read_csv(csv_data) 
-            
-            pdf = PdfFileReader(open(pdf_template, "rb"), strict=False) 
+            # Read the PDF template
+            pdf = PdfFileReader(open(pdf_template, "rb"), strict=False)
             
             if "/AcroForm" in pdf.trailer["/Root"]:
                 pdf.trailer["/Root"]["/AcroForm"].update(
                     {NameObject("/NeedAppearances"): BooleanObject(True)})
-            pdf_fields = [str(x) for x in pdf.getFields().keys()] # List of all pdf field names
-            csv_fields = data.columns.tolist()
-            
-            i = 0 #Filename numerical prefix
+
+            # Create a PdfFileWriter instance for the new filled PDF
+            pdf_writer = PdfFileWriter()
+
+            # Loop through each row in the CSV data
+            i = 0  # Filename numerical prefix
             for j, rows in data.iterrows():
                 i += 1
-                pdf2 = PdfFileWriter()
-                set_need_appearances_writer(pdf2)
-                if "/AcroForm" in pdf2._root_object:
-                    pdf2._root_object["/AcroForm"].update(
-                        {NameObject("/NeedAppearances"): BooleanObject(True)})
-                
-                # Key = pdf_field_name : Value = csv_field_value
-                field_dictionary_1 = {'date': str(rows['date']),}
-                
-                temp_out_dir = os.path.normpath(os.path.join(pdfout,str(i) + '.pdf'))
-                pdf2.addPage(pdf.getPage(0))
-                pdf2.updatePageFormFieldValues(pdf2.getPage(0), field_dictionary_1)
-        
-                outputStream = open(temp_out_dir, "wb")
-                pdf2.write(outputStream)
-                outputStream.close()
+                pdf_writer = PdfFileWriter()
+                set_need_appearances_writer(pdf_writer)
 
-            # Provide a download button for the generated PDF
-            st.download_button(
-                label="Download PDF",
-                data=outputStream,
-                file_name="filled_form.pdf",
-                mime="application/pdf"
-            )
+                # Extract the form fields and map them to CSV row values
+                field_dictionary_1 = {
+                    'date': str(rows['date']),
+                    'time': str(rows['time']),
+                    'location': str(rows['location']),
+                    'patient_gender': str(rows['patient_gender']),
+                    'weight': str(rows['weight']),
+                    'form_completed_by': str(rows['form_completed_by']),
+                    'pager_number': str(rows['pager_number']),
+                    'family_member_present': str(rows['family_member_present']),
+                    'attending_physician_present': str(rows['attending_physician_present']),
+                    'type_of_change_from': str(rows['type_of_change_from']),
+                    'diagnostic_category': str(rows['diagnostic_category']),
+                }
+
+                # Add the page to the writer and fill the form
+                pdf_writer.addPage(pdf.getPage(0))
+                pdf_writer.updatePageFormFieldValues(pdf_writer.pages[0], field_dictionary_1)
+
+                # Create a BytesIO stream to hold the output PDF
+                pdf_output = io.BytesIO()
+                pdf_writer.write(pdf_output)
+                pdf_output.seek(0)  # Rewind to the beginning of the buffer
+
+                # Provide the filled PDF for download
+                st.download_button(
+                    label=f"Download Filled PDF {i}",
+                    data=pdf_output,
+                    file_name=f"filled_form_{i}.pdf",
+                    mime="application/pdf"
+                )
+
