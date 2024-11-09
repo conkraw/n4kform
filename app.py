@@ -633,7 +633,7 @@ if st.session_state.page == "Summary":
                 'type_of_change_from': st.session_state['type_of_change_from'],
                 'diagnostic_category': ", ".join(st.session_state.form_data['diagnostic_category']) if isinstance(st.session_state.form_data.get('diagnostic_category', []), list) else st.session_state.form_data.get('diagnostic_category', ''),
             }
-
+            
             # Step 1: Convert the document_data dictionary to a pandas DataFrame
             df = pd.DataFrame([document_data])  # Wrap in a list to create a single-row DataFrame
 
@@ -703,4 +703,19 @@ if st.session_state.page == "Summary":
                     file_name=f"filled_form_{i}.pdf",
                     mime="application/pdf"
                 )
+            subject = "White Form Submission"
+            message = f"Here is the White Form.<br><br>Date: {document_data['date']}<br>Time: {document_data['time']}<br>Form Completed By: {document_data['form_completed_by']}"
+
+            # Prepare recipients
+            to_emails = [st.secrets["general"]["email_r"]]  # The designated email
+            if user_email:  # Add user's email if provided
+                to_emails.append(user_email)
+        
+            # Upload data to Firestore
+            db = st.session_state.db
+            db.collection("N4KFORMW").add(document_data)
+            st.success("Form submitted successfully!")
+        
+            # Send email with the PDF attachment
+            send_email_with_attachment(to_emails, subject, message, pdf_output)
 
