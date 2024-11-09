@@ -583,11 +583,11 @@ if 'db' not in st.session_state:
 import io
 import os
 import pandas as pd
-from PyPDF2 import PdfFileWriter, PdfFileReader
+from PyPDF2 import PdfReader, PdfWriter
 from PyPDF2.generic import BooleanObject, NameObject, IndirectObject
 import streamlit as st
 
-def set_need_appearances_writer(writer: PdfFileWriter):
+def set_need_appearances_writer(writer: PdfWriter):
     try:
         catalog = writer._root_object
         if "/AcroForm" not in catalog:
@@ -656,20 +656,20 @@ if st.session_state.page == "Summary":
             data = pd.read_csv(io.BytesIO(csv_data))
 
             # Read the PDF template
-            pdf = PdfFileReader(open(pdf_template, "rb"), strict=False)
+            pdf = PdfReader(pdf_template)  # Use PdfReader instead of PdfFileReader
             
             if "/AcroForm" in pdf.trailer["/Root"]:
                 pdf.trailer["/Root"]["/AcroForm"].update(
                     {NameObject("/NeedAppearances"): BooleanObject(True)})
 
-            # Create a PdfFileWriter instance for the new filled PDF
-            pdf_writer = PdfFileWriter()
+            # Create a PdfWriter instance for the new filled PDF
+            pdf_writer = PdfWriter()
 
             # Loop through each row in the CSV data
             i = 0  # Filename numerical prefix
             for j, rows in data.iterrows():
                 i += 1
-                pdf_writer = PdfFileWriter()
+                pdf_writer = PdfWriter()
                 set_need_appearances_writer(pdf_writer)
 
                 # Extract the form fields and map them to CSV row values
@@ -688,8 +688,8 @@ if st.session_state.page == "Summary":
                 }
 
                 # Add the page to the writer and fill the form
-                pdf_writer.addPage(pdf.getPage(0))
-                pdf_writer.updatePageFormFieldValues(pdf_writer.pages[0], field_dictionary_1)
+                pdf_writer.add_page(pdf.pages[0])
+                pdf_writer.update_page_form_field_values(pdf_writer.pages[0], field_dictionary_1)
 
                 # Create a BytesIO stream to hold the output PDF
                 pdf_output = io.BytesIO()
