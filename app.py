@@ -722,7 +722,9 @@ if st.session_state.page == "Summary":
                 # Add the page to the writer and fill the form
                 pdf_writer.add_page(pdf.pages[0])
                 pdf_writer.update_page_form_field_values(pdf_writer.pages[0], field_dictionary_1)
-
+                pdf_writer.add_page(pdf.pages[1])
+                pdf_writer.update_page_form_field_values(pdf_writer.pages[1], field_dictionary_1)
+                
                 # Create a BytesIO stream to hold the output PDF
                 pdf_output = io.BytesIO()
                 pdf_writer.write(pdf_output)
