@@ -10,103 +10,59 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
 import smtplib
-import pandas as pd
-from pdfrw import PdfReader, PdfWriter, PdfDict
-import io
-import pandas as pd
-import streamlit as st
-from pypdf import PdfReader, PdfWriter  # Use PdfReader from pypdf
-import io
-from PyPDF2 import PdfReader, PdfWriter
-from PyPDF2.generic import NameObject, BooleanObject
+import pandas as pd 
 
 st.set_page_config(layout="wide")
 
-from PyPDF2 import PdfReader, PdfWriter
-from PyPDF2.generic import NameObject, BooleanObject
-
-from PyPDF2 import PdfReader, PdfWriter
-from PyPDF2.generic import NameObject, BooleanObject
-
-from PyPDF2 import PdfReader, PdfWriter
-from PyPDF2.generic import NameObject, BooleanObject
-
 def set_need_appearances_writer(writer: PdfWriter):
-    """Ensure the appearance flag is set to true for all fields."""
     try:
         catalog = writer._root_object
         if "/AcroForm" not in catalog:
             writer._root_object.update({
-                NameObject("/AcroForm"): NameObject(len(writer._objects), 0, writer)})
+                NameObject("/AcroForm"): writer._add_object({})})
         need_appearances = NameObject("/NeedAppearances")
         writer._root_object["/AcroForm"][need_appearances] = BooleanObject(True)
         return writer
     except Exception as e:
-        print('set_need_appearances_writer() error: ', repr(e))
+        print('set_need_appearances_writer() catch : ', repr(e))
         return writer
 
-def fill_pdf_form(template_path, output_buffer, form_data):
-    """Fill the form fields in a PDF using the given form data."""
-    reader = PdfReader(template_path)
-    writer = PdfWriter()
+# Function to generate a filled PDF in memory based on a CSV row
+def generate_filled_pdf_from_csv_row(pdf_template, row_data):
+    # Create an in-memory PDF writer
+    pdf_writer = PdfWriter()
+    
+    # Set the 'NeedAppearances' flag to True
+    pdf_writer = set_need_appearances_writer(pdf_writer)
+    
+    # Read the PDF template
+    pdf_reader = PdfReader(pdf_template)
+    pdf_writer.add_page(pdf_reader.pages[0])
 
-    # Define the fields to be mapped (you know the field names already)
-    # This assumes that form_data keys match the PDF field names
+    # Create a dictionary to map PDF fields to CSV data (row_data)
     field_mapping = {
-        "date": form_data.get("date", ""),
-        "time": form_data.get("time", ""),
-        "location": form_data.get("location", ""),
-        "patient_gender": form_data.get("patient_gender", ""),
-        "weight": form_data.get("weight", ""),
-        "form_completed_by": form_data.get("form_completed_by", ""),
-        "pager_number": form_data.get("pager_number", ""),
-        "family_member_present": form_data.get("family_member_present", ""),
-        "attending_physician_present": form_data.get("attending_physician_present", ""),
-        "type_of_change_from": form_data.get("type_of_change_from", ""),
-        "diagnostic_category": form_data.get("diagnostic_category", "")
+        'date': str(row_data['date']),
+        'time': str(row_data['time']),
+        'location': str(row_data['location']),
+        'patient_gender': str(row_data['patient_gender']),
+        'weight': str(row_data['weight']),
+        'form_completed_by': str(row_data['form_completed_by']),
+        'pager_number': str(row_data['pager_number']),
+        'family_member_present': "Yes" if row_data['family_member_present'] else "No",
+        'attending_physician_present': "Yes" if row_data['attending_physician_present'] else "No",
+        'type_of_change_from': str(row_data['type_of_change_from']),
+        'diagnostic_category': str(row_data['diagnostic_category']),
     }
 
-    # Iterate over each page in the PDF and fill in the form fields
-    for page_num in range(len(reader.pages)):
-        page = reader.pages[page_num]
+    # Update the form field values in the PDF
+    pdf_writer.updatePageFormFieldValues(pdf_writer.pages[0], field_mapping)
 
-        # Get the annotations (form fields) from the page
-        annotations = page.get("/Annots")
-        
-        if annotations:
-            for annotation in annotations:
-                # Dereference the annotation (resolve indirect object)
-                field = annotation.get_object()
+    # Write the PDF to an in-memory buffer
+    pdf_buffer = io.BytesIO()
+    pdf_writer.write(pdf_buffer)
+    pdf_buffer.seek(0)  # Rewind the buffer to the start
 
-                # Get the field name
-                key = field.get("/T")
-                
-                if key:
-                    key = key[1:-1]  # Remove parentheses around the field name
-                    
-                    # If the field name exists in the field_mapping, update its value
-                    if key in field_mapping:
-                        value = field_mapping[key]
-                        
-                        # If the value is a boolean (for checkboxes or radio buttons)
-                        if isinstance(value, bool):
-                            field.update({
-                                "/V": "/Yes" if value else "/Off"
-                            })
-                        else:
-                            field.update({
-                                "/V": f"({value})"
-                            })
-
-        # Add the page to the writer (after modifying the fields)
-        writer.add_page(page)
-
-    # Set the appearance flag to make sure all fields show the updated values
-    set_need_appearances_writer(writer)
-
-    # Write the filled PDF to the output buffer
-    writer.write(output_buffer)
-
+    return pdf_buffer
 
 def reset_inputx(default_value, key):
     # Initialize the key in session state if it doesn't exist
@@ -656,17 +612,18 @@ if 'db' not in st.session_state:
         st.session_state.db = firestore.client()
     except Exception as e:
         st.error(f"Failed to connect to Firestore: {str(e)}")
-
-# Function to fill the form fields in a PDF template
+        
 
 if st.session_state.page == "Summary":
     st.header("SUMMARY")
 
+    # Optional: User email input
     user_email = st.text_input("Enter your email address (optional):", value="", key="user_email_input")
 
     if 'doc_file' not in st.session_state:
         st.session_state.doc_file = None
 
+    # Create columns for navigation and submission buttons
     col_prev, col_submit = st.columns(2)
 
     with col_prev:
@@ -674,7 +631,7 @@ if st.session_state.page == "Summary":
             st.session_state.page = "Disposition"
             st.rerun()
 
-    with col_submit:     
+    with col_submit:
         if st.button("Submit"):
             # Collect form data into document_data dictionary
             document_data = {
@@ -691,19 +648,33 @@ if st.session_state.page == "Summary":
                 'diagnostic_category': ", ".join(st.session_state.form_data['diagnostic_category']) if isinstance(st.session_state.form_data.get('diagnostic_category', []), list) else st.session_state.form_data.get('diagnostic_category', ''),
             }
 
-            # Path to the existing PDF template
-            template_path = 'dcf.pdf'  # Update with actual path
-            output_buffer = io.BytesIO()  # Buffer to hold the filled PDF
+            st.write(st.session_state.form_data['date'])
 
-            # Fill the template with the form data
-            fill_pdf_form(template_path, output_buffer, document_data)
+            # Step 1: Convert the document_data dictionary to a pandas DataFrame
+            df = pd.DataFrame([document_data])  # Wrap in a list to create a single-row DataFrame
 
-            # Provide a download button for the filled PDF
-            output_buffer.seek(0)  # Rewind buffer
+            # Step 2: Convert the DataFrame to CSV
+            csv_data = df.to_csv(index=False).encode('utf-8')
+
+            # Step 3: Provide a download button for the CSV
+            st.download_button(
+                label="Download CSV",
+                data=csv_data,
+                file_name="form_data.csv",
+                mime="text/csv"
+            )
+
+            # Step 4: Generate PDFs for the collected form data (in-memory)
+            # Assuming 'dcf.pdf' is the path to your PDF template
+            pdf_template = 'dcf.pdf'  # Replace this with the correct path to your PDF template
+
+            # Generate a filled PDF from the document_data
+            pdf_buffer = generate_filled_pdf_from_csv_row(pdf_template, document_data)
+
+            # Provide a download button for the generated PDF
             st.download_button(
                 label="Download PDF",
-                data=output_buffer,
+                data=pdf_buffer,
                 file_name="filled_form.pdf",
                 mime="application/pdf"
             )
-
