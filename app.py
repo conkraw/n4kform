@@ -642,14 +642,14 @@ if st.session_state.page == "Summary":
                 attempt_key = f"Attempt {attempt}"
                 
                 # Adding each attempt-related field to the document_data dictionary
-                document_data[f'who_intubated_{attempt}'] = st.session_state.attempts[attempt_key]['who_intubated']
-                document_data[f'discipline_{attempt}'] = st.session_state.attempts[attempt_key]['discipline']
-                document_data[f'pgy_level_{attempt}'] = st.session_state.attempts[attempt_key]['pgy_level']
-                document_data[f'ett_size_{attempt}'] = st.session_state.attempts[attempt_key]['ett_size']
-                document_data[f'ett_type_{attempt}'] = st.session_state.attempts[attempt_key]['ett_type']
-                document_data[f'cricoid_prior_{attempt}'] = st.session_state.attempts[attempt_key]['cricoid_prior']
-                document_data[f'cricoid_during_{attempt}'] = st.session_state.attempts[attempt_key]['cricoid_during']
-                document_data[f'attempt_successful_{attempt}'] = st.session_state.attempts[attempt_key]['attempt_successful']
+                document_data[f'who_intubated_{attempt}'] = st.session_state.attempts[attempt_key].get('who_intubated', '') if not pd.isna(st.session_state.attempts[attempt_key].get('who_intubated', None)) else ''
+                document_data[f'discipline_{attempt}'] = st.session_state.attempts[attempt_key].get('discipline', '') if not pd.isna(st.session_state.attempts[attempt_key].get('discipline', None)) else ''
+                document_data[f'pgy_level_{attempt}'] = st.session_state.attempts[attempt_key].get('pgy_level', '') if not pd.isna(st.session_state.attempts[attempt_key].get('pgy_level', None)) else ''
+                document_data[f'ett_size_{attempt}'] = st.session_state.attempts[attempt_key].get('ett_size', '') if not pd.isna(st.session_state.attempts[attempt_key].get('ett_size', None)) else ''
+                document_data[f'ett_type_{attempt}'] = st.session_state.attempts[attempt_key].get('ett_type', '') if not pd.isna(st.session_state.attempts[attempt_key].get('ett_type', None)) else ''
+                document_data[f'cricoid_prior_{attempt}'] = st.session_state.attempts[attempt_key].get('cricoid_prior', '') if not pd.isna(st.session_state.attempts[attempt_key].get('cricoid_prior', None)) else ''
+                document_data[f'cricoid_during_{attempt}'] = st.session_state.attempts[attempt_key].get('cricoid_during', '') if not pd.isna(st.session_state.attempts[attempt_key].get('cricoid_during', None)) else ''
+                document_data[f'attempt_successful_{attempt}'] = st.session_state.attempts[attempt_key].get('attempt_successful', '') if not pd.isna(st.session_state.attempts[attempt_key].get('attempt_successful', None)) else ''
             
             # Step 1: Convert the document_data dictionary to a pandas DataFrame
             df = pd.DataFrame([document_data])  # Wrap in a list to create a single-row DataFrame
