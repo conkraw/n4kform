@@ -15,34 +15,43 @@ from pdfrw import PdfReader, PdfWriter, PdfDict
 import io
 import pandas as pd
 import streamlit as st
-import fitz  # PyMuPDF for working with PDFs
+from pypdf import PdfReader, PdfWriter  # Use PdfReader from pypdf
 import io
-
 st.set_page_config(layout="wide")
 
 # Function to fill the form fields in a PDF template using PyMuPDF (fitz)
+
+
 def fill_pdf_form(template_path, output_buffer, form_data):
     # Open the template PDF
-    doc = fitz.open(template_path)
+    reader = PdfReader(template_path)
+    writer = PdfWriter()
 
-    # Loop through the pages (usually just the first page for form filling)
-    for page_num in range(len(doc)):
-        page = doc.load_page(page_num)
+    # Go through each page (usually just the first page for form filling)
+    for page_num in range(len(reader.pages)):
+        page = reader.pages[page_num]
 
-        # Loop through the form fields (annotations) in the page
-        for field_name, value in form_data.items():
-            # Try to get the field by name
-            field = page.first_annot
-            while field:
-                if field.field_name == field_name:
-                    field.update_text(value)
-                field = field.next
+        # Get the form fields (annotations) in the page
+        fields = page.get("/Annots")
 
-    # Save the filled PDF to the output buffer
-    doc.save(output_buffer)
+        # If form fields exist, fill them with the data from form_data
+        if fields:
+            for field in fields:
+                key = field.get("/T")
+                if key:
+                    key = key[1:-1]  # Remove parentheses from the field name
 
-# Your form submission and PDF creation code
+                    if key in form_data:
+                        value = form_data[key]
+                        field.update({
+                            "/V": f"({value})",  # Set the value of the form field
+                        })
 
+        # Add the page to the writer
+        writer.add_page(page)
+
+    # Write the filled PDF to the output buffer
+    writer.write(output_buffer)
 def reset_inputx(default_value, key):
     # Initialize the key in session state if it doesn't exist
     if key not in st.session_state:
@@ -661,7 +670,7 @@ if st.session_state.page == "Summary":
             )
     
             # Path to the existing PDF template
-            template_path = 'path/to/your/pdf_template.pdf'  # Update with actual path
+            template_path = 'dcf.pdf'  # Update with actual path
             output_buffer = io.BytesIO()  # Buffer to hold the filled PDF
     
             # Fill the template with the form data
