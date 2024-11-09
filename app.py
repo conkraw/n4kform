@@ -528,9 +528,8 @@ elif st.session_state.page == "Course Information":
             st.session_state.page = "Summary"  # Set next page
             st.rerun()  # Rerun the app to reflect the new page
 
-
-# Function to send email with attachment
-def send_email_with_attachment(to_emails, subject, body, file_path):
+def send_email_with_attachment(to_emails, subject, body, pdf_buffer):
+    # Email credentials from Streamlit secrets
     from_email = st.secrets["general"]["email"]
     password = st.secrets["general"]["email_password"]
 
@@ -543,20 +542,19 @@ def send_email_with_attachment(to_emails, subject, body, file_path):
     # Attach the email body
     msg.attach(MIMEText(body, 'html'))
 
-    # Attach the Word document
-    with open(file_path, 'rb') as attachment:
-        part = MIMEBase('application', 'octet-stream')
-        part.set_payload(attachment.read())
-        encoders.encode_base64(part)
-        part.add_header('Content-Disposition', f'attachment; filename={file_path.split("/")[-1]}')
-        msg.attach(part)
+    # Attach the PDF document
+    part = MIMEBase('application', 'octet-stream')
+    part.set_payload(pdf_buffer.read())  # Read PDF from the buffer
+    encoders.encode_base64(part)
+    part.add_header('Content-Disposition', 'attachment', filename="filled_form.pdf")
+    msg.attach(part)
 
     # Send the email using SMTP with SSL
     try:
         with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
             server.login(from_email, password)
             server.send_message(msg)
-            st.success("Email sent successfully!")
+            st.success("Email sent successfully with the PDF attachment!")
     except Exception as e:
         st.error(f"Error sending email: {e}")
         
