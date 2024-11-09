@@ -13,36 +13,33 @@ import smtplib
 import pandas as pd
 from pdfrw import PdfReader, PdfWriter, PdfDict
 import io
+import pandas as pd
+import streamlit as st
+import fitz  # PyMuPDF for working with PDFs
+import io
 
 st.set_page_config(layout="wide")
 
-import pandas as pd
-import streamlit as st
-from pdfrw import PdfReader, PdfWriter, PdfDict  # Ensure these imports are here
-import io
-
-# Function to fill the form fields in a PDF template
+# Function to fill the form fields in a PDF template using PyMuPDF (fitz)
 def fill_pdf_form(template_path, output_buffer, form_data):
-    # Read the template PDF
-    template_pdf = PdfReader(template_path)
-    annotations = template_pdf.pages[0]['/Annots']
+    # Open the template PDF
+    doc = fitz.open(template_path)
 
-    # Loop through each annotation (form field) in the PDF and fill it with form data
-    for annotation in annotations:
-        field_name = annotation['/T'][1:-1]  # Get field name (remove parentheses)
+    # Loop through the pages (usually just the first page for form filling)
+    for page_num in range(len(doc)):
+        page = doc.load_page(page_num)
 
-        # Check if this field is in the form_data
-        if field_name in form_data:
-            value = form_data[field_name]
-            # Set the value of the form field
-            annotation.update(
-                PdfDict(V=f'({value})')  # Ensure this uses PdfDict correctly
-            )
+        # Loop through the form fields (annotations) in the page
+        for field_name, value in form_data.items():
+            # Try to get the field by name
+            field = page.first_annot
+            while field:
+                if field.field_name == field_name:
+                    field.update_text(value)
+                field = field.next
 
-    # Write the filled form to the output PDF
-    writer = PdfWriter()
-    writer.addpage(template_pdf.pages[0])
-    writer.write(output_buffer)
+    # Save the filled PDF to the output buffer
+    doc.save(output_buffer)
 
 # Your form submission and PDF creation code
 
@@ -664,7 +661,7 @@ if st.session_state.page == "Summary":
             )
     
             # Path to the existing PDF template
-            template_path = 'dcf.pdf'  # Update with actual path
+            template_path = 'path/to/your/pdf_template.pdf'  # Update with actual path
             output_buffer = io.BytesIO()  # Buffer to hold the filled PDF
     
             # Fill the template with the form data
@@ -678,5 +675,3 @@ if st.session_state.page == "Summary":
                 file_name="filled_form.pdf",
                 mime="application/pdf"
             )
-    
-    
