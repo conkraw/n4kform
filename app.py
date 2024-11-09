@@ -706,6 +706,18 @@ if st.session_state.page == "Summary":
                 'tube_change_indications': str(rows['tube_change_indications']),
                 'diagnostic_category': str(rows['diagnostic_category']),
             }
+            for attempt in range(1, 9):
+                attempt_key = f"Attempt {attempt}"
+        
+                field_dictionary_1[f'who_intubated_{attempt}'] = str(rows.get(f'who_intubated_{attempt}', ''))
+                field_dictionary_1[f'discipline_{attempt}'] = str(rows.get(f'discipline_{attempt}', ''))
+                field_dictionary_1[f'pgy_level_{attempt}'] = str(rows.get(f'pgy_level_{attempt}', ''))
+                field_dictionary_1[f'ett_size_{attempt}'] = str(rows.get(f'ett_size_{attempt}', ''))
+                field_dictionary_1[f'ett_type_{attempt}'] = str(rows.get(f'ett_type_{attempt}', ''))
+                field_dictionary_1[f'cricoid_prior_{attempt}'] = str(rows.get(f'cricoid_prior_{attempt}', ''))
+                field_dictionary_1[f'cricoid_during_{attempt}'] = str(rows.get(f'cricoid_during_{attempt}', ''))
+                field_dictionary_1[f'attempt_successful_{attempt}'] = str(rows.get(f'attempt_successful_{attempt}', ''))
+                
                 # Add the page to the writer and fill the form
                 pdf_writer.add_page(pdf.pages[0])
                 pdf_writer.update_page_form_field_values(pdf_writer.pages[0], field_dictionary_1)
