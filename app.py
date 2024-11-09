@@ -17,18 +17,36 @@ import pandas as pd
 import streamlit as st
 from pypdf import PdfReader, PdfWriter  # Use PdfReader from pypdf
 import io
+from PyPDF2 import PdfReader, PdfWriter
+from PyPDF2.generic import NameObject, BooleanObject
+
 st.set_page_config(layout="wide")
 
 # Function to fill the form fields in a PDF template using PyMuPDF (fitz)
 
+def set_need_appearances_writer(writer: PdfWriter):
+    try:
+        catalog = writer._root_object
+        if "/AcroForm" not in catalog:
+            writer._root_object.update({
+                NameObject("/AcroForm"): NameObject(len(writer._objects), 0, writer)})
+        need_appearances = NameObject("/NeedAppearances")
+        writer._root_object["/AcroForm"][need_appearances] = BooleanObject(True)
+        return writer
+    except Exception as e:
+        print('set_need_appearances_writer() catch : ', repr(e))
+        return writer
+
+# Function to fill the PDF form fields
 def fill_pdf_form(template_path, output_buffer, form_data):
     reader = PdfReader(template_path)
     writer = PdfWriter()
 
+    # Iterate over each page and fill the form fields
     for page_num in range(len(reader.pages)):
         page = reader.pages[page_num]
         fields = page.get("/Annots")
-
+        
         if fields:
             for field in fields:
                 key = field.get("/T")
@@ -44,10 +62,12 @@ def fill_pdf_form(template_path, output_buffer, form_data):
                             field.update({
                                 "/V": f"({value})"
                             })
-
         writer.add_page(page)
 
+    # Set the appearance flag
+    set_need_appearances_writer(writer)
     writer.write(output_buffer)
+
     
 def reset_inputx(default_value, key):
     # Initialize the key in session state if it doesn't exist
@@ -606,6 +626,7 @@ if st.session_state.page == "Summary":
 
     user_email = st.text_input("Enter your email address (optional):", value="", key="user_email_input")
 
+    # Ensure doc_file is initialized in session state
     if 'doc_file' not in st.session_state:
         st.session_state.doc_file = None
 
@@ -615,8 +636,10 @@ if st.session_state.page == "Summary":
         if st.button("Previous"):
             st.session_state.page = "Disposition"
             st.rerun()
-    with col_submit:     
+
+    with col_submit:
         if st.button("Submit"):
+            # Collect form data from session_state
             document_data = {
                 'date': st.session_state.form_data.get('date', ''),
                 'time': st.session_state.form_data.get('time', ''),
@@ -630,18 +653,18 @@ if st.session_state.page == "Summary":
                 'type_of_change_from': st.session_state['type_of_change_from'],
                 'diagnostic_category': ", ".join(st.session_state.form_data['diagnostic_category']) if isinstance(st.session_state.form_data.get('diagnostic_category', []), list) else st.session_state.form_data.get('diagnostic_category', ''),
             }
-        
-            # Convert form data to DataFrame (as in your existing code)
+
+            # Convert the form data to a DataFrame (to save as CSV)
             df = pd.DataFrame([document_data])
-            
-            # Save CSV to a file (on disk or in memory)
+
+            # Save CSV to a file in memory
             csv_file = io.BytesIO()
             df.to_csv(csv_file, index=False)
             csv_file.seek(0)  # Rewind file pointer to start of the file
-        
-            # Save to Streamlit session_state for later use
+
+            # Save the CSV data to session_state for later use (download)
             st.session_state.csv_data = csv_file.getvalue()
-        
+
             # Provide download button for the CSV
             st.download_button(
                 label="Download CSV",
@@ -649,14 +672,14 @@ if st.session_state.page == "Summary":
                 file_name="form_data.csv",
                 mime="text/csv"
             )
-        
+
             # Path to the existing PDF template
-            template_path = 'dcf.pdf'  # Make sure this path is correct
+            template_path = 'dcf.pdf'  # Ensure the correct path for the PDF template
             output_buffer = io.BytesIO()  # Buffer to hold the filled PDF
-        
+
             # Fill the template with the form data
             fill_pdf_form(template_path, output_buffer, document_data)
-        
+
             # Provide a download button for the filled PDF
             output_buffer.seek(0)  # Rewind buffer
             st.download_button(
