@@ -1536,7 +1536,7 @@ if st.session_state.page == "Summary":
                 'fio2_NIV_with_nasal_prong_interface_provide_PEEP_PIP': st.session_state['fio2_NIV_with_nasal_prong_interface_provide_PEEP_PIP'],
                 
                 'liter_flow_Other': st.session_state['liter_flow_Other_(device,_FiO2,_Setting)'],
-                'fio2_Other': st.session_state['fio2_Other_(device,_FiO2,_Setting)']
+                'fio2_Other': st.session_state['fio2_Other_(device,_FiO2,_Setting)'],
 
                 'selected_device':st.session_state['selected_device'],
                 'selected_confirmation':st.session_state['selected_confirmation'],
