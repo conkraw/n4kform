@@ -1469,6 +1469,33 @@ if st.session_state.page == "Summary":
                 'evaluation_9': st.session_state['evaluation_9'],
                 'cyanotic': st.session_state['cyanotic'],
                 
+                'no_drugs':st.session_state['no_drugs'],
+                'atropine_dose':st.session_state['atropine_dose'],
+                'glycopyrrolate_dose':st.session_state['glycopyrrolate_dose'],
+                'fentanyl_dose':st.session_state['fentanyl_dose'],
+                'lidocaine_dose':st.session_state['lidocaine_dose'],
+                'vecuronium_dose':st.session_state['vecuronium_dose'],
+
+                'rocuronium_dose':st.session_state['rocuronium_dose'],
+                'succinylcholine_dose':st.session_state['succinylcholine_dose'],
+                #'vecuronium_dose':st.session_state['vecuronium_dose'],
+                'pancuronium_dose':st.session_state['pancuronium_dose'],
+                'cisatracuronium_dose':st.session_state['cisatracuronium_dose'],
+
+                'propofol_dose':st.session_state['propofol_dose'],
+                'etomidate_dose':st.session_state['etomidate_dose'],
+                'ketamine_dose':st.session_state['ketamine_dose'],
+                'midazolam_dose':st.session_state['midazolam_dose'],
+                'thiopental_dose':st.session_state['thiopental_dose'],
+
+                'selected_method':st.session_state['selected_method'],
+                'selected_techniques':st.session_state['selected_techniques'],
+                'selected_oxygen':st.session_state['selected_oxygen'],
+                'selected_device':st.session_state['selected_device'],
+                
+                
+                
+                
             }
 
             for attempt in range(1, 9):
@@ -1628,7 +1655,26 @@ if st.session_state.page == "Summary":
 
                 'cyanotic': str(rows['cyanotic']),
 
-                
+                'no_drugs': str(rows['no_drugs']),
+                'atropine_dose': str(rows['atropine_dose']),
+                'glycopyrrolate_dose': str(rows['glycopyrrolate_dose']),
+                'fentanyl_dose': str(rows['fentanyl_dose']),
+                'lidocaine_dose': str(rows['lidocaine_dose']),
+                'vecuronium_dose': str(rows['vecuronium_dose']),
+                'rocuronium_dose': str(rows['rocuronium_dose']),
+                'succinylcholine_dose': str(rows['succinylcholine_dose']),
+                'pancuronium_dose': str(rows['pancuronium_dose']),
+                'cisatracuronium_dose': str(rows['cisatracuronium_dose']),
+                'propofol_dose': str(rows['propofol_dose']),
+                'etomidate_dose': str(rows['etomidate_dose']),
+                'ketamine_dose': str(rows['ketamine_dose']),
+                'midazolam_dose': str(rows['midazolam_dose']),
+                'thiopental_dose': str(rows['thiopental_dose']),
+                'selected_method': str(rows['selected_method']),
+                'selected_techniques': str(rows['selected_techniques']),
+                'selected_oxygen': str(rows['selected_oxygen']),
+                'selected_device': str(rows['selected_device']),
+
             }
 
                 
