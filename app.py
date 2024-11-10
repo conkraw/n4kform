@@ -1513,7 +1513,9 @@ if st.session_state.page == "Summary":
                 
                 'selected_method':st.session_state['selected_method'],
                 'selected_techniques':st.session_state['selected_techniques'],
+                
                 'selected_oxygen':st.session_state['selected_oxygen'],
+                'selected_methods':st.session_state['selected_methods'],
                 
                 'selected_device':st.session_state['selected_device'],
                 'selected_confirmation':st.session_state['selected_confirmation'],
@@ -1706,9 +1708,13 @@ if st.session_state.page == "Summary":
                 'midazolam_dose': str(rows['midazolam_dose']),
                 'thiopental_dose': str(rows['thiopental_dose']),
                 'other_3':str(rows['other_3']),
+                
                 'selected_method': str(rows['selected_method']),
                 'selected_techniques': str(rows['selected_techniques']),
+                
                 'selected_oxygen': str(rows['selected_oxygen']),
+                'selected_methods': str(rows['selected_methods']),
+                
                 'selected_device': str(rows['selected_device']),
                 'atropine_indications':str(rows['atropine_indications']),
                 'glycopyrrolate_indications':str(rows['glycopyrrolate_indications']),
