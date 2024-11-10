@@ -1458,6 +1458,9 @@ if st.session_state.page == "Summary":
     with col_submit:
         if st.button("Submit"):
             # Collect form data into document_data dictionary
+            # Convert `attempt_mapping` to a Firestore-friendly format
+            attempt_mapping_data = {str(attempt): events for attempt, events in st.session_state['attempt_mapping'].items()}
+
             document_data = {
                 'airway_bundle': st.session_state.form_data['airway_bundle'],
                 'date': st.session_state.form_data.get('date', ''),
@@ -1538,7 +1541,7 @@ if st.session_state.page == "Summary":
                 
                 'other_comments':st.session_state['other_comments'],
 
-                'attempt_mapping':st.session_state['attempt_mapping'],
+                "attempt_mapping": attempt_mapping_data, 
 
             }
 
