@@ -1550,15 +1550,7 @@ if st.session_state.page == "Summary":
             # Step 2: Convert the DataFrame to CSV
             csv_data = df.to_csv(index=False).encode('utf-8')
 
-            # Step 3: Provide a download button for the CSV
-            st.download_button(
-                label="Download CSV",
-                data=csv_data,
-                file_name="form_data.csv",
-                mime="text/csv"
-            )
-
-            # Step 4: Generate PDFs for the collected form data (in-memory)
+            # Step 3: Generate PDFs for the collected form data (in-memory)
             pdf_template = 'dcfx.pdf'  # Replace this with the correct path to your PDF template
 
             # Read the CSV from the in-memory bytes (csv_data)
@@ -1619,7 +1611,17 @@ if st.session_state.page == "Summary":
             data = data.fillna('')
             
             data['no_drugs'] = data['no_drugs'].replace("NO DRUGS USED", "X")
-        
+
+            csv_data = data.to_csv(index=False).encode('utf-8')
+            
+            # Step 3: Provide a download button for the CSV
+            st.download_button(
+                label="Download CSV",
+                data=csv_data,
+                file_name="form_data.csv",
+                mime="text/csv"
+            )
+
             # Read the PDF template
             pdf = PdfReader(pdf_template)  # Use PdfReader instead of PdfFileReader
             
