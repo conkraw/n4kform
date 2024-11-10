@@ -1663,7 +1663,7 @@ if st.session_state.page == "Summary":
                     data[selected_column_name] = "X"
 
             if 'attempt_mapping' in data.columns:
-                attempt_mapping_str = data['attempt_mapping'][0]  # Assuming 'attempt_mapping' is in the first row
+                attempt_mapping_str = data['attempt_mapping'].iloc[0] 
             
                 # Preprocess the string to convert single quotes to double quotes (for valid JSON format)
                 attempt_mapping_str = attempt_mapping_str.replace("'", '"')
