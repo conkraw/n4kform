@@ -1710,7 +1710,8 @@ if st.session_state.page == "Summary":
                 mime="text/csv"
             )
 
-            data = csv_data
+            
+            data = pd.read_csv(io.BytesIO(csv_data))
             
             # Read the PDF template
             pdf = PdfReader(pdf_template)  # Use PdfReader instead of PdfFileReader
