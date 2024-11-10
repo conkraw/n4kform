@@ -561,6 +561,8 @@ elif st.session_state.page == "Difficult Airway Evaluation":
         st.session_state["evaluation_7"] = 'Select Category 7'
     if "evaluation_8" not in st.session_state:
         st.session_state["evaluation_8"] = 'Select Category 8'
+    if "evaluation_9" not in st.session_state:
+        st.session_state["evaluation_9"] = ''
     
     # Create the layout for questions and options
     cols = st.columns([4, 1])  # Adjust columns if needed
