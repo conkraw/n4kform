@@ -532,7 +532,7 @@ elif st.session_state.page == "Course Information":
 elif st.session_state.page == "Difficult Airway Evaluation":
     st.markdown("### Difficult Airway Evaluations (Choose one in each category):")
     
-    # Define questions and options
+    # Define the questions and options
     questions = [
         ("Evaluation done before or after this course is completed?", ['Select Category 1', 'BEFORE', 'AFTER']),
         ("Known prior history of difficult airway?", ['Select Category 2', 'YES', 'NO']),
@@ -543,31 +543,128 @@ elif st.session_state.page == "Difficult Airway Evaluation":
         ("Midfacial Hypoplasia?", ['Select Category 7', 'YES', 'NO']),
         ("Any other signs of difficult airway exist?", ['Select Category 8', 'YES', 'NO']),
     ]
-
+    
     # Ensure session state is initialized for each question
-    for idx, (question, options) in enumerate(questions):
-        key = f"evaluation_{idx}"
-        if key not in st.session_state:
-            st.session_state[key] = f'Select Category {idx + 1}' 
+    if "evaluation_1" not in st.session_state:
+        st.session_state["evaluation_1"] = 'Select Category 1'
+    if "evaluation_2" not in st.session_state:
+        st.session_state["evaluation_2"] = 'Select Category 2'
+    if "evaluation_3" not in st.session_state:
+        st.session_state["evaluation_3"] = 'Select Category 3'
+    if "evaluation_4" not in st.session_state:
+        st.session_state["evaluation_4"] = 'Select Category 4'
+    if "evaluation_5" not in st.session_state:
+        st.session_state["evaluation_5"] = 'Select Category 5'
+    if "evaluation_6" not in st.session_state:
+        st.session_state["evaluation_6"] = 'Select Category 6'
+    if "evaluation_7" not in st.session_state:
+        st.session_state["evaluation_7"] = 'Select Category 7'
+    if "evaluation_8" not in st.session_state:
+        st.session_state["evaluation_8"] = 'Select Category 8'
+    
+    # Create the layout for questions and options
+    cols = st.columns([4, 1])  # Adjust columns if needed
+    
+    with cols[0]:
+        question_box("1. Evaluation done before or after this course is completed?")  # Display first question
+    with cols[1]:
+        selected_option_1 = st.selectbox(
+            "",
+            options=questions[0][1],
+            index=questions[0][1].index(st.session_state["evaluation_1"]),
+            key="evaluation_1_selectbox"
+        )
+        st.session_state["evaluation_1"] = selected_option_1
+    
+    with cols[0]:
+        question_box("2. Known prior history of difficult airway?")  # Display second question
+    with cols[1]:
+        selected_option_2 = st.selectbox(
+            "",
+            options=questions[1][1],
+            index=questions[1][1].index(st.session_state["evaluation_2"]),
+            key="evaluation_2_selectbox"
+        )
+        st.session_state["evaluation_2"] = selected_option_2
+    
+    with cols[0]:
+        question_box("3. Any Limited Neck Extension or Severe Reduction?")  # Display third question
+    with cols[1]:
+        selected_option_3 = st.selectbox(
+            "",
+            options=questions[2][1],
+            index=questions[2][1].index(st.session_state["evaluation_3"]),
+            key="evaluation_3_selectbox"
+        )
+        st.session_state["evaluation_3"] = selected_option_3
+    
+    with cols[0]:
+        question_box("4. Widest Mouth Opening – How many Patient’s fingers between gum/incisors?")  # Display fourth question
+    with cols[1]:
+        selected_option_4 = st.selectbox(
+            "",
+            options=questions[3][1],
+            index=questions[3][1].index(st.session_state["evaluation_4"]),
+            key="evaluation_4_selectbox"
+        )
+        st.session_state["evaluation_4"] = selected_option_4
+    
+    with cols[0]:
+        question_box("5. Thyromental space – Patient’s fingers between chin and thyroid cartilage?")  # Display fifth question
+    with cols[1]:
+        selected_option_5 = st.selectbox(
+            "",
+            options=questions[4][1],
+            index=questions[4][1].index(st.session_state["evaluation_5"]),
+            key="evaluation_5_selectbox"
+        )
+        st.session_state["evaluation_5"] = selected_option_5
+    
+    with cols[0]:
+        question_box("6. Evidence of Upper Airway Obstruction or Anatomical Barrier to visualize glottic opening?")  # Display sixth question
+    with cols[1]:
+        selected_option_6 = st.selectbox(
+            "",
+            options=questions[5][1],
+            index=questions[5][1].index(st.session_state["evaluation_6"]),
+            key="evaluation_6_selectbox"
+        )
+        st.session_state["evaluation_6"] = selected_option_6
+    
+    with cols[0]:
+        question_box("7. Midfacial Hypoplasia?")  # Display seventh question
+    with cols[1]:
+        selected_option_7 = st.selectbox(
+            "",
+            options=questions[6][1],
+            index=questions[6][1].index(st.session_state["evaluation_7"]),
+            key="evaluation_7_selectbox"
+        )
+        st.session_state["evaluation_7"] = selected_option_7
+    
+    with cols[0]:
+        question_box("8. Any other signs of difficult airway exist?")  # Display eighth question
+    with cols[1]:
+        selected_option_8 = st.selectbox(
+            "",
+            options=questions[7][1],
+            index=questions[7][1].index(st.session_state["evaluation_8"]),
+            key="evaluation_8_selectbox"
+        )
+        st.session_state["evaluation_8"] = selected_option_8
 
-    # Create the layout for questions
-    for idx, (question, options) in enumerate(questions):
-        cols = st.columns([4, 1])
-        
+    if st.session_state["evaluation_8"] == 'YES':
         with cols[0]:
-            question_box(f"{idx + 1}. {question}")  # Display question
-            
+            st.write("Please provide details:")
         with cols[1]:
-            # Create selectbox with options
-            selected_option = st.selectbox(
-                "",
-                options=options,
-                index=options.index(st.session_state[f"evaluation_{idx}"]),  # Get current value
-                key=f"evaluation_{idx}_selectbox"  # Unique key for each selectbox
+            # Create a text input for the user to provide additional information
+            user_input = st.text_input(
+                "Enter any other signs of difficult airway",
+                key="evaluation_9_input"  # New session state key for this input
             )
+            # Save the input in session state as 'evaluation_9'
+            st.session_state["evaluation_9"] = user_input
 
-            # Update session state
-            st.session_state[f"evaluation_{idx}"] = selected_option
 
     # Difficult to Bag/Mask Ventilate
     st.markdown("### Difficult to Bag/Mask Ventilate? (Select ONE only)")
