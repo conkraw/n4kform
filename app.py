@@ -1586,27 +1586,27 @@ if st.session_state.page == "Summary":
                 liter_flow_column_name = f'liter_flow_{i + 1}'
                 fio2_column_name = f'fio2_{i + 1}'
             
-                # Check if the method is selected (has "X" in selected_methods column)
+                # Initialize all the columns with an empty string
+                data[selected_column_name] = ""
+                data[liter_flow_column_name] = ""
+                data[fio2_column_name] = ""
+            
+                # Check if the method is selected (it will be in the 'selected_methods' list)
                 if method in data['selected_methods'][0]:
+                    # If method is selected, place "X" in the corresponding selected_methods column
+                    data[selected_column_name] = "X"
+            
                     # Assign the corresponding liter flow value to the liter_flow column
                     liter_flow_key = f'liter_flow_{method.replace(" ", "_")}'
                     fio2_key = f'fio2_{method.replace(" ", "_")}'
-                    
-                    # Check if the liter_flow_key exists in the dictionary and assign it to the column
+            
+                    # Assign the liter flow value if it exists in the dictionary, else leave it empty
                     if liter_flow_key in data['liter_flow'][0]:
                         data[liter_flow_column_name] = data['liter_flow'][0].get(liter_flow_key, "")
-                    else:
-                        data[liter_flow_column_name] = ""
                     
-                    # Check if the fio2_key exists in the dictionary and assign it to the column
+                    # Assign the fio2 value if it exists in the dictionary, else leave it empty
                     if fio2_key in data['fio2'][0]:
                         data[fio2_column_name] = data['fio2'][0].get(fio2_key, "")
-                    else:
-                        data[fio2_column_name] = ""
-                else:
-                    # If the method is not selected, leave the liter_flow and fio2 columns empty
-                    data[liter_flow_column_name] = ""
-                    data[fio2_column_name] = ""
 
             data = data.fillna('')
             
