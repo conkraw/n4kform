@@ -1521,6 +1521,10 @@ if st.session_state.page == "Summary":
                 'liter_flow':st.session_state['liter_flow'],
                 'fio2':st.session_state['fio2'],
 
+                'selected_events':st.session_state['selected_events'],
+
+                'other_event_description':st.session_state['other_event_description'],
+
                 'selected_device':st.session_state['selected_device'],
                 'selected_confirmation':st.session_state['selected_confirmation'],
                 'glottic_exposure':st.session_state['glottic_exposure'],
@@ -1611,7 +1615,47 @@ if st.session_state.page == "Summary":
                     # Assign the fio2 value if it exists in the dictionary, else leave it empty
                     if fio2_key in data['fio2'][0]:
                         data[fio2_column_name] = data['fio2'][0].get(fio2_key, "")
+            
+            data['selected_events'] = data['selected_events'].apply(ast.literal_eval)
+            
+            # Predefined list of methods for reference (the order will be used for column names)
+            predefined_methods = [
+                "NONE",
+                "Cardiac arrest – patient died",
+                "Cardiac arrest – patient survived",
+                "Main stem intubation",
+                "Esophageal intubation, immediate recognition",
+                "Esophageal intubation, delayed recognition",
+                "Vomit with aspiration",
+                "Vomit but No aspiration",
+                "Hypotension, needs intervention (fluids/pressors)",
+                "Hypertension, requiring therapy",
+                "Epistaxis",
+                "Dental trauma",
+                "Lip trauma",
+                "Laryngospasm",
+                "Malignant hyperthermia",
+                "Medication error",
+                "Pneumothorax / pneumomediastinum",
+                "Direct airway injury",
+                "Dysrhythmia (includes Bradycardia<60/min)",
+                "Pain/Agitation, req’d additional meds AND delay in intubation",
+                "Other (Please describe):"
+            ]
 
+            # Now process the 'selected_methods' column to assign methods to specific columns
+            for i, method in enumerate(predefined_methods):
+                # Create column names like selected_methods1, selected_methods2, etc.
+                selected_column_name = f'event{i + 1}'
+            
+                # Initialize all the columns with an empty string
+                data[selected_column_name] = ""
+            
+                # Check if the method is selected (it will be in the 'selected_methods' list)
+                if method in data['selected_methods'][0]:
+                    # If method is selected, place "X" in the corresponding selected_methods column
+                    data[selected_column_name] = "X"
+                        
             data = data.fillna('')
             
             data['no_drugs'] = data['no_drugs'].replace("NO DRUGS USED", "X")
@@ -1803,6 +1847,30 @@ if st.session_state.page == "Summary":
                 'selected_device': str(rows['selected_device']),
                 'atropine_indications':str(rows['atropine_indications']),
                 'glycopyrrolate_indications':str(rows['glycopyrrolate_indications']),
+
+                'event_1': str(rows['event_1']),
+                'event_2': str(rows['event_2']),
+                'event_3': str(rows['event_3']),
+                'event_4': str(rows['event_4']),
+                'event_5': str(rows['event_5']),
+                'event_6': str(rows['event_6']),
+                'event_7': str(rows['event_7']),
+                'event_8': str(rows['event_8']),
+                'event_9': str(rows['event_9']),
+                'event_10': str(rows['event_10']),
+                'event_11': str(rows['event_11']),
+                'event_12': str(rows['event_12']),
+                'event_13': str(rows['event_13']),
+                'event_14': str(rows['event_14']),
+                'event_15': str(rows['event_15']),
+                'event_16': str(rows['event_16']),
+                'event_17': str(rows['event_17']),
+                'event_18': str(rows['event_18']),
+                'event_19': str(rows['event_19']),
+                'event_20': str(rows['event_20']),
+                'event_21': str(rows['event_21']),
+
+                'other_event_description': str(rows['other_event_description']),
 
             }
 
