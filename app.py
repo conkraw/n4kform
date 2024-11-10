@@ -1492,18 +1492,21 @@ if st.session_state.page == "Summary":
                 'fentanyl_dose':st.session_state['fentanyl_dose'],
                 'lidocaine_dose':st.session_state['lidocaine_dose'],
                 'vecuronium_dose':st.session_state['vecuronium_dose'],
+                'other_1':st.session_state['other_1'],
 
                 'rocuronium_dose':st.session_state['rocuronium_dose'],
                 'succinylcholine_dose':st.session_state['succinylcholine_dose'],
                 'vecuronium_paralysis_dose':st.session_state['vecuronium_paralysis_dose'],
                 'pancuronium_dose':st.session_state['pancuronium_dose'],
                 'cisatracuronium_dose':st.session_state['cisatracuronium_dose'],
+                'other_2':st.session_state['other_2'],
 
                 'propofol_dose':st.session_state['propofol_dose'],
                 'etomidate_dose':st.session_state['etomidate_dose'],
                 'ketamine_dose':st.session_state['ketamine_dose'],
                 'midazolam_dose':st.session_state['midazolam_dose'],
                 'thiopental_dose':st.session_state['thiopental_dose'],
+                'other_3':st.session_state['other_3'],
 
                 'atropine_indications':st.session_state['atropine_indications'],
                 'glycopyrrolate_indications':st.session_state['glycopyrrolate_indications'],
