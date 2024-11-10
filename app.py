@@ -1538,7 +1538,7 @@ if st.session_state.page == "Summary":
                 
                 'other_comments':st.session_state['other_comments'],
 
-                attempt_mapping:st.session_state['attempt_mapping'],
+                'attempt_mapping':st.session_state['attempt_mapping'],
 
             }
 
