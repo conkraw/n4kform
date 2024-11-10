@@ -827,8 +827,8 @@ if st.session_state.page == "Summary":
                 'evaluation_5': st.session_state['evaluation_5'],
                 'evaluation_6': st.session_state['evaluation_6'],
                 'evaluation_7': st.session_state['evaluation_7'],
-                #'evaluation_8': st.session_state['evaluation_8'],
-                #'evaluation_9': st.session_state['evaluation_9'],
+                'evaluation_8': st.session_state['evaluation_8'],
+                'evaluation_9': st.session_state['evaluation_9'],
                 'cyanotic': st.session_state['cyanotic'],
                 
             }
@@ -985,8 +985,8 @@ if st.session_state.page == "Summary":
                 'evaluation_5': str(rows['evaluation_5']),
                 'evaluation_6': str(rows['evaluation_6']),
                 'evaluation_7': str(rows['evaluation_7']),
-                #'evaluation_8': str(rows['evaluation_8']),    
-                #'evaluation_9': str(rows['evaluation_9']),
+                'evaluation_8': str(rows['evaluation_8']),    
+                'evaluation_9': str(rows['evaluation_9']),
 
                 'cyanotic': str(rows['cyanotic']),
 
