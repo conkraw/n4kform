@@ -327,7 +327,7 @@ if st.session_state.page == "Encounter Information":
         # Only proceed if button is clicked
         if st.button("Next"):
             st.session_state.page = "Indications"  # Set next page
-                st.rerun()
+            st.rerun()
                 
             # Validation check for required fields
             #missing_fields = []
