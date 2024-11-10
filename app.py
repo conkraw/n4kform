@@ -1532,7 +1532,8 @@ if st.session_state.page == "Summary":
             # Read the CSV from the in-memory bytes (csv_data)
             data = pd.read_csv(io.BytesIO(csv_data))
 
-            data = data.fillna('') 
+            data = data.fillna('')
+            data['no_drugs'] = data['no_drugs'].replace("NO DRUGS USED", "X")
 
             # Read the PDF template
             pdf = PdfReader(pdf_template)  # Use PdfReader instead of PdfFileReader
