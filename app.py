@@ -1643,7 +1643,6 @@ if st.session_state.page == "Summary":
                 "Other (Please describe):"
             ]
 
-            # Now process the 'selected_methods' column to assign methods to specific columns
             for i, method in enumerate(predefined_methods):
                 # Create column names like selected_methods1, selected_methods2, etc.
                 selected_column_name = f'event_{i + 1}'
@@ -1651,9 +1650,7 @@ if st.session_state.page == "Summary":
                 # Initialize all the columns with an empty string
                 data[selected_column_name] = ""
             
-                # Check if the method is selected (it will be in the 'selected_methods' list)
-                if method in data['selected_methods'][0]:
-                    # If method is selected, place "X" in the corresponding selected_methods column
+                if method in data['selected_events'][0]:
                     data[selected_column_name] = "X"
                         
             data = data.fillna('')
