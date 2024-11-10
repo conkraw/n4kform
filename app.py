@@ -937,11 +937,7 @@ elif st.session_state.page == "Method Details":
         st.session_state.oxygen_explanation = ""
     if "selected_methods" not in st.session_state:
         st.session_state.selected_methods = []
-    if "liter_flow" not in st.session_state:
-        st.session_state.liter_flow = {}
-    if "fio2" not in st.session_state:
-        st.session_state.fio2 = {}
-
+    
     # Initialize specific keys for liter flow and fio2 for each method
     oxygen_methods = [
         "nc_without_nasal_airway",
@@ -950,10 +946,15 @@ elif st.session_state.page == "Method Details":
         "through_LMA",
         "HFNC",
         "NIV_with_nasal_prong_interface_provide_PEEP_PIP",
-        "Other"
+        "Other_(device,_FiO2,_Setting)"
     ]
     
     # Initialize session state keys for each method's liter flow and fio2
+    if "liter_flow" not in st.session_state:
+        st.session_state.liter_flow = {}
+    if "fio2" not in st.session_state:
+        st.session_state.fio2 = {}
+    
     for method in oxygen_methods:
         liter_flow_key = f"liter_flow_{method}"
         fio2_key = f"fio2_{method}"
@@ -1048,7 +1049,6 @@ elif st.session_state.page == "Method Details":
         if st.button("Next"):
             st.session_state.page = "Method Details II"  # Update this to your actual next page
             st.rerun()  # Refresh the app to apply changes
-
 
 
 elif st.session_state.page == "Method Details II":
