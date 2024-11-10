@@ -927,12 +927,10 @@ elif st.session_state.page == "Method":
             st.session_state.page = "Method Details"  # Set next page (update this to your actual next page)
             st.rerun()
 
-
-
-# Main application logic based on the current page
 elif st.session_state.page == "Method Details":
     st.header("METHOD DETAILS")
     
+    # Initialize session state keys if not already set
     if "selected_oxygen" not in st.session_state:
         st.session_state.selected_oxygen = "Select if Oxygen was Provided DURING any TI attempts for this course"
     if "oxygen_explanation" not in st.session_state:
@@ -943,7 +941,29 @@ elif st.session_state.page == "Method Details":
         st.session_state.liter_flow = {}
     if "fio2" not in st.session_state:
         st.session_state.fio2 = {}
+
+    # Initialize specific keys for liter flow and fio2 for each method
+    oxygen_methods = [
+        "nc_without_nasal_airway",
+        "nc_with_nasal_airway",
+        "oral_airway_with_oxygen_port",
+        "through_LMA",
+        "HFNC",
+        "NIV_with_nasal_prong_interface_provide_PEEP_PIP",
+        "Other"
+    ]
     
+    # Initialize session state keys for each method's liter flow and fio2
+    for method in oxygen_methods:
+        liter_flow_key = f"liter_flow_{method}"
+        fio2_key = f"fio2_{method}"
+
+        # Initialize each key if not already present in session state
+        if liter_flow_key not in st.session_state.liter_flow:
+            st.session_state.liter_flow[liter_flow_key] = ""
+        if fio2_key not in st.session_state.fio2:
+            st.session_state.fio2[fio2_key] = ""
+
     # Question about Oxygen provision
     st.markdown("### 1. Was Oxygen provided DURING any TI attempts for this course?")
     oxygen_options = [
@@ -957,9 +977,9 @@ elif st.session_state.page == "Method Details":
     st.session_state.selected_oxygen = selected_oxygen
 
     # Conditional input for explanation if "ATTEMPTED but not done" is selected
-    #if selected_oxygen == "ATTEMPTED but not done (explain on last page)":
-    #    explanation = st.text_area("Please explain:", value=st.session_state.oxygen_explanation)
-    #    st.session_state.oxygen_explanation = explanation  # Save explanation to session state
+    # if selected_oxygen == "ATTEMPTED but not done (explain on last page)":
+    #     explanation = st.text_area("Please explain:", value=st.session_state.oxygen_explanation)
+    #     st.session_state.oxygen_explanation = explanation  # Save explanation to session state
 
     # Show multiselect if "YES" is selected
     if selected_oxygen == "YES":
@@ -1009,13 +1029,11 @@ elif st.session_state.page == "Method Details":
 
             with cols[1]:
                 # Liter Flow input
-                #liter_flow = st.text_input(f"Liter Flow for {method}:", value=st.session_state.liter_flow[liter_flow_key], key=liter_flow_key)
                 liter_flow = st.text_input("", value=st.session_state.liter_flow[liter_flow_key], key=liter_flow_key)
                 st.session_state.liter_flow[liter_flow_key] = liter_flow
 
             with cols[2]:
                 # FiO2 input
-                #fio2 = st.text_input(f"FiO2 for {method}:", value=st.session_state.fio2[fio2_key], key=fio2_key)
                 fio2 = st.text_input("", value=st.session_state.fio2[fio2_key], key=fio2_key)
                 st.session_state.fio2[fio2_key] = fio2
 
@@ -1030,6 +1048,7 @@ elif st.session_state.page == "Method Details":
         if st.button("Next"):
             st.session_state.page = "Method Details II"  # Update this to your actual next page
             st.rerun()  # Refresh the app to apply changes
+
 
 
 elif st.session_state.page == "Method Details II":
