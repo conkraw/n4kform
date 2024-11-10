@@ -769,6 +769,7 @@ elif st.session_state.page == "Medications":
             fentanyl_input = st.text_input("mcg Fentanyl", value=st.session_state.fentanyl_dose, key="fentanyl_dose_input")
             lidocaine_input = st.text_input("mg Lidocaine", value=st.session_state.lidocaine_dose, key="lidocaine_dose_input")
             vecuronium_input = st.text_input("mg Vecuronium", value=st.session_state.vecuronium_dose, key="vecuronium_dose_input")
+            other_1 = st.text_input("", value=st.session_state.other_1, key="other_1_input")
 
         with col2:
             st.markdown("### Paralysis Dosage")
@@ -777,6 +778,7 @@ elif st.session_state.page == "Medications":
             vecuronium_paralysis_input = st.text_input("mg Vecuronium", value=st.session_state.vecuronium_paralysis_dose, key="vecuronium_paralysis_dose_input")
             pancuronium_input = st.text_input("mg Pancuronium", value=st.session_state.pancuronium_dose, key="pancuronium_dose_input")
             cisatracuronium_input = st.text_input("mg Cisatracuronium", value=st.session_state.cisatracuronium_dose, key="cisatracuronium_dose_input")
+            other_2 = st.text_input("", value=st.session_state.other_2, key="other_2_input")
 
         with col3:
             st.markdown("### Induction Dosage")
@@ -785,6 +787,7 @@ elif st.session_state.page == "Medications":
             ketamine_input = st.text_input("mg Ketamine", value=st.session_state.ketamine_dose, key="ketamine_dose_input")
             midazolam_input = st.text_input("mg Midazolam", value=st.session_state.midazolam_dose, key="midazolam_dose_input")
             thiopental_input = st.text_input("mg Thiopental", value=st.session_state.thiopental_dose, key="thiopental_dose_input")
+            other_3 = st.text_input("", value=st.session_state.other_3, key="other_3_input")
 
         # Atropine Indication
         st.markdown("### Atropine Indication")
@@ -804,15 +807,18 @@ elif st.session_state.page == "Medications":
         st.session_state.fentanyl_dose = ""
         st.session_state.lidocaine_dose = ""
         st.session_state.vecuronium_dose = ""
+        st.session_state.other_1 = ""
         st.session_state.rocuronium_dose = ""
         st.session_state.succinylcholine_dose = ""
         st.session_state.pancuronium_dose = ""
         st.session_state.cisatracuronium_dose = ""
+        st.session_state.other_2 = ""
         st.session_state.propofol_dose = ""
         st.session_state.etomidate_dose = ""
         st.session_state.ketamine_dose = ""
         st.session_state.midazolam_dose = ""
         st.session_state.thiopental_dose = ""
+        st.session_state.other_3 = ""
         st.session_state.atropine_indications = []
         st.session_state.glycopyrrolate_indications = []
 
@@ -832,16 +838,19 @@ elif st.session_state.page == "Medications":
                 st.session_state.fentanyl_dose = fentanyl_input
                 st.session_state.lidocaine_dose = lidocaine_input
                 st.session_state.vecuronium_dose = vecuronium_input
+                st.session_state.other_1 = other_1_input
                 st.session_state.rocuronium_dose = rocuronium_input
                 st.session_state.succinylcholine_dose = succinylcholine_input
                 st.session_state.vecuronium_paralysis_dose = vecuronium_paralysis_input
                 st.session_state.pancuronium_dose = pancuronium_input
                 st.session_state.cisatracuronium_dose = cisatracuronium_input
+                st.session_state.other_2 = other_2_input
                 st.session_state.propofol_dose = propofol_input
                 st.session_state.etomidate_dose = etomidate_input
                 st.session_state.ketamine_dose = ketamine_input
                 st.session_state.midazolam_dose = midazolam_input
                 st.session_state.thiopental_dose = thiopental_input
+                st.session_state.other_3 = other_3_input
                 st.session_state.atropine_indications = atropine_indications
                 st.session_state.glycopyrrolate_indications = glycopyrrolate_indications
 
@@ -918,19 +927,17 @@ elif st.session_state.page == "Method":
 
 
 # Main application logic based on the current page
+# Main application logic based on the current page
 elif st.session_state.page == "Method Details":
     st.header("METHOD DETAILS")
     
+    # Initialize session state variables if not already initialized
     if "selected_oxygen" not in st.session_state:
         st.session_state.selected_oxygen = "Select if Oxygen was Provided DURING any TI attempts for this course"
     if "oxygen_explanation" not in st.session_state:
         st.session_state.oxygen_explanation = ""
     if "selected_methods" not in st.session_state:
         st.session_state.selected_methods = []
-    if "liter_flow" not in st.session_state:
-        st.session_state.liter_flow = {}
-    if "fio2" not in st.session_state:
-        st.session_state.fio2 = {}
     
     # Question about Oxygen provision
     st.markdown("### 1. Was Oxygen provided DURING any TI attempts for this course?")
@@ -940,14 +947,9 @@ elif st.session_state.page == "Method Details":
         "NO", 
         "ATTEMPTED but not done (explain on last page)"
     ]
-
+    
     selected_oxygen = st.selectbox("Select an option:", oxygen_options, index=oxygen_options.index(st.session_state.selected_oxygen))
     st.session_state.selected_oxygen = selected_oxygen
-
-    # Conditional input for explanation if "ATTEMPTED but not done" is selected
-    #if selected_oxygen == "ATTEMPTED but not done (explain on last page)":
-    #    explanation = st.text_area("Please explain:", value=st.session_state.oxygen_explanation)
-    #    st.session_state.oxygen_explanation = explanation  # Save explanation to session state
 
     # Show multiselect if "YES" is selected
     if selected_oxygen == "YES":
@@ -976,36 +978,42 @@ elif st.session_state.page == "Method Details":
             st.markdown("**FIO2**")
 
         # Input for Liter Flow and FiO2 for each selected method
-        for method in selected_methods:
-            # Create unique keys for Liter Flow and FiO2
-            liter_flow_key = f"liter_flow_{method.replace(' ', '_')}"
-            fio2_key = f"fio2_{method.replace(' ', '_')}"
+        for idx, method in enumerate(selected_methods):
+            # Clean up the method name for use in session state and PDF form field mapping
+            sanitized_method_name = method.replace(" ", "_").replace("-", "_").lower()
 
-            # Initialize if not present
-            if liter_flow_key not in st.session_state.liter_flow:
-                st.session_state.liter_flow[liter_flow_key] = ""
-            if fio2_key not in st.session_state.fio2:
-                st.session_state.fio2[fio2_key] = ""
+            # Dynamically create unique session state keys for each selected method
+            liter_flow_key = f"{sanitized_method_name}_liter_flow"
+            fio2_key = f"{sanitized_method_name}_fio2"
 
-            # Create columns for each method input
-            cols = st.columns(3)  # Create three columns
+            # Initialize session state for each method if not already initialized
+            if liter_flow_key not in st.session_state:
+                st.session_state[liter_flow_key] = ""
+            if fio2_key not in st.session_state:
+                st.session_state[fio2_key] = ""
 
+            # Create columns for displaying input fields
+            cols = st.columns(3)
             with cols[0]:
-                st.markdown("")
-                st.markdown("")
-                st.markdown(f"**{method}**")  # Method name
+                st.markdown(f"**{method}**")  # Display method name
 
             with cols[1]:
-                # Liter Flow input
-                #liter_flow = st.text_input(f"Liter Flow for {method}:", value=st.session_state.liter_flow[liter_flow_key], key=liter_flow_key)
-                liter_flow = st.text_input("", value=st.session_state.liter_flow[liter_flow_key], key=liter_flow_key)
-                st.session_state.liter_flow[liter_flow_key] = liter_flow
+                # Liter Flow input field
+                liter_flow = st.text_input(
+                    f"Liter Flow for {method}:",
+                    value=st.session_state[liter_flow_key],
+                    key=liter_flow_key
+                )
+                st.session_state[liter_flow_key] = liter_flow  # Save liter flow to session state
 
             with cols[2]:
-                # FiO2 input
-                #fio2 = st.text_input(f"FiO2 for {method}:", value=st.session_state.fio2[fio2_key], key=fio2_key)
-                fio2 = st.text_input("", value=st.session_state.fio2[fio2_key], key=fio2_key)
-                st.session_state.fio2[fio2_key] = fio2
+                # FiO2 input field
+                fio2 = st.text_input(
+                    f"FiO2 for {method}:",
+                    value=st.session_state[fio2_key],
+                    key=fio2_key
+                )
+                st.session_state[fio2_key] = fio2  # Save FiO2 to session state
 
     # Navigation buttons
     col1, col2 = st.columns(2)
@@ -1483,7 +1491,7 @@ if st.session_state.page == "Summary":
 
                 'rocuronium_dose':st.session_state['rocuronium_dose'],
                 'succinylcholine_dose':st.session_state['succinylcholine_dose'],
-                #'vecuronium_dose':st.session_state['vecuronium_dose'],
+                'vecuronium_paralysis_dose':st.session_state['vecuronium_paralysis_dose'],
                 'pancuronium_dose':st.session_state['pancuronium_dose'],
                 'cisatracuronium_dose':st.session_state['cisatracuronium_dose'],
 
@@ -1493,13 +1501,25 @@ if st.session_state.page == "Summary":
                 'midazolam_dose':st.session_state['midazolam_dose'],
                 'thiopental_dose':st.session_state['thiopental_dose'],
 
+                'atropine_indications':st.session_state['atropine_indications'],
+                'glycopyrrolate_indications':st.session_state['glycopyrrolate_indications'],
+                
                 'selected_method':st.session_state['selected_method'],
                 'selected_techniques':st.session_state['selected_techniques'],
                 'selected_oxygen':st.session_state['selected_oxygen'],
+                
                 'selected_device':st.session_state['selected_device'],
+                'selected_confirmation':st.session_state['selected_confirmation'],
+                'glottic_exposure':st.session_state['glottic_exposure'],
 
-                'atropine_indications':st.session_state['atropine_indications'],
-                'glycopyrrolate_indications':st.session_state['glycopyrrolate_indications'],
+                'highest_value':st.session_state['highest_value'],
+                'lowest_value':st.session_state['lowest_value'],
+                'course_success':st.session_state['course_success'],
+
+                'other_disposition':st.session_state['other_disposition'],
+                
+                'other_comments':st.session_state['other_comments'],
+
             }
 
             for attempt in range(1, 9):
@@ -1666,15 +1686,19 @@ if st.session_state.page == "Summary":
                 'fentanyl_dose': str(rows['fentanyl_dose']),
                 'lidocaine_dose': str(rows['lidocaine_dose']),
                 'vecuronium_dose': str(rows['vecuronium_dose']),
+                'other_1':str(rows['other_1']),
                 'rocuronium_dose': str(rows['rocuronium_dose']),
                 'succinylcholine_dose': str(rows['succinylcholine_dose']),
+                'vecuronium_paralysis_dose': str(rows['vecuronium_paralysis_dose']),
                 'pancuronium_dose': str(rows['pancuronium_dose']),
                 'cisatracuronium_dose': str(rows['cisatracuronium_dose']),
+                'other_2':str(rows['other_2']),
                 'propofol_dose': str(rows['propofol_dose']),
                 'etomidate_dose': str(rows['etomidate_dose']),
                 'ketamine_dose': str(rows['ketamine_dose']),
                 'midazolam_dose': str(rows['midazolam_dose']),
                 'thiopental_dose': str(rows['thiopental_dose']),
+                'other_3':str(rows['other_3']),
                 'selected_method': str(rows['selected_method']),
                 'selected_techniques': str(rows['selected_techniques']),
                 'selected_oxygen': str(rows['selected_oxygen']),
