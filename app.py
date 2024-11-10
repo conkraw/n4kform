@@ -1516,26 +1516,8 @@ if st.session_state.page == "Summary":
                 'selected_oxygen':st.session_state['selected_oxygen'],
                 'selected_methods':st.session_state['selected_methods'],
 
-                'liter_flow_nc_without_nasal_airway': st.session_state['liter_flow_nc_without_nasal_airway'],
-                'fio2_nc_without_nasal_airway': st.session_state['fio2_nc_without_nasal_airway'],
-                
-                'liter_flow_nc_with_nasal_airway': st.session_state['liter_flow_nc_with_nasal_airway'],
-                'fio2_nc_with_nasal_airway': st.session_state['fio2_nc_with_nasal_airway'],
-                
-                'liter_flow_oral_airway_with_oxygen_port': st.session_state['liter_flow_oral_airway_with_oxygen_port'],
-                'fio2_oral_airway_with_oxygen_port': st.session_state['fio2_oral_airway_with_oxygen_port'],
-                
-                'liter_flow_through_LMA': st.session_state['liter_flow_through_LMA'],
-                'fio2_through_LMA': st.session_state['fio2_through_LMA'],
-                
-                'liter_flow_HFNC': st.session_state['liter_flow_HFNC'],
-                'fio2_HFNC': st.session_state['fio2_HFNC'],
-                
-                'liter_flow_NIV_with_nasal_prong_interface_provide_PEEP_PIP': st.session_state['liter_flow_NIV_with_nasal_prong_interface_provide_PEEP_PIP'],
-                'fio2_NIV_with_nasal_prong_interface_provide_PEEP_PIP': st.session_state['fio2_NIV_with_nasal_prong_interface_provide_PEEP_PIP'],
-                
-                'liter_flow_Other': st.session_state['liter_flow_Other_(device,_FiO2,_Setting)'],
-                'fio2_Other': st.session_state['fio2_Other_(device,_FiO2,_Setting)'],
+                'liter_flow':st.session_state['liter_flow'],
+                'fio2':st.session_state['fio2'],
 
                 'selected_device':st.session_state['selected_device'],
                 'selected_confirmation':st.session_state['selected_confirmation'],
@@ -1735,27 +1717,9 @@ if st.session_state.page == "Summary":
                 'selected_oxygen': str(rows['selected_oxygen']),
                 'selected_methods': str(rows['selected_methods']),
 
-                'liter_flow_nc_without_nasal_airway': str(rows['liter_flow_nc_without_nasal_airway']),
-                'fio2_nc_without_nasal_airway': str(rows['fio2_nc_without_nasal_airway']),
+                'liter_flow': str(rows['liter_flow']),
+                'fio2': str(rows['fio2']),
                 
-                'liter_flow_nc_with_nasal_airway': str(rows['liter_flow_nc_with_nasal_airway']),
-                'fio2_nc_with_nasal_airway': str(rows['fio2_nc_with_nasal_airway']),
-                
-                'liter_flow_oral_airway_with_oxygen_port': str(rows['liter_flow_oral_airway_with_oxygen_port']),
-                'fio2_oral_airway_with_oxygen_port': str(rows['fio2_oral_airway_with_oxygen_port']),
-                
-                'liter_flow_through_LMA': str(rows['liter_flow_through_LMA']),
-                'fio2_through_LMA': str(rows['fio2_through_LMA']),
-                
-                'liter_flow_HFNC': str(rows['liter_flow_HFNC']),
-                'fio2_HFNC': str(rows['fio2_HFNC']),
-                
-                'liter_flow_NIV_with_nasal_prong_interface_provide_PEEP_PIP': str(rows['liter_flow_NIV_with_nasal_prong_interface_provide_PEEP_PIP']),
-                'fio2_NIV_with_nasal_prong_interface_provide_PEEP_PIP': str(rows['fio2_NIV_with_nasal_prong_interface_provide_PEEP_PIP']),
-                
-                'liter_flow_Other': str(rows['liter_flow_Other_(device,_FiO2,_Setting)']),
-                'fio2_Other': str(rows['fio2_Other_(device,_FiO2,_Setting)']),
-
                 'selected_device': str(rows['selected_device']),
                 'atropine_indications':str(rows['atropine_indications']),
                 'glycopyrrolate_indications':str(rows['glycopyrrolate_indications']),
