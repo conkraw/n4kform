@@ -1646,7 +1646,7 @@ if st.session_state.page == "Summary":
             # Now process the 'selected_methods' column to assign methods to specific columns
             for i, method in enumerate(predefined_methods):
                 # Create column names like selected_methods1, selected_methods2, etc.
-                selected_column_name = f'event{i + 1}'
+                selected_column_name = f'event_{i + 1}'
             
                 # Initialize all the columns with an empty string
                 data[selected_column_name] = ""
