@@ -1571,8 +1571,7 @@ if st.session_state.page == "Summary":
             data = data.fillna('')
             
             data['no_drugs'] = data['no_drugs'].replace("NO DRUGS USED", "X")
-            
-
+        
             # Read the PDF template
             pdf = PdfReader(pdf_template)  # Use PdfReader instead of PdfFileReader
             
