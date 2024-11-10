@@ -1015,7 +1015,10 @@ elif st.session_state.page == "Method Details":
                 #fio2 = st.text_input(f"FiO2 for {method}:", value=st.session_state.fio2[fio2_key], key=fio2_key)
                 fio2 = st.text_input("", value=st.session_state.fio2[fio2_key], key=fio2_key)
                 st.session_state.fio2[fio2_key] = fio2
-
+    st.write("### Debugging: Session State Keys and Values")
+    for key in st.session_state:
+        st.write(f"{key}: {st.session_state[key]}")
+        
     # Navigation buttons
     col1, col2 = st.columns(2)
     with col1:
