@@ -655,7 +655,7 @@ elif st.session_state.page == "Difficult Airway Evaluation":
 
     if st.session_state["evaluation_8"] == 'YES':
         with cols[0]:
-            st.write("Please provide details:")
+            #st.write("Please provide details:")
         #with cols[1]:
             # Create a text input for the user to provide additional information
             user_input = st.text_input(
