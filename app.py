@@ -1658,22 +1658,6 @@ if st.session_state.page == "Summary":
             
                 if method in data['selected_events'][0]:
                     data[selected_column_name] = "X"
-
-            for attempt_num in range(1, 9):
-                data[f'attempt_{attempt_num}'] = ''
-            
-            # Step 5: Map events from attempt_mapping to the corresponding attempt columns
-            for attempt_num, events in attempt_mapping.items():
-                # Convert attempt number to int
-                attempt_num = int(attempt_num)
-                
-                # For each event in the list for this attempt, find the corresponding event column (event_1, event_2, ...)
-                for event in events:
-                    # Find the index of the event in the predefined_methods list
-                    event_index = predefined_methods.index(event) + 1  # Add 1 because event columns are event_1, event_2, etc.
-                    
-                    # Update the corresponding attempt column (e.g., attempt_2 for events in attempt 2)
-                    data.at[event_index - 1, f'attempt_{attempt_num}'] = attempt_num  # Assign attempt number
         
             data = data.fillna('')
             
