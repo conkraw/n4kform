@@ -1492,10 +1492,6 @@ if st.session_state.page == "Summary":
                 'selected_techniques':st.session_state['selected_techniques'],
                 'selected_oxygen':st.session_state['selected_oxygen'],
                 'selected_device':st.session_state['selected_device'],
-                
-                
-                
-                
             }
 
             for attempt in range(1, 9):
