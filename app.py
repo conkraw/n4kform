@@ -1956,11 +1956,7 @@ if st.session_state.page == "Summary":
                 pdf_writer.write(pdf_output)
                 pdf_output.seek(0)  # Rewind to the beginning of the buffer
 
-            if 'download_button_created' not in st.session_state:
-                st.session_state.download_button_created = False
 
-            if not st.session_state.download_button_created:
-                # Provide the filled PDF for download
                 st.download_button(
                     label=f"Download Filled PDF {i}",
                     data=pdf_output,
