@@ -15,6 +15,7 @@ import io
 from PyPDF2 import PdfFileWriter, PdfFileReader
 from PyPDF2.generic import BooleanObject, NameObject, IndirectObject
 import uuid
+import ast 
 
 st.set_page_config(layout="wide")
 
@@ -1567,7 +1568,54 @@ if st.session_state.page == "Summary":
                 data[f"selected_methods{i}"] = ""
                 data[f"liter_flow_{i}"] = ""
                 data[f"fio2_{i}"] = ""
-                
+
+            # Assuming the 'selected_methods' column contains string representations of lists
+            data['selected_methods'] = data['selected_methods'].apply(ast.literal_eval)
+            
+            # Predefined list of methods for reference (the order will be used for column names)
+            predefined_methods = [
+                'NC without nasal airway', 
+                'NC with nasal airway', 
+                'Oral airway with oxygen port', 
+                'Through LMA', 
+                'HFNC', 
+                'NIV with nasal prong interface – provide PEEP/PIP', 
+                'Other (device, FiO2, Setting)'
+            ]
+            
+            # Assuming 'liter_flow' and 'fio2' columns contain a dictionary with flow and FiO2 values
+            data['liter_flow'] = data['liter_flow'].apply(ast.literal_eval)
+            data['fio2'] = data['fio2'].apply(ast.literal_eval)
+            
+            # Now process the 'selected_methods' column to assign methods to specific columns
+            for i, method in enumerate(predefined_methods):
+                # Create column names like selected_methods1, selected_methods2, etc.
+                selected_column_name = f'selected_methods{i + 1}'
+                liter_flow_column_name = f'liter_flow_{i + 1}'
+                fio2_column_name = f'fio2_{i + 1}'
+            
+                # Check if the method is selected (has "X" in selected_methods column)
+                if method in data['selected_methods'][0]:
+                    # Assign the corresponding liter flow value to the liter_flow column
+                    liter_flow_key = f'liter_flow_{method.replace(" ", "_")}'
+                    fio2_key = f'fio2_{method.replace(" ", "_")}'
+                    
+                    # Check if the liter_flow_key exists in the dictionary and assign it to the column
+                    if liter_flow_key in data['liter_flow'][0]:
+                        data[liter_flow_column_name] = data['liter_flow'][0].get(liter_flow_key, "")
+                    else:
+                        data[liter_flow_column_name] = ""
+                    
+                    # Check if the fio2_key exists in the dictionary and assign it to the column
+                    if fio2_key in data['fio2'][0]:
+                        data[fio2_column_name] = data['fio2'][0].get(fio2_key, "")
+                    else:
+                        data[fio2_column_name] = ""
+                else:
+                    # If the method is not selected, leave the liter_flow and fio2 columns empty
+                    data[liter_flow_column_name] = ""
+                    data[fio2_column_name] = ""
+
             data = data.fillna('')
             
             data['no_drugs'] = data['no_drugs'].replace("NO DRUGS USED", "X")
