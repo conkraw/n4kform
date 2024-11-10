@@ -1658,7 +1658,41 @@ if st.session_state.page == "Summary":
             
                 if method in data['selected_events'][0]:
                     data[selected_column_name] = "X"
-        
+
+            if 'attempt_mapping' in data.columns:
+                attempt_mapping_str = data['attempt_mapping'][0]  # Assuming 'attempt_mapping' is in the first row
+            
+                # Preprocess the string to convert single quotes to double quotes (for valid JSON format)
+                attempt_mapping_str = attempt_mapping_str.replace("'", '"')
+            
+                try:
+                    # Deserialize it now that it's a valid JSON string
+                    attempt_mapping = json.loads(attempt_mapping_str)
+                except Exception as e:
+                    print(f"Error deserializing 'attempt_mapping': {e}")
+            else:
+                raise ValueError("The 'attempt_mapping' column is missing from the CSV.")
+            
+            # Step 4: Add attempt columns (attempt_1, attempt_2, ..., attempt_8) initialized to empty
+            for attempt_num in range(1, 9):
+                data[f'attempt_{attempt_num}'] = ''
+            
+            # Step 5: Map events from attempt_mapping to the corresponding attempt columns
+            for attempt_num, events in attempt_mapping.items():
+                # Convert attempt number to int
+                attempt_num = int(attempt_num)
+                
+                # For each event in the list for this attempt, find the corresponding event column (event_1, event_2, ...)
+                for event in events:
+                    # Find the index of the event in the predefined_methods list
+                    if event in predefined_methods:
+                        event_index = predefined_methods.index(event) + 1  # Add 1 because event columns are event_1, event_2, etc.
+                        
+                        # Update the corresponding attempt column (e.g., attempt_2 for events in attempt 2)
+                        data.at[event_index - 1, f'attempt_{attempt_num}'] = attempt_num  # Assign attempt number
+                    else:
+                        print(f"Event '{event}' not found in predefined_methods list.")
+            
             data = data.fillna('')
             
             data['no_drugs'] = data['no_drugs'].replace("NO DRUGS USED", "X")
@@ -1872,6 +1906,28 @@ if st.session_state.page == "Summary":
                 'event_19': str(rows['event_19']),
                 'event_20': str(rows['event_20']),
                 'event_21': str(rows['event_21']),
+
+                'attempt_1': str(rows['attempt_1']),
+                'attempt_2': str(rows['attempt_2']),
+                'attempt_3': str(rows['attempt_3']),
+                'attempt_4': str(rows['attempt_4']),
+                'attempt_5': str(rows['attempt_5']),
+                'attempt_6': str(rows['attempt_6']),
+                'attempt_7': str(rows['attempt_7']),
+                'attempt_8': str(rows['attempt_8']),
+                'attempt_9': str(rows['attempt_9']),
+                'attempt_10': str(rows['attempt_10']),
+                'attempt_11': str(rows['attempt_11']),
+                'attempt_12': str(rows['attempt_12']),
+                'attempt_13': str(rows['attempt_13']),
+                'attempt_14': str(rows['attempt_14']),
+                'attempt_15': str(rows['attempt_15']),
+                'attempt_16': str(rows['attempt_16']),
+                'attempt_17': str(rows['attempt_17']),
+                'attempt_18': str(rows['attempt_18']),
+                'attempt_19': str(rows['attempt_19']),
+                'attempt_20': str(rows['attempt_20']),
+                'attempt_21': str(rows['attempt_21']),
 
                 'other_event_description': str(rows['other_event_description']),
 
