@@ -326,32 +326,35 @@ if st.session_state.page == "Encounter Information":
     with col_next:
         # Only proceed if button is clicked
         if st.button("Next"):
+            st.session_state.page = "Indications"  # Set next page
+                st.rerun()
+                
             # Validation check for required fields
-            missing_fields = []
+            #missing_fields = []
             
             # Use .get() to safely check session_state keys
-            if st.session_state.form_data.get('patient_gender', 'Select Gender') == "Select Gender":
-                missing_fields.append("Patient Gender")
-            if st.session_state.form_data.get('dosing_weight', "") == "":
-                missing_fields.append("Patient Dosing Weight")
-            if st.session_state.form_data.get('time', "") == "":
-                missing_fields.append("Time")
-            if st.session_state.form_data.get('location', "") == "":
-                missing_fields.append("Location")
-            if st.session_state.form_data.get('pager_number', "") == "":
-                missing_fields.append("Pager Number")
-            if st.session_state.form_data.get('family_member_present', 'Select if Family Member Present') == "Select if Family Member Present":
-                missing_fields.append("Family Member Present")
-            if st.session_state.form_data.get('attending_physician_present', 'Select if Attending Physician Present') == "Select if Attending Physician Present":
-                missing_fields.append("Attending Physician Present")
-            if st.session_state.form_data.get('airway_bundle', 'Select if Airway Bundle/Pink Sheet Completed') == "Select if Airway Bundle/Pink Sheet Present":
-                missing_fields.append("Airway Bundle/Pink Sheet Present")
+            #if st.session_state.form_data.get('patient_gender', 'Select Gender') == "Select Gender":
+            #    missing_fields.append("Patient Gender")
+            #if st.session_state.form_data.get('dosing_weight', "") == "":
+            #    missing_fields.append("Patient Dosing Weight")
+            #if st.session_state.form_data.get('time', "") == "":
+            #    missing_fields.append("Time")
+            #if st.session_state.form_data.get('location', "") == "":
+            #    missing_fields.append("Location")
+            #if st.session_state.form_data.get('pager_number', "") == "":
+            #    missing_fields.append("Pager Number")
+            #if st.session_state.form_data.get('family_member_present', 'Select if Family Member Present') == "Select if Family Member Present":
+            #    missing_fields.append("Family Member Present")
+            #if st.session_state.form_data.get('attending_physician_present', 'Select if Attending Physician Present') == "Select if Attending Physician Present":
+            #    missing_fields.append("Attending Physician Present")
+            #if st.session_state.form_data.get('airway_bundle', 'Select if Airway Bundle/Pink Sheet Completed') == "Select if Airway Bundle/Pink Sheet Present":
+            #    missing_fields.append("Airway Bundle/Pink Sheet Present")
     
-            if missing_fields:
-                st.warning(f"Please fill in the following: {', '.join(missing_fields)}")
-            else:
-                st.session_state.page = "Indications"  # Set next page
-                st.rerun()
+            #if missing_fields:
+            #    st.warning(f"Please fill in the following: {', '.join(missing_fields)}")
+            #else:
+            #    st.session_state.page = "Indications"  # Set next page
+            #    st.rerun()
 
 
 elif st.session_state.page == "Indications":
