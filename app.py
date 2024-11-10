@@ -1575,6 +1575,9 @@ if st.session_state.page == "Summary":
                 data[f"liter_flow_{i}"] = ""
                 data[f"fio2_{i}"] = ""
 
+            for i in range(1, 22):  # Loop to add columns for 1 to 21
+                data[f"attempt{i}"] = ""
+                
             # Assuming the 'selected_methods' column contains string representations of lists
             data['selected_methods'] = data['selected_methods'].apply(ast.literal_eval)
             
