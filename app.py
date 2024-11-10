@@ -1714,9 +1714,32 @@ if st.session_state.page == "Summary":
                 'selected_oxygen': str(rows['selected_oxygen']),
                 'selected_methods': str(rows['selected_methods']),
 
+                'selected_methods1': str(rows['selected_methods1']),
+                'selected_methods2': str(rows['selected_methods2']),
+                'selected_methods3': str(rows['selected_methods3']),
+                'selected_methods4': str(rows['selected_methods4']),
+                'selected_methods5': str(rows['selected_methods5']),
+                'selected_methods6': str(rows['selected_methods6']),
+                'selected_methods7': str(rows['selected_methods7']),
+            
                 'liter_flow': str(rows['liter_flow']),
+                'liter_flow_1': str(rows['liter_flow_1']),
+                'liter_flow_2': str(rows['liter_flow_2']),
+                'liter_flow_3': str(rows['liter_flow_3']),
+                'liter_flow_4': str(rows['liter_flow_4']),
+                'liter_flow_5': str(rows['liter_flow_5']),
+                #'liter_flow_6': str(rows['liter_flow_6']),
+                'liter_flow_7': str(rows['liter_flow_7']),
+            
                 'fio2': str(rows['fio2']),
-                
+                'fio2_1': str(rows['fio2_1']),
+                'fio2_2': str(rows['fio2_2']),
+                'fio2_3': str(rows['fio2_3']),
+                'fio2_4': str(rows['fio2_4']),
+                'fio2_5': str(rows['fio2_5']),
+                'fio2_6': str(rows['fio2_6']),
+                'fio2_7': str(rows['fio2_7']),
+                                                           
                 'selected_device': str(rows['selected_device']),
                 'atropine_indications':str(rows['atropine_indications']),
                 'glycopyrrolate_indications':str(rows['glycopyrrolate_indications']),
