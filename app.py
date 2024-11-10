@@ -1538,6 +1538,8 @@ if st.session_state.page == "Summary":
                 
                 'other_comments':st.session_state['other_comments'],
 
+                attempt_mapping:st.session_state['attempt_mapping'],
+
             }
 
             for attempt in range(1, 9):
