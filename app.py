@@ -1663,7 +1663,7 @@ if st.session_state.page == "Summary":
                     data[selected_column_name] = "X"
 
             if 'attempt_mapping' in data.columns:
-                attempt_mapping_str = data['attempt_mapping']  # Assuming 'attempt_mapping' is in the first row
+                attempt_mapping_str = data['attempt_mapping'][0]  # Assuming 'attempt_mapping' is in the first row
             
                 # Preprocess the string to convert single quotes to double quotes (for valid JSON format)
                 attempt_mapping_str = attempt_mapping_str.replace("'", '"')
@@ -1964,7 +1964,7 @@ if st.session_state.page == "Summary":
                     data=pdf_output,
                     file_name=f"filled_form_{i}.pdf",
                     mime="application/pdf",
-                    key=f"download_pdf_unique" 
+                    key=f"download_pdf_{unique_key}" 
                 )
             subject = "White Form Submission"
             message = f"Here is the White Form.<br><br>Date: {document_data['date']}<br>Time: {document_data['time']}<br>Form Completed By: {document_data['form_completed_by']}"
