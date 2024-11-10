@@ -927,7 +927,7 @@ elif st.session_state.page == "Method":
             st.session_state.page = "Method Details"  # Set next page (update this to your actual next page)
             st.rerun()
 
- elif st.session_state.page == "Method Details":
+elif st.session_state.page == "Method Details":
     st.header("METHOD DETAILS")
     
     if "selected_oxygen" not in st.session_state:
