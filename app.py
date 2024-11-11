@@ -1133,6 +1133,9 @@ elif st.session_state.page == "Method Details II":
     selected_events = st.multiselect("Select events associated with tracheal intubation:", events, default=st.session_state.selected_events)
     st.session_state.selected_events = selected_events  # Save selection
 
+    if "other_event_description" not in st.session_state:
+            st.session_state.other_event_description = ""
+            
     # Text input for 'Other' event description
     if "Other (Please describe):" in selected_events:
         if "other_event_description" not in st.session_state:
