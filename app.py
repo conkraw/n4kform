@@ -773,7 +773,7 @@ elif st.session_state.page == "Medications":
             fentanyl_input = st.text_input("mcg Fentanyl", value=st.session_state.fentanyl_dose, key="fentanyl_dose_input")
             lidocaine_input = st.text_input("mg Lidocaine", value=st.session_state.lidocaine_dose, key="lidocaine_dose_input")
             vecuronium_input = st.text_input("mg Vecuronium", value=st.session_state.vecuronium_dose, key="vecuronium_dose_input")
-            other_1 = st.text_input("", value=st.session_state.other_1, key="other_1_input")
+            other_1 = st.text_input("mg Other", value=st.session_state.other_1, key="other_1_input")
 
         with col2:
             st.markdown("### Paralysis Dosage")
@@ -782,7 +782,7 @@ elif st.session_state.page == "Medications":
             vecuronium_paralysis_input = st.text_input("mg Vecuronium", value=st.session_state.vecuronium_paralysis_dose, key="vecuronium_paralysis_dose_input")
             pancuronium_input = st.text_input("mg Pancuronium", value=st.session_state.pancuronium_dose, key="pancuronium_dose_input")
             cisatracuronium_input = st.text_input("mg Cisatracuronium", value=st.session_state.cisatracuronium_dose, key="cisatracuronium_dose_input")
-            other_2 = st.text_input("", value=st.session_state.other_2, key="other_2_input")
+            other_2 = st.text_input("mg Other", value=st.session_state.other_2, key="other_2_input")
 
         with col3:
             st.markdown("### Induction Dosage")
@@ -791,7 +791,7 @@ elif st.session_state.page == "Medications":
             ketamine_input = st.text_input("mg Ketamine", value=st.session_state.ketamine_dose, key="ketamine_dose_input")
             midazolam_input = st.text_input("mg Midazolam", value=st.session_state.midazolam_dose, key="midazolam_dose_input")
             thiopental_input = st.text_input("mg Thiopental", value=st.session_state.thiopental_dose, key="thiopental_dose_input")
-            other_3 = st.text_input("", value=st.session_state.other_3, key="other_3_input")
+            other_3 = st.text_input("mg Other", value=st.session_state.other_3, key="other_3_input")
 
         # Atropine Indication
         st.markdown("### Atropine Indication")
