@@ -1873,6 +1873,9 @@ if st.session_state.page == "Summary":
 
                 'glottic_exposure': str(rows['glottic_exposure']),
 
+                'highest_value': str(rows['highest_value']),
+                'lowest_value': str(rows['lowest_value']),
+
                 'selected_methods1': str(rows['selected_methods1']),
                 'selected_methods2': str(rows['selected_methods2']),
                 'selected_methods3': str(rows['selected_methods3']),
