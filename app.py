@@ -1869,6 +1869,8 @@ if st.session_state.page == "Summary":
                 'selected_oxygen': str(rows['selected_oxygen']),
                 'selected_methods': str(rows['selected_methods']),
 
+                'selected_confirmation': str(rows['selected_confirmation']),
+
                 'selected_methods1': str(rows['selected_methods1']),
                 'selected_methods2': str(rows['selected_methods2']),
                 'selected_methods3': str(rows['selected_methods3']),
