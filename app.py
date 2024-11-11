@@ -1935,7 +1935,7 @@ if st.session_state.page == "Summary":
                 'attempt_21': str(rows['attempt_21']),
 
 
-                'other_event_description': str(rows['other_event_description']),
+                #'other_event_description': str(rows['other_event_description']),
 
             }
 
