@@ -1536,6 +1536,7 @@ if st.session_state.page == "Summary":
                 'lowest_value':st.session_state['lowest_value'],
                 'course_success':st.session_state['course_success'],
 
+                'disposition':st.session_state['disposition'],
                 'other_disposition':st.session_state['other_disposition'],
                 
                 'other_comments':st.session_state['other_comments'],
@@ -1579,8 +1580,12 @@ if st.session_state.page == "Summary":
 
             for i in range(1, 22):  # Loop to add columns for 1 to 21
                 data[f"attempt_{i}"] = ""
-                
+
+            for i in range(1, 6):  # Loop to add columns for 1 to 7
+                data[f"disposition_{i}"] = ""
+
             # Assuming the 'selected_methods' column contains string representations of lists
+            
             data['selected_methods'] = data['selected_methods'].apply(ast.literal_eval)
             
             # Predefined list of methods for reference (the order will be used for column names)
@@ -1709,7 +1714,23 @@ if st.session_state.page == "Summary":
                             print(f"Event '{event}' not marked with 'X' in the event column.")
                     else:
                         print(f"Event '{event}' not found in predefined_methods list.")
+
+            data['disposition'] = data['disposition'].apply(ast.literal_eval)
             
+            disposition_options = ["Stay in PICU/NICU/CICU/ED",
+            "Transferred to",
+            "Died – due to failed airway management",
+            "Died – other causes",
+            "Other"]
+            
+            for i, method in enumerate(predefined_methods):
+                # Create column names like selected_methods1, selected_methods2, etc.
+                selected_column_name = f'disposition_{i + 1}'
+
+            if method in data['disposition'][0]:
+                    # If method is selected, place "X" in the corresponding selected_methods column
+                    data[selected_column_name] = "X"
+                
             data['no_drugs'] = data['no_drugs'].replace("NO DRUGS USED", "X")
 
             data['transferred_to_PICU'] = data['transferred_to_PICU'].apply(
