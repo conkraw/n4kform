@@ -1677,10 +1677,9 @@ if st.session_state.page == "Summary":
                 raise ValueError("The 'attempt_mapping' column is missing from the CSV.")
             
             # Step 4: Add attempt columns (attempt_1, attempt_2, ..., attempt_8) initialized to empty
-            for attempt_num in range(1, 9):
+            for attempt_num in range(1, 222):
                 data[f'attempt_{attempt_num}'] = ''
             
-            # Step 5: Map events from attempt_mapping to the corresponding attempt columns
             for attempt_num, events in attempt_mapping.items():
                 # Convert attempt number to int
                 attempt_num = int(attempt_num)
