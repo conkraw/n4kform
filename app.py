@@ -1717,7 +1717,7 @@ if st.session_state.page == "Summary":
 
             st.write(f"Disposition 1: {st.session_state.get('disposition', 'Not set')}")
             
-            data['disposition'] = data['disposition'].apply(ast.literal_eval)
+            #data['disposition'] = data['disposition'].apply(ast.literal_eval)
             
             predefined_methods = ["Stay in PICU/NICU/CICU/ED",
             "Transferred to",
