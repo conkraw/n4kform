@@ -2130,3 +2130,28 @@ if st.session_state.page == "Summary":
             
                 # Call the function to send the email with the PDF attachment
                 send_email_with_attachment2(to_emails1, subject1, message1, pdf_url)
+
+            if st.session_state.get('airway_bundle') == 'No':
+                # Initialize the email list with the designated email
+                to_emails1 = [st.secrets["general"]["email_r"]]  # The designated email
+            
+                # Check if there's a supervisor email and add it to the list if it's valid
+                if pager_number:  # Add user's email if provided
+                    to_emails1.append(pager_number)
+            
+                # Define the email subject and message
+                subject1 = "N4KIDS FEEDBACK ALERT"
+                message1 = f"""
+                Hi, 
+                It has come to our attention that the airway bundle was not utilized for this airway course. If you did utilize a checklist, please utilize this attachment and complete the form. Thank you! 
+                Use the attached tool to provide feedback to your trainee. <br><br>
+                Date: {document_data['date']}<br>
+                Time: {document_data['time']}<br>
+                Form Completed By: {document_data['form_completed_by']}
+                """
+            
+                # Define the URL for the PDF attachment (hosted on GitHub)
+                pdf_url = 'https://raw.githubusercontent.com/conkraw/n4kform/main/test.pdf'
+            
+                # Call the function to send the email with the PDF attachment
+                send_email_with_attachment2(to_emails1, subject1, message1, pdf_url)
