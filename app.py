@@ -842,19 +842,19 @@ elif st.session_state.page == "Medications":
                 st.session_state.fentanyl_dose = fentanyl_input
                 st.session_state.lidocaine_dose = lidocaine_input
                 st.session_state.vecuronium_dose = vecuronium_input
-                st.session_state.other_1 = other_1_input
+                st.session_state.other_1 = other_1
                 st.session_state.rocuronium_dose = rocuronium_input
                 st.session_state.succinylcholine_dose = succinylcholine_input
                 st.session_state.vecuronium_paralysis_dose = vecuronium_paralysis_input
                 st.session_state.pancuronium_dose = pancuronium_input
                 st.session_state.cisatracuronium_dose = cisatracuronium_input
-                st.session_state.other_2 = other_2_input
+                st.session_state.other_2 = other_2
                 st.session_state.propofol_dose = propofol_input
                 st.session_state.etomidate_dose = etomidate_input
                 st.session_state.ketamine_dose = ketamine_input
                 st.session_state.midazolam_dose = midazolam_input
                 st.session_state.thiopental_dose = thiopental_input
-                st.session_state.other_3 = other_3_input
+                st.session_state.other_3 = other_3
                 st.session_state.atropine_indications = atropine_indications
                 st.session_state.glycopyrrolate_indications = glycopyrrolate_indications
 
