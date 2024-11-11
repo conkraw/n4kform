@@ -1665,6 +1665,51 @@ if st.session_state.page == "Summary":
                 if method in data['selected_events'][0]:
                     data[selected_column_name] = "X"
 
+            for attempt_num in range(1, 22):
+                data[f'attempt_{attempt_num}'] = ''
+            
+            # Step 5: Deserialize the 'attempt_mapping' and map the events to attempt columns
+            if 'attempt_mapping' in data.columns:
+                attempt_mapping_str = data['attempt_mapping'][0]
+            
+                # Preprocess the string to convert single quotes to double quotes (for valid JSON format)
+                attempt_mapping_str = attempt_mapping_str.replace("'", '"')
+            
+                try:
+                    # Deserialize the attempt_mapping
+                    attempt_mapping = json.loads(attempt_mapping_str)
+                except Exception as e:
+                    print(f"Error deserializing 'attempt_mapping': {e}")
+            else:
+                raise ValueError("The 'attempt_mapping' column is missing from the CSV.")
+            
+            # Step 6: Map attempts to the corresponding event columns in the same row
+            for attempt_num, events in attempt_mapping.items():
+                attempt_num = int(attempt_num)  # Ensure attempt_num is an integer
+            
+                # For each event in the list for this attempt
+                for event in events:
+                    if event in predefined_methods:
+                        event_index = predefined_methods.index(event) + 1  # event_1, event_2, etc. (1-based index)
+                        event_column = f'event_{event_index}'
+            
+                        # If the event is marked with "X" in the respective event column, process the attempts
+                        if data.at[0, event_column] == "X":
+                            # Get the current attempt data for this event column (for tracking attempts)
+                            current_attempts = data.at[0, f'attempt_{event_index}']
+            
+                            # If there are existing attempts, append the current attempt number
+                            if current_attempts:
+                                current_attempts = f"{current_attempts}, {attempt_num}"
+                            else:
+                                current_attempts = str(attempt_num)
+            
+                            # Update the attempt column with the new attempt number
+                            data.at[0, f'attempt_{event_index}'] = current_attempts
+                        else:
+                            print(f"Event '{event}' not marked with 'X' in the event column.")
+                    else:
+                        print(f"Event '{event}' not found in predefined_methods list.")
             
             data = data.fillna('')
             
