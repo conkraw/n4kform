@@ -1714,10 +1714,6 @@ if st.session_state.page == "Summary":
                             print(f"Event '{event}' not marked with 'X' in the event column.")
                     else:
                         print(f"Event '{event}' not found in predefined_methods list.")
-
-            st.write(f"Disposition 1: {st.session_state.get('disposition', 'Not set')}")
-            
-            #data['disposition'] = data['disposition'].apply(ast.literal_eval)
             
             predefined_methods = ["Stay in PICU/NICU/CICU/ED",
             "Transferred to",
@@ -1729,9 +1725,9 @@ if st.session_state.page == "Summary":
                 # Create column names like selected_methods1, selected_methods2, etc.
                 selected_column_name = f'disposition_{i + 1}'
 
-            if method in data['disposition'][0]:
-                    # If method is selected, place "X" in the corresponding selected_methods column
-                    data[selected_column_name] = "X"
+                if method in data['disposition'][0]:
+                        # If method is selected, place "X" in the corresponding selected_methods column
+                        data[selected_column_name] = "X"
                 
             data['no_drugs'] = data['no_drugs'].replace("NO DRUGS USED", "X")
 
