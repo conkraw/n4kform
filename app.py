@@ -297,8 +297,7 @@ if st.session_state.page == "Encounter Information":
         options=["Select if Airway Bundle/Pink Sheet Completed", "Yes", "No"], 
         index=["Select if Airway Bundle/Pink Sheet Completed", "Yes", "No"].index(st.session_state.form_data.get('airway_bundle', 'Select if Airway Bundle/Pink Sheet Completed'))
     )
-
-     st.session_state.form_data['supervisor'] = st.selectbox(
+    st.session_state.form_data['supervisor'] = st.selectbox(
             "Attending Supervisor:", 
             options=["No Supervisor", "ckrawiec@pennstatehealth.psu.edu", "", ""], 
             index=["No Supervisor", "ckrawiec@pennstatehealth.psu.edu", "", ""].index(st.session_state.form_data.get('supervisor', 'No Supervisor'))
