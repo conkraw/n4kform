@@ -1601,7 +1601,6 @@ if st.session_state.page == "Summary":
                 "transferred_to_NICU": st.session_state['transferred_to_NICU'],
                 "transferred_to_CICU": st.session_state['transferred_to_CICU'],
 
-                "supervisor": st.session_state['supervisor'],
             }
 
             for attempt in range(1, 9):
