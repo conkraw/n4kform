@@ -1158,10 +1158,6 @@ elif st.session_state.page == "Method Details II":
                 st.success(f"Linked '{event_to_link}' to Attempt {attempt_number}!")
             else:
                 st.warning("No valid event selected.")
-
-    st.write("Current session state:")
-    for key, value in st.session_state.items():
-        st.write(f"{key}: {value}")
         
     # Display linked events
     st.markdown("### Linked Events:")
