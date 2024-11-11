@@ -1717,7 +1717,7 @@ if st.session_state.page == "Summary":
 
             data['disposition'] = data['disposition'].apply(ast.literal_eval)
             
-            disposition_options = ["Stay in PICU/NICU/CICU/ED",
+            predefined_methods = ["Stay in PICU/NICU/CICU/ED",
             "Transferred to",
             "Died – due to failed airway management",
             "Died – other causes",
@@ -1998,6 +1998,12 @@ if st.session_state.page == "Summary":
                 "picu": str(rows['transferred_to_PICU']),
                 "nicu": str(rows['transferred_to_NICU']),
                 "cicu": str(rows['transferred_to_CICU']),
+
+                'disposition_1': str(rows['disposition_1']),
+                'disposition_2': str(rows['disposition_2']),
+                'disposition_3': str(rows['disposition_3']),
+                'disposition_4': str(rows['disposition_4']),
+                'disposition_5': str(rows['disposition_5']),
 
             }
 
