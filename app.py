@@ -391,13 +391,13 @@ elif st.session_state.page == "Indications":
         st.markdown("<h3 style='text-align: center;'>CHANGE OF TUBE</h3>", unsafe_allow_html=True)
         col3, col4 = st.columns(2)
         with col3:
-            st.session_state.type_of_change_from = st.selectbox("Type of Change From:", options=["Oral", "Nasal", "Tracheostomy"], index=["Oral", "Nasal", "Tracheostomy"].index(st.session_state.get('type_of_change_from', 'Oral')))
+            st.session_state.type_of_change_from = st.selectbox("Type of Change From:", options=["","Oral", "Nasal", "Tracheostomy"], index=["","Oral", "Nasal", "Tracheostomy"].index(st.session_state.get('type_of_change_from', 'Oral')))
         with col4:
-            st.session_state.type_of_change_to = st.selectbox("Type of Change To:", options=["Oral", "Nasal", "Tracheostomy"], index=["Oral", "Nasal", "Tracheostomy"].index(st.session_state.get('type_of_change_to', 'Oral')))
+            st.session_state.type_of_change_to = st.selectbox("Type of Change To:", options=["","Oral", "Nasal", "Tracheostomy"], index=["","Oral", "Nasal", "Tracheostomy"].index(st.session_state.get('type_of_change_to', 'Oral')))
 
         st.session_state.nature_of_change = st.selectbox("Nature of Change:", 
-            options=["Clinical Condition", "Immediate Post-Intubation (Exclude Tracheostomy Change)"],
-            index=["Clinical Condition", "Immediate Post-Intubation (Exclude Tracheostomy Change)"].index(st.session_state.get('nature_of_change', 'Clinical Condition'))
+            options=["","Clinical Condition", "Immediate Post-Intubation (Exclude Tracheostomy Change)"],
+            index=["","Clinical Condition", "Immediate Post-Intubation (Exclude Tracheostomy Change)"].index(st.session_state.get('nature_of_change', 'Clinical Condition'))
         )
 
         st.session_state.tube_change_indications = st.multiselect(
