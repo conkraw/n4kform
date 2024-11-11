@@ -1542,9 +1542,9 @@ if st.session_state.page == "Summary":
 
                 "attempt_mapping": attempt_mapping_data, 
 
-                "transferred_to_PICU" = st.session_state['transferred_to_PICU'],
-                "transferred_to_NICU" = st.session_state['transferred_to_NICU'],
-                "transferred_to_CICU" = st.session_state['transferred_to_CICU'],
+                "transferred_to_PICU": st.session_state['transferred_to_PICU'],
+                "transferred_to_NICU": st.session_state['transferred_to_NICU'],
+                "transferred_to_CICU": st.session_state['transferred_to_CICU'],
             }
 
             for attempt in range(1, 9):
