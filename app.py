@@ -1530,7 +1530,7 @@ if st.session_state.page == "Summary":
                 'selected_events':st.session_state['selected_events'],
                 #'attempt_mapping':st.session_state['attempt_mapping'],
 
-                #'other_event_description':st.session_state['other_event_description'],
+                'other_event_description':st.session_state['other_event_description'],
 
                 'selected_device':st.session_state['selected_device'],
                 'selected_confirmation':st.session_state['selected_confirmation'],
@@ -1664,38 +1664,40 @@ if st.session_state.page == "Summary":
             
                 if method in data['selected_events'][0]:
                     data[selected_column_name] = "X"
-                if 'attempt_mapping' in data.columns:
-                    attempt_mapping_str = data['attempt_mapping'][0]
+
+            if 'attempt_mapping' in data.columns:
+                attempt_mapping_str = data['attempt_mapping'][0]
+            
+                # Preprocess the string to convert single quotes to double quotes (for valid JSON format)
+                attempt_mapping_str = attempt_mapping_str.replace("'", '"')
+            
+                try:
+                    # Deserialize it now that it's a valid JSON string
+                    attempt_mapping = json.loads(attempt_mapping_str)
+                except Exception as e:
+                    print(f"Error deserializing 'attempt_mapping': {e}")
+            else:
+                raise ValueError("The 'attempt_mapping' column is missing from the CSV.")
+            
+            # Step 4: Add attempt columns (attempt_1, attempt_2, ..., attempt_8) initialized to empty
+            for attempt_num in range(1, 9):
+                data[f'attempt_{attempt_num}'] = ''
+            
+            # Step 5: Map events from attempt_mapping to the corresponding attempt columns
+            for attempt_num, events in attempt_mapping.items():
+                # Convert attempt number to int
+                attempt_num = int(attempt_num)
                 
-                    # Preprocess the string to convert single quotes to double quotes (for valid JSON format)
-                    attempt_mapping_str = attempt_mapping_str.replace("'", '"')
-                
-                    try:
-                        # Deserialize it now that it's a valid JSON string
-                        attempt_mapping = json.loads(attempt_mapping_str)
-                    except Exception as e:
-                        print(f"Error deserializing 'attempt_mapping': {e}")
-                else:
-                    raise ValueError("The 'attempt_mapping' column is missing from the CSV.")
-                
-                # Step 4: Add attempt columns (attempt_1, attempt_2, ..., attempt_8) initialized to empty
-                for attempt_num in range(1, 22):
-                    data[f'attempt_{attempt_num}'] = ''
-                
-                for attempt_num, events in attempt_mapping.items():
-                    # Convert attempt number to int
-                    attempt_num = int(attempt_num)
-                    
-                    # For each event in the list for this attempt, find the corresponding event column (event_1, event_2, ...)
-                    for event in events:
-                        # Find the index of the event in the predefined_methods list
-                        if event in predefined_methods:
-                            event_index = predefined_methods.index(event) + 1  # Add 1 because event columns are event_1, event_2, etc.
-                            
-                            # Update the corresponding attempt column (e.g., attempt_2 for events in attempt 2)
-                            data.at[event_index - 1, f'attempt_{attempt_num}'] = attempt_num  # Assign attempt number
-                        else:
-                            print(f"Event '{event}' not found in predefined_methods list.")
+                # For each event in the list for this attempt, find the corresponding event column (event_1, event_2, ...)
+                for event in events:
+                    # Find the index of the event in the predefined_methods list
+                    if event in predefined_methods:
+                        event_index = predefined_methods.index(event) + 1  # Add 1 because event columns are event_1, event_2, etc.
+                        
+                        # Update the corresponding attempt column (e.g., attempt_2 for events in attempt 2)
+                        data.at[event_index - 1, f'attempt_{attempt_num}'] = attempt_num  # Assign attempt number
+                    else:
+                        print(f"Event '{event}' not found in predefined_methods list.")
             
             data = data.fillna('')
             
@@ -1722,15 +1724,14 @@ if st.session_state.page == "Summary":
             pdf_writer = PdfWriter()
 
             # Loop through each row in the CSV data
-            #i = 0  # Filename numerical prefix
-            #for j, rows in data.iterrows():
-            #    i += 1
-            pdf_writer = PdfWriter()
-            set_need_appearances_writer(pdf_writer)
-            rows = data.iloc[0] #new
+            i = 0  # Filename numerical prefix
+            for j, rows in data.iterrows():
+                i += 1
+                pdf_writer = PdfWriter()
+                set_need_appearances_writer(pdf_writer)
 
                 # Extract the form fields and map them to CSV row values
-            field_dictionary_1 = {
+                field_dictionary_1 = {
                 'airway_bundle': str(rows['airway_bundle']),
                 'date': str(rows['date']),
                 'time': str(rows['time']),
@@ -1935,36 +1936,36 @@ if st.session_state.page == "Summary":
                 'attempt_21': str(rows['attempt_21']),
 
 
-                #'other_event_description': str(rows['other_event_description']),
+                'other_event_description': str(rows['other_event_description']),
 
             }
 
                 
                 # Add the page to the writer and fill the form
-            pdf_writer.add_page(pdf.pages[0])
-            pdf_writer.update_page_form_field_values(pdf_writer.pages[0], field_dictionary_1)
+                pdf_writer.add_page(pdf.pages[0])
+                pdf_writer.update_page_form_field_values(pdf_writer.pages[0], field_dictionary_1)
                 
-            pdf_writer.add_page(pdf.pages[1])
-            pdf_writer.update_page_form_field_values(pdf_writer.pages[1], field_dictionary_1)
+                pdf_writer.add_page(pdf.pages[1])
+                pdf_writer.update_page_form_field_values(pdf_writer.pages[1], field_dictionary_1)
                 
-            pdf_writer.add_page(pdf.pages[2])
-            pdf_writer.update_page_form_field_values(pdf_writer.pages[2], field_dictionary_1)
+                pdf_writer.add_page(pdf.pages[2])
+                pdf_writer.update_page_form_field_values(pdf_writer.pages[2], field_dictionary_1)
 
-            pdf_writer.add_page(pdf.pages[3])
-            pdf_writer.update_page_form_field_values(pdf_writer.pages[3], field_dictionary_1)
+                pdf_writer.add_page(pdf.pages[3])
+                pdf_writer.update_page_form_field_values(pdf_writer.pages[3], field_dictionary_1)
                 
                 # Create a BytesIO stream to hold the output PDF
-            pdf_output = io.BytesIO()
-            pdf_writer.write(pdf_output)
-            pdf_output.seek(0)  # Rewind to the beginning of the buffer
+                pdf_output = io.BytesIO()
+                pdf_writer.write(pdf_output)
+                pdf_output.seek(0)  # Rewind to the beginning of the buffer
 
 
-            st.download_button(
-                label=f"Download Filled PDF",
-                data=pdf_output,
-                file_name=f"filled_form.pdf",
-                mime="application/pdf",
-                key=f"download_pdf_unique" 
+                st.download_button(
+                    label=f"Download Filled PDF {i}",
+                    data=pdf_output,
+                    file_name=f"filled_form_{i}.pdf",
+                    mime="application/pdf",
+                    key=f"download_pdf_unique" 
                 )
             subject = "White Form Submission"
             message = f"Here is the White Form.<br><br>Date: {document_data['date']}<br>Time: {document_data['time']}<br>Form Completed By: {document_data['form_completed_by']}"
