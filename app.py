@@ -1710,10 +1710,16 @@ if st.session_state.page == "Summary":
                     else:
                         print(f"Event '{event}' not found in predefined_methods list.")
             
+            data['no_drugs'] = data['no_drugs'].replace("NO DRUGS USED", "X")
+            data['picu'] = data['picu'].replace("TRUE", "X")
+            data['nicu'] = data['nicu'].replace("TRUE", "X")
+            data['cicu'] = data['cicu'].replace("TRUE", "X")
+            data['picu'] = data['picu'].replace("FALSE", "")
+            data['nicu'] = data['nicu'].replace("FALSE", "")
+            data['cicu'] = data['cicu'].replace("FALSE", "")
+
             data = data.fillna('')
             
-            data['no_drugs'] = data['no_drugs'].replace("NO DRUGS USED", "X")
-
             csv_data = data.to_csv(index=False).encode('utf-8')
             
             # Step 3: Provide a download button for the CSV
