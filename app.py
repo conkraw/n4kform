@@ -2126,7 +2126,7 @@ if st.session_state.page == "Summary":
                 """
             
                 # Define the URL for the PDF attachment (hosted on GitHub)
-                pdf_url = 'https://github.com/conkraw/n4kform/raw/main/test.pdf'
+                pdf_url = 'https://raw.githubusercontent.com/conkraw/n4kform/main/test.pdf'
             
                 # Call the function to send the email with the PDF attachment
                 send_email_with_attachment2(to_emails1, subject1, message1, pdf_url)
