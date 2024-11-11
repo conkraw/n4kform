@@ -1951,6 +1951,8 @@ if st.session_state.page == "Summary":
                 'attempt_19': str(rows['attempt_19']),
                 'attempt_20': str(rows['attempt_20']),
                 'attempt_21': str(rows['attempt_21']),
+                
+                'other_comments': str(rows['other_comments']),
 
 
                 'other_event_description': str(rows['other_event_description']),
