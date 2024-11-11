@@ -2140,7 +2140,7 @@ if st.session_state.page == "Summary":
                     to_emails1.append(pager_number)
             
                 # Define the email subject and message
-                subject1 = "N4KIDS FEEDBACK ALERT"
+                subject1 = "N4KIDS AIRWAY BUNDLE ALERT"
                 message1 = f"""
                 Hi, 
                 It has come to our attention that the airway bundle was not utilized for this airway course. If you did utilize a checklist, please utilize this attachment and complete the form. Thank you! 
