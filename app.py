@@ -1871,6 +1871,8 @@ if st.session_state.page == "Summary":
 
                 'selected_confirmation': str(rows['selected_confirmation']),
 
+                'glottic_exposure': str(rows['glottic_exposure']),
+
                 'selected_methods1': str(rows['selected_methods1']),
                 'selected_methods2': str(rows['selected_methods2']),
                 'selected_methods3': str(rows['selected_methods3']),
