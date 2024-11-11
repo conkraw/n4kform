@@ -1960,9 +1960,9 @@ if st.session_state.page == "Summary":
 
                 'other_event_description': str(rows['other_event_description']),
 
-                "transferred_to_PICU": str(rows['transferred_to_PICU']),
-                "transferred_to_NICU": str(rows['transferred_to_NICU']),
-                "transferred_to_CICU": str(rows['transferred_to_CICU']),
+                "picu": str(rows['transferred_to_PICU']),
+                "nicu": str(rows['transferred_to_NICU']),
+                "cicu": str(rows['transferred_to_CICU']),
 
             }
 
