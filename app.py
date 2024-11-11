@@ -273,7 +273,7 @@ if st.session_state.page == "Encounter Information":
         )
     with col7:
         st.session_state.form_data['pager_number'] = st.text_input(
-            "Pager Number:", 
+            "Email Address:", 
             value=st.session_state.form_data.get('pager_number', '')
         )
 
@@ -298,6 +298,12 @@ if st.session_state.page == "Encounter Information":
         index=["Select if Airway Bundle/Pink Sheet Completed", "Yes", "No"].index(st.session_state.form_data.get('airway_bundle', 'Select if Airway Bundle/Pink Sheet Completed'))
     )
 
+     st.session_state.form_data['supervisor'] = st.selectbox(
+            "Attending Supervisor:", 
+            options=["No Supervisor", "ckrawiec@pennstatehealth.psu.edu", "", ""], 
+            index=["No Supervisor", "ckrawiec@pennstatehealth.psu.edu", "", ""].index(st.session_state.form_data.get('supervisor', 'No Supervisor'))
+        )
+        
     if 'diagnostic_category' not in st.session_state.form_data:
         st.session_state.form_data['diagnostic_category'] = []
     
@@ -1396,6 +1402,55 @@ def send_email_with_attachment(to_emails, subject, body, pdf_buffer):
             st.success("Email sent successfully with the PDF attachment!")
     except Exception as e:
         st.error(f"Error sending email: {e}")
+
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email import encoders
+import requests
+from io import BytesIO
+import streamlit as st
+
+def send_email_with_attachment2(to_emails, subject, body, pdf_url):
+    # Email credentials from Streamlit secrets
+    from_email = st.secrets["general"]["email"]
+    password = st.secrets["general"]["email_password"]
+
+    # Download the PDF from the GitHub URL
+    try:
+        response = requests.get(pdf_url)
+        response.raise_for_status()  # Check if the request was successful
+        pdf_buffer = BytesIO(response.content)  # Convert the content to a file-like object
+    except requests.exceptions.RequestException as e:
+        st.error(f"Error downloading PDF: {e}")
+        return
+
+    # Create a multipart email
+    msg = MIMEMultipart()
+    msg['From'] = from_email
+    msg['To'] = ', '.join(to_emails)  # Join multiple email addresses
+    msg['Subject'] = subject
+
+    # Attach the email body
+    msg.attach(MIMEText(body, 'html'))
+
+    # Attach the PDF document
+    part = MIMEBase('application', 'octet-stream')
+    part.set_payload(pdf_buffer.read())  # Read PDF from the buffer
+    encoders.encode_base64(part)
+    part.add_header('Content-Disposition', 'attachment', filename="test.pdf")
+    msg.attach(part)
+
+    # Send the email using SMTP with SSL
+    try:
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
+            server.login(from_email, password)
+            server.send_message(msg)
+            st.success("Email sent successfully with the PDF attachment!")
+    except Exception as e:
+        st.error(f"Error sending email: {e}")
+
         
 if 'firebase_initialized' not in st.session_state:
     firebase_key = st.secrets["FIREBASE_KEY"]
@@ -1546,6 +1601,8 @@ if st.session_state.page == "Summary":
                 "transferred_to_PICU": st.session_state['transferred_to_PICU'],
                 "transferred_to_NICU": st.session_state['transferred_to_NICU'],
                 "transferred_to_CICU": st.session_state['transferred_to_CICU'],
+
+                "supervisor": st.session_state['supervisor'],
             }
 
             for attempt in range(1, 9):
@@ -2032,14 +2089,16 @@ if st.session_state.page == "Summary":
                     mime="application/pdf",
                     key=f"download_pdf_unique" 
                 )
+
+           ####WHITE FORM SUBMISSION#####
             subject = "White Form Submission"
             message = f"Here is the White Form.<br><br>Date: {document_data['date']}<br>Time: {document_data['time']}<br>Form Completed By: {document_data['form_completed_by']}"
-
-            # Prepare recipients
+    
             to_emails = [st.secrets["general"]["email_r"]]  # The designated email
+            
             if user_email:  # Add user's email if provided
                 to_emails.append(user_email)
-        
+
             # Upload data to Firestore
             db = st.session_state.db
             db.collection("N4KFORMW").add(document_data)
@@ -2048,3 +2107,28 @@ if st.session_state.page == "Summary":
             # Send email with the PDF attachment
             #send_email_with_attachment(to_emails, subject, message, pdf_output)
 
+            if st.session_state.get('glottic_exposure') == 'III = Visualized epiglottis only':
+                # Initialize the email list with the designated email
+                to_emails1 = [st.secrets["general"]["email_r"]]  # The designated email
+            
+                # Check if there's a supervisor email and add it to the list if it's valid
+                supervisor_email = st.session_state.form_data.get('supervisor', 'No Supervisor')
+                if supervisor_email and supervisor_email != "No Supervisor":
+                    to_emails1.append(supervisor_email)
+            
+                # Define the email subject and message
+                subject1 = "N4KIDS FEEDBACK ALERT"
+                message1 = f"""
+                Hi, 
+                It has come to our attention that your trainee struggled with airway visualization. 
+                Use the attached tool to provide feedback to your trainee. <br><br>
+                Date: {document_data['date']}<br>
+                Time: {document_data['time']}<br>
+                Form Completed By: {document_data['form_completed_by']}
+                """
+            
+                # Define the URL for the PDF attachment (hosted on GitHub)
+                pdf_url = 'https://github.com/conkraw/n4kform/raw/main/test.pdf'
+            
+                # Call the function to send the email with the PDF attachment
+                send_email_with_attachment2(to_emails1, subject1, message1, pdf_url)
