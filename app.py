@@ -1530,7 +1530,7 @@ if st.session_state.page == "Summary":
                 'selected_events':st.session_state['selected_events'],
                 #'attempt_mapping':st.session_state['attempt_mapping'],
 
-                'other_event_description':st.session_state['other_event_description'],
+                #'other_event_description':st.session_state['other_event_description'],
 
                 'selected_device':st.session_state['selected_device'],
                 'selected_confirmation':st.session_state['selected_confirmation'],
