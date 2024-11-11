@@ -1711,12 +1711,11 @@ if st.session_state.page == "Summary":
                         print(f"Event '{event}' not found in predefined_methods list.")
             
             data['no_drugs'] = data['no_drugs'].replace("NO DRUGS USED", "X")
-            data['transferred_to_PICU'] = data['transferred_to_PICU'].replace(TRUE, "X")
-            data['transferred_to_NICU'] = data['transferred_to_NICU'].replace(TRUE, "X")
-            data['transferred_to_CICU'] = data['transferred_to_CICU'].replace(TRUE, "X")
-            data['transferred_to_PICU'] = data['transferred_to_PICU'].replace(FALSE, "")
-            data['transferred_to_NICU'] = data['transferred_to_NICU'].replace(FALSE, "")
-            data['transferred_to_CICU'] = data['transferred_to_CICU'].replace(FALSE, "")
+
+            data['transferred_to_PICU'] = data['transferred_to_PICU'].apply(lambda x: str(x).replace("TRUE", "X").replace("FALSE", "") if isinstance(x, str) or isinstance(x, bool) else x)
+            data['transferred_to_NICU'] = data['transferred_to_NICU'].apply(lambda x: str(x).replace("TRUE", "X").replace("FALSE", "") if isinstance(x, str) or isinstance(x, bool) else x)
+            data['transferred_to_CICU'] = data['transferred_to_CICU'].apply(lambda x: str(x).replace("TRUE", "X").replace("FALSE", "") if isinstance(x, str) or isinstance(x, bool) else x)
+
 
             data = data.fillna('')
             
