@@ -220,6 +220,9 @@ if 'page' not in st.session_state:
 if 'form_data' not in st.session_state:
     st.session_state.form_data = {}
 
+if 'other_category' not in st.session_state:
+    st.session_state.form_data = ""
+
 if 'glottic_exposure' not in st.session_state:
     st.session_state.glottic_exposure = "Select a Glottic Exposure"  # Default to "Select a Glottic Exposure"
 
