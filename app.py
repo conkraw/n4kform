@@ -409,10 +409,10 @@ elif st.session_state.page == "Indications":
         
         # Multiselect for indications
         indications = st.multiselect(
-            "Check as many as apply:",
-            options=indication_options,
-            default=st.session_state.get('indications', [] # Default from session state)
-            )
+        "Check as many as apply:",
+        options=indication_options,
+        default=st.session_state.get('indications', [])  # Default from session state
+    )
         
         # Initialize other_indication as None initially
         other_indication = None
