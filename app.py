@@ -220,8 +220,7 @@ if 'page' not in st.session_state:
 if 'form_data' not in st.session_state:
     st.session_state.form_data = {}
 
-if 'other_category' not in st.session_state:
-    st.session_state.other_category = ""
+
 
 if 'glottic_exposure' not in st.session_state:
     st.session_state.glottic_exposure = "Select a Glottic Exposure"  # Default to "Select a Glottic Exposure"
@@ -310,6 +309,9 @@ if st.session_state.page == "Encounter Information":
         st.session_state.form_data['diagnostic_category'] = []
     
     # Ensure the session state is updated after the interaction (before widget renders)
+    
+    other_category = None
+    
     diagnostic_category = st.multiselect(
         "Diagnostic Category (Check as many as apply):",
         options=[
