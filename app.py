@@ -1112,6 +1112,8 @@ elif st.session_state.page == "Method Details II":
     col1, col2 = st.columns(2)
     with col1:
         if st.button("Previous"):
+            st.session_state.selected_confirmation = selected_confirmation
+            st.session_state.selected_events = selected_events
             st.session_state.page = "Method Details"
             st.rerun()
 
