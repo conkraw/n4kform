@@ -2081,31 +2081,48 @@ if st.session_state.page == "Summary":
             # Send email with the PDF attachment
             #send_email_with_attachment(to_emails, subject, message, pdf_output)
 
-            if st.session_state.get('lowest_value') <= '80':
-                # Initialize the email list with the designated email
-                to_emails1 = [st.secrets["general"]["email_r"]]  # The designated email
+            # Safely retrieve the 'lowest_value' from session state and ensure it's a number
+            lowest_value = st.session_state.get('lowest_value', None)
             
-                # Check if there's a supervisor email and add it to the list if it's valid
-                supervisor_email = st.session_state.form_data.get('supervisor', 'No Supervisor')
-                if supervisor_email and supervisor_email != "No Supervisor":
-                    to_emails1.append(supervisor_email)
+            # Only proceed if the 'lowest_value' is a valid integer
+            if lowest_value is not None:
+                try:
+                    # Convert 'lowest_value' to an integer
+                    lowest_value_int = int(lowest_value)
             
-                # Define the email subject and message
-                subject1 = "N4KIDS FEEDBACK ALERT"
-                message1 = f"""
-                Hi, 
-                It has come to our attention that your trainee experienced a Tracheal Intubation Adverse Event. The lowest saturation value reported was: {document_data['lowest_value']}
-                Use this link to provide feedback to your trainee: https://hmcn4kfbform.streamlit.app/ <br><br>
-                Date: {document_data['date']}<br>
-                Time: {document_data['time']}<br>
-                Form Completed By: {document_data['form_completed_by']}
-                """
+                    # Now compare it numerically
+                    if lowest_value_int <= 80:
+                        # Initialize the email list with the designated email
+                        to_emails1 = [st.secrets["general"]["email_r"]]  # The designated email
             
-                # Define the URL for the PDF attachment (hosted on GitHub)
-                pdf_url = 'https://raw.githubusercontent.com/conkraw/n4kform/main/test.pdf'
+                        # Check if there's a supervisor email and add it to the list if it's valid
+                        supervisor_email = st.session_state.form_data.get('supervisor', 'No Supervisor')
+                        if supervisor_email and supervisor_email != "No Supervisor":
+                            to_emails1.append(supervisor_email)
             
-                # Call the function to send the email with the PDF attachment
-                send_email_with_attachment2(to_emails1, subject1, message1, pdf_url)
+                        # Define the email subject and message
+                        subject1 = "N4KIDS FEEDBACK ALERT"
+                        message1 = f"""
+                        Hi, 
+                        It has come to our attention that your trainee experienced a Tracheal Intubation Adverse Event. The lowest saturation value reported was: {document_data['lowest_value']}
+                        Use this link to provide feedback to your trainee: https://hmcn4kfbform.streamlit.app/ <br><br>
+                        Date: {document_data['date']}<br>
+                        Time: {document_data['time']}<br>
+                        Form Completed By: {document_data['form_completed_by']}
+                        """
+            
+                        # Define the URL for the PDF attachment (hosted on GitHub)
+                        pdf_url = 'https://raw.githubusercontent.com/conkraw/n4kform/main/test.pdf'
+            
+                        # Call the function to send the email with the PDF attachment
+                        send_email_with_attachment2(to_emails1, subject1, message1, pdf_url)
+            
+                except ValueError:
+                    # If the 'lowest_value' cannot be converted to an integer, handle it
+                    st.error("The 'lowest_value' entered is not a valid number. Please provide a valid integer.")
+            else:
+                st.error("The 'lowest_value' is missing. Please provide the lowest value for the saturation.")
+
 
             if st.session_state.get('airway_bundle') == 'No':
                 # Initialize the email list with the designated email
