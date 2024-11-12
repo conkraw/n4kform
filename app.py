@@ -425,6 +425,8 @@ elif st.session_state.page == "Indications":
     col_prev, col_next = st.columns(2)
     with col_prev:
         if st.button("Previous"):
+            st.session_state['indications'] = indications
+            st.session_state['tube_change_indications'] = tube_change_indications
             st.session_state.page = "Encounter Information"  # Navigate back to the previous page
             st.rerun()  # Rerun the app to reflect the new page
 
@@ -962,6 +964,7 @@ elif st.session_state.page == "Method Details":
     col1, col2 = st.columns(2)
     with col1:
         if st.button("Previous"):
+            st.session_state.selected_methods = selected_methods 
             st.session_state.page = "Method"  # Update this to your actual previous page
             st.rerun()  # Refresh the app to apply changes
 
