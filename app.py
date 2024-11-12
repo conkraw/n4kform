@@ -404,7 +404,7 @@ elif st.session_state.page == "Indications":
             index=["","Clinical Condition", "Immediate Post-Intubation (Exclude Tracheostomy Change)"].index(st.session_state.get('nature_of_change', 'Clinical Condition'))
         )
 
-        st.session_state.tube_change_indications = st.multiselect(
+        tube_change_indications = st.multiselect(
             "Check as many as apply:",
             options=[
                 "Tube too small",
@@ -429,6 +429,8 @@ elif st.session_state.page == "Indications":
     with col_next:
         if st.button("Next"):
             st.session_state['indications'] = indications
+            st.session_state['tube_change_indications'] = tube_change_indications
+            
             st.session_state.page = "Course Information"  # Set next page
             st.rerun() 
 
