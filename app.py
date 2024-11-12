@@ -1730,7 +1730,8 @@ if st.session_state.page == "Summary":
                         data[selected_column_name] = "X"
                 
             data['no_drugs'] = data['no_drugs'].replace("NO DRUGS USED", "X")
-
+            data['no_drugs'] = data['no_drugs'].replace("DRUGS USED", "")
+            
             data['transferred_to_PICU'] = data['transferred_to_PICU'].apply(
                 lambda x: 'X' if x == True else '' if x == False else x
             )
