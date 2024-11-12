@@ -209,8 +209,6 @@ def question_box(label):
     
     st.markdown(input_html, unsafe_allow_html=True)
 
-import streamlit as st
-
 st.title("NEAR4KIDS QI COLLECTION FORM")
 
 # Initialize session state for page and form data
@@ -303,8 +301,8 @@ if st.session_state.page == "Encounter Information":
             index=["No Supervisor", "ckrawiec@pennstatehealth.psu.edu", "", ""].index(st.session_state.form_data.get('supervisor', 'No Supervisor'))
         )
         
-    if 'diagnostic_category' not in st.session_state.form_data:
-        st.session_state.form_data['diagnostic_category'] = []
+    #if 'diagnostic_category' not in st.session_state.form_data:
+    #    st.session_state.form_data['diagnostic_category'] = []
     
     # Update the session state with selected diagnostic categories
     st.session_state.form_data['diagnostic_category'] = st.multiselect(
