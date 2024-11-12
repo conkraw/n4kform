@@ -303,12 +303,11 @@ if st.session_state.page == "Encounter Information":
         
     if 'diagnostic_category' not in st.session_state.form_data:
         st.session_state.form_data['diagnostic_category'] = []
-    st.write("Before Multiselect:", st.session_state.form_data['diagnostic_category'])
+
     # Update the session state with selected diagnostic categories
-    selected_categories = st.multiselect(
+    st.session_state['diagnostic_category'] = st.multiselect(
     "Diagnostic Category (Check as many as apply):",
     options=[
-        "Select Diagnostic Category",
         "Cardiac - Surgical",
         "Cardiac - Medical",
         "Respiratory - Upper Airway",
@@ -317,9 +316,8 @@ if st.session_state.page == "Encounter Information":
         "Neurological (excluding Traumatic Brain Injury)",
         "Trauma (including Traumatic Brain Injury)",
     ],
-    default=st.session_state.form_data['diagnostic_category']
+    default=st.session_state.get('diagnostic_category', [])
 )
-    st.session_state.form_data['diagnostic_category'] = selected_categories
     
     # Validation and navigation logic
     col_prev, col_next = st.columns(2)
