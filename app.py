@@ -315,8 +315,10 @@ if st.session_state.page == "Encounter Information":
         "Sepsis/Shock",
         "Neurological (excluding Traumatic Brain Injury)",
         "Trauma (including Traumatic Brain Injury)",
-    ]
+    ],
+    default=st.session_state.form_data['diagnostic_category']  # Use session state to restore previous selections
 )
+
     st.session_state['diagnostic_category'] = diagnostic_category
      
     # Validation and navigation logic
