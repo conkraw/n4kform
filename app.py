@@ -411,17 +411,15 @@ elif st.session_state.page == "Indications":
         indications = st.multiselect(
             "Check as many as apply:",
             options=indication_options,
-            default=st.session_state.indications  # Default from session state
+            default=st.session_state.form_data.get('indications', [] # Default from session state
         )
         
         # Initialize other_indication as None initially
         other_indication = None
         
-        # If "Others: ............." is selected, show a text input for specifying the 'Other' indication
         if "Others: ............." in indications:
             other_indication = st.text_input("Please specify other indication:")
-        
-        # If the user has specified an 'Other' indication, add it to the list
+    
         if other_indication:
             indications.append(other_indication)
 
