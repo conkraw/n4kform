@@ -1648,8 +1648,6 @@ if st.session_state.page == "Summary":
 
             for i in range(1, 6):  # Loop to add columns for 1 to 7
                 data[f"disposition_{i}"] = ""
-
-            data ['other_disposition'] = ""
             
             # Assuming the 'selected_methods' column contains string representations of lists
             
