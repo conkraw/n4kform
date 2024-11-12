@@ -109,8 +109,8 @@ def custom_input(key, default_value="", input_type="text"):
         """
         <style>
         .custom-input {
-            display: flex;
-            justify-content: center;
+            display: block;
+            margin: 5px 0;
         }
         .custom-input input {
             width: 100%;  /* Adjust width as needed */
@@ -135,7 +135,6 @@ def custom_input(key, default_value="", input_type="text"):
         st.session_state[key] = input_value
     
     return st.session_state[key]
-
 
 
 def centered_input(default_value, key, width="100%", height="40px"):
@@ -446,7 +445,6 @@ elif st.session_state.page == "Course Information":
     </p>
     """, unsafe_allow_html=True)
 
-    # Initialize session state if not already done
     if 'attempts' not in st.session_state:
         st.session_state.attempts = {f'Attempt {i}': {
             'who_intubated': "",
@@ -458,7 +456,7 @@ elif st.session_state.page == "Course Information":
             'cricoid_during': "",
             'attempt_successful': "",
         } for i in range(1, 9)}
-
+    
     # Define the row headers
     row_headers = [
         "Attempts for this COURSE",
@@ -471,18 +469,18 @@ elif st.session_state.page == "Course Information":
         "During this attempt, was cricoid pressure/external laryngeal manipulation provided?",
         "Attempt Successful: Yes/No"
     ]
-
+    
     # Define attempt numbers
     attempt_numbers = range(1, 9)
-
-    # Create the table-like layout
+    
+    # Create the table-like layout with vertically stacked inputs
     for row_header in row_headers:
-        cols = st.columns(len(attempt_numbers) + 1)  # Create extra column for headers
+        cols = st.columns(len(attempt_numbers))  # Create columns for the attempt numbers
         with cols[0]:  # Column for row headers
-            reset_input(row_header, f"header_{row_header}")  
-            
+            st.write(row_header)
+    
         for attempt in attempt_numbers:
-            with cols[attempt]:  # Adjust for 1-based indexing
+            with cols[attempt-1]:  # Adjust for 0-based index
                 attempt_key = f'Attempt {attempt}'
                 if row_header == "Attempts for this COURSE":
                     centered_input(str(attempt), f"attempt_course_{attempt}", width='50px', height='40px') 
@@ -505,29 +503,28 @@ elif st.session_state.page == "Course Information":
                 elif row_header == "ETT (or LMA) Size":
                     st.session_state.attempts[attempt_key]['ett_size'] = custom_input(
                         f'ett_size_{attempt}',
-                        default_value=st.session_state.attempts[attempt_key]['ett_size']
+                        default_value=st.session_state.attempt_key]['ett_size']
                     )
                 elif row_header == "ETT type: cuffed/uncuffed/ NA":
                     st.session_state.attempts[attempt_key]['ett_type'] = custom_input(
                         f'ett_type_{attempt}',
-                        default_value=st.session_state.attempts[attempt_key]['ett_type']
+                        default_value=st.session_state.attempt_key]['ett_type']
                     )
                 elif row_header == "Immediately prior to this attempt was cricoid pressure/external laryngeal manipulation provided?":
                     st.session_state.attempts[attempt_key]['cricoid_prior'] = custom_input(
                         f'cricoid_prior_{attempt}',
-                        default_value=st.session_state.attempts[attempt_key]['cricoid_prior']
+                        default_value=st.session_state.attempt_key]['cricoid_prior']
                     )
                 elif row_header == "During this attempt, was cricoid pressure/external laryngeal manipulation provided?":
                     st.session_state.attempts[attempt_key]['cricoid_during'] = custom_input(
                         f'cricoid_during_{attempt}',
-                        default_value=st.session_state.attempts[attempt_key]['cricoid_during']
+                        default_value=st.session_state.attempt_key]['cricoid_during']
                     )
                 elif row_header == "Attempt Successful: Yes/No":
                     st.session_state.attempts[attempt_key]['attempt_successful'] = custom_input(
                         f'attempt_successful_{attempt}',
-                        default_value=st.session_state.attempts[attempt_key]['attempt_successful']
+                        default_value=st.session_state.attempt_key]['attempt_successful']
                     )
-
     # Navigation buttons
     col_prev, col_next = st.columns(2)
     with col_prev:
