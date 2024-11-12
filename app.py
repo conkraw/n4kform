@@ -317,10 +317,19 @@ if st.session_state.page == "Encounter Information":
             "Sepsis/Shock",
             "Neurological (excluding Traumatic Brain Injury)",
             "Trauma (including Traumatic Brain Injury)",
+            "Other"  # Adding the "Other" option
         ],
-        default=st.session_state.form_data['diagnostic_category']  # Use the session state to set default
+        default=st.session_state.form_data.get('diagnostic_category', [])  # Default from session state
     )
-
+    
+    # If "Other" is selected, show a text input for custom category
+    if "Other" in diagnostic_category:
+        other_category = st.text_input("Please specify the 'Other' category:")
+    
+    # Only update session state if "Other" is specified
+    if other_category:
+        # Add the custom 'Other' category to the list
+        diagnostic_category.append(other_category)
     # Validation and navigation logic
     col_prev, col_next = st.columns(2)
     #with col_prev:
