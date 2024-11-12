@@ -872,6 +872,13 @@ elif st.session_state.page == "Method":
     else:
         st.session_state.other_specification = ""  # Clear input if "Others" is not selected
 
+    if "Others (Specify):" in selected_techniques and st.session_state.other_specification:
+        # Append the 'Other' specification to the list of selected techniques
+        combined_techniques = selected_techniques.copy()
+        combined_techniques.append(f"Other: {st.session_state.other_specification}")
+    else:
+        combined_techniques = selected_techniques
+        
     # Navigation buttons
     col1, col2 = st.columns(2)
     with col1:
