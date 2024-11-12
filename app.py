@@ -414,9 +414,6 @@ elif st.session_state.page == "Indications":
             default=st.session_state.indications  # Default from session state
         )
         
-        # Store the selected indications in session state
-        st.session_state.indications = indications
-        
         # Initialize other_indication as None initially
         other_indication = None
         
