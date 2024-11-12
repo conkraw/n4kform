@@ -301,8 +301,8 @@ if st.session_state.page == "Encounter Information":
             index=["No Supervisor", "ckrawiec@pennstatehealth.psu.edu", "", ""].index(st.session_state.form_data.get('supervisor', 'No Supervisor'))
         )
         
-    #if 'diagnostic_category' not in st.session_state.form_data:
-    #    st.session_state.form_data['diagnostic_category'] = []
+    if 'diagnostic_category' not in st.session_state.form_data:
+        st.session_state.form_data['diagnostic_category'] = []
     
     # Update the session state with selected diagnostic categories
     st.session_state.form_data['diagnostic_category'] = st.multiselect(
@@ -317,7 +317,7 @@ if st.session_state.page == "Encounter Information":
             "Neurological (excluding Traumatic Brain Injury)",
             "Trauma (including Traumatic Brain Injury)",
         ],
-        default=st.session_state.form_data.get('diagnostic_category', [])
+        default==st.session_state.form_data['diagnostic_category']
     )
     
     # Validation and navigation logic
