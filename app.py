@@ -842,7 +842,7 @@ elif st.session_state.page == "Method":
                                           default=st.session_state.selected_techniques)
 
     # Update the session state
-    st.session_state.selected_techniques = selected_techniques
+
 
     # Initialize "Others" specification in session state
     if "other_specification" not in st.session_state:
@@ -865,6 +865,7 @@ elif st.session_state.page == "Method":
 
     with col2:
         if st.button("Next"):
+            st.session_state.selected_techniques = selected_techniques
             st.session_state.page = "Method Details"  # Set next page (update this to your actual next page)
             st.rerun()
 
