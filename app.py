@@ -503,8 +503,8 @@ elif st.session_state.page == "Course Information":
                 elif row_header == "ETT (or LMA) Size":
                     st.session_state.attempts[attempt_key]['ett_size'] = custom_input(
                         f'ett_size_{attempt}',
-                        default_value=st.session_state.attempt_key]['ett_size']
-                    )
+                        default_value=st.session_state.attempt_key]['ett_size'])
+                        
                 elif row_header == "ETT type: cuffed/uncuffed/ NA":
                     st.session_state.attempts[attempt_key]['ett_type'] = custom_input(
                         f'ett_type_{attempt}',
