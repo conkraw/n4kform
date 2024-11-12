@@ -305,7 +305,7 @@ if st.session_state.page == "Encounter Information":
         st.session_state.form_data['diagnostic_category'] = []
 
     # Update the session state with selected diagnostic categories
-    st.session_state['diagnostic_category'] = st.multiselect(
+    diagnostic_category = st.multiselect(
     "Diagnostic Category (Check as many as apply):",
     options=[
         "Cardiac - Surgical",
