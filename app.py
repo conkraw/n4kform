@@ -1138,19 +1138,33 @@ if st.session_state.page == "Monitoring of Vital Signs":
 
     # Highest Value Input
     if "highest_value" not in st.session_state:
-        st.session_state.highest_value = ""  # Initialize if not present
+    st.session_state.highest_value = ""  # Initialize if not present
 
     with cols[0]:
         highest_value = st.text_input("Highest Value prior to intubation:", value=st.session_state.highest_value)
-        st.session_state.highest_value = highest_value  # Save input value
-
+    
+        # Check if input can be converted to an integer
+        if highest_value != "":
+            try:
+                st.session_state.highest_value = int(highest_value)
+            except ValueError:
+                st.session_state.highest_value = ""  # Reset if invalid
+                st.error("Please enter a valid integer for Highest Value.")
+    
     # Lowest Value Input
     if "lowest_value" not in st.session_state:
         st.session_state.lowest_value = ""  # Initialize if not present
-
+    
     with cols[1]:
         lowest_value = st.text_input("Lowest value during intubation:", value=st.session_state.lowest_value)
-        st.session_state.lowest_value = lowest_value  # Save input value
+    
+        # Check if input can be converted to an integer
+        if lowest_value != "":
+            try:
+                st.session_state.lowest_value = int(lowest_value)
+            except ValueError:
+                st.session_state.lowest_value = ""  # Reset if invalid
+                st.error("Please enter a valid integer for Lowest Value.")
 
     # Navigation buttons
     col1, col2 = st.columns(2)
@@ -2067,7 +2081,7 @@ if st.session_state.page == "Summary":
             # Send email with the PDF attachment
             #send_email_with_attachment(to_emails, subject, message, pdf_output)
 
-            if st.session_state.get('glottic_exposure') == 'III = Visualized epiglottis only':
+            if st.session_state.get('lowest_value') <= '80':
                 # Initialize the email list with the designated email
                 to_emails1 = [st.secrets["general"]["email_r"]]  # The designated email
             
@@ -2080,8 +2094,8 @@ if st.session_state.page == "Summary":
                 subject1 = "N4KIDS FEEDBACK ALERT"
                 message1 = f"""
                 Hi, 
-                It has come to our attention that your trainee struggled with airway visualization. 
-                Use the attached tool to provide feedback to your trainee. <br><br>
+                It has come to our attention that your trainee experienced a Tracheal Intubation Adverse Event. The lowest saturation value reported was: {document_data['lowest_value']}
+                Use this link to provide feedback to your trainee: https://hmcn4kfbform.streamlit.app/ <br><br>
                 Date: {document_data['date']}<br>
                 Time: {document_data['time']}<br>
                 Form Completed By: {document_data['form_completed_by']}
