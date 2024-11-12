@@ -910,6 +910,8 @@ elif st.session_state.page == "Method Details":
 
     selected_oxygen_index = oxygen_options.index(st.session_state.selected_oxygen) if st.session_state.selected_oxygen in oxygen_options else 0
 
+    selected_oxygen = st.selectbox("Select an option:", oxygen_options, index=selected_oxygen_index)
+    
     st.session_state.selected_oxygen = selected_oxygen
 
     # Show multiselect if "YES" is selected
