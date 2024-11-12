@@ -320,8 +320,8 @@ if st.session_state.page == "Encounter Information":
     )
     
     # If user made any changes, update the session state
-    if diagnostic_category != st.session_state.form_data['diagnostic_category']:
-        st.session_state.form_data['diagnostic_category'] = diagnostic_category
+   # if diagnostic_category != st.session_state.form_data['diagnostic_category']:
+   #     st.session_state.form_data['diagnostic_category'] = diagnostic_category
      
     # Validation and navigation logic
     col_prev, col_next = st.columns(2)
