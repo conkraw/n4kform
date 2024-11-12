@@ -982,7 +982,7 @@ elif st.session_state.page == "Method Details":
             if selected_oxygen == "NO":
                 st.session_state.selected_methods = ""
             else:
-            st.session_state.selected_methods = selected_methods 
+                st.session_state.selected_methods = selected_methods 
             st.session_state.page = "Method"  # Update this to your actual previous page
             st.rerun()  # Refresh the app to apply changes
 
