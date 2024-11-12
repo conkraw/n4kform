@@ -317,7 +317,8 @@ if st.session_state.page == "Encounter Information":
         "Trauma (including Traumatic Brain Injury)",
     ]
 )
- 
+    st.session_state['diagnostic_category'] = diagnostic_category
+     
     # Validation and navigation logic
     col_prev, col_next = st.columns(2)
     #with col_prev:
