@@ -322,10 +322,10 @@ if st.session_state.page == "Encounter Information":
     
     # Validation and navigation logic
     col_prev, col_next = st.columns(2)
-    with col_prev:
-        if st.button("Previous"):
-            st.session_state.page = "Starting Page"
-            st.rerun()
+    #with col_prev:
+    #    if st.button("Previous"):
+    #        st.session_state.page = "Starting Page"
+    #        st.rerun()
     
     with col_next:
         # Only proceed if button is clicked
