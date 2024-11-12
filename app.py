@@ -1743,7 +1743,13 @@ if st.session_state.page == "Summary":
                 lambda x: 'X' if x == True else '' if x == False else x
             )
 
-
+            data['tube_change_indications'] = data['tube_change_indications'].apply(ast.literal_eval)
+            data['indications'] = data['indications'].apply(ast.literal_eval)
+            data['atropine_indications'] = data['atropine_indications'].apply(ast.literal_eval)
+            data['glycopyrrolate_indications'] = data['glycopyrrolate_indications'].apply(ast.literal_eval)
+            data['selected_techniques'] = data['selected_techniques'].apply(ast.literal_eval)
+            data['selected_confirmation'] = data['selected_confirmation'].apply(ast.literal_eval)
+            
 
             data = data.fillna('')
             
