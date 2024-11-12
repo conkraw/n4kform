@@ -386,6 +386,10 @@ elif st.session_state.page == "Indications":
 
     with col1:
         st.markdown("<h3 style='text-align: center;'>INITIAL INTUBATION</h3>", unsafe_allow_html=True)
+        if "indications" not in st.session_state:
+            st.session_state.indications = []
+        
+        # Indications selection with "Other" option
         indication_options = [
             "Oxygen Failure (e.g. PaO2 <60 mm Hg in FIO2 >0.6 in absence of cyanotic heart disease)",
             "Procedure (e.g. IR or MRI)",
@@ -400,42 +404,30 @@ elif st.session_state.page == "Indications":
             "Ongoing CPR",
             "Absent Protective Airway Reflexes (e.g. cough, gag)",
             "Reintubation After Unplanned Extubation",
-            "Others: ............."
+            "Others: ............."  # Adding the "Other" option
         ]
         
-        # Initialize session state for 'indications' if not already present
-        if "indications" not in st.session_state:
-            st.session_state.indications = []
-        
-        # Allow the user to select multiple indications
+        # Multiselect for indications
         indications = st.multiselect(
             "Check as many as apply:",
             options=indication_options,
-            default=st.session_state.indications
+            default=st.session_state.indications  # Default from session state
         )
         
         # Store the selected indications in session state
         st.session_state.indications = indications
         
-        # Initialize session state for 'other_indication' if not already present
-        if "other_indication" not in st.session_state:
-            st.session_state.other_indication = ""
+        # Initialize other_indication as None initially
+        other_indication = None
         
-        # If "Others: ............." is selected, show a text input for specifying other indication
+        # If "Others: ............." is selected, show a text input for specifying the 'Other' indication
         if "Others: ............." in indications:
-            other_indication = st.text_input("Please specify other indication:", value=st.session_state.other_indication)
-            st.session_state.other_indication = other_indication  # Update session state with the input
-        else:
-            st.session_state.other_indication = ""  # Clear input if "Others" is not selected
+            other_indication = st.text_input("Please specify other indication:")
         
-        # Combine the selected indications with the 'Other' specification if applicable
-        if "Others: ............." in indications and st.session_state.other_indication:
-            # Append the 'Other' specification to the list of selected indications
-            combined_indications = indications.copy()
-            combined_indications.append(f"Other: {st.session_state.other_indication}")
-        else:
-            combined_indications = indications
-    
+        # If the user has specified an 'Other' indication, add it to the list
+        if other_indication:
+            indications.append(other_indication)
+
     with col2:
         st.markdown("<h3 style='text-align: center;'>CHANGE OF TUBE</h3>", unsafe_allow_html=True)
         col3, col4 = st.columns(2)
