@@ -318,11 +318,7 @@ if st.session_state.page == "Encounter Information":
         ],
         default=st.session_state.form_data['diagnostic_category']  # Use the session state to set default
     )
-    
-    # If user made any changes, update the session state
-   # if diagnostic_category != st.session_state.form_data['diagnostic_category']:
-   #     st.session_state.form_data['diagnostic_category'] = diagnostic_category
-     
+
     # Validation and navigation logic
     col_prev, col_next = st.columns(2)
     #with col_prev:
@@ -333,6 +329,8 @@ if st.session_state.page == "Encounter Information":
     with col_next:
         # Only proceed if button is clicked
         if st.button("Next"):
+            if diagnostic_category != st.session_state.form_data['diagnostic_category']:
+                st.session_state.form_data['diagnostic_category'] = diagnostic_category
             st.session_state.page = "Indications"  # Set next page
             st.rerun()
                 
