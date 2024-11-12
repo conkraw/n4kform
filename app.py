@@ -1418,6 +1418,43 @@ def send_email_with_attachment2(to_emails, subject, body, pdf_url):
     except Exception as e:
         st.error(f"Error sending email: {e}")
 
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email import encoders
+import streamlit as st
+
+def send_email_without_attachment(to_emails, subject, body):
+    """
+    Sends an email without any attachment.
+
+    Args:
+    - to_emails (list): List of recipient email addresses.
+    - subject (str): Subject of the email.
+    - body (str): HTML body content of the email.
+    """
+    # Email credentials from Streamlit secrets
+    from_email = st.secrets["general"]["email"]
+    password = st.secrets["general"]["email_password"]
+
+    # Create a multipart email
+    msg = MIMEMultipart()
+    msg['From'] = from_email
+    msg['To'] = ', '.join(to_emails)  # Join multiple email addresses
+    msg['Subject'] = subject
+
+    # Attach the email body
+    msg.attach(MIMEText(body, 'html'))
+
+    # Send the email using SMTP with SSL
+    try:
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
+            server.login(from_email, password)
+            server.send_message(msg)
+            st.success("Email sent successfully!")
+    except Exception as e:
+        st.error(f"Error sending email: {e}")
         
 if 'firebase_initialized' not in st.session_state:
     firebase_key = st.secrets["FIREBASE_KEY"]
@@ -2098,17 +2135,17 @@ if st.session_state.page == "Summary":
                 try:
                     # Convert 'lowest_value' to an integer
                     lowest_value_int = int(lowest_value)
-            
+                
                     # Now compare it numerically
                     if lowest_value_int <= 80:
                         # Initialize the email list with the designated email
                         to_emails1 = [st.secrets["general"]["email_r"]]  # The designated email
-            
+                    
                         # Check if there's a supervisor email and add it to the list if it's valid
                         supervisor_email = st.session_state.form_data.get('supervisor', 'No Supervisor')
                         if supervisor_email and supervisor_email != "No Supervisor":
                             to_emails1.append(supervisor_email)
-            
+                    
                         # Define the email subject and message
                         subject1 = "N4KIDS FEEDBACK ALERT"
                         message1 = f"""
@@ -2119,19 +2156,15 @@ if st.session_state.page == "Summary":
                         Time: {document_data['time']}<br>
                         Form Completed By: {document_data['form_completed_by']}
                         """
-            
-                        # Define the URL for the PDF attachment (hosted on GitHub)
-                        pdf_url = 'https://raw.githubusercontent.com/conkraw/n4kform/main/test.pdf'
-            
-                        # Call the function to send the email with the PDF attachment
-                        send_email_with_attachment2(to_emails1, subject1, message1, pdf_url)
-            
+                    
+                        # Call the function to send the email **without the PDF attachment**
+                        send_email_without_attachment(to_emails1, subject1, message1)
+                    
                 except ValueError:
                     # If the 'lowest_value' cannot be converted to an integer, handle it
                     st.error("The 'lowest_value' entered is not a valid number. Please provide a valid integer.")
             else:
                 st.error("The 'lowest_value' is missing. Please provide the lowest value for the saturation.")
-
 
             if st.session_state.get('airway_bundle') == 'No':
                 # Initialize the email list with the designated email
