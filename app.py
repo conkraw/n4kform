@@ -1138,7 +1138,7 @@ if st.session_state.page == "Monitoring of Vital Signs":
 
     # Highest Value Input
     if "highest_value" not in st.session_state:
-    st.session_state.highest_value = ""  # Initialize if not present
+        st.session_state.highest_value = ""  # Initialize if not present
 
     with cols[0]:
         highest_value = st.text_input("Highest Value prior to intubation:", value=st.session_state.highest_value)
