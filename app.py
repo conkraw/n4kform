@@ -305,7 +305,7 @@ if st.session_state.page == "Encounter Information":
         st.session_state.form_data['diagnostic_category'] = []
     st.write("Before Multiselect:", st.session_state.form_data['diagnostic_category'])
     # Update the session state with selected diagnostic categories
-    st.session_state.form_data['diagnostic_category'] = st.multiselect(
+    selected_categories = st.multiselect(
     "Diagnostic Category (Check as many as apply):",
     options=[
         "Select Diagnostic Category",
@@ -319,7 +319,7 @@ if st.session_state.page == "Encounter Information":
     ],
     default=st.session_state.form_data['diagnostic_category']
 )
-    st.write("After Multiselect:", st.session_state.form_data['diagnostic_category'])
+    st.session_state.form_data['diagnostic_category'] = selected_categories
     
     # Validation and navigation logic
     col_prev, col_next = st.columns(2)
