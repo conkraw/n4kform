@@ -1649,6 +1649,8 @@ if st.session_state.page == "Summary":
             for i in range(1, 6):  # Loop to add columns for 1 to 7
                 data[f"disposition_{i}"] = ""
 
+            data ['other_disposition'] = ""
+            
             # Assuming the 'selected_methods' column contains string representations of lists
             
             data['selected_methods'] = data['selected_methods'].apply(ast.literal_eval)
@@ -2084,6 +2086,8 @@ if st.session_state.page == "Summary":
                 'disposition_3': str(rows['disposition_3']),
                 'disposition_4': str(rows['disposition_4']),
                 'disposition_5': str(rows['disposition_5']),
+
+                'other_disposition': str(rows['other_disposition']),
 
             }
 
