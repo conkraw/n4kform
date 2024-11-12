@@ -302,7 +302,7 @@ if st.session_state.page == "Encounter Information":
         )
         
     if 'diagnostic_category' not in st.session_state.form_data:
-    st.session_state.form_data['diagnostic_category'] = []
+        st.session_state.form_data['diagnostic_category'] = []
 
     # Render the multiselect with session state data
     diagnostic_category = st.multiselect(
