@@ -988,7 +988,10 @@ elif st.session_state.page == "Method Details":
 
     with col2:
         if st.button("Next"):
-            st.session_state.selected_methods = selected_methods  # Save selected methods to session state
+            if selected_oxygen == "NO":
+                st.session_state.selected_methods = ""
+            else:
+                st.session_state.selected_methods = selected_methods 
             
             st.session_state.page = "Method Details II"  # Update this to your actual next page
             st.rerun()  # Refresh the app to apply changes
