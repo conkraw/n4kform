@@ -370,7 +370,7 @@ elif st.session_state.page == "Indications":
 
     with col1:
         st.markdown("<h3 style='text-align: center;'>INITIAL INTUBATION</h3>", unsafe_allow_html=True)
-        st.session_state.indications = st.multiselect(
+        indications = st.multiselect(
             "Check as many as apply:",
             options=[
                 "Oxygen Failure (e.g. PaO2 <60 mm Hg in FIO2 >0.6 in absence of cyanotic heart disease)",
@@ -428,6 +428,7 @@ elif st.session_state.page == "Indications":
 
     with col_next:
         if st.button("Next"):
+            st.session_state['indications'] = indications
             st.session_state.page = "Course Information"  # Set next page
             st.rerun() 
 
