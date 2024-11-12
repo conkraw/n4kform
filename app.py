@@ -1022,6 +1022,12 @@ elif st.session_state.page == "Method Details II":
         other_device_description = st.text_input("Please describe the Other Device:", value=st.session_state.other_device_description)
         st.session_state.other_device_description = other_device_description  # Save description
 
+    if selected_device == "Other (please describe):" and st.session_state.other_device_description:
+        # Append the 'Other' description to the device selection
+        combined_device = f"{selected_device}: {st.session_state.other_device_description}"
+    else:
+        combined_device = selected_device
+        
     # Tracheal Intubation Confirmation
     st.markdown("### Tracheal Intubation Confirmation (Check ALL that apply)")
     confirmation_options = [
@@ -1048,6 +1054,13 @@ elif st.session_state.page == "Method Details II":
         other_confirmation_description = st.text_input("Please describe the Other Confirmation Method:", value=st.session_state.other_confirmation_description)
         st.session_state.other_confirmation_description = other_confirmation_description  # Save description
 
+    if "Others:" in selected_confirmation and st.session_state.other_confirmation_description:
+        # Append the 'Other' description to the list of selected confirmation methods
+        combined_confirmation = selected_confirmation.copy()
+        combined_confirmation.append(f"Other: {st.session_state.other_confirmation_description}")
+    else:
+        combined_confirmation = selected_confirmation
+        
     st.markdown("### Glottic Exposure During Intubation [Check only ONE]:")
     st.image("image.png", caption="Glottic Exposure Diagram", use_column_width=True)  # Add the image here
     glottic_options = [
