@@ -306,18 +306,19 @@ if st.session_state.page == "Encounter Information":
     
     # Update the session state with selected diagnostic categories
     st.session_state.form_data['diagnostic_category'] = st.multiselect(
-        "Diagnostic Category (Check as many as apply):",
-        options=[
-            "Select Diagnostic Category",
-            "Cardiac - Surgical",
-            "Cardiac - Medical",
-            "Respiratory - Upper Airway",
-            "Respiratory - Lower Airway/Pulmonary",
-            "Sepsis/Shock",
-            "Neurological (excluding Traumatic Brain Injury)",
-            "Trauma (including Traumatic Brain Injury)",
-        ],
-        default==st.session_state.form_data['diagnostic_category'])
+    "Diagnostic Category (Check as many as apply):",
+    options=[
+        "Select Diagnostic Category",
+        "Cardiac - Surgical",
+        "Cardiac - Medical",
+        "Respiratory - Upper Airway",
+        "Respiratory - Lower Airway/Pulmonary",
+        "Sepsis/Shock",
+        "Neurological (excluding Traumatic Brain Injury)",
+        "Trauma (including Traumatic Brain Injury)",
+    ],
+    default=st.session_state.form_data['diagnostic_category']
+)
     
     # Validation and navigation logic
     col_prev, col_next = st.columns(2)
