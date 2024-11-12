@@ -1659,8 +1659,23 @@ if st.session_state.page == "Summary":
             data ['other_disposition'] = ""
             
             # Assuming the 'selected_methods' column contains string representations of lists
+
+            def safe_literal_eval(val):
+                if isinstance(val, str):  # Only apply if the value is a string
+                    try:
+                        # Try to parse the string using ast.literal_eval
+                        result = ast.literal_eval(val)
+                        if isinstance(result, list):  # Ensure it's a list
+                            return result
+                        else:
+                            return ""  # If it's not a list, return empty string
+                    except (ValueError, SyntaxError):
+                        return ""  # Return empty string in case of an invalid format
+                return ""  # Return empty string if it's not a string at all (e.g., None)
+
+            data['selected_methods'] = data['selected_methods'].apply(safe_literal_eval)
             
-            data['selected_methods'] = data['selected_methods'].apply(ast.literal_eval)
+            #data['selected_methods'] = data['selected_methods'].apply(ast.literal_eval)
             
             # Predefined list of methods for reference (the order will be used for column names)
             predefined_methods = [
