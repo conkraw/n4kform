@@ -317,8 +317,7 @@ if st.session_state.page == "Encounter Information":
             "Neurological (excluding Traumatic Brain Injury)",
             "Trauma (including Traumatic Brain Injury)",
         ],
-        default==st.session_state.form_data['diagnostic_category']
-    )
+        default==st.session_state.form_data['diagnostic_category'])
     
     # Validation and navigation logic
     col_prev, col_next = st.columns(2)
