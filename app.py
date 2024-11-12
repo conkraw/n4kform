@@ -2155,7 +2155,7 @@ if st.session_state.page == "Summary":
                         subject1 = "N4KIDS FEEDBACK ALERT"
                         message1 = f"""
                         Hi, 
-                        It has come to our attention that your trainee experienced a Tracheal Intubation Adverse Event. The lowest saturation value reported was: {document_data['lowest_value']}
+                        It has come to our attention that your trainee experienced a Tracheal Intubation Adverse Event. The lowest saturation value reported was: {document_data['lowest_value']} %. 
                         Use this link to provide feedback to your trainee: https://hmcn4kfbform.streamlit.app/ <br><br>
                         Date: {document_data['date']}<br>
                         Time: {document_data['time']}<br>
