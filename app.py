@@ -310,8 +310,7 @@ if st.session_state.page == "Encounter Information":
     
     # Ensure the session state is updated after the interaction (before widget renders)
     
-    if st.session_state.other_category:
-        st.session_state.other_category = None
+    other_category = None
     
     diagnostic_category = st.multiselect(
         "Diagnostic Category (Check as many as apply):",
@@ -333,16 +332,16 @@ if st.session_state.page == "Encounter Information":
         other_category = st.text_input("Please specify the 'Other' category:")
     
     # Only update session state if "Other" is specified
-    if st.session_state.other_category:
-    # Add the custom 'Other' category to the diagnostic_category list
-    if st.session_state.other_category not in diagnostic_category:
-        diagnostic_category.append(st.session_state.other_category)
-    # Add the custom 'Other' category to the diagnostic_category list
-        if st.session_state.other_category not in diagnostic_category:
-            diagnostic_category.append(st.session_state.other_category)
-
+    if other_category:
+        # Add the custom 'Other' category to the list
+        diagnostic_category.append(other_category)
+    # Validation and navigation logic
     col_prev, col_next = st.columns(2)
-
+    #with col_prev:
+    #    if st.button("Previous"):
+    #        st.session_state.page = "Starting Page"
+    #        st.rerun()
+    
     with col_next:
         # Only proceed if button is clicked
         if st.button("Next"):
@@ -387,42 +386,26 @@ elif st.session_state.page == "Indications":
 
     with col1:
         st.markdown("<h3 style='text-align: center;'>INITIAL INTUBATION</h3>", unsafe_allow_html=True)
-        if "indications" not in st.session_state:
-            st.session_state.indications = []
-        
-        # Indications selection with "Other" option
-        indication_options = [
-            "Oxygen Failure (e.g. PaO2 <60 mm Hg in FIO2 >0.6 in absence of cyanotic heart disease)",
-            "Procedure (e.g. IR or MRI)",
-            "Ventilation Failure (e.g. PaCO2 > 50 mm Hg in the absence of chronic lung disease)",
-            "Frequent Apnea and Bradycardia",
-            "Upper Airway Obstruction",
-            "Therapeutic Hyperventilation (e.g. intracranial hypertension, pulmonary hypertension)",
-            "Airway Clearance",
-            "Neuromuscular Weakness (e.g. Max. negative inspiratory pressure >-20 cm H2O; vital capacity <12 – 15 ml/kg)",
-            "Emergency Drug Administration",
-            "Unstable Hemodynamics (e.g. shock)",
-            "Ongoing CPR",
-            "Absent Protective Airway Reflexes (e.g. cough, gag)",
-            "Reintubation After Unplanned Extubation",
-            "Others: ............."  # Adding the "Other" option
-        ]
-        
-        # Multiselect for indications
         indications = st.multiselect(
-        "Check as many as apply:",
-        options=indication_options,
-        default=st.session_state.get('indications', [])  # Default from session state
-    )
-        
-        # Initialize other_indication as None initially
-        other_indication = None
-        
-        if "Others: ............." in indications:
-            other_indication = st.text_input("Please specify other indication:")
-    
-        if other_indication:
-            indications.append(other_indication)
+            "Check as many as apply:",
+            options=[
+                "Oxygen Failure (e.g. PaO2 <60 mm Hg in FIO2 >0.6 in absence of cyanotic heart disease)",
+                "Procedure (e.g. IR or MRI)",
+                "Ventilation Failure (e.g. PaCO2 > 50 mm Hg in the absence of chronic lung disease)",
+                "Frequent Apnea and Bradycardia",
+                "Upper Airway Obstruction",
+                "Therapeutic Hyperventilation (e.g. intracranial hypertension, pulmonary hypertension)",
+                "Airway Clearance",
+                "Neuromuscular Weakness (e.g. Max. negative inspiratory pressure >-20 cm H2O; vital capacity <12 – 15 ml/kg)",
+                "Emergency Drug Administration",
+                "Unstable Hemodynamics (e.g. shock)",
+                "Ongoing CPR",
+                "Absent Protective Airway Reflexes (e.g. cough, gag)",
+                "Reintubation After Unplanned Extubation",
+                "Others: ............."
+            ],
+            default=st.session_state.get('indications', [])
+        )
 
     with col2:
         st.markdown("<h3 style='text-align: center;'>CHANGE OF TUBE</h3>", unsafe_allow_html=True)
@@ -889,13 +872,6 @@ elif st.session_state.page == "Method":
     else:
         st.session_state.other_specification = ""  # Clear input if "Others" is not selected
 
-    if "Others (Specify):" in selected_techniques and st.session_state.other_specification:
-        # Append the 'Other' specification to the list of selected techniques
-        combined_techniques = selected_techniques.copy()
-        combined_techniques.append(f"Other: {st.session_state.other_specification}")
-    else:
-        combined_techniques = selected_techniques
-        
     # Navigation buttons
     col1, col2 = st.columns(2)
     with col1:
@@ -1046,12 +1022,6 @@ elif st.session_state.page == "Method Details II":
         other_device_description = st.text_input("Please describe the Other Device:", value=st.session_state.other_device_description)
         st.session_state.other_device_description = other_device_description  # Save description
 
-    if selected_device == "Other (please describe):" and st.session_state.other_device_description:
-        # Append the 'Other' description to the device selection
-        combined_device = f"{selected_device}: {st.session_state.other_device_description}"
-    else:
-        combined_device = selected_device
-        
     # Tracheal Intubation Confirmation
     st.markdown("### Tracheal Intubation Confirmation (Check ALL that apply)")
     confirmation_options = [
@@ -1078,13 +1048,6 @@ elif st.session_state.page == "Method Details II":
         other_confirmation_description = st.text_input("Please describe the Other Confirmation Method:", value=st.session_state.other_confirmation_description)
         st.session_state.other_confirmation_description = other_confirmation_description  # Save description
 
-    if "Others:" in selected_confirmation and st.session_state.other_confirmation_description:
-        # Append the 'Other' description to the list of selected confirmation methods
-        combined_confirmation = selected_confirmation.copy()
-        combined_confirmation.append(f"Other: {st.session_state.other_confirmation_description}")
-    else:
-        combined_confirmation = selected_confirmation
-        
     st.markdown("### Glottic Exposure During Intubation [Check only ONE]:")
     st.image("image.png", caption="Glottic Exposure Diagram", use_column_width=True)  # Add the image here
     glottic_options = [
@@ -1685,6 +1648,8 @@ if st.session_state.page == "Summary":
 
             for i in range(1, 6):  # Loop to add columns for 1 to 7
                 data[f"disposition_{i}"] = ""
+
+            data ['other_disposition'] = ""
             
             # Assuming the 'selected_methods' column contains string representations of lists
             
