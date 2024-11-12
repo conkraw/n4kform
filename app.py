@@ -908,13 +908,9 @@ elif st.session_state.page == "Method Details":
         "ATTEMPTED but not done (explain on last page)"
     ]
 
-    selected_oxygen = st.selectbox("Select an option:", oxygen_options, index=oxygen_options.index(st.session_state.selected_oxygen))
-    st.session_state.selected_oxygen = selected_oxygen
+    selected_oxygen_index = oxygen_options.index(st.session_state.selected_oxygen) if st.session_state.selected_oxygen in oxygen_options else 0
 
-    # Conditional input for explanation if "ATTEMPTED but not done" is selected
-    #if selected_oxygen == "ATTEMPTED but not done (explain on last page)":
-    #    explanation = st.text_area("Please explain:", value=st.session_state.oxygen_explanation)
-    #    st.session_state.oxygen_explanation = explanation  # Save explanation to session state
+    st.session_state.selected_oxygen = selected_oxygen
 
     # Show multiselect if "YES" is selected
     if selected_oxygen == "YES":
