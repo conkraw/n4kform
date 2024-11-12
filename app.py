@@ -915,7 +915,7 @@ elif st.session_state.page == "Method Details":
 
         # Multiselect for oxygen provision methods
         selected_methods = st.multiselect("Select methods:", methods_options, default=st.session_state.selected_methods)
-        st.session_state.selected_methods = selected_methods  # Save selected methods to session state
+        
 
         # Create a header for the columns
         cols = st.columns(3)  # Create three columns
@@ -967,6 +967,8 @@ elif st.session_state.page == "Method Details":
 
     with col2:
         if st.button("Next"):
+            st.session_state.selected_methods = selected_methods  # Save selected methods to session state
+            
             st.session_state.page = "Method Details II"  # Update this to your actual next page
             st.rerun()  # Refresh the app to apply changes
 
@@ -1020,7 +1022,7 @@ elif st.session_state.page == "Method Details II":
         st.session_state.selected_confirmation = []
 
     selected_confirmation = st.multiselect("Select confirmation methods:", confirmation_options, default=st.session_state.selected_confirmation)
-    st.session_state.selected_confirmation = selected_confirmation  # Save selection
+    
 
     # Text input for 'Other' confirmation description
     if "Others:" in selected_confirmation:
@@ -1072,7 +1074,7 @@ elif st.session_state.page == "Method Details II":
         st.session_state.selected_events = []
 
     selected_events = st.multiselect("Select events associated with tracheal intubation:", events, default=st.session_state.selected_events)
-    st.session_state.selected_events = selected_events  # Save selection
+    
 
     if "other_event_description" not in st.session_state:
             st.session_state.other_event_description = ""
@@ -1115,6 +1117,8 @@ elif st.session_state.page == "Method Details II":
 
     with col2:
         if st.button("Next"):
+            st.session_state.selected_confirmation = selected_confirmation  # Save selection
+            st.session_state.selected_events = selected_events  # Save selection
             st.session_state.page = "Monitoring of Vital Signs"  # Update this to your actual next page
             st.rerun()
 
