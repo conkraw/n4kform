@@ -474,10 +474,11 @@ elif st.session_state.page == "Course Information":
     attempt_numbers = range(1, 9)
     
     # Create the table-like layout with vertically stacked inputs
-    for row_header in row_headers:
-        cols = st.columns(len(attempt_numbers))  # Create columns for the attempt numbers
+        for row_header in row_headers:
+        cols = st.columns(len(attempt_numbers) + 1)  # Create extra column for headers
         with cols[0]:  # Column for row headers
-            st.write(row_header)
+            reset_input(row_header, f"header_{row_header}")  
+            
     
         for attempt in attempt_numbers:
             with cols[attempt-1]:  # Adjust for 0-based index
