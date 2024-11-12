@@ -971,11 +971,17 @@ elif st.session_state.page == "Method Details":
                 #fio2 = st.text_input(f"FiO2 for {method}:", value=st.session_state.fio2[fio2_key], key=fio2_key)
                 fio2 = st.text_input("", value=st.session_state.fio2[fio2_key], key=fio2_key)
                 st.session_state.fio2[fio2_key] = fio2
-
+    
+    if selected_oxygen == "NO":
+        st.session_state.selected_methods = ""
+        
     # Navigation buttons
     col1, col2 = st.columns(2)
     with col1:
         if st.button("Previous"):
+            if selected_oxygen == "NO":
+                st.session_state.selected_methods = ""
+            else:
             st.session_state.selected_methods = selected_methods 
             st.session_state.page = "Method"  # Update this to your actual previous page
             st.rerun()  # Refresh the app to apply changes
