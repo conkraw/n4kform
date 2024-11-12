@@ -310,7 +310,8 @@ if st.session_state.page == "Encounter Information":
     
     # Ensure the session state is updated after the interaction (before widget renders)
     
-    other_category = None
+    if st.session_state.other_category:
+        st.session_state.other_category = None
     
     diagnostic_category = st.multiselect(
         "Diagnostic Category (Check as many as apply):",
@@ -333,6 +334,9 @@ if st.session_state.page == "Encounter Information":
     
     # Only update session state if "Other" is specified
     if st.session_state.other_category:
+    # Add the custom 'Other' category to the diagnostic_category list
+    if st.session_state.other_category not in diagnostic_category:
+        diagnostic_category.append(st.session_state.other_category)
     # Add the custom 'Other' category to the diagnostic_category list
         if st.session_state.other_category not in diagnostic_category:
             diagnostic_category.append(st.session_state.other_category)
