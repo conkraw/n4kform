@@ -475,9 +475,9 @@ elif st.session_state.page == "Course Information":
     
     # Create the table-like layout with vertically stacked inputs
         for row_header in row_headers:
-        cols = st.columns(len(attempt_numbers) + 1)  # Create extra column for headers
-        with cols[0]:  # Column for row headers
-            reset_input(row_header, f"header_{row_header}")  
+            cols = st.columns(len(attempt_numbers) + 1)  # Create extra column for headers
+            with cols[0]:  # Column for row headers
+                reset_input(row_header, f"header_{row_header}")  
             
     
         for attempt in attempt_numbers:
