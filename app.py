@@ -303,8 +303,8 @@ if st.session_state.page == "Encounter Information":
         
     if 'diagnostic_category' not in st.session_state.form_data:
         st.session_state.form_data['diagnostic_category'] = []
-
-    # Render the multiselect with session state data
+    
+    # Ensure the session state is updated after the interaction (before widget renders)
     diagnostic_category = st.multiselect(
         "Diagnostic Category (Check as many as apply):",
         options=[
@@ -316,10 +316,10 @@ if st.session_state.page == "Encounter Information":
             "Neurological (excluding Traumatic Brain Injury)",
             "Trauma (including Traumatic Brain Injury)",
         ],
-        default=st.session_state.form_data['diagnostic_category']  # Use session state to restore previous selections
+        default=st.session_state.form_data['diagnostic_category']  # Use the session state to set default
     )
     
-    # Update session state if the user selected a different value
+    # If user made any changes, update the session state
     if diagnostic_category != st.session_state.form_data['diagnostic_category']:
         st.session_state.form_data['diagnostic_category'] = diagnostic_category
      
