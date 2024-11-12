@@ -503,28 +503,29 @@ elif st.session_state.page == "Course Information":
                 elif row_header == "ETT (or LMA) Size":
                     st.session_state.attempts[attempt_key]['ett_size'] = custom_input(
                         f'ett_size_{attempt}',
-                        default_value=st.session_state.attempt_key]['ett_size'])
-                        
+                        default_value=st.session_state.attempts[attempt_key]['ett_size']  # Fixed this line
+                    )
                 elif row_header == "ETT type: cuffed/uncuffed/ NA":
                     st.session_state.attempts[attempt_key]['ett_type'] = custom_input(
                         f'ett_type_{attempt}',
-                        default_value=st.session_state.attempt_key]['ett_type']
+                        default_value=st.session_state.attempts[attempt_key]['ett_type']
                     )
                 elif row_header == "Immediately prior to this attempt was cricoid pressure/external laryngeal manipulation provided?":
                     st.session_state.attempts[attempt_key]['cricoid_prior'] = custom_input(
                         f'cricoid_prior_{attempt}',
-                        default_value=st.session_state.attempt_key]['cricoid_prior']
+                        default_value=st.session_state.attempts[attempt_key]['cricoid_prior']
                     )
                 elif row_header == "During this attempt, was cricoid pressure/external laryngeal manipulation provided?":
                     st.session_state.attempts[attempt_key]['cricoid_during'] = custom_input(
                         f'cricoid_during_{attempt}',
-                        default_value=st.session_state.attempt_key]['cricoid_during']
+                        default_value=st.session_state.attempts[attempt_key]['cricoid_during']
                     )
                 elif row_header == "Attempt Successful: Yes/No":
                     st.session_state.attempts[attempt_key]['attempt_successful'] = custom_input(
                         f'attempt_successful_{attempt}',
-                        default_value=st.session_state.attempt_key]['attempt_successful']
+                        default_value=st.session_state.attempts[attempt_key]['attempt_successful']
                     )
+
     # Navigation buttons
     col_prev, col_next = st.columns(2)
     with col_prev:
