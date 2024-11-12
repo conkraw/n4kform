@@ -315,10 +315,9 @@ if st.session_state.page == "Encounter Information":
         "Sepsis/Shock",
         "Neurological (excluding Traumatic Brain Injury)",
         "Trauma (including Traumatic Brain Injury)",
-    ],
-    default=st.session_state.get('diagnostic_category', [])
+    ]
 )
-    
+ 
     # Validation and navigation logic
     col_prev, col_next = st.columns(2)
     #with col_prev:
