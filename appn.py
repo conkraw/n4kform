@@ -900,6 +900,8 @@ elif st.session_state.page == "Method Details":
         st.session_state.liter_flow = {}
     if "fio2" not in st.session_state:
         st.session_state.fio2 = {}
+    if "selected_methodsother" not in st.session_state:
+        st.session_state.selected_methodsother = ""  # Initialize the other input as empty string
 
     # Question about Oxygen provision
     st.markdown("### 1. Was Oxygen provided DURING any TI attempts for this course?")
@@ -947,6 +949,13 @@ elif st.session_state.page == "Method Details":
 
         # Save selected methods to session state
         st.session_state.selected_methods = selected_methods
+
+        # Show text input for "Other" option
+        if "Other (device, FiO2, Setting)" in selected_methods:
+            st.session_state.selected_methodsother = st.text_input(
+                "Please provide details for 'Other' method:", 
+                value=st.session_state.selected_methodsother
+            )
 
         # Create a header for the columns
         cols = st.columns(3)
@@ -1008,7 +1017,6 @@ elif st.session_state.page == "Method Details":
             st.session_state.page = "Method Details II"  # Go to the next page
             st.rerun()  # Refresh the app to apply changes
 
-    # Initialize session state if not already set        
 if "view_for_intubator" not in st.session_state:
     st.session_state.view_for_intubator = ""  # Default to blank for "View for Intubator"
         
@@ -1644,6 +1652,7 @@ if st.session_state.page == "Summary":
 
                 'liter_flow':st.session_state['liter_flow'],
                 'fio2':st.session_state['fio2'],
+                '
 
                 'selected_events':st.session_state['selected_events'],
                 
@@ -1724,8 +1733,18 @@ if st.session_state.page == "Summary":
 
             for i in range(1, 10):  
                 data[f"selected_device_{i}"] = ""
-            
-            data ['other_disposition'] = ""
+
+            for i in range(1, 10):  
+                data[f"atropine_indications_{i}"] = ""
+
+            for i in range(1, 10):  
+                data[f"glycopyrrolate_indications_{i}"] = ""
+
+            for i in range(1, 9):  
+                data[f"selected_method_{i}"] = ""
+
+            for i in range(1, 11):  
+                data[f"selected_techniques_{i}"] = ""
             
             # Assuming the 'selected_methods' column contains string representations of lists
 
@@ -1918,7 +1937,46 @@ if st.session_state.page == "Summary":
 
                 if method in data['selected_device'][0]:
                         data[selected_column_name] = "X"
-    
+
+            predefined_methods = ["Premed for TI", "Treatment of Bradycardia"]
+
+            for i, method in enumerate(predefined_methods):
+                selected_column_name = f'atropine_indications_{i + 1}'
+
+                if method in data['atropine_indications'][0]:
+                        data[selected_column_name] = "X"
+
+            predefined_methods = ["Premed for TI", "Treatment of Bradycardia"]
+
+            for i, method in enumerate(predefined_methods):
+                selected_column_name = f'glycopyrrolate_indications_{i + 1}'
+
+                if method in data['glycopyrrolate_indications'][0]:
+                        data[selected_column_name] = "X"
+
+            predefined_methods = ["Select Method", "Oral", "Nasal", "LMA", "Oral to Oral", "Oral to Nasal", "Nasal to Oral", "Nasal to Nasal", "Tracheostomy to Oral"]
+            for i, method in enumerate(predefined_methods):
+                selected_column_name = f'selected_method_{i + 1}'
+
+                if method in data['selected_method'][0]:
+                        data[selected_column_name] = "X"
+
+            predefined_methods = ["Standard Sequence (administration of induction meds, PPV, then paralysis)",
+            "Paralysis Only",
+            "Rapid Sequence requiring positive pressure ventilation (PPV)",
+            "Awake, topical",
+            "Rapid Sequence without PPV (Classic RSI)",
+            "No medications",
+            "Sedation & Paralysis (Change of tube or subsequent courses)",
+            "Surgical – Cricothyrotomy/Tracheostomy",
+            "Sedation Only",
+            "Others (Specify):"]
+            for i, method in enumerate(predefined_methods):
+                selected_column_name = f'selected_techniques_{i + 1}'
+
+                if method in data['selected_techniques'][0]:
+                        data[selected_column_name] = "X"
+                        
             data['no_drugs'] = data['no_drugs'].replace("NO DRUGS USED", "X")
             data['no_drugs'] = data['no_drugs'].replace("DRUGS USED", "")
             
@@ -2168,6 +2226,8 @@ if st.session_state.page == "Summary":
                 'selected_methods5': str(rows['selected_methods5']),
                 'selected_methods6': str(rows['selected_methods6']),
                 'selected_methods7': str(rows['selected_methods7']),
+
+                'selected_methodsother': str(rows['selected_methodsother']),
             
                 'liter_flow': str(rows['liter_flow']),
                 'liter_flow_1': str(rows['liter_flow_1']),
@@ -2188,8 +2248,31 @@ if st.session_state.page == "Summary":
                 'fio2_7': str(rows['fio2_7']),
                                                            
                 'selected_device': str(rows['selected_device']),
-                'atropine_indications':str(rows['atropine_indications']),
-                'glycopyrrolate_indications':str(rows['glycopyrrolate_indications']),
+                'atropine_indications_1':str(rows['atropine_indications_1']),
+                'atropine_indications_2':str(rows['atropine_indications_2']),
+                'glycopyrrolate_indications_1':str(rows['glycopyrrolate_indications_1']),
+                'glycopyrrolate_indications_2':str(rows['glycopyrrolate_indications_2']),
+                'selected_technique_1': str(rows['selected_technique_1']),
+                'selected_technique_2': str(rows['selected_technique_2']),
+                'selected_technique_3': str(rows['selected_technique_3']),
+                'selected_technique_4': str(rows['selected_technique_4']),
+                'selected_technique_5': str(rows['selected_technique_5']),
+                'selected_technique_6': str(rows['selected_technique_6']),
+                'selected_technique_7': str(rows['selected_technique_7']),
+                'selected_technique_8': str(rows['selected_technique_8']),
+                'selected_technique_9': str(rows['selected_technique_9']),
+                'selected_technique_10': str(rows['selected_technique_10']),
+                'other_specification ': str(rows['other_specification ']),
+
+                
+                'selected_method_1': str(rows['selected_method_1']),
+                'selected_method_2': str(rows['selected_method_2']),
+                'selected_method_3': str(rows['selected_method_3']),
+                'selected_method_4': str(rows['selected_method_4']),
+                'selected_method_5': str(rows['selected_method_5']),
+                'selected_method_6': str(rows['selected_method_6']),
+                'selected_method_7': str(rows['selected_method_7']),
+                'selected_method_8': str(rows['selected_method_8']),
 
                 'event_1': str(rows['event_1']),
                 'event_2': str(rows['event_2']),
