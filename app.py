@@ -988,16 +988,22 @@ elif st.session_state.page == "Method Details":
     with col1:
         if st.button("Previous"):
             # Handle 'Previous' button click
-            st.session_state.selected_methods = selected_methods
+            st.session_state.selected_methods = st.session_state.selected_methods  # Ensure we keep the updated value
             st.session_state.page = "Method"  # Update this to your actual previous page
             st.rerun()  # Refresh the app to apply changes
 
     with col2:
         if st.button("Next"):
             # Handle 'Next' button click
-            st.session_state.selected_methods = selected_methods
+            # Ensure that selected_methods has a valid value
+            if selected_oxygen == "NO" and not st.session_state.selected_methods:
+                st.session_state.selected_methods = []  # Ensure it's an empty list when NO oxygen is selected
+            else:
+                st.session_state.selected_methods = st.session_state.selected_methods  # Ensure it's updated correctly
+            
             st.session_state.page = "Method Details II"  # Update this to your actual next page
             st.rerun()  # Refresh the app to apply changes
+
 
 
 elif st.session_state.page == "Method Details II":
