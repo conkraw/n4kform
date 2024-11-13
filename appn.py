@@ -1990,14 +1990,9 @@ if st.session_state.page == "Summary":
             
             for i, method in enumerate(predefined_methods):
                 selected_column_name = f'indications_{i + 1}'
-            
-                # Ensure data['indications'][0] is a list and is not empty
-                if isinstance(data['indications'][0], list) and data['indications'][0]:
-                    if any(method in indication for indication in data['indications'][0]):
+
+                if method in data['indications'][0]:
                         data[selected_column_name] = "X"
-                else:
-                    # Handle case where data['indications'][0] is not a list or is empty
-                    print(f"Error: 'data['indications'][0]' is not a list or is empty. Skipping '{method}'.")
 
                                     
             data['no_drugs'] = data['no_drugs'].replace("NO DRUGS USED", "X")
