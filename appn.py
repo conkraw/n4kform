@@ -2219,15 +2219,7 @@ if st.session_state.page == "Summary":
                 'lowest_value': str(rows['lowest_value']),
 
                 'course_success': str(rows['course_success']),
-
-                'selected_methods1': str(rows['selected_methods1']),
-                'selected_methods2': str(rows['selected_methods2']),
-                'selected_methods3': str(rows['selected_methods3']),
-                'selected_methods4': str(rows['selected_methods4']),
-                'selected_methods5': str(rows['selected_methods5']),
-                'selected_methods6': str(rows['selected_methods6']),
-                'selected_methods7': str(rows['selected_methods7']),
-
+                
                 'selected_methodsother': str(rows['selected_methodsother']),
             
                 'liter_flow': str(rows['liter_flow']),
