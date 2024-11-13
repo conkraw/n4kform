@@ -295,8 +295,8 @@ if st.session_state.page == "Encounter Information":
         #)
         st.session_state.form_data['attending_physician_present'] = st.selectbox(
             "Attending Physician Present:", 
-            options=["Select if Attending Physician Present","No Attending Physician Present", "ckrawiec@pennstatehealth.psu.edu", "gceneviva@pennstatehealth.psu.edu", "rkavanagh@pennstatehealth.psu.edu"], 
-            index=["Select if Attending Physician Present","No Attending Physician Present", "ckrawiec@pennstatehealth.psu.edu", "gceneviva@pennstatehealth.psu.edu", "rkavanagh@pennstatehealth.psu.edu"].index(st.session_state.form_data.get('attending_physician_present', "Select if Attending Physician Present"))
+            options=["Select if Attending Physician Present","No Attending Physician Present", "ckrawiec@pennstatehealth.psu.edu", "gceneviva@pennstatehealth.psu.edu", "nthomas@pennstatehealth.psu.edu", "rkavanagh@pennstatehealth.psu.edu"], 
+            index=["Select if Attending Physician Present","No Attending Physician Present", "ckrawiec@pennstatehealth.psu.edu", "gceneviva@pennstatehealth.psu.edu", "nthomas@pennstatehealth.psu.edu", "rkavanagh@pennstatehealth.psu.edu"].index(st.session_state.form_data.get('attending_physician_present', "Select if Attending Physician Present"))
         )
         
     st.session_state.form_data['airway_bundle'] = st.selectbox(
