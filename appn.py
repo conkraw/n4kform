@@ -2126,6 +2126,18 @@ if st.session_state.page == "Summary":
                 'diagnostic_category': str(rows['diagnostic_category']),
                 'difficult_to_bag': str(rows['difficult_to_bag']),
 
+                'diagnostic_category_1': str(rows['diagnostic_category_1']),
+                'diagnostic_category_2': str(rows['diagnostic_category_2']),
+                'diagnostic_category_3': str(rows['diagnostic_category_3']),
+                'diagnostic_category_4': str(rows['diagnostic_category_4']),
+                'diagnostic_category_5': str(rows['diagnostic_category_5']),
+                'diagnostic_category_6': str(rows['diagnostic_category_6']),
+                'diagnostic_category_7': str(rows['diagnostic_category_7']),
+                'diagnostic_category_8': str(rows['diagnostic_category_8']),
+                'diagnostic_category_9': str(rows['diagnostic_category_9']),
+                'diagnostic_category_10': str(rows['diagnostic_category_10']),
+                'diagnostic_category_11': str(rows['diagnostic_category_11']),
+
                 'nature_of_change_1': str(rows['nature_of_change_1']),
                 'nature_of_change_2': str(rows['nature_of_change_2']),
 
