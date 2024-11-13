@@ -1738,6 +1738,9 @@ if st.session_state.page == "Summary":
             for i in range(1, 10):  
                 data[f"selected_device_{i}"] = ""
 
+            for i in range(1, 20):  
+                data[f"selected_techniques_{i}"] = ""
+
             for i in range(1, 10):  
                 data[f"atropine_indications_{i}"] = ""
 
