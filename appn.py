@@ -1724,10 +1724,6 @@ if st.session_state.page == "Summary":
 
             for i in range(1, 10):  
                 data[f"selected_device_{i}"] = ""
-
-            data ['intubator_view'] = ""
-            data ['other_device_description'] = ""
-            data ['describe_surgical_airway'] = ""
             
             data ['other_disposition'] = ""
             
