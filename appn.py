@@ -1753,7 +1753,7 @@ if st.session_state.page == "Summary":
             for i in range(1, 11):  
                 data[f"tube_change_indications_{i}"] = ""
 
-            for i in range(1, 11):  
+            for i in range(1, 20):  
                 data[f"diagnostic_category_{i}"] = ""
             
             # Assuming the 'selected_methods' column contains string representations of lists
