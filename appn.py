@@ -1861,7 +1861,7 @@ if st.session_state.page == "Summary":
             "Others:"]
 
             for i, method in enumerate(predefined_methods):
-                selected_column_name = f'selected_confirmation{i + 1}'
+                selected_column_name = f'selected_confirmation_{i + 1}'
 
                 if method in data['selected_confirmation'][0]:
                         data[selected_column_name] = "X"
