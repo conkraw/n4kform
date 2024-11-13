@@ -840,17 +840,17 @@ elif st.session_state.page == "Method":
     st.markdown("### What airway management technique and/or their corresponding medication protocol was used during this course?")
     technique_options = [
         "Standard Sequence (administration of induction meds, PPV, then paralysis)",
-        "Paralysis Only",
         "Rapid Sequence requiring positive pressure ventilation (PPV)",
-        "Awake, topical",
         "Rapid Sequence without PPV (Classic RSI)",
-        "No medications",
         "Sedation & Paralysis (Change of tube or subsequent courses)",
-        "Surgical – Cricothyrotomy/Tracheostomy",
         "Sedation Only",
-        "Others (Specify):"
-    ]
+        "Paralysis Only",
+        "Awake, topical",
+        "No medications",
+        "Surgical – Cricothyrotomy/Tracheostomy",
+        "Others (Specify):"]
 
+                
     if "selected_techniques" not in st.session_state:
         st.session_state.selected_techniques = []
 
@@ -1963,15 +1963,16 @@ if st.session_state.page == "Summary":
                         data[selected_column_name] = "X"
 
             predefined_methods = ["Standard Sequence (administration of induction meds, PPV, then paralysis)",
-            "Paralysis Only",
             "Rapid Sequence requiring positive pressure ventilation (PPV)",
-            "Awake, topical",
             "Rapid Sequence without PPV (Classic RSI)",
-            "No medications",
             "Sedation & Paralysis (Change of tube or subsequent courses)",
-            "Surgical – Cricothyrotomy/Tracheostomy",
             "Sedation Only",
+            "Paralysis Only",
+            "Awake, topical",
+            "No medications",
+            "Surgical – Cricothyrotomy/Tracheostomy",
             "Others (Specify):"]
+            
             for i, method in enumerate(predefined_methods):
                 selected_column_name = f'selected_techniques_{i + 1}'
 
