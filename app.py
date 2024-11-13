@@ -917,18 +917,31 @@ elif st.session_state.page == "Method Details":
     # Show multiselect if "YES" is selected
     if selected_oxygen == "YES":
         st.markdown("### If Yes, how was the oxygen provided?")
-        methods_options = ["",
-            "NC without nasal airway",
-            "NC with nasal airway",
-            "Oral airway with oxygen port",
-            "Through LMA",
-            "HFNC",
-            "NIV with nasal prong interface – provide PEEP/PIP",
-            "Other (device, FiO2, Setting)"
-        ]
-
+        methods_options = [
+        "Select a Method of Oxygen",
+        "NC without nasal airway",
+        "NC with nasal airway",
+        "Oral airway with oxygen port",
+        "Through LMA",
+        "HFNC",
+        "NIV with nasal prong interface – provide PEEP/PIP",
+        "Other (device, FiO2, Setting)"
+    ]
+    
         # Multiselect for oxygen provision methods
-        selected_methods = st.multiselect("Select methods:", methods_options, default=st.session_state.selected_methods)
+        selected_methods = st.multiselect(
+            "Select methods:", 
+            methods_options, 
+            default=st.session_state.selected_methods
+        )
+    
+        # If the placeholder "Select a Method of Oxygen" is selected, remove it and show a warning
+        if "Select a Method of Oxygen" in selected_methods:
+            selected_methods.remove("Select a Method of Oxygen")
+            st.warning("Please select an actual method of oxygen provision.")
+    
+        # Save selected methods to session state
+        st.session_state.selected_methods = selected_methods
         
 
         # Create a header for the columns
