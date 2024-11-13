@@ -1971,7 +1971,7 @@ if st.session_state.page == "Summary":
                 if method in data['selected_techniques'][0]:
                         data[selected_column_name] = "X"
 
-           predefined_methods = [
+            predefined_methods = [
                 "Oxygen Failure (e.g. PaO2 <60 mm Hg in FIO2 >0.6 in absence of cyanotic heart disease)",
                 "Procedure (e.g. IR or MRI)",
                 "Ventilation Failure (e.g. PaCO2 > 50 mm Hg in the absence of chronic lung disease)",
@@ -1985,7 +1985,8 @@ if st.session_state.page == "Summary":
                 "Ongoing CPR",
                 "Absent Protective Airway Reflexes (e.g. cough, gag)",
                 "Reintubation After Unplanned Extubation",
-                "Others: ............."]
+                "Others: ............."
+            ]
             
             for i, method in enumerate(predefined_methods):
                 selected_column_name = f'indications_{i + 1}'
@@ -1997,6 +1998,7 @@ if st.session_state.page == "Summary":
                 else:
                     # Handle case where data['indications'][0] is not a list or is empty
                     print(f"Error: 'data['indications'][0]' is not a list or is empty. Skipping '{method}'.")
+
                                     
             data['no_drugs'] = data['no_drugs'].replace("NO DRUGS USED", "X")
             data['no_drugs'] = data['no_drugs'].replace("DRUGS USED", "")
