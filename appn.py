@@ -1043,7 +1043,7 @@ elif st.session_state.page == "Method Details II":
     st.session_state.selected_device = selected_device  # Save selection
     
     # Handle input based on selected device
-    if selected_device == "View FOR INTUBATOR: Direct / Indirect":
+    if selected_device == "Video laryngoscope – CMAC":
         # Show dropdown for View (Direct or Indirect)
         view_for_intubator = st.selectbox(
             "Select View for Intubator:",
