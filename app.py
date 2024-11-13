@@ -893,7 +893,7 @@ elif st.session_state.page == "Method Details":
     if "oxygen_explanation" not in st.session_state:
         st.session_state.oxygen_explanation = ""
     if "selected_methods" not in st.session_state:
-        st.session_state.selected_methods = []
+        st.session_state.selected_methods = "Select a Method of Oxygen"
     if "liter_flow" not in st.session_state:
         st.session_state.liter_flow = {}
     if "fio2" not in st.session_state:
