@@ -1029,19 +1029,43 @@ elif st.session_state.page == "Method Details II":
         "View FOR INTUBATOR: Direct / Indirect",
         "Other (please describe):"
     ]
-
+    
+    # Initialize session state if not already set
     if "selected_device" not in st.session_state:
         st.session_state.selected_device = devices[0]  # Default to "Select a Device"
-
+    
     selected_device = st.selectbox("Select Device:", devices, index=devices.index(st.session_state.selected_device))
     st.session_state.selected_device = selected_device  # Save selection
-
+    
+    # Handle input based on selected device
+    if selected_device == "View FOR INTUBATOR: Direct / Indirect":
+        # Show dropdown for View (Direct or Indirect)
+        if "view_for_intubator" not in st.session_state:
+            st.session_state.view_for_intubator = "Direct"  # Default to "Direct"
+        view_for_intubator = st.selectbox(
+            "Select View for Intubator:",
+            ["Direct", "Indirect"],
+            index=["Direct", "Indirect"].index(st.session_state.view_for_intubator)
+        )
+        st.session_state.view_for_intubator = view_for_intubator  # Save selection
+    
+    elif selected_device == "Surgical airway – Percutaneous/Cricothyrotomy (Describe)":
+        # Show text input for describing the surgical airway procedure
+        if "surgical_airway_details" not in st.session_state:
+            st.session_state.surgical_airway_details = ""  # Initialize if not present
+        surgical_airway_details = st.text_input(
+            "Please describe the Surgical Airway procedure:",
+            value=st.session_state.surgical_airway_details
+        )
+        st.session_state.surgical_airway_details = surgical_airway_details  # Save description
+    
     # Text input for 'Other' device description
     if selected_device == "Other (please describe):":
         if "other_device_description" not in st.session_state:
             st.session_state.other_device_description = ""
         other_device_description = st.text_input("Please describe the Other Device:", value=st.session_state.other_device_description)
         st.session_state.other_device_description = other_device_description  # Save description
+
 
     # Tracheal Intubation Confirmation
     st.markdown("### Tracheal Intubation Confirmation (Check ALL that apply)")
@@ -1625,8 +1649,13 @@ if st.session_state.page == "Summary":
                 'other_event_description':st.session_state['other_event_description'],
 
                 'selected_device':st.session_state['selected_device'],
+                'view_for_intubator':st.session_state['view_for_intubator'],
+                'describe_surgical_airway':st.session_state['describe_surgical_airway'],
+                'other_device_description':st.session_state['other_device_description'],
+                
                 'selected_confirmation':st.session_state['selected_confirmation'],
                 'other_confirmation_description':st.session_state['other_confirmation_description'],
+                
                 'glottic_exposure':st.session_state['glottic_exposure'],
 
                 'highest_value':st.session_state['highest_value'],
@@ -1689,9 +1718,16 @@ if st.session_state.page == "Summary":
             for i in range(1, 6):  # Loop to add columns for 1 to 7
                 data[f"disposition_{i}"] = ""
 
-            for i in range(1, 9):  # Loop to add columns for 1 to 7
+            for i in range(1, 9):  
                 data[f"selected_confirmation_{i}"] = ""
 
+            for i in range(1, 10):  
+                data[f"selected_device_{i}"] = ""
+
+            data ['intubator_view'] = ""
+            data ['other_device_description'] = ""
+            data ['describe_surgical_airway'] = ""
+            
             data ['other_disposition'] = ""
             
             # Assuming the 'selected_methods' column contains string representations of lists
@@ -1870,7 +1906,23 @@ if st.session_state.page == "Summary":
                 if method in data['selected_confirmation'][0]:
                         data[selected_column_name] = "X"
 
-            
+            predefined_methods = ["Laryngoscope",
+            "Fiber optic-flex",
+            "LMA (Laryngeal mask airway) only",
+            "ET tube via trach-stoma",
+            "Intubation through LMA",
+            "Surgical airway – Percutaneous/Cricothyrotomy (Describe)",
+            "Video laryngoscope - Unguided (e.g. Glidescope)",
+            "Video laryngoscope – CMAC",
+            "View FOR INTUBATOR: Direct / Indirect",
+            "Other (please describe):"]
+
+            for i, method in enumerate(predefined_methods):
+                selected_column_name = f'selected_device_{i + 1}'
+
+                if method in data['selected_confirmation'][0]:
+                        data[selected_column_name] = "X"
+    
             data['no_drugs'] = data['no_drugs'].replace("NO DRUGS USED", "X")
             data['no_drugs'] = data['no_drugs'].replace("DRUGS USED", "")
             
@@ -2081,6 +2133,20 @@ if st.session_state.page == "Summary":
                 'selected_oxygen': str(rows['selected_oxygen']),
                 'selected_methods': str(rows['selected_methods']),
 
+                'selected_device_1': str(rows['selected_device_1']),
+                'selected_device_2': str(rows['selected_device_2']),
+                'selected_device_3': str(rows['selected_device_3']),
+                'selected_device_4': str(rows['selected_device_4']),
+                'selected_device_5': str(rows['selected_device_5']),
+                'selected_device_6': str(rows['selected_device_6']),
+                'selected_device_7': str(rows['selected_device_7']),
+                'selected_device_8': str(rows['selected_device_8']),
+                'selected_device_9': str(rows['selected_device_9']),
+
+                'intubator_view': str(rows['view_for_intubator']),
+                'describe_surgical_airway': str(rows['surgical_airway_details']),
+                'other_device_description': str(rows['other_device_description']),
+                
                 'selected_confirmation_1': str(rows['selected_confirmation_1']),
                 'selected_confirmation_2': str(rows['selected_confirmation_2']),
                 'selected_confirmation_3': str(rows['selected_confirmation_3']),
