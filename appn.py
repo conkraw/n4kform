@@ -330,8 +330,7 @@ if st.session_state.page == "Encounter Information":
     # If "Other" is selected, show a text input for custom category
     if "Other" in diagnostic_category:
         other_category = st.text_input("Please specify the 'Other' category:")
-    
-    st.session_state["other_category"] = other_category
+
     
     # Validation and navigation logic
     col_prev, col_next = st.columns(2)
@@ -345,6 +344,8 @@ if st.session_state.page == "Encounter Information":
         if st.button("Next"):
             if diagnostic_category != st.session_state.form_data['diagnostic_category']:
                 st.session_state.form_data['diagnostic_category'] = diagnostic_category
+            
+            st.session_state["other_category"] = other_category
             st.session_state.page = "Indications"  # Set next page
             st.rerun()
                 
