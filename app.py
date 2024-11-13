@@ -993,7 +993,7 @@ elif st.session_state.page == "Method Details":
     with col1:
         if st.button("Previous"):
             if selected_oxygen == "NO":
-                st.session_state.selected_methods = ""
+                st.session_state.selected_methods = "Select a Method of Oxygen"
             else:
                 st.session_state.selected_methods = selected_methods 
             st.session_state.page = "Method"  # Update this to your actual previous page
@@ -1002,7 +1002,7 @@ elif st.session_state.page == "Method Details":
     with col2:
         if st.button("Next"):
             if selected_oxygen == "NO":
-                st.session_state.selected_methods = ""
+                st.session_state.selected_methods = "Select a Method of Oxygen"
             else:
                 st.session_state.selected_methods = selected_methods 
             
