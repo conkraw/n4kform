@@ -2147,7 +2147,7 @@ if st.session_state.page == "Summary":
                 'selected_device_9': str(rows['selected_device_9']),
 
                 'intubator_view': str(rows['view_for_intubator']),
-                'describe_surgical_airway': str(rows['surgical_airway_details']),
+                'describe_surgical_airway': str(rows['describe_surgical_airway']),
                 'other_device_description': str(rows['other_device_description']),
                 
                 'selected_confirmation_1': str(rows['selected_confirmation_1']),
