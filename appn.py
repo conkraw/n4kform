@@ -1024,8 +1024,6 @@ if "other_device_description" not in st.session_state:
 elif st.session_state.page == "Method Details II":
     st.header("METHOD DETAILS II")
 
-
-    
     # Device Selection (Dropdown)
     st.markdown("### Device (Check only ONE) Begin NEW course if NEW method / device used.")
     devices = [
@@ -1655,7 +1653,7 @@ if st.session_state.page == "Summary":
 
                 'selected_device':st.session_state['selected_device'],
                 'view_for_intubator':st.session_state['view_for_intubator'],
-                'describe_surgical_airway':st.session_state['describe_surgical_airway'],
+                'describe_surgical_airway':st.session_state['surgical_airway_details'],
                 'other_device_description':st.session_state['other_device_description'],
                 
                 'selected_confirmation':st.session_state['selected_confirmation'],
