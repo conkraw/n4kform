@@ -368,8 +368,8 @@ if st.session_state.page == "Encounter Information":
             #    missing_fields.append("Family Member Present")
             if st.session_state.form_data.get('attending_physician_present', 'Select if Attending Physician Present') == "Select if Attending Physician Present":
                 missing_fields.append("Attending Physician Present")
-            if st.session_state.form_data.get('airway_bundle', 'Select if Airway Bundle/Pink Sheet Completed') == "Select if Airway Bundle/Pink Sheet Present":
-                missing_fields.append("Airway Bundle/Pink Sheet Present")
+            if st.session_state.form_data.get('airway_bundle', 'Select if Airway Bundle/Pink Sheet Completed') == "Select if Airway Bundle/Pink Sheet Completed":
+                missing_fields.append("Select if Airway Bundle/Pink Sheet Completed")
 
                 
             if missing_fields:
