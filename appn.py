@@ -1625,6 +1625,7 @@ if st.session_state.page == "Summary":
                 'other_event_description':st.session_state['other_event_description'],
 
                 'selected_device':st.session_state['selected_device'],
+                'selected_confirmation':st.session_state['selected_confirmation'],
                 'other_confirmation_description':st.session_state['other_confirmation_description'],
                 'glottic_exposure':st.session_state['glottic_exposure'],
 
