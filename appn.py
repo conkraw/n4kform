@@ -2248,14 +2248,13 @@ if st.session_state.page == "Summary":
                 'other_specification': str(rows['other_specification']),
 
                 
-                'selected_method_1': str(rows['selected_method_1']),
-                'selected_method_2': str(rows['selected_method_2']),
-                'selected_method_3': str(rows['selected_method_3']),
-                'selected_method_4': str(rows['selected_method_4']),
-                'selected_method_5': str(rows['selected_method_5']),
-                'selected_method_6': str(rows['selected_method_6']),
-                'selected_method_7': str(rows['selected_method_7']),
-                'selected_method_8': str(rows['selected_method_8']),
+                'selected_methods1': str(rows['selected_methods1']),
+                'selected_methods2': str(rows['selected_methods2']),
+                'selected_methods3': str(rows['selected_methods3']),
+                'selected_methods4': str(rows['selected_methods4']),
+                'selected_methods5': str(rows['selected_methods5']),
+                'selected_methods6': str(rows['selected_methods6']),
+                'selected_methods7': str(rows['selected_methods7']),
 
                 'event_1': str(rows['event_1']),
                 'event_2': str(rows['event_2']),
