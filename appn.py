@@ -1744,8 +1744,17 @@ if st.session_state.page == "Summary":
             for i in range(1, 10):  
                 data[f"glycopyrrolate_indications_{i}"] = ""
 
+            for i in range(1, 10):  
+                data[f"glycopyrrolate_indications_{i}"] = ""
+
+            for i in range(1, 3):  
+                data[f"nature_of_change_{i}"] = ""
+
             for i in range(1, 11):  
-                data[f"selected_techniques_{i}"] = ""
+                data[f"tube_change_indications{i}"] = ""
+
+            for i in range(1, 11):  
+                data[f"diagnostic_category{i}"] = ""
             
             # Assuming the 'selected_methods' column contains string representations of lists
 
@@ -1994,7 +2003,46 @@ if st.session_state.page == "Summary":
                 if method in data['indications'][0]:
                         data[selected_column_name] = "X"
 
-                                    
+            predefined_methods = ["","Clinical Condition", "Immediate Post-Intubation (Exclude Tracheostomy Change)"]
+
+            for i, method in enumerate(predefined_methods):
+                selected_column_name = f'nature_of_change_{i + 1}'
+
+                if method in data['nature_of_change'][0]:
+                        data[selected_column_name] = "X"
+
+            predefined_methods = [
+            "Tube too small",
+            "Tube too big",
+            "Tube changed to cuffed tube",
+            "Tube changed to uncuffed tube",
+            "Previous tube blocked or defective",
+            "For more stable airway management",
+            "For procedure (e.g. bronchoscopy, etc)",
+            "Others: ............."]
+            
+            for i, method in enumerate(predefined_methods):
+                selected_column_name = f'tube_change_indications_{i + 1}'
+
+                if method in data['tube_change_indications'][0]:
+                        data[selected_column_name] = "X"
+
+            predefined_methods = ["Cardiac - Surgical",
+            "Cardiac - Medical",
+            "Respiratory - Upper Airway",
+            "Respiratory - Lower Airway/Pulmonary",
+            "Sepsis/Shock",
+            "Neurological (excluding Traumatic Brain Injury)",
+            "Trauma (including Traumatic Brain Injury)",
+            "Other"]  # Adding the "Other" option
+
+            for i, method in enumerate(predefined_methods):
+                selected_column_name = f'diagnostic_category_{i + 1}'
+
+                if method in data['diagnostic_category'][0]:
+                        data[selected_column_name] = "X"
+
+        
             data['no_drugs'] = data['no_drugs'].replace("NO DRUGS USED", "X")
             data['no_drugs'] = data['no_drugs'].replace("DRUGS USED", "")
             
@@ -2078,6 +2126,19 @@ if st.session_state.page == "Summary":
                 'diagnostic_category': str(rows['diagnostic_category']),
                 'difficult_to_bag': str(rows['difficult_to_bag']),
 
+                'nature_of_change_1': str(rows['nature_of_change_1']),
+                'nature_of_change_2': str(rows['nature_of_change_2']),
+
+                'tube_change_indications_1': str(rows['tube_change_indications_1']),
+                'tube_change_indications_2': str(rows['tube_change_indications_2']),
+                'tube_change_indications_3': str(rows['tube_change_indications_3']),
+                'tube_change_indications_4': str(rows['tube_change_indications_4']),
+                'tube_change_indications_5': str(rows['tube_change_indications_5']),
+                'tube_change_indications_6': str(rows['tube_change_indications_6']),
+                'tube_change_indications_7': str(rows['tube_change_indications_7']),
+                'tube_change_indications_8': str(rows['tube_change_indications_8']),
+
+                
                 'indications_1': str(rows['indications_1']),
                 'indications_2': str(rows['indications_2']),
                 'indications_3': str(rows['indications_3']),
