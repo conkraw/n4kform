@@ -2171,8 +2171,10 @@ if st.session_state.page == "Summary":
     
             to_emails = [st.secrets["general"]["email_r"]]  # The designated email
             
-            if user_email:  # Add user's email if provided
-                to_emails.append(user_email)
+            pager_number = st.session_state.form_data.get('pager_number', None)
+            
+            if pager_number:  # Add user's email if provided
+                to_emails.append(pager_number)
 
             # Upload data to Firestore
             db = st.session_state.db
