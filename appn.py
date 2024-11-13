@@ -416,8 +416,8 @@ elif st.session_state.page == "Indications":
             st.session_state.type_of_change_to = st.selectbox("Type of Change To:", options=["","Oral", "Nasal", "Tracheostomy"], index=["","Oral", "Nasal", "Tracheostomy"].index(st.session_state.get('type_of_change_to', '')))
 
         st.session_state.nature_of_change = st.selectbox("Nature of Change:", 
-            options=["","Clinical Condition", "Immediate Post-Intubation (Exclude Tracheostomy Change)"],
-            index=["","Clinical Condition", "Immediate Post-Intubation (Exclude Tracheostomy Change)"].index(st.session_state.get('nature_of_change', ''))
+            options=["Select Nature of Change Option","Clinical Condition", "Immediate Post-Intubation (Exclude Tracheostomy Change)"],
+            index=["Select Nature of Change Option","Clinical Condition", "Immediate Post-Intubation (Exclude Tracheostomy Change)"].index(st.session_state.get('nature_of_change', ''))
         )
 
         tube_change_indications = st.multiselect(
@@ -2006,7 +2006,7 @@ if st.session_state.page == "Summary":
                 if method in data['indications'][0]:
                         data[selected_column_name] = "X"
 
-            predefined_methods = ["Clinical Condition", "Immediate Post-Intubation (Exclude Tracheostomy Change)"]
+            predefined_methods = ["Select Nature of Change Option","Clinical Condition", "Immediate Post-Intubation (Exclude Tracheostomy Change)"]
 
             for i, method in enumerate(predefined_methods):
                 selected_column_name = f'nature_of_change_{i + 1}'
