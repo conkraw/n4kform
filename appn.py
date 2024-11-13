@@ -347,8 +347,8 @@ if st.session_state.page == "Encounter Information":
         if st.button("Next"):
             if diagnostic_category != st.session_state.form_data['diagnostic_category']:
                 st.session_state.form_data['diagnostic_category'] = diagnostic_category
-            #st.session_state.page = "Indications"  # Set next page
-            #st.rerun()
+            st.session_state.page = "Indications"  # Set next page
+            st.rerun()
                 
             # Validation check for required fields
             missing_fields = []
@@ -362,21 +362,21 @@ if st.session_state.page == "Encounter Information":
             #    missing_fields.append("Time")
             #if st.session_state.form_data.get('location', "") == "":
             #    missing_fields.append("Location")
-            if st.session_state.form_data.get('pager_number', "") == "":
-                missing_fields.append("Missing Email Address:")
+            #if st.session_state.form_data.get('pager_number', "") == "":
+            #    missing_fields.append("Missing Email Address:")
             #if st.session_state.form_data.get('family_member_present', 'Select if Family Member Present') == "Select if Family Member Present":
             #    missing_fields.append("Family Member Present")
-            if st.session_state.form_data.get('attending_physician_present', 'Select if Attending Physician Present') == "Select if Attending Physician Present":
-                missing_fields.append("Attending Physician Present")
-            if st.session_state.form_data.get('airway_bundle', 'Select if Airway Bundle/Pink Sheet Completed') == "Select if Airway Bundle/Pink Sheet Completed":
-                missing_fields.append("Select if Airway Bundle/Pink Sheet Completed")
+            #if st.session_state.form_data.get('attending_physician_present', 'Select if Attending Physician Present') == "Select if Attending Physician Present":
+            #    missing_fields.append("Attending Physician Present")
+            #if st.session_state.form_data.get('airway_bundle', 'Select if Airway Bundle/Pink Sheet Completed') == "Select if Airway Bundle/Pink Sheet Completed":
+            #    missing_fields.append("Select if Airway Bundle/Pink Sheet Completed")
 
                 
-            if missing_fields:
-                st.warning(f"Please fill in the following: {', '.join(missing_fields)}")
-            else:
-                st.session_state.page = "Indications"  # Set next page
-                st.rerun()
+            #if missing_fields:
+            #    st.warning(f"Please fill in the following: {', '.join(missing_fields)}")
+            #else:
+            #    st.session_state.page = "Indications"  # Set next page
+            #    st.rerun()
 
 
 elif st.session_state.page == "Indications":
@@ -1629,6 +1629,13 @@ if st.session_state.page == "Summary":
                 'lowest_value':st.session_state['lowest_value'],
                 'course_success':st.session_state['course_success'],
 
+                'cannot_visualize':st.session_state['cannot_visualize'],
+                'cannot_place_device':st.session_state['cannot_place_device'],
+                'unstable_hemodynamics':st.session_state['unstable_hemodynamics'],
+
+            
+                'other_failure':st.session_state['other_failure'],
+
                 'disposition':st.session_state['disposition'],
                 'other_disposition':st.session_state['other_disposition'],
                 
@@ -1852,6 +1859,18 @@ if st.session_state.page == "Summary":
             )
             
             data['transferred_to_CICU'] = data['transferred_to_CICU'].apply(
+                lambda x: 'X' if x == True else '' if x == False else x
+            )
+
+            data['cannot_visualize'] = data['cannot_visualize'].apply(
+                lambda x: 'X' if x == True else '' if x == False else x
+            )
+            
+            data['cannot_place_device'] = data['cannot_place_device'].apply(
+                lambda x: 'X' if x == True else '' if x == False else x
+            )
+            
+            data['unstable_hemodynamics'] = data['unstable_hemodynamics'].apply(
                 lambda x: 'X' if x == True else '' if x == False else x
             )
 
@@ -2123,6 +2142,12 @@ if st.session_state.page == "Summary":
 
                 'other_event_description': str(rows['other_event_description']),
 
+                "course_fail_1": str(rows['cannot_visualize']),
+                "course_fail_2": str(rows['cannot_place_device']),
+                "course_fail_3": str(rows['unstable_hemodynamics']),
+                
+                "other_failure": str(rows['other_failure']),
+                
                 "picu": str(rows['transferred_to_PICU']),
                 "nicu": str(rows['transferred_to_NICU']),
                 "cicu": str(rows['transferred_to_CICU']),
@@ -2136,8 +2161,7 @@ if st.session_state.page == "Summary":
                 'other_disposition': str(rows['other_disposition']),
 
             }
-
-                
+            
                 # Add the page to the writer and fill the form
                 pdf_writer.add_page(pdf.pages[0])
                 pdf_writer.update_page_form_field_values(pdf_writer.pages[0], field_dictionary_1)
