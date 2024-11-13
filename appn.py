@@ -1036,7 +1036,6 @@ elif st.session_state.page == "Method Details II":
         "Surgical airway – Percutaneous/Cricothyrotomy (Describe)",
         "Video laryngoscope - Unguided (e.g. Glidescope)",
         "Video laryngoscope – CMAC",
-        "View FOR INTUBATOR: Direct / Indirect",
         "Other (please describe):"
     ]
     
@@ -1917,7 +1916,6 @@ if st.session_state.page == "Summary":
             "Surgical airway – Percutaneous/Cricothyrotomy (Describe)",
             "Video laryngoscope - Unguided (e.g. Glidescope)",
             "Video laryngoscope – CMAC",
-            "View FOR INTUBATOR: Direct / Indirect",
             "Other (please describe):"]
 
             for i, method in enumerate(predefined_methods):
