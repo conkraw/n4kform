@@ -2025,12 +2025,6 @@ if st.session_state.page == "Summary":
                 lambda x: 'X' if x == True else '' if x == False else x
             )
 
-            
-            data['tube_change_indications'] = data['tube_change_indications'].apply(ast.literal_eval)
-            data['tube_change_indications'] = data['tube_change_indications'].apply(lambda x: ', '.join(f"'{item}'" for item in x))
-            
-            data['indications'] = data['indications'].apply(ast.literal_eval)
-            data['indications'] = data['indications'].apply(lambda x: ', '.join(f"'{item}'" for item in x))
 
             data['attending_physician_present'] = data['attending_physician_present'].apply(lambda x: "No" if x == "No Attending Physician Present" else "Yes")
             
