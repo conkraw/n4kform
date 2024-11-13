@@ -2264,7 +2264,7 @@ if st.session_state.page == "Summary":
                 'selected_techniques_8': str(rows['selected_techniques_8']),
                 'selected_techniques_9': str(rows['selected_techniques_9']),
                 'selected_techniques_10': str(rows['selected_techniques_10']),
-                'other_specification ': str(rows['other_specification']),
+                'other_specification': str(rows['other_specification']),
 
                 
                 'selected_method_1': str(rows['selected_method_1']),
