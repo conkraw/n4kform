@@ -1012,7 +1012,19 @@ elif st.session_state.page == "Method Details":
 
 elif st.session_state.page == "Method Details II":
     st.header("METHOD DETAILS II")
-    # Add additional content for Method Details II here
+
+    # Initialize session state if not already set
+    if "selected_device" not in st.session_state:
+        st.session_state.selected_device = devices[0] #Default to Select a Device
+        
+    if "view_for_intubator" not in st.session_state:
+        st.session_state.view_for_intubator = ""  # Default to blank for "View for Intubator"
+        
+    if "surgical_airway_details" not in st.session_state:
+        st.session_state.surgical_airway_details = ""  # Default to blank for "Surgical airway"
+        
+    if "other_device_description" not in st.session_state:
+        st.session_state.other_device_description = "" 
 
     # Device Selection (Dropdown)
     st.markdown("### Device (Check only ONE) Begin NEW course if NEW method / device used.")
@@ -1029,11 +1041,7 @@ elif st.session_state.page == "Method Details II":
         "View FOR INTUBATOR: Direct / Indirect",
         "Other (please describe):"
     ]
-    
-    # Initialize session state if not already set
-    if "selected_device" not in st.session_state:
-        st.session_state.selected_device = devices[0]  # Default to "Select a Device"
-    
+
     selected_device = st.selectbox("Select Device:", devices, index=devices.index(st.session_state.selected_device))
     st.session_state.selected_device = selected_device  # Save selection
     
