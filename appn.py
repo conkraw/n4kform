@@ -1018,6 +1018,9 @@ if "surgical_airway_details" not in st.session_state:
 if "other_device_description" not in st.session_state:
     st.session_state.other_device_description = ""  # Default to blank for "Other device description"
 
+if "other_confirmation_description" not in st.session_state:
+            st.session_state.other_confirmation_description = ""
+            
 elif st.session_state.page == "Method Details II":
     st.header("METHOD DETAILS II")
 
@@ -1088,8 +1091,6 @@ elif st.session_state.page == "Method Details II":
 
     # Text input for 'Other' confirmation description
     if "Others:" in selected_confirmation:
-        if "other_confirmation_description" not in st.session_state:
-            st.session_state.other_confirmation_description = ""
         other_confirmation_description = st.text_input("Please describe the Other Confirmation Method:", value=st.session_state.other_confirmation_description)
         st.session_state.other_confirmation_description = other_confirmation_description  # Save description
 
