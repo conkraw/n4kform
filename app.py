@@ -1865,7 +1865,7 @@ if st.session_state.page == "Summary":
             data['selected_confirmation'] = data['selected_confirmation'].apply(ast.literal_eval)
             data['selected_confirmation'] = data['selected_confirmation'].apply(lambda x: ', '.join(f"'{item}'" for item in x))
 
-            data['attending_physician_present'] = "No" if data['attending_physician_present'] == "No Attending Physician Prresent" else "Yes"
+            data['attending_physician_present'] = "No" if data['attending_physician_present'] == "No Attending Physician Present" else "Yes"
             
             data = data.fillna('')
             
