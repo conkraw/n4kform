@@ -1621,12 +1621,11 @@ if st.session_state.page == "Summary":
                 'fio2':st.session_state['fio2'],
 
                 'selected_events':st.session_state['selected_events'],
-                #'attempt_mapping':st.session_state['attempt_mapping'],
-
+                
                 'other_event_description':st.session_state['other_event_description'],
 
                 'selected_device':st.session_state['selected_device'],
-                'selected_confirmation':st.session_state['selected_confirmation'],
+                'other_confirmation_description':st.session_state['other_confirmation_description'],
                 'glottic_exposure':st.session_state['glottic_exposure'],
 
                 'highest_value':st.session_state['highest_value'],
@@ -1850,7 +1849,24 @@ if st.session_state.page == "Summary":
                 if method in data['disposition'][0]:
                         # If method is selected, place "X" in the corresponding selected_methods column
                         data[selected_column_name] = "X"
-                
+
+            predefined_methods = [
+            "Adequate and equal chest rise",
+            "Exhaled CO2 – colorimetric",
+            "Appropriate breath sounds heard (Auscultation)",
+            "Chest X-ray",
+            "Humidity seen in endotracheal tube",
+            "Second independent laryngoscopy",
+            "Exhaled CO2 – capnography",
+            "Others:"]
+
+            for i, method in enumerate(predefined_methods):
+                selected_column_name = f'selected_confirmation{i + 1}'
+
+                if method in data['selected_confirmation'][0]:
+                        data[selected_column_name] = "X"
+
+            
             data['no_drugs'] = data['no_drugs'].replace("NO DRUGS USED", "X")
             data['no_drugs'] = data['no_drugs'].replace("DRUGS USED", "")
             
@@ -1898,9 +1914,6 @@ if st.session_state.page == "Summary":
             
             data['selected_techniques'] = data['selected_techniques'].apply(ast.literal_eval)
             data['selected_techniques'] = data['selected_techniques'].apply(lambda x: ', '.join(f"'{item}'" for item in x))
-            
-            data['selected_confirmation'] = data['selected_confirmation'].apply(ast.literal_eval)
-            data['selected_confirmation'] = data['selected_confirmation'].apply(lambda x: ', '.join(f"'{item}'" for item in x))
 
             data['attending_physician_present'] = data['attending_physician_present'].apply(lambda x: "No" if x == "No Attending Physician Present" else "Yes")
             
@@ -2064,7 +2077,16 @@ if st.session_state.page == "Summary":
                 'selected_oxygen': str(rows['selected_oxygen']),
                 'selected_methods': str(rows['selected_methods']),
 
-                'selected_confirmation': str(rows['selected_confirmation']),
+                'selected_confirmation_1': str(rows['selected_confirmation_1']),
+                'selected_confirmation_2': str(rows['selected_confirmation_2']),
+                'selected_confirmation_3': str(rows['selected_confirmation_3']),
+                'selected_confirmation_4': str(rows['selected_confirmation_4']),
+                'selected_confirmation_5': str(rows['selected_confirmation_5']),
+                'selected_confirmation_6': str(rows['selected_confirmation_6']),
+                'selected_confirmation_7': str(rows['selected_confirmation_7']),
+                'selected_confirmation_8': str(rows['selected_confirmation_8']),
+
+                'other_confirmation_description': str(rows['other_confirmation_description']),
 
                 'glottic_exposure': str(rows['glottic_exposure']),
 
