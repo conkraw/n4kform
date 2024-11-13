@@ -2160,7 +2160,7 @@ if st.session_state.page == "Summary":
                 st.download_button(
                     label=f"Download N4KIDS FORM",
                     data=pdf_output,
-                    file_name=f"n4kids_dcf_{date}.pdf",
+                    file_name=f"n4kids_dcf.pdf",
                     mime="application/pdf",
                     key=f"download_pdf_unique" 
                 )
