@@ -917,7 +917,7 @@ elif st.session_state.page == "Method Details":
     # Show multiselect if "YES" is selected
     if selected_oxygen == "YES":
         st.markdown("### If Yes, how was the oxygen provided?")
-        methods_options = [
+        methods_options = ["",
             "NC without nasal airway",
             "NC with nasal airway",
             "Oral airway with oxygen port",
