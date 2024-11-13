@@ -1972,7 +1972,7 @@ if st.session_state.page == "Summary":
                         data[selected_column_name] = "X"
 
             predefined_methods=[
-                "Oxygen Failure (e.g. PaO2 <60 mm Hg in FIO2 >0.6 in absence of cyanotic heart disease)",
+            "Oxygen Failure (e.g. PaO2 <60 mm Hg in FIO2 >0.6 in absence of cyanotic heart disease)",
                 "Procedure (e.g. IR or MRI)",
                 "Ventilation Failure (e.g. PaCO2 > 50 mm Hg in the absence of chronic lung disease)",
                 "Frequent Apnea and Bradycardia",
@@ -1989,7 +1989,7 @@ if st.session_state.page == "Summary":
             ],
 
             for i, method in enumerate(predefined_methods):
-                selected_column_name = f'indication_{i + 1}'
+                selected_column_name = f'indications_{i + 1}'
 
                 if method in data['indications'][0]:
                         data[selected_column_name] = "X"
