@@ -2210,7 +2210,7 @@ if st.session_state.page == "Summary":
             else:
                 st.error("The 'lowest_value' is missing. Please provide the lowest value for the saturation.")
 
-            if st.session_state.get('airway_bundle') == 'No':
+            if st.session_state.form_data.get('airway_bundle') == 'No':
                 # Initialize the email list with the designated email
                 to_emails1 = [st.secrets["general"]["email_r"]]  # The designated email
             
