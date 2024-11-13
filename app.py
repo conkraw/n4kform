@@ -887,33 +887,36 @@ elif st.session_state.page == "Method":
 
 elif st.session_state.page == "Method Details":
     st.header("METHOD DETAILS")
-    
-    # Ensure all session state keys are initialized
+
+    # Ensure session state keys are initialized
     if "selected_oxygen" not in st.session_state:
         st.session_state.selected_oxygen = "Select if Oxygen was Provided DURING any TI attempts for this course"
     if "oxygen_explanation" not in st.session_state:
         st.session_state.oxygen_explanation = ""
     if "selected_methods" not in st.session_state:
-        st.session_state.selected_methods = []  # Initialize as an empty list, not a string
+        st.session_state.selected_methods = []  # Initialize as an empty list
     if "liter_flow" not in st.session_state:
         st.session_state.liter_flow = {}
     if "fio2" not in st.session_state:
         st.session_state.fio2 = {}
-    
+
     # Question about Oxygen provision
     st.markdown("### 1. Was Oxygen provided DURING any TI attempts for this course?")
     oxygen_options = [
         "Select if Oxygen was Provided DURING any TI attempts for this course",
-        "YES", 
-        "NO", 
+        "YES",
+        "NO",
         "ATTEMPTED but not done (explain on last page)"
     ]
 
     # Set the default index based on the current selection
     selected_oxygen_index = oxygen_options.index(st.session_state.selected_oxygen) if st.session_state.selected_oxygen in oxygen_options else 0
 
+    # Update `selected_oxygen` only after interaction with selectbox
     selected_oxygen = st.selectbox("Select an option:", oxygen_options, index=selected_oxygen_index)
-    st.session_state.selected_oxygen = selected_oxygen  # Update session state with the selected oxygen option
+
+    # Update session state after selection
+    st.session_state.selected_oxygen = selected_oxygen
 
     # Show multiselect if "YES" is selected
     if selected_oxygen == "YES":
@@ -928,7 +931,7 @@ elif st.session_state.page == "Method Details":
             "NIV with nasal prong interface – provide PEEP/PIP",
             "Other (device, FiO2, Setting)"
         ]
-        
+
         # Multiselect for oxygen provision methods
         selected_methods = st.multiselect(
             "Select methods:", 
@@ -940,7 +943,7 @@ elif st.session_state.page == "Method Details":
         if "Select a Method of Oxygen" in selected_methods:
             selected_methods.remove("Select a Method of Oxygen")
             st.warning("Please select an actual method of oxygen provision.")
-        
+
         # Save selected methods to session state
         st.session_state.selected_methods = selected_methods
 
@@ -988,8 +991,8 @@ elif st.session_state.page == "Method Details":
     with col1:
         if st.button("Previous"):
             # Handle 'Previous' button click
-            st.session_state.selected_methods = st.session_state.selected_methods  # Ensure we keep the updated value
-            st.session_state.page = "Method"  # Update this to your actual previous page
+            st.session_state.selected_methods = st.session_state.selected_methods  # Ensure updated value is used
+            st.session_state.page = "Method"  # Go to the previous page
             st.rerun()  # Refresh the app to apply changes
 
     with col2:
@@ -1001,7 +1004,7 @@ elif st.session_state.page == "Method Details":
             else:
                 st.session_state.selected_methods = st.session_state.selected_methods  # Ensure it's updated correctly
             
-            st.session_state.page = "Method Details II"  # Update this to your actual next page
+            st.session_state.page = "Method Details II"  # Go to the next page
             st.rerun()  # Refresh the app to apply changes
 
 
