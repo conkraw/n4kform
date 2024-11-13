@@ -288,23 +288,23 @@ if st.session_state.page == "Encounter Information":
             index=["Select if Family Member Present", "Yes", "No"].index(st.session_state.form_data.get('family_member_present', 'Select if Family Member Present'))
         )
     with col9:
+        #st.session_state.form_data['attending_physician_present'] = st.selectbox(
+        #    "Attending Physician Present:", 
+        #    options=["Select if Attending Physician Present", "Yes", "No"], 
+        #    index=["Select if Attending Physician Present", "Yes", "No"].index(st.session_state.form_data.get('attending_physician_present', 'Select if Attending Physician Present'))
+        #)
         st.session_state.form_data['attending_physician_present'] = st.selectbox(
             "Attending Physician Present:", 
-            options=["Select if Attending Physician Present", "Yes", "No"], 
-            index=["Select if Attending Physician Present", "Yes", "No"].index(st.session_state.form_data.get('attending_physician_present', 'Select if Attending Physician Present'))
+            options=["Select if Attending Physician Present","No Attending Physician Present", "ckrawiec@pennstatehealth.psu.edu", "gceneviva@pennstatehealth.psu.edu", "rkavanagh@pennstatehealth.psu.edu"], 
+            index=["Select if Attending Physician Present","No Attending Physician Present", "ckrawiec@pennstatehealth.psu.edu", "gceneviva@pennstatehealth.psu.edu", "rkavanagh@pennstatehealth.psu.edu"].index(st.session_state.form_data.get('supervisor', 'No Supervisor'))
         )
-
+        
     st.session_state.form_data['airway_bundle'] = st.selectbox(
         "Airway Bundle/Pink Sheet Completed – Front AND Back:", 
         options=["Select if Airway Bundle/Pink Sheet Completed", "Yes", "No"], 
         index=["Select if Airway Bundle/Pink Sheet Completed", "Yes", "No"].index(st.session_state.form_data.get('airway_bundle', 'Select if Airway Bundle/Pink Sheet Completed'))
     )
-    st.session_state.form_data['supervisor'] = st.selectbox(
-            "Attending Supervisor:", 
-            options=["No Supervisor", "ckrawiec@pennstatehealth.psu.edu", "", ""], 
-            index=["No Supervisor", "ckrawiec@pennstatehealth.psu.edu", "gceneviva@pennstatehealth.psu.edu", "rkavanagh@pennstatehealth.psu.edu"].index(st.session_state.form_data.get('supervisor', 'No Supervisor'))
-        )
-        
+    
     if 'diagnostic_category' not in st.session_state.form_data:
         st.session_state.form_data['diagnostic_category'] = []
     
@@ -351,7 +351,7 @@ if st.session_state.page == "Encounter Information":
             st.rerun()
                 
             # Validation check for required fields
-            #missing_fields = []
+            missing_fields = []
             
             # Use .get() to safely check session_state keys
             #if st.session_state.form_data.get('patient_gender', 'Select Gender') == "Select Gender":
@@ -362,20 +362,21 @@ if st.session_state.page == "Encounter Information":
             #    missing_fields.append("Time")
             #if st.session_state.form_data.get('location', "") == "":
             #    missing_fields.append("Location")
-            #if st.session_state.form_data.get('pager_number', "") == "":
-            #    missing_fields.append("Pager Number")
+            if st.session_state.form_data.get('pager_number', "") == "":
+                missing_fields.append("Missing Email Address:")
             #if st.session_state.form_data.get('family_member_present', 'Select if Family Member Present') == "Select if Family Member Present":
             #    missing_fields.append("Family Member Present")
-            #if st.session_state.form_data.get('attending_physician_present', 'Select if Attending Physician Present') == "Select if Attending Physician Present":
-            #    missing_fields.append("Attending Physician Present")
-            #if st.session_state.form_data.get('airway_bundle', 'Select if Airway Bundle/Pink Sheet Completed') == "Select if Airway Bundle/Pink Sheet Present":
-            #    missing_fields.append("Airway Bundle/Pink Sheet Present")
-    
-            #if missing_fields:
-            #    st.warning(f"Please fill in the following: {', '.join(missing_fields)}")
-            #else:
-            #    st.session_state.page = "Indications"  # Set next page
-            #    st.rerun()
+            if st.session_state.form_data.get('attending_physician_present', 'Select if Attending Physician Present') == "Select if Attending Physician Present":
+                missing_fields.append("Attending Physician Present")
+            if st.session_state.form_data.get('airway_bundle', 'Select if Airway Bundle/Pink Sheet Completed') == "Select if Airway Bundle/Pink Sheet Present":
+                missing_fields.append("Airway Bundle/Pink Sheet Present")
+
+                
+            if missing_fields:
+                st.warning(f"Please fill in the following: {', '.join(missing_fields)}")
+            else:
+                st.session_state.page = "Indications"  # Set next page
+                st.rerun()
 
 
 elif st.session_state.page == "Indications":
@@ -1864,6 +1865,8 @@ if st.session_state.page == "Summary":
             data['selected_confirmation'] = data['selected_confirmation'].apply(ast.literal_eval)
             data['selected_confirmation'] = data['selected_confirmation'].apply(lambda x: ', '.join(f"'{item}'" for item in x))
 
+            data['attending_physician_present'] = "No" if data['attending_physician_present'] == "No Supervisor" else "Yes"
+            
             data = data.fillna('')
             
             csv_data = data.to_csv(index=False).encode('utf-8')
@@ -2186,7 +2189,7 @@ if st.session_state.page == "Summary":
                         to_emails1 = [st.secrets["general"]["email_r"]]  # The designated email
                     
                         # Check if there's a supervisor email and add it to the list if it's valid
-                        supervisor_email = st.session_state.form_data.get('supervisor', 'No Supervisor')
+                        supervisor_email = st.session_state.form_data.get('attending_physician_present', 'No Supervisor')
                         if supervisor_email and supervisor_email != "No Supervisor":
                             to_emails1.append(supervisor_email)
                     
