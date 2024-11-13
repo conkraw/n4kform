@@ -1526,7 +1526,12 @@ if st.session_state.page == "Summary":
     st.header("SUMMARY")
 
     # Optional: User email input
-    user_email = st.text_input("Enter your email address (optional):", value="", key="user_email_input")
+    st.markdown("""
+    Thank you for taking the time to complete the NEAR4KIDS Data Collection Form. 
+    Your responses are invaluable in helping us improve pediatric airway management. Based on the information you've provided, 
+    real-time feedback will be delivered to you and your supervising attending, enabling both of you to enhance future care strategies and practices. 
+    We appreciate your dedication to advancing the quality of pediatric care!
+""")
 
     if 'doc_file' not in st.session_state:
         st.session_state.doc_file = None
