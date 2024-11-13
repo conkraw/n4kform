@@ -888,12 +888,13 @@ elif st.session_state.page == "Method":
 elif st.session_state.page == "Method Details":
     st.header("METHOD DETAILS")
     
+    # Ensure all session state keys are initialized
     if "selected_oxygen" not in st.session_state:
         st.session_state.selected_oxygen = "Select if Oxygen was Provided DURING any TI attempts for this course"
     if "oxygen_explanation" not in st.session_state:
         st.session_state.oxygen_explanation = ""
     if "selected_methods" not in st.session_state:
-        st.session_state.selected_methods = "Select a Method of Oxygen"
+        st.session_state.selected_methods = []  # Initialize as an empty list, not a string
     if "liter_flow" not in st.session_state:
         st.session_state.liter_flow = {}
     if "fio2" not in st.session_state:
@@ -908,44 +909,43 @@ elif st.session_state.page == "Method Details":
         "ATTEMPTED but not done (explain on last page)"
     ]
 
+    # Set the default index based on the current selection
     selected_oxygen_index = oxygen_options.index(st.session_state.selected_oxygen) if st.session_state.selected_oxygen in oxygen_options else 0
 
     selected_oxygen = st.selectbox("Select an option:", oxygen_options, index=selected_oxygen_index)
-    
-    st.session_state.selected_oxygen = selected_oxygen
+    st.session_state.selected_oxygen = selected_oxygen  # Update session state with the selected oxygen option
 
     # Show multiselect if "YES" is selected
     if selected_oxygen == "YES":
         st.markdown("### If Yes, how was the oxygen provided?")
         methods_options = [
-        "Select a Method of Oxygen",
-        "NC without nasal airway",
-        "NC with nasal airway",
-        "Oral airway with oxygen port",
-        "Through LMA",
-        "HFNC",
-        "NIV with nasal prong interface – provide PEEP/PIP",
-        "Other (device, FiO2, Setting)"
-    ]
-    
+            "Select a Method of Oxygen",
+            "NC without nasal airway",
+            "NC with nasal airway",
+            "Oral airway with oxygen port",
+            "Through LMA",
+            "HFNC",
+            "NIV with nasal prong interface – provide PEEP/PIP",
+            "Other (device, FiO2, Setting)"
+        ]
+        
         # Multiselect for oxygen provision methods
         selected_methods = st.multiselect(
             "Select methods:", 
             methods_options, 
             default=st.session_state.selected_methods
         )
-    
+
         # If the placeholder "Select a Method of Oxygen" is selected, remove it and show a warning
         if "Select a Method of Oxygen" in selected_methods:
             selected_methods.remove("Select a Method of Oxygen")
             st.warning("Please select an actual method of oxygen provision.")
-    
+        
         # Save selected methods to session state
         st.session_state.selected_methods = selected_methods
-        
 
         # Create a header for the columns
-        cols = st.columns(3)  # Create three columns
+        cols = st.columns(3)
         with cols[0]:
             st.markdown("**METHOD**")
         with cols[1]:
@@ -966,48 +966,39 @@ elif st.session_state.page == "Method Details":
                 st.session_state.fio2[fio2_key] = ""
 
             # Create columns for each method input
-            cols = st.columns(3)  # Create three columns
+            cols = st.columns(3)
 
             with cols[0]:
-                st.markdown("")
-                st.markdown("")
-                st.markdown(f"**{method}**")  # Method name
+                st.markdown(f"**{method}**")
 
             with cols[1]:
-                # Liter Flow input
-                #liter_flow = st.text_input(f"Liter Flow for {method}:", value=st.session_state.liter_flow[liter_flow_key], key=liter_flow_key)
                 liter_flow = st.text_input("", value=st.session_state.liter_flow[liter_flow_key], key=liter_flow_key)
                 st.session_state.liter_flow[liter_flow_key] = liter_flow
 
             with cols[2]:
-                # FiO2 input
-                #fio2 = st.text_input(f"FiO2 for {method}:", value=st.session_state.fio2[fio2_key], key=fio2_key)
                 fio2 = st.text_input("", value=st.session_state.fio2[fio2_key], key=fio2_key)
                 st.session_state.fio2[fio2_key] = fio2
-    
+
+    # Reset `selected_methods` if "NO" is selected for oxygen
     if selected_oxygen == "NO":
-        st.session_state.selected_methods = ""
-        
+        st.session_state.selected_methods = []
+
     # Navigation buttons
     col1, col2 = st.columns(2)
     with col1:
         if st.button("Previous"):
-            if selected_oxygen == "NO":
-                st.session_state.selected_methods = "Select a Method of Oxygen"
-            else:
-                st.session_state.selected_methods = selected_methods 
+            # Handle 'Previous' button click
+            st.session_state.selected_methods = selected_methods
             st.session_state.page = "Method"  # Update this to your actual previous page
             st.rerun()  # Refresh the app to apply changes
 
     with col2:
         if st.button("Next"):
-            if selected_oxygen == "NO":
-                st.session_state.selected_methods = "Select a Method of Oxygen"
-            else:
-                st.session_state.selected_methods = selected_methods 
-            
+            # Handle 'Next' button click
+            st.session_state.selected_methods = selected_methods
             st.session_state.page = "Method Details II"  # Update this to your actual next page
             st.rerun()  # Refresh the app to apply changes
+
 
 elif st.session_state.page == "Method Details II":
     st.header("METHOD DETAILS II")
