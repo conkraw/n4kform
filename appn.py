@@ -331,10 +331,6 @@ if st.session_state.page == "Encounter Information":
     if "Other" in diagnostic_category:
         other_category = st.text_input("Please specify the 'Other' category:")
     
-    # Only update session state if "Other" is specified
-    if other_category:
-        # Add the custom 'Other' category to the list
-        diagnostic_category.append(other_category)
     # Validation and navigation logic
     col_prev, col_next = st.columns(2)
     #with col_prev:
