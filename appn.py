@@ -1985,8 +1985,7 @@ if st.session_state.page == "Summary":
                 "Ongoing CPR",
                 "Absent Protective Airway Reflexes (e.g. cough, gag)",
                 "Reintubation After Unplanned Extubation",
-                "Others: ............."
-            ]
+                "Others: ............."]
             
             for i, method in enumerate(predefined_methods):
                 selected_column_name = f'indications_{i + 1}'
