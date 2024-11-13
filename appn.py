@@ -1008,10 +1008,7 @@ elif st.session_state.page == "Method Details":
             st.session_state.page = "Method Details II"  # Go to the next page
             st.rerun()  # Refresh the app to apply changes
 
-    # Initialize session state if not already set
-if "selected_device" not in st.session_state:
-    st.session_state.selected_device = devices[0] #Default to Select a Device
-        
+    # Initialize session state if not already set        
 if "view_for_intubator" not in st.session_state:
     st.session_state.view_for_intubator = ""  # Default to blank for "View for Intubator"
         
@@ -1038,7 +1035,8 @@ elif st.session_state.page == "Method Details II":
         "Video laryngoscope – CMAC",
         "Other (please describe):"
     ]
-    
+    if "selected_device" not in st.session_state:
+        st.session_state.selected_device = devices[0] #Default to Select a Device
     selected_device = st.selectbox("Select Device:", devices, index=devices.index(st.session_state.selected_device))
     st.session_state.selected_device = selected_device  # Save selection
     
