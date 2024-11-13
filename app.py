@@ -2220,7 +2220,7 @@ if st.session_state.page == "Summary":
                 # Call the function to send the email with the PDF attachment
                 send_email_without_attachment(to_emails1, subject1, message1)
                 
-            if st.session_state.get('selected_oxygen') == 'No':
+            if st.session_state.get('selected_oxygen') == 'NO':
                 # Initialize the email list with the designated email
                 to_emails1 = [st.secrets["general"]["email_r"]]  # The designated email
             
