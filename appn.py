@@ -1216,7 +1216,7 @@ if st.session_state.page == "Monitoring of Vital Signs":
 if st.session_state.page == "Course Success":
     st.header("COURSE SUCCESS")
 
-    # Initialize checkboxes for failure explanations
+    # Initialize checkboxes for failure explanations if not already initialized
     if "cannot_visualize" not in st.session_state:
         st.session_state.cannot_visualize = False
     if "cannot_place_device" not in st.session_state:
@@ -1225,6 +1225,8 @@ if st.session_state.page == "Course Success":
         st.session_state.unstable_hemodynamics = False
     if "other_course_fail" not in st.session_state:
         st.session_state.other_course_fail = False  # Initialize "Other" checkbox
+    if "other_failure" not in st.session_state:
+        st.session_state.other_failure = ""  # Initialize other failure explanation
 
     # Successful tracheal intubation/advanced airway management
     if "course_success" not in st.session_state:
@@ -1237,31 +1239,36 @@ if st.session_state.page == "Course Success":
     )
     st.session_state.course_success = successful_intubation  # Save selection
 
-    # Initialize other_failure variable (for "Other" explanation)
-    if "other_failure" not in st.session_state:
-        st.session_state.other_failure = ""  # Initialize if not present
-    other_failure = st.session_state.other_failure  # Get current value
-
     # Initialize variables for checkboxes only if the course failed
     if successful_intubation == "No":
         st.markdown("If course failed, please explain briefly:")
 
         # Failure reason checkboxes
-        st.session_state.cannot_visualize = st.checkbox("Cannot visualize vocal cords", value=st.session_state.cannot_visualize)
-        st.session_state.cannot_place_device = st.checkbox("Cannot place device into trachea", value=st.session_state.cannot_place_device)
-        st.session_state.unstable_hemodynamics = st.checkbox("Unstable hemodynamics", value=st.session_state.unstable_hemodynamics)
-        st.session_state.other_course_fail = st.checkbox("Other", value=st.session_state.other_course_fail)
+        st.session_state.cannot_visualize = st.checkbox(
+            "Cannot visualize vocal cords", value=st.session_state.cannot_visualize
+        )
+        st.session_state.cannot_place_device = st.checkbox(
+            "Cannot place device into trachea", value=st.session_state.cannot_place_device
+        )
+        st.session_state.unstable_hemodynamics = st.checkbox(
+            "Unstable hemodynamics", value=st.session_state.unstable_hemodynamics
+        )
+        st.session_state.other_course_fail = st.checkbox(
+            "Other", value=st.session_state.other_course_fail
+        )
 
         # Other failure explanation input (only shown if "Other" is checked)
         if st.session_state.other_course_fail:
-            st.session_state.other_failure = st.text_input("Other (please explain):", value=st.session_state.other_failure)
+            st.session_state.other_failure = st.text_input(
+                "Other (please explain):", value=st.session_state.other_failure
+            )
     else:
-        # Ensure variables are defined even if not used
-        cannot_visualize = st.session_state.cannot_visualize
-        cannot_place_device = st.session_state.cannot_place_device
-        unstable_hemodynamics = st.session_state.unstable_hemodynamics
-        other_course_fail = st.session_state.other_course_fail
-        other_failure = st.session_state.other_failure  
+        # Ensure variables are still defined if the course was successful
+        st.session_state.cannot_visualize = st.session_state.cannot_visualize
+        st.session_state.cannot_place_device = st.session_state.cannot_place_device
+        st.session_state.unstable_hemodynamics = st.session_state.unstable_hemodynamics
+        st.session_state.other_course_fail = st.session_state.other_course_fail
+        st.session_state.other_failure = st.session_state.other_failure
 
     # Navigation buttons
     col1, col2 = st.columns(2)
@@ -1269,28 +1276,13 @@ if st.session_state.page == "Course Success":
     with col1:
         if st.button("Previous"):
             # Save checkbox states when moving to the previous page
-            st.session_state.cannot_visualize = cannot_visualize
-            st.session_state.cannot_place_device = cannot_place_device
-            st.session_state.unstable_hemodynamics = unstable_hemodynamics
-            st.session_state.other_course_fail = other_course_fail
-            st.session_state.other_failure = other_failure
-            
-            st.session_state.page = "Monitoring of Vital Signs"
+            st.session_state.page = "Monitoring of Vital Signs"  # Navigate to the previous page
             st.rerun()
 
     with col2:
         if st.button("Next"):
             # Save checkbox states when moving to the next page
-            st.session_state.cannot_visualize = cannot_visualize
-            st.session_state.cannot_place_device = cannot_place_device
-            st.session_state.unstable_hemodynamics = unstable_hemodynamics
-            other_course_fail = st.session_state.other_course_fail
-            
-            # Save the other failure explanation
-            st.session_state.other_failure = other_failure
-
-            # Navigate to the next page
-            st.session_state.page = "Disposition"
+            st.session_state.page = "Disposition"  # Navigate to the next page
             st.rerun()
 
 elif st.session_state.page == "Disposition":
