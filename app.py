@@ -1525,19 +1525,16 @@ def set_need_appearances_writer(writer: PdfWriter):
 if st.session_state.page == "Summary":
     st.header("SUMMARY")
 
-    # Optional: User email input
-    import streamlit as st
-
-st.markdown("""
-    Thank you for taking the time to complete the NEAR4KIDS Data Collection Form. Your input is critical in helping us improve pediatric airway management. 
-    Once you click 'Submit', you will receive a copy of the form for your records. Please print it out, attach a Patient Sticker in the top-right corner, 
-    and place it in the N4KIDS receiving bin located in the unit. 
-
-    Based on the information you've provided, real-time feedback will be sent to both you and your supervising attending, helping to refine future care strategies and practices. 
-    If any of your answers require adjustment, the 'Previous' button is available for you to make changes.
-
-    We greatly appreciate your commitment to enhancing the quality of pediatric care!
-""")
+    st.markdown("""
+        Thank you for taking the time to complete the NEAR4KIDS Data Collection Form. Your input is critical in helping us improve pediatric airway management. 
+        Once you click 'Submit', you will receive a copy of the form for your records. Please print it out, attach a Patient Sticker in the top-right corner, 
+        and place it in the N4KIDS receiving bin located in the unit. 
+    
+        Based on the information you've provided, real-time feedback will be sent to both you and your supervising attending, helping to refine future care strategies and practices. 
+        If any of your answers require adjustment, the 'Previous' button is available for you to make changes.
+    
+        We greatly appreciate your commitment to enhancing the quality of pediatric care!
+    """)
 
     if 'doc_file' not in st.session_state:
         st.session_state.doc_file = None
