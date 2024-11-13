@@ -1646,13 +1646,14 @@ if st.session_state.page == "Summary":
                 
                 'selected_method':st.session_state['selected_method'],
                 'selected_techniques':st.session_state['selected_techniques'],
+                'other_specification':st.session_state['other_specification'],
                 
                 'selected_oxygen':st.session_state['selected_oxygen'],
                 'selected_methods':st.session_state['selected_methods'],
 
                 'liter_flow':st.session_state['liter_flow'],
                 'fio2':st.session_state['fio2'],
-                '
+                'selected_methodsother':st.session_state['selected_methodsother'],
 
                 'selected_events':st.session_state['selected_events'],
                 
@@ -2262,7 +2263,7 @@ if st.session_state.page == "Summary":
                 'selected_technique_8': str(rows['selected_technique_8']),
                 'selected_technique_9': str(rows['selected_technique_9']),
                 'selected_technique_10': str(rows['selected_technique_10']),
-                'other_specification ': str(rows['other_specification ']),
+                'other_specification ': str(rows['other_specification']),
 
                 
                 'selected_method_1': str(rows['selected_method_1']),
