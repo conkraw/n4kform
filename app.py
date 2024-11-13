@@ -302,7 +302,7 @@ if st.session_state.page == "Encounter Information":
     st.session_state.form_data['supervisor'] = st.selectbox(
             "Attending Supervisor:", 
             options=["No Supervisor", "ckrawiec@pennstatehealth.psu.edu", "", ""], 
-            index=["No Supervisor", "ckrawiec@pennstatehealth.psu.edu", "", ""].index(st.session_state.form_data.get('supervisor', 'No Supervisor'))
+            index=["No Supervisor", "ckrawiec@pennstatehealth.psu.edu", "gceneviva@pennstatehealth.psu.edu", "rkavanagh@pennstatehealth.psu.edu"].index(st.session_state.form_data.get('supervisor', 'No Supervisor'))
         )
         
     if 'diagnostic_category' not in st.session_state.form_data:
@@ -2209,15 +2209,40 @@ if st.session_state.page == "Summary":
                 subject1 = "N4KIDS AIRWAY BUNDLE ALERT"
                 message1 = f"""
                 Hi, 
-                It has come to our attention that the airway bundle was not utilized for this airway course. If you did utilize a checklist, please utilize this attachment and complete the form. Thank you! 
-                Use the attached tool to provide feedback to your trainee. <br><br>
+                It has come to our attention that the airway bundle was not utilized for this airway course. 
+                If you did use a checklist, please take a moment to document your pre-intubation checklist using the following link: https://hmcabcbundle.streamlit.app.
+            Thank you for your attention to this matter and for helping us maintain high standards of care.<br><br>
+                Date: {document_data['date']}<br>
+                Time: {document_data['time']}<br>
+                Form Completed By: {document_data['form_completed_by']}
+                """
+                
+                # Call the function to send the email with the PDF attachment
+                send_email_without_attachment(to_emails1, subject1, message1)
+                
+            if st.session_state.get('selected_oxygen') == 'No':
+                # Initialize the email list with the designated email
+                to_emails1 = [st.secrets["general"]["email_r"]]  # The designated email
+            
+                # Check if there's a supervisor email and add it to the list if it's valid
+                if pager_number:  # Add user's email if provided
+                    to_emails1.append(pager_number)
+            
+                # Define the email subject and message
+                subject1 = "N4KIDS APNEIC OXYGENATION ALERT"
+                message1 = f"""
+                Hi, 
+                It has come to our attention that apneic oxygenation was not utilized during the recent case. 
+                As you know, this technique is crucial for maintaining oxygenation during intubation and preventing desaturation, especially in high-risk patients. 
+                To ensure optimal patient outcomes, we strongly recommend considering its use in future cases where applicable.<br><br>
                 Date: {document_data['date']}<br>
                 Time: {document_data['time']}<br>
                 Form Completed By: {document_data['form_completed_by']}
                 """
             
                 # Define the URL for the PDF attachment (hosted on GitHub)
-                pdf_url = 'https://raw.githubusercontent.com/conkraw/n4kform/main/test.pdf'
+                #pdf_url = 'https://raw.githubusercontent.com/conkraw/n4kform/main/test.pdf'
             
                 # Call the function to send the email with the PDF attachment
-                send_email_with_attachment2(to_emails1, subject1, message1, pdf_url)
+                send_email_without_attachment(to_emails1, subject1, message1)
+            
