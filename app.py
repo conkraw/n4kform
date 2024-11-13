@@ -2215,6 +2215,8 @@ if st.session_state.page == "Summary":
                 to_emails1 = [st.secrets["general"]["email_r"]]  # The designated email
             
                 # Check if there's a supervisor email and add it to the list if it's valid
+                pager_number = st.session_state.form_data.get('pager_number', None)
+                
                 if pager_number:  # Add user's email if provided
                     to_emails1.append(pager_number)
             
