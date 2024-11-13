@@ -1923,7 +1923,7 @@ if st.session_state.page == "Summary":
             for i, method in enumerate(predefined_methods):
                 selected_column_name = f'selected_device_{i + 1}'
 
-                if method in data['selected_confirmation'][0]:
+                if method in data['selected_device'][0]:
                         data[selected_column_name] = "X"
     
             data['no_drugs'] = data['no_drugs'].replace("NO DRUGS USED", "X")
