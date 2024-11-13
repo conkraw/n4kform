@@ -1662,7 +1662,7 @@ if st.session_state.page == "Summary":
             csv_data = df.to_csv(index=False).encode('utf-8')
 
             # Step 3: Generate PDFs for the collected form data (in-memory)
-            pdf_template = 'dcfx.pdf'  # Replace this with the correct path to your PDF template
+            pdf_template = 'dcfx_v3.pdf'  # Replace this with the correct path to your PDF template
 
             # Read the CSV from the in-memory bytes (csv_data)
             data = pd.read_csv(io.BytesIO(csv_data))
