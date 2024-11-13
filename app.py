@@ -347,8 +347,8 @@ if st.session_state.page == "Encounter Information":
         if st.button("Next"):
             if diagnostic_category != st.session_state.form_data['diagnostic_category']:
                 st.session_state.form_data['diagnostic_category'] = diagnostic_category
-            st.session_state.page = "Indications"  # Set next page
-            st.rerun()
+            #st.session_state.page = "Indications"  # Set next page
+            #st.rerun()
                 
             # Validation check for required fields
             missing_fields = []
