@@ -1764,7 +1764,6 @@ if st.session_state.page == "Summary":
 
             data['selected_methods'] = data['selected_methods'].apply(safe_literal_eval)
             
-            #data['selected_methods'] = data['selected_methods'].apply(ast.literal_eval)
             
             # Predefined list of methods for reference (the order will be used for column names)
             predefined_methods = [
@@ -1909,12 +1908,12 @@ if st.session_state.page == "Summary":
 
             predefined_methods = [
             "Adequate and equal chest rise",
-            "Exhaled CO2 – colorimetric",
             "Appropriate breath sounds heard (Auscultation)",
-            "Chest X-ray",
             "Humidity seen in endotracheal tube",
-            "Second independent laryngoscopy",
             "Exhaled CO2 – capnography",
+            "Exhaled CO2 – colorimetric",
+            "Chest X-ray",
+            "Second independent laryngoscopy",
             "Others:"]
 
             for i, method in enumerate(predefined_methods):
