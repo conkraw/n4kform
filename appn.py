@@ -1741,9 +1741,6 @@ if st.session_state.page == "Summary":
             for i in range(1, 10):  
                 data[f"glycopyrrolate_indications_{i}"] = ""
 
-            for i in range(1, 9):  
-                data[f"selected_method_{i}"] = ""
-
             for i in range(1, 11):  
                 data[f"selected_techniques_{i}"] = ""
             
@@ -1952,13 +1949,6 @@ if st.session_state.page == "Summary":
                 selected_column_name = f'glycopyrrolate_indications_{i + 1}'
 
                 if method in data['glycopyrrolate_indications'][0]:
-                        data[selected_column_name] = "X"
-
-            predefined_methods = ["Select Method", "Oral", "Nasal", "LMA", "Oral to Oral", "Oral to Nasal", "Nasal to Oral", "Nasal to Nasal", "Tracheostomy to Oral"]
-            for i, method in enumerate(predefined_methods):
-                selected_column_name = f'selected_method_{i + 1}'
-
-                if method in data['selected_method'][0]:
                         data[selected_column_name] = "X"
 
             predefined_methods = ["Standard Sequence (administration of induction meds, PPV, then paralysis)",
