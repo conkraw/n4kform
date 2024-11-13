@@ -1039,20 +1039,22 @@ elif st.session_state.page == "Method Details II":
     
     # Handle input based on selected device
     if selected_device == "View FOR INTUBATOR: Direct / Indirect":
-        # Show dropdown for View (Direct or Indirect)
+        # Initialize view_for_intubator as blank if not already in session state
         if "view_for_intubator" not in st.session_state:
-            st.session_state.view_for_intubator = "Direct"  # Default to "Direct"
+            st.session_state.view_for_intubator = ""  # Default to blank
+        # Show dropdown for View (Direct or Indirect)
         view_for_intubator = st.selectbox(
             "Select View for Intubator:",
-            ["Direct", "Indirect"],
-            index=["Direct", "Indirect"].index(st.session_state.view_for_intubator)
+            ["", "Direct", "Indirect"],  # Add blank as first option
+            index=["", "Direct", "Indirect"].index(st.session_state.view_for_intubator) if st.session_state.view_for_intubator else 0  # Default to blank
         )
         st.session_state.view_for_intubator = view_for_intubator  # Save selection
     
     elif selected_device == "Surgical airway – Percutaneous/Cricothyrotomy (Describe)":
-        # Show text input for describing the surgical airway procedure
+        # Initialize surgical_airway_details as blank if not already in session state
         if "surgical_airway_details" not in st.session_state:
-            st.session_state.surgical_airway_details = ""  # Initialize if not present
+            st.session_state.surgical_airway_details = ""  # Default to blank
+        # Show text input for describing the surgical airway procedure
         surgical_airway_details = st.text_input(
             "Please describe the Surgical Airway procedure:",
             value=st.session_state.surgical_airway_details
@@ -1061,11 +1063,12 @@ elif st.session_state.page == "Method Details II":
     
     # Text input for 'Other' device description
     if selected_device == "Other (please describe):":
+        # Initialize other_device_description as blank if not already in session state
         if "other_device_description" not in st.session_state:
-            st.session_state.other_device_description = ""
+            st.session_state.other_device_description = ""  # Default to blank
         other_device_description = st.text_input("Please describe the Other Device:", value=st.session_state.other_device_description)
         st.session_state.other_device_description = other_device_description  # Save description
-
+    
 
     # Tracheal Intubation Confirmation
     st.markdown("### Tracheal Intubation Confirmation (Check ALL that apply)")
