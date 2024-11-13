@@ -1880,12 +1880,12 @@ if st.session_state.page == "Summary":
             csv_data = data.to_csv(index=False).encode('utf-8')
             
             # Step 3: Provide a download button for the CSV
-            st.download_button(
-                label="Download CSV",
-                data=csv_data,
-                file_name="form_data.csv",
-                mime="text/csv"
-            )
+            #st.download_button(
+            #    label="Download CSV",
+            #    data=csv_data,
+            #    file_name="form_data.csv",
+            #    mime="text/csv"
+            #)
             
             # Read the PDF template
             pdf = PdfReader(pdf_template)  # Use PdfReader instead of PdfFileReader
