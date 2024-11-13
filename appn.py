@@ -1729,6 +1729,9 @@ if st.session_state.page == "Summary":
             for i in range(1, 6):  # Loop to add columns for 1 to 7
                 data[f"disposition_{i}"] = ""
 
+            for i in range(1, 20):  # Loop to add columns for 1 to 7
+                data[f"indications_{i}"] = ""
+
             for i in range(1, 9):  
                 data[f"selected_confirmation_{i}"] = ""
 
@@ -1967,6 +1970,29 @@ if st.session_state.page == "Summary":
 
                 if method in data['selected_techniques'][0]:
                         data[selected_column_name] = "X"
+
+            predefined_methods=[
+                "Oxygen Failure (e.g. PaO2 <60 mm Hg in FIO2 >0.6 in absence of cyanotic heart disease)",
+                "Procedure (e.g. IR or MRI)",
+                "Ventilation Failure (e.g. PaCO2 > 50 mm Hg in the absence of chronic lung disease)",
+                "Frequent Apnea and Bradycardia",
+                "Upper Airway Obstruction",
+                "Therapeutic Hyperventilation (e.g. intracranial hypertension, pulmonary hypertension)",
+                "Airway Clearance",
+                "Neuromuscular Weakness (e.g. Max. negative inspiratory pressure >-20 cm H2O; vital capacity <12 – 15 ml/kg)",
+                "Emergency Drug Administration",
+                "Unstable Hemodynamics (e.g. shock)",
+                "Ongoing CPR",
+                "Absent Protective Airway Reflexes (e.g. cough, gag)",
+                "Reintubation After Unplanned Extubation",
+                "Others: ............."
+            ],
+
+            for i, method in enumerate(predefined_methods):
+                selected_column_name = f'indication_{i + 1}'
+
+                if method in data['indications'][0]:
+                        data[selected_column_name] = "X"
                         
             data['no_drugs'] = data['no_drugs'].replace("NO DRUGS USED", "X")
             data['no_drugs'] = data['no_drugs'].replace("DRUGS USED", "")
@@ -2000,21 +2026,11 @@ if st.session_state.page == "Summary":
             )
 
             
-
             data['tube_change_indications'] = data['tube_change_indications'].apply(ast.literal_eval)
             data['tube_change_indications'] = data['tube_change_indications'].apply(lambda x: ', '.join(f"'{item}'" for item in x))
             
             data['indications'] = data['indications'].apply(ast.literal_eval)
             data['indications'] = data['indications'].apply(lambda x: ', '.join(f"'{item}'" for item in x))
-            
-            data['atropine_indications'] = data['atropine_indications'].apply(ast.literal_eval)
-            data['atropine_indications'] = data['atropine_indications'].apply(lambda x: ', '.join(f"'{item}'" for item in x))
-            
-            data['glycopyrrolate_indications'] = data['glycopyrrolate_indications'].apply(ast.literal_eval)
-            data['glycopyrrolate_indications'] = data['glycopyrrolate_indications'].apply(lambda x: ', '.join(f"'{item}'" for item in x))
-            
-            data['selected_techniques'] = data['selected_techniques'].apply(ast.literal_eval)
-            data['selected_techniques'] = data['selected_techniques'].apply(lambda x: ', '.join(f"'{item}'" for item in x))
 
             data['attending_physician_present'] = data['attending_physician_present'].apply(lambda x: "No" if x == "No Attending Physician Present" else "Yes")
             
@@ -2066,7 +2082,27 @@ if st.session_state.page == "Summary":
                 'tube_change_indications': str(rows['tube_change_indications']),
                 'diagnostic_category': str(rows['diagnostic_category']),
                 'difficult_to_bag': str(rows['difficult_to_bag']),
-                
+
+                'indications_1': str(rows['indications_1']),
+                'indications_2': str(rows['indications_2']),
+                'indications_3': str(rows['indications_3']),
+                'indications_4': str(rows['indications_4']),
+                'indications_5': str(rows['indications_5']),
+                'indications_6': str(rows['indications_6']),
+                'indications_7': str(rows['indications_7']),
+                'indications_8': str(rows['indications_8']),
+                'indications_9': str(rows['indications_9']),
+                'indications_10': str(rows['indications_10']),
+                'indications_11': str(rows['indications_11']),
+                'indications_12': str(rows['indications_12']),
+                'indications_13': str(rows['indications_13']),
+                'indications_14': str(rows['indications_14']),
+                'indications_15': str(rows['indications_15']),
+                'indications_16': str(rows['indications_16']),
+                'indications_17': str(rows['indications_17']),
+                'indications_18': str(rows['indications_18']),
+                'indications_19': str(rows['indications_19']),
+
                 # Manually fill for each attempt
                 'who_intubated_1': str(rows['who_intubated_1']),
                 'discipline_1': str(rows['discipline_1']),
