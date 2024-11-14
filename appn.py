@@ -2004,13 +2004,13 @@ if st.session_state.page == "Summary":
                 if method in data['indications'][0]:
                         data[selected_column_name] = "X"
 
-            #predefined_methods = ["Clinical Condition", "Immediate Post-Intubation (Exclude Tracheostomy Change)"]
+            predefined_methods = ["Clinical Condition", "Immediate Post-Intubation (Exclude Tracheostomy Change)"]
 
-            #for i, method in enumerate(predefined_methods):
-            #    selected_column_name = f'nature_of_change_{i + 1}'
+            for i, method in enumerate(predefined_methods):
+                selected_column_name = f'nature_of_change_{i + 1}'
 
-            #    if method in data['nature_of_change'][0]:
-            #            data[selected_column_name] = "X"
+                if method in data['nature_of_change'][0]:
+                        data[selected_column_name] = "X"
 
             predefined_methods = [
             "Tube too small",
