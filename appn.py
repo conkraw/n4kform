@@ -325,7 +325,7 @@ if st.session_state.page == "Encounter Information":
     
     # If "Other" is selected, show a text input for custom category
     if "Other" in diagnostic_category:
-        other_category = st.text_input("Please specify the 'Other' category:")
+        other_category = st.text_input("Please specify the 'Other' category:", value=other_category)
 
     
     # Validation and navigation logic
