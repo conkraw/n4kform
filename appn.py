@@ -220,8 +220,6 @@ if 'page' not in st.session_state:
 if 'form_data' not in st.session_state:
     st.session_state.form_data = {}
 
-
-
 if 'glottic_exposure' not in st.session_state:
     st.session_state.glottic_exposure = "Select a Glottic Exposure"  # Default to "Select a Glottic Exposure"
 
@@ -417,7 +415,7 @@ elif st.session_state.page == "Indications":
 
         st.session_state.nature_of_change = st.selectbox("Nature of Change:", 
             options=["Select Nature of Change Option","Clinical Condition", "Immediate Post-Intubation (Exclude Tracheostomy Change)"],
-            index=["Select Nature of Change Option","Clinical Condition", "Immediate Post-Intubation (Exclude Tracheostomy Change)"].index(st.session_state.get('nature_of_change', ''))
+            index=["Select Nature of Change Option","Clinical Condition", "Immediate Post-Intubation (Exclude Tracheostomy Change)"].index(st.session_state.get('nature_of_change', 'Select Nature of Change Option'))
         )
 
         tube_change_indications = st.multiselect(
