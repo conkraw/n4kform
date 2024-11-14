@@ -1059,21 +1059,9 @@ elif st.session_state.page == "Method Details II":
         "Video laryngoscope – CMAC",
         "Other (please describe):"
     ]
-    
     if "selected_device" not in st.session_state:
-        st.session_state.selected_device = devices[0]  # Default to Select a Device
-    
+        st.session_state.selected_device = devices[0] #Default to Select a Device
     selected_device = st.selectbox("Select Device:", devices, index=devices.index(st.session_state.selected_device))
-    
-    # Handle clearing text inputs when device changes
-    if selected_device != st.session_state.selected_device:
-        if selected_device != "Other (please describe):" and "other_device_description" in st.session_state:
-            del st.session_state.other_device_description  # Remove other device description if "Other" is not selected
-        if selected_device != "Surgical airway – Percutaneous/Cricothyrotomy (Describe)" and "surgical_airway_details" in st.session_state:
-            del st.session_state.surgical_airway_details  # Remove surgical airway details if not selected
-        if selected_device != "Video laryngoscope – CMAC" and "view_for_intubator" in st.session_state:
-            del st.session_state.view_for_intubator  # Remove view for intubator if not selected
-
     st.session_state.selected_device = selected_device  # Save selection
     
     # Handle input based on selected device
@@ -1090,7 +1078,7 @@ elif st.session_state.page == "Method Details II":
         # Show text input for describing the surgical airway procedure
         surgical_airway_details = st.text_input(
             "Please describe the Surgical Airway procedure:",
-            value=st.session_state.surgical_airway_details if "surgical_airway_details" in st.session_state else ""
+            value=st.session_state.surgical_airway_details
         )
         st.session_state.surgical_airway_details = surgical_airway_details  # Save description
     
@@ -1098,9 +1086,10 @@ elif st.session_state.page == "Method Details II":
         # Show text input for 'Other' device description
         other_device_description = st.text_input(
             "Please describe the Other Device:",
-            value=st.session_state.other_device_description if "other_device_description" in st.session_state else ""
+            value=st.session_state.other_device_description
         )
         st.session_state.other_device_description = other_device_description  # Save description
+
 
     # Tracheal Intubation Confirmation
     st.markdown("### Tracheal Intubation Confirmation (Check ALL that apply)")
@@ -1119,11 +1108,7 @@ elif st.session_state.page == "Method Details II":
         st.session_state.selected_confirmation = []
 
     selected_confirmation = st.multiselect("Select confirmation methods:", confirmation_options, default=st.session_state.selected_confirmation)
-
-    # Handle clearing text inputs when confirmation changes
-    if selected_confirmation != st.session_state.selected_confirmation:
-        if "Others:" not in selected_confirmation and "other_confirmation_description" in st.session_state:
-            del st.session_state.other_confirmation_description  # Remove other confirmation description if "Others" is not selected
+    
 
     # Text input for 'Other' confirmation description
     if "Others:" in selected_confirmation:
@@ -1173,17 +1158,15 @@ elif st.session_state.page == "Method Details II":
         st.session_state.selected_events = []
 
     selected_events = st.multiselect("Select events associated with tracheal intubation:", events, default=st.session_state.selected_events)
-
-    # Handle clearing text inputs when events change
-    if selected_events != st.session_state.selected_events:
-        if "Other (Please describe):" not in selected_events and "other_event_description" in st.session_state:
-            del st.session_state.other_event_description  # Remove other event description if "Other" is not selected
+    
 
     if "other_event_description" not in st.session_state:
-        st.session_state.other_event_description = ""
-
+            st.session_state.other_event_description = ""
+            
     # Text input for 'Other' event description
     if "Other (Please describe):" in selected_events:
+        if "other_event_description" not in st.session_state:
+            st.session_state.other_event_description = ""
         other_event_description = st.text_input("Please describe the Other Tracheal Intubation Event:", value=st.session_state.other_event_description)
         st.session_state.other_event_description = other_event_description  # Save description
 
