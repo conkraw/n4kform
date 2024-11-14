@@ -306,9 +306,7 @@ if st.session_state.page == "Encounter Information":
     if 'diagnostic_category' not in st.session_state.form_data:
         st.session_state.form_data['diagnostic_category'] = []
     
-    # Ensure the session state is updated after the interaction (before widget renders)
-    
-    other_category = None
+    other_category = st.session_state.get('other_category', None)
     
     diagnostic_category = st.multiselect(
         "Diagnostic Category (Check as many as apply):",
