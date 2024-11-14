@@ -1259,10 +1259,12 @@ if st.session_state.page == "Monitoring of Vital Signs":
             st.session_state.page = "Course Success"
             st.rerun()
             
+import streamlit as st
+
 if st.session_state.page == "Course Success":
     st.header("COURSE SUCCESS")
 
-    # Initialize checkboxes for failure explanations if not already initialized
+    # Initialize checkboxes and other failure-related session state if not already initialized
     if "cannot_visualize" not in st.session_state:
         st.session_state.cannot_visualize = False
     if "cannot_place_device" not in st.session_state:
@@ -1274,18 +1276,29 @@ if st.session_state.page == "Course Success":
     if "other_failure" not in st.session_state:
         st.session_state.other_failure = ""  # Initialize other failure explanation
 
-    # Successful tracheal intubation/advanced airway management
+    # Set default successful intubation value if not set
     if "course_success" not in st.session_state:
         st.session_state.course_success = "Yes"  # Default value
 
+    # Selectbox for successful tracheal intubation
     successful_intubation = st.selectbox(
         "Successful tracheal intubation/advanced airway management:", 
         ["Yes", "No"], 
         index=["Yes", "No"].index(st.session_state.course_success)
     )
-    st.session_state.course_success = successful_intubation  # Save selection
 
-    # Initialize variables for checkboxes only if the course failed
+    # Save selection
+    if st.session_state.course_success != successful_intubation:
+        st.session_state.course_success = successful_intubation
+        # Reset failure-related variables when toggling to "Yes"
+        if successful_intubation == "Yes":
+            st.session_state.cannot_visualize = False
+            st.session_state.cannot_place_device = False
+            st.session_state.unstable_hemodynamics = False
+            st.session_state.other_course_fail = False
+            st.session_state.other_failure = ""
+
+    # If course failed (No selected), show additional checkboxes and input
     if successful_intubation == "No":
         st.markdown("If course failed, please explain briefly:")
 
@@ -1309,12 +1322,12 @@ if st.session_state.page == "Course Success":
                 "Other (please explain):", value=st.session_state.other_failure
             )
     else:
-        # Ensure variables are still defined if the course was successful
-        st.session_state.cannot_visualize = st.session_state.cannot_visualize
-        st.session_state.cannot_place_device = st.session_state.cannot_place_device
-        st.session_state.unstable_hemodynamics = st.session_state.unstable_hemodynamics
-        st.session_state.other_course_fail = st.session_state.other_course_fail
-        st.session_state.other_failure = st.session_state.other_failure
+        # Ensure variables are defined for successful course, but don't show failure-related options
+        st.session_state.cannot_visualize = False
+        st.session_state.cannot_place_device = False
+        st.session_state.unstable_hemodynamics = False
+        st.session_state.other_course_fail = False
+        st.session_state.other_failure = ""
 
     # Navigation buttons
     col1, col2 = st.columns(2)
@@ -1331,7 +1344,6 @@ if st.session_state.page == "Course Success":
             st.session_state.page = "Disposition"  # Navigate to the next page
             st.rerun()
 
-import streamlit as st
 
 # Disposition options
 disposition_options = [
