@@ -373,7 +373,6 @@ if st.session_state.page == "Encounter Information":
             #    st.session_state.page = "Indications"  # Set next page
             #    st.rerun()
 
-
 elif st.session_state.page == "Indications":
     # Indications section
     st.markdown("<h2 style='text-align: center;'>INDICATIONS</h2>", unsafe_allow_html=True)
@@ -403,6 +402,13 @@ elif st.session_state.page == "Indications":
             default=st.session_state.get('indications', [])
         )
 
+        # Show text input if "Others" is selected
+        if "Others: ............." in indications:
+            st.session_state.other_indication = st.text_input(
+                "Please specify the 'Other' indication:",
+                value=st.session_state.get('other_indication', '')  # Persist the value across reruns
+            )
+
     with col2:
         st.markdown("<h3 style='text-align: center;'>CHANGE OF TUBE</h3>", unsafe_allow_html=True)
         col3, col4 = st.columns(2)
@@ -431,22 +437,34 @@ elif st.session_state.page == "Indications":
             default=st.session_state.get('tube_change_indications', [])
         )
 
+        # Show text input if "Others" is selected
+        if "Others: ............." in tube_change_indications:
+            st.session_state.other_tube_change = st.text_input(
+                "Please specify the 'Other' tube change indication:",
+                value=st.session_state.get('other_tube_change', '')  # Persist the value across reruns
+            )
+
     # Navigation buttons
     col_prev, col_next = st.columns(2)
     with col_prev:
         if st.button("Previous"):
+            # Store the values in session state
             st.session_state['indications'] = indications
             st.session_state['tube_change_indications'] = tube_change_indications
+            st.session_state['other_indication'] = st.session_state.get('other_indication', '')  # Store the "Other" indication
+            st.session_state['other_tube_change'] = st.session_state.get('other_tube_change', '')  # Store the "Other" tube change indication
             st.session_state.page = "Encounter Information"  # Navigate back to the previous page
             st.rerun()  # Rerun the app to reflect the new page
 
     with col_next:
         if st.button("Next"):
+            # Store the values in session state
             st.session_state['indications'] = indications
             st.session_state['tube_change_indications'] = tube_change_indications
-            
+            st.session_state['other_indication'] = st.session_state.get('other_indication', '')  # Store the "Other" indication
+            st.session_state['other_tube_change'] = st.session_state.get('other_tube_change', '')  # Store the "Other" tube change indication
             st.session_state.page = "Course Information"  # Set next page
-            st.rerun() 
+            st.rerun()
 
 elif st.session_state.page == "Course Information":
     st.header("COURSE INFORMATION")
