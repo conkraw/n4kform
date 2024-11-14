@@ -1621,6 +1621,8 @@ if st.session_state.page == "Summary":
                 'tube_change_indications': st.session_state['tube_change_indications'],
                 'diagnostic_category': ", ".join(st.session_state.form_data['diagnostic_category']) if isinstance(st.session_state.form_data.get('diagnostic_category', []), list) else st.session_state.form_data.get('diagnostic_category', ''),
                 'other_category':st.session_state['other_category'],
+                'other_indication':st.session_state['other_indication'],
+                'other_tube_change':st.session_state['other_tube_change'],
                 'difficult_to_bag': st.session_state['difficult_to_bag'],
                 'evaluation_1': st.session_state['evaluation_1'],
                 'evaluation_2': st.session_state['evaluation_2'],
@@ -2155,6 +2157,8 @@ if st.session_state.page == "Summary":
                 'diagnostic_category_10': str(rows['diagnostic_category_10']),
                 'diagnostic_category_11': str(rows['diagnostic_category_11']),
                 'other_category': str(rows['other_category']),
+                'other_indication': str(rows['other_indication']),
+                'other_tube_change': str(rows['other_tube_change']),
 
                 'nature_of_change_1': str(rows['nature_of_change_1']),
                 'nature_of_change_2': str(rows['nature_of_change_2']),
