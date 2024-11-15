@@ -2230,7 +2230,7 @@ if st.session_state.page == "Summary":
             for j, rows in data.iterrows():
                 i += 1
                 pdf_writer = PdfWriter()
-                set_need_appearances_writer(pdf_writer)
+                #set_need_appearances_writer(pdf_writer)
 
                 # Extract the form fields and map them to CSV row values
                 field_dictionary_1 = {
