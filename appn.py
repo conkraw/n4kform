@@ -1060,6 +1060,9 @@ if "surgical_airway_details" not in st.session_state:
 if "other_device_description" not in st.session_state:
     st.session_state.other_device_description = ""  # Default to blank for "Other device description"
 
+if "other_event_description" not in st.session_state:
+    st.session_state.other_event_description = ""  # Default to blank for "Other device description"
+
 if "other_confirmation_description" not in st.session_state:
             st.session_state.other_confirmation_description = ""
             
