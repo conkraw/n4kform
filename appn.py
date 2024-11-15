@@ -408,15 +408,20 @@ elif st.session_state.page == "Indications":
                 "Reintubation After Unplanned Extubation",
                 "Others: ............."
             ],
-            default=st.session_state.get('indications', [])
+            default=st.session_state.get('indications', [])  # Persist the selected indications
         )
 
         # Show text input if "Others" is selected
         if "Others: ............." in indications:
+            # Display the text input for 'Other' indication
             st.session_state.other_indication = st.text_input(
                 "Please specify the 'Other' indication:",
                 value=st.session_state.get('other_indication', '')  # Persist the value across reruns
             )
+        else:
+            # If "Others" is not selected, clear the 'other_indication' value in session state
+            if 'other_indication' in st.session_state:
+                del st.session_state['other_indication']  
 
     with col2:
         st.markdown("<h3 style='text-align: center;'>CHANGE OF TUBE</h3>", unsafe_allow_html=True)
