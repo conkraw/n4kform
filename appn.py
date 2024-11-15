@@ -2594,7 +2594,7 @@ if st.session_state.page == "Summary":
 
                 set_need_appearances_writer(pdf_writer)
 
-                add_javascript_to_pdf(pdf_writer)
+                #add_javascript_to_pdf(pdf_writer)
                 
                 # Create a BytesIO stream to hold the output PDF
                 pdf_output = io.BytesIO()
