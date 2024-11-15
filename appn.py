@@ -1247,7 +1247,32 @@ elif st.session_state.page == "Method Details II":
         if events:
             st.write(f"Attempt {attempt_number}: {', '.join(events)}")
 
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        if st.button("Previous"):
+            if selected_device == "Video laryngoscope – CMAC":
+                st.session_state.view_for_intubator = view_for_intubator  # Save view selection
 
+            elif selected_device == "Surgical airway – Percutaneous/Cricothyrotomy (Describe)":
+                st.session_state.surgical_airway_details = surgical_airway_details  # Save the surgical airway description
+
+            elif selected_device == "Other (please describe):":
+                st.session_state.other_device_description = other_device_description  # Save 'Other' device description
+                
+            st.session_state.selected_confirmation = selected_confirmation  # Save the selected confirmation methods
+        
+            if "Others:" in selected_confirmation:
+                st.session_state.other_confirmation_description = other_confirmation_description  # Save the 'Other' confirmation description
+            else:
+                # Remove the 'Other' description if "Others:" is not selected
+                if 'other_confirmation_description' in st.session_state:
+                    del st.session_state['other_confirmation_description']
+                    
+            st.session_state.selected_events = selected_events
+            st.session_state.page = "Method Details"
+            st.rerun()
     with col2:
         if st.button("Next"):
             st.session_state.selected_device = selected_device  # Save the selected device
