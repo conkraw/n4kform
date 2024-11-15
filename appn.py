@@ -448,15 +448,20 @@ elif st.session_state.page == "Indications":
                 "For procedure (e.g. bronchoscopy, etc)",
                 "Others: ............."
             ],
-            default=st.session_state.get('tube_change_indications', [])
+            default=st.session_state.get('tube_change_indications', [])  # Persist the selected indications
         )
-
+        
         # Show text input if "Others" is selected
         if "Others: ............." in tube_change_indications:
+            # Display the text input for 'Other' tube change indication
             st.session_state.other_tube_change = st.text_input(
                 "Please specify the 'Other' tube change indication:",
                 value=st.session_state.get('other_tube_change', '')  # Persist the value across reruns
             )
+        else:
+            # If "Others" is not selected, clear the 'other_tube_change' value in session state
+            if 'other_tube_change' in st.session_state:
+                del st.session_state['other_tube_change'] 
 
     # Navigation buttons
     col_prev, col_next = st.columns(2)
