@@ -1087,7 +1087,7 @@ elif st.session_state.page == "Method Details II":
     
     # Device selection dropdown
     selected_device = st.selectbox("Select Device:", devices, index=devices.index(st.session_state.selected_device))
-    st.session_state.selected_device = selected_device  # Save the selected device
+    #st.session_state.selected_device = selected_device  # Save the selected device
 
     # Handle dynamic input based on selected device
     if selected_device == "Video laryngoscope – CMAC":
