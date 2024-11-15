@@ -684,8 +684,8 @@ elif st.session_state.page == "Difficult Airway Evaluation":
     
     cyanotic = st.selectbox(
         "",
-        options=['Select if Patient With Known cyanotic heart disease', 'Yes', 'No'],
-        index=['Select if Patient With Known cyanotic heart disease', 'Yes', 'No'].index(st.session_state["cyanotic"]),
+        options=['Select if Patient With Known Cyanotic Heart Disease', 'Yes', 'No'],
+        index=['Select if Patient With Known Cyanotic Heart Disease', 'Yes', 'No'].index(st.session_state["cyanotic"]),
         key="cyanotic_selectbox"  # Unique key for this selectbox
     )
     
