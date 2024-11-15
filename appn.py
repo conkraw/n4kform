@@ -1080,36 +1080,50 @@ elif st.session_state.page == "Method Details II":
         "Video laryngoscope – CMAC",
         "Other (please describe):"
     ]
-    if "selected_device" not in st.session_state:
-        st.session_state.selected_device = devices[0] #Default to Select a Device
-    selected_device = st.selectbox("Select Device:", devices, index=devices.index(st.session_state.selected_device))
-    st.session_state.selected_device = selected_device  # Save selection
     
-    # Handle input based on selected device
+    # Initialize selected_device in session state if not already set
+    if "selected_device" not in st.session_state:
+        st.session_state.selected_device = devices[0]  # Default to "Select a Device"
+    
+    # Device selection dropdown
+    selected_device = st.selectbox("Select Device:", devices, index=devices.index(st.session_state.selected_device))
+    st.session_state.selected_device = selected_device  # Save the selected device
+
+    # Handle dynamic input based on selected device
     if selected_device == "Video laryngoscope – CMAC":
         # Show dropdown for View (Direct or Indirect)
         view_for_intubator = st.selectbox(
             "Select View for Intubator:",
-            ["", "Direct", "Indirect"],  # Add blank as first option
+            ["", "Direct", "Indirect"],  # Add blank as the first option
             index=["", "Direct", "Indirect"].index(st.session_state.view_for_intubator) if st.session_state.view_for_intubator else 0  # Default to blank
         )
-        st.session_state.view_for_intubator = view_for_intubator  # Save selection
-    
+        st.session_state.view_for_intubator = view_for_intubator  # Save the selected view
+
     elif selected_device == "Surgical airway – Percutaneous/Cricothyrotomy (Describe)":
         # Show text input for describing the surgical airway procedure
         surgical_airway_details = st.text_input(
             "Please describe the Surgical Airway procedure:",
-            value=st.session_state.surgical_airway_details
+            value=st.session_state.get('surgical_airway_details', '')  # Default to an empty string if no previous value
         )
         st.session_state.surgical_airway_details = surgical_airway_details  # Save description
-    
+
     elif selected_device == "Other (please describe):":
         # Show text input for 'Other' device description
         other_device_description = st.text_input(
             "Please describe the Other Device:",
-            value=st.session_state.other_device_description
+            value=st.session_state.get('other_device_description', '')  # Persist the value across reruns
         )
         st.session_state.other_device_description = other_device_description  # Save description
+
+    else:
+        # Clear description fields if a different device is selected
+        if 'surgical_airway_details' in st.session_state:
+            del st.session_state['surgical_airway_details']  # Remove surgical airway details if no longer relevant
+        if 'view_for_intubator' in st.session_state:
+            del st.session_state['view_for_intubator']  # Remove view selection for intubator if no longer relevant
+        if 'other_device_description' in st.session_state:
+            del st.session_state['other_device_description']  # Remove other device description if no longer relevant
+
 
 
     # Tracheal Intubation Confirmation
