@@ -1679,9 +1679,12 @@ def set_need_appearances_writer(writer: PdfWriter):
         print('set_need_appearances_writer() catch : ', repr(e))
         return writer
 
+from PyPDF2.generic import NameObject, IndirectObject, DictionaryObject, TextStringObject
+from PyPDF2 import PdfWriter
+
 def add_javascript_to_pdf(pdf_writer):
     # JavaScript code to make the form field visible
-    js = '''
+    js_code = '''
     function ShowFieldOnOpen() {
         var field = this.getField("date");  // Replace with the actual field name
         if (field) {
@@ -1693,15 +1696,41 @@ def add_javascript_to_pdf(pdf_writer):
     this.setAction("Open", "ShowFieldOnOpen();");
     '''
 
-    # Create a stream object to hold the JavaScript code
-    js_stream = TextStringObject(js)
+    # Create a Dictionary object to hold the JavaScript code
+    js_dict = DictionaryObject()
+    
+    # Create a JavaScript object as a string and add it to the dictionary
+    js_dict.update({
+        NameObject("/S"): NameObject("/JavaScript"),  # Specify that this is JavaScript
+        NameObject("/JS"): TextStringObject(js_code)  # Add the JavaScript code as text
+    })
 
-    # Create an indirect object for the JavaScript stream
+    # Create an indirect object for the JavaScript dictionary
     js_obj = IndirectObject(len(pdf_writer._objects), 0, pdf_writer)
-    pdf_writer._objects.append(js_stream)
-
-    # Attach the JavaScript to the OpenAction key
+    
+    # Append the JavaScript object to the PDF's object list
+    pdf_writer._objects.append(js_dict)
+    
+    # Attach the JavaScript to the OpenAction key in the document catalog
     pdf_writer._root_object[NameObject("/OpenAction")] = js_obj
+
+# Example usage
+pdf_writer = PdfWriter()
+
+# Add pages and fill the form here...
+# pdf_writer.add_page(...)
+
+# Add JavaScript to the PDF
+add_javascript_to_pdf(pdf_writer)
+
+# Create a BytesIO stream to hold the output PDF
+import io
+pdf_output = io.BytesIO()
+pdf_writer.write(pdf_output)
+pdf_output.seek(0)
+
+# Now, you can provide the download button in Streamlit or save the PDF output
+
     
 if st.session_state.page == "Summary":
     st.header("SUMMARY")
