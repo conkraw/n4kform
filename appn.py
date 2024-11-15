@@ -1190,23 +1190,19 @@ elif st.session_state.page == "Method Details II":
         "Pain/Agitation, req’d additional meds AND delay in intubation",
         "Other (Please describe):"
     ]
-
+    
     if "selected_events" not in st.session_state:
         st.session_state.selected_events = []
-
+    
     selected_events = st.multiselect("Select events associated with tracheal intubation:", events, default=st.session_state.selected_events)
     
-
-    if "other_event_description" not in st.session_state:
-            st.session_state.other_event_description = ""
-            
     # Text input for 'Other' event description
     if "Other (Please describe):" in selected_events:
         if "other_event_description" not in st.session_state:
             st.session_state.other_event_description = ""
         other_event_description = st.text_input("Please describe the Other Tracheal Intubation Event:", value=st.session_state.other_event_description)
         st.session_state.other_event_description = other_event_description  # Save description
-
+    
     # Initialize attempt mapping if not already done
     if "attempt_mapping" not in st.session_state:
         st.session_state.attempt_mapping = {i: [] for i in range(1, 9)}  # Create mapping for attempts 1 to 8
@@ -1222,38 +1218,35 @@ elif st.session_state.page == "Method Details II":
                 st.success(f"Linked '{event_to_link}' to Attempt {attempt_number}!")
             else:
                 st.warning("No valid event selected.")
-        
+    
+    # **Unlinking** logic
+    st.markdown("### Unlink an Event from an Attempt:")
+    
+    # Allow the user to select the attempt number from which to unlink
+    attempt_to_unlink = st.selectbox("Select Attempt to Unlink From:", list(range(1, 9)))
+    
+    # Get the events currently linked to the selected attempt
+    linked_events = st.session_state.attempt_mapping.get(attempt_to_unlink, [])
+    
+    if linked_events:
+        event_to_unlink = st.selectbox("Select Event to Unlink:", linked_events)
+    
+        if st.button("Unlink Event from Attempt"):
+            # Remove the event from the selected attempt
+            if event_to_unlink in st.session_state.attempt_mapping[attempt_to_unlink]:
+                st.session_state.attempt_mapping[attempt_to_unlink].remove(event_to_unlink)
+                st.success(f"Unlinked '{event_to_unlink}' from Attempt {attempt_to_unlink}!")
+            else:
+                st.warning(f"Event '{event_to_unlink}' not found in Attempt {attempt_to_unlink}.")
+    else:
+        st.warning("No events linked to the selected attempt.")
+    
     # Display linked events
     st.markdown("### Linked Events:")
     for attempt_number, events in st.session_state.attempt_mapping.items():
         if events:
             st.write(f"Attempt {attempt_number}: {', '.join(events)}")
 
-    # Navigation buttons
-    col1, col2 = st.columns(2)
-    with col1:
-        if st.button("Previous"):
-            if selected_device == "Video laryngoscope – CMAC":
-                st.session_state.view_for_intubator = view_for_intubator  # Save view selection
-
-            elif selected_device == "Surgical airway – Percutaneous/Cricothyrotomy (Describe)":
-                st.session_state.surgical_airway_details = surgical_airway_details  # Save the surgical airway description
-
-            elif selected_device == "Other (please describe):":
-                st.session_state.other_device_description = other_device_description  # Save 'Other' device description
-                
-            st.session_state.selected_confirmation = selected_confirmation  # Save the selected confirmation methods
-        
-            if "Others:" in selected_confirmation:
-                st.session_state.other_confirmation_description = other_confirmation_description  # Save the 'Other' confirmation description
-            else:
-                # Remove the 'Other' description if "Others:" is not selected
-                if 'other_confirmation_description' in st.session_state:
-                    del st.session_state['other_confirmation_description']
-                    
-            st.session_state.selected_events = selected_events
-            st.session_state.page = "Method Details"
-            st.rerun()
 
     with col2:
         if st.button("Next"):
