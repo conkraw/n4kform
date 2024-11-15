@@ -1231,6 +1231,15 @@ elif st.session_state.page == "Method Details II":
     col1, col2 = st.columns(2)
     with col1:
         if st.button("Previous"):
+            if selected_device == "Video laryngoscope – CMAC":
+                st.session_state.view_for_intubator = view_for_intubator  # Save view selection
+
+            elif selected_device == "Surgical airway – Percutaneous/Cricothyrotomy (Describe)":
+                st.session_state.surgical_airway_details = surgical_airway_details  # Save the surgical airway description
+
+            elif selected_device == "Other (please describe):":
+                st.session_state.other_device_description = other_device_description  # Save 'Other' device description
+                
             st.session_state.selected_confirmation = selected_confirmation
             st.session_state.selected_events = selected_events
             st.session_state.page = "Method Details"
@@ -1238,6 +1247,18 @@ elif st.session_state.page == "Method Details II":
 
     with col2:
         if st.button("Next"):
+            st.session_state.selected_device = selected_device  # Save the selected device
+
+            # Save dynamic fields based on the device selection
+            if selected_device == "Video laryngoscope – CMAC":
+                st.session_state.view_for_intubator = view_for_intubator  # Save view selection
+
+            elif selected_device == "Surgical airway – Percutaneous/Cricothyrotomy (Describe)":
+                st.session_state.surgical_airway_details = surgical_airway_details  # Save the surgical airway description
+
+            elif selected_device == "Other (please describe):":
+                st.session_state.other_device_description = other_device_description  # Save 'Other' device description
+            
             st.session_state.selected_confirmation = selected_confirmation  # Save selection
             st.session_state.selected_events = selected_events  # Save selection
             st.session_state.page = "Monitoring of Vital Signs"  # Update this to your actual next page
