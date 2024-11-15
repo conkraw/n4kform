@@ -1129,26 +1129,28 @@ elif st.session_state.page == "Method Details II":
     # Tracheal Intubation Confirmation
     st.markdown("### Tracheal Intubation Confirmation (Check ALL that apply)")
     confirmation_options = [
-        "Adequate and equal chest rise",
-        "Exhaled CO2 – colorimetric",
-        "Appropriate breath sounds heard (Auscultation)",
-        "Chest X-ray",
-        "Humidity seen in endotracheal tube",
-        "Second independent laryngoscopy",
-        "Exhaled CO2 – capnography",
-        "Others:"
-    ]
+    "Adequate and equal chest rise",
+    "Exhaled CO2 – colorimetric",
+    "Appropriate breath sounds heard (Auscultation)",
+    "Chest X-ray",
+    "Humidity seen in endotracheal tube",
+    "Second independent laryngoscopy",
+    "Exhaled CO2 – capnography",
+    "Others:"
+]
 
+    # Initialize selected_confirmation in session state if not already set
     if "selected_confirmation" not in st.session_state:
         st.session_state.selected_confirmation = []
-
+    
+    # Multi-select for confirmation methods
     selected_confirmation = st.multiselect("Select confirmation methods:", confirmation_options, default=st.session_state.selected_confirmation)
     
-
-    # Text input for 'Other' confirmation description
+    # Handle text input for 'Other' confirmation description
     if "Others:" in selected_confirmation:
-        other_confirmation_description = st.text_input("Please describe the Other Confirmation Method:", value=st.session_state.other_confirmation_description)
-        st.session_state.other_confirmation_description = other_confirmation_description  # Save description
+        other_confirmation_description = st.text_input("Please describe the Other Confirmation Method:", value=st.session_state.get('other_confirmation_description', ''))
+    else:
+        other_confirmation_description = ""  
 
     st.markdown("### Glottic Exposure During Intubation [Check only ONE]:")
     st.image("image.png", caption="Glottic Exposure Diagram", use_column_width=True)  # Add the image here
@@ -1240,7 +1242,15 @@ elif st.session_state.page == "Method Details II":
             elif selected_device == "Other (please describe):":
                 st.session_state.other_device_description = other_device_description  # Save 'Other' device description
                 
-            st.session_state.selected_confirmation = selected_confirmation
+            st.session_state.selected_confirmation = selected_confirmation  # Save the selected confirmation methods
+        
+            if "Others:" in selected_confirmation:
+                st.session_state.other_confirmation_description = other_confirmation_description  # Save the 'Other' confirmation description
+            else:
+                # Remove the 'Other' description if "Others:" is not selected
+                if 'other_confirmation_description' in st.session_state:
+                    del st.session_state['other_confirmation_description']
+                    
             st.session_state.selected_events = selected_events
             st.session_state.page = "Method Details"
             st.rerun()
@@ -1258,8 +1268,16 @@ elif st.session_state.page == "Method Details II":
 
             elif selected_device == "Other (please describe):":
                 st.session_state.other_device_description = other_device_description  # Save 'Other' device description
-            
-            st.session_state.selected_confirmation = selected_confirmation  # Save selection
+
+            st.session_state.selected_confirmation = selected_confirmation  # Save the selected confirmation methods
+        
+            if "Others:" in selected_confirmation:
+                st.session_state.other_confirmation_description = other_confirmation_description  # Save the 'Other' confirmation description
+            else:
+                # Remove the 'Other' description if "Others:" is not selected
+                if 'other_confirmation_description' in st.session_state:
+                    del st.session_state['other_confirmation_description']
+
             st.session_state.selected_events = selected_events  # Save selection
             st.session_state.page = "Monitoring of Vital Signs"  # Update this to your actual next page
             st.rerun()
