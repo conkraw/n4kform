@@ -19,20 +19,6 @@ import ast
 
 st.set_page_config(layout="wide")
 
-def set_need_appearances_writer(writer: PdfFileWriter):
-    try:
-        catalog = writer._root_object
-        if "/AcroForm" not in catalog:
-            writer._root_object.update({
-                NameObject("/AcroForm"): IndirectObject(len(writer._objects), 0, writer)})
-        need_appearances = NameObject("/NeedAppearances")
-        writer._root_object["/AcroForm"][need_appearances] = BooleanObject(True)
-        return writer
-
-    except Exception as e:
-        print('set_need_appearances_writer() catch : ', repr(e))
-        return writer
-
 def reset_inputx(default_value, key):
     # Initialize the key in session state if it doesn't exist
     if key not in st.session_state:
@@ -1664,6 +1650,8 @@ import os
 import pandas as pd
 from PyPDF2 import PdfReader, PdfWriter
 from PyPDF2.generic import BooleanObject, NameObject, IndirectObject
+from PyPDF2.generic import NameObject, IndirectObject, DictionaryObject, TextStringObject
+from PyPDF2 import PdfWriter
 import streamlit as st
 
 def set_need_appearances_writer(writer: PdfWriter):
@@ -1678,9 +1666,6 @@ def set_need_appearances_writer(writer: PdfWriter):
     except Exception as e:
         print('set_need_appearances_writer() catch : ', repr(e))
         return writer
-
-from PyPDF2.generic import NameObject, IndirectObject, DictionaryObject, TextStringObject
-from PyPDF2 import PdfWriter
 
 def add_javascript_to_pdf(pdf_writer):
     # JavaScript code to make the form field visible
