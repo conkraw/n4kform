@@ -1014,6 +1014,7 @@ elif st.session_state.page == "Method Details":
             cols = st.columns(3)
 
             with cols[0]:
+                st.markdown("")
                 st.markdown(f"**{method}**")
 
             with cols[1]:
