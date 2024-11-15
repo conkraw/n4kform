@@ -1679,6 +1679,27 @@ def set_need_appearances_writer(writer: PdfWriter):
         print('set_need_appearances_writer() catch : ', repr(e))
         return writer
 
+from PyPDF2.generic import NameObject, IndirectObject, BooleanObject
+
+def add_javascript_to_pdf(pdf_writer):
+    js = '''
+    function ShowFieldOnOpen() {
+        var field = this.getField("date");  // Replace with the actual field name
+        if (field) {
+            field.display = display.visible;  // Make the field visible
+        }
+    }
+
+    // Attach the function to the document open event
+    this.setAction("Open", "ShowFieldOnOpen();");
+    '''
+    # Create an indirect object for the JavaScript
+    js_object = IndirectObject(len(pdf_writer._objects), 0, pdf_writer)
+    pdf_writer._objects.append(js)
+    
+    # Attach the JavaScript to the document
+    pdf_writer._root_object[NameObject("/OpenAction")] = js_object
+    
 if st.session_state.page == "Summary":
     st.header("SUMMARY")
 
@@ -2572,6 +2593,8 @@ if st.session_state.page == "Summary":
                 pdf_writer.update_page_form_field_values(pdf_writer.pages[3], field_dictionary_1)
 
                 set_need_appearances_writer(pdf_writer)
+
+                add_javascript_to_pdf(pdf_writer)
                 
                 # Create a BytesIO stream to hold the output PDF
                 pdf_output = io.BytesIO()
