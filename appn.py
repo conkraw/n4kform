@@ -680,7 +680,7 @@ elif st.session_state.page == "Difficult Airway Evaluation":
     # Known cyanotic heart disease
     st.markdown("### Known cyanotic heart disease (R to L shunt)? (Select ONE only)")
     if "cyanotic" not in st.session_state:
-        st.session_state["cyanotic"] = 'Select if Patient With Known cyanotic heart disease'
+        st.session_state["cyanotic"] = 'Select if Patient With Known Cyanotic Heart Disease'
     
     cyanotic = st.selectbox(
         "",
