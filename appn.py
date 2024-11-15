@@ -1679,9 +1679,8 @@ def set_need_appearances_writer(writer: PdfWriter):
         print('set_need_appearances_writer() catch : ', repr(e))
         return writer
 
-from PyPDF2.generic import NameObject, IndirectObject, BooleanObject
-
 def add_javascript_to_pdf(pdf_writer):
+    # JavaScript code to make the form field visible
     js = '''
     function ShowFieldOnOpen() {
         var field = this.getField("date");  // Replace with the actual field name
@@ -1693,12 +1692,16 @@ def add_javascript_to_pdf(pdf_writer):
     // Attach the function to the document open event
     this.setAction("Open", "ShowFieldOnOpen();");
     '''
-    # Create an indirect object for the JavaScript
-    js_object = IndirectObject(len(pdf_writer._objects), 0, pdf_writer)
-    pdf_writer._objects.append(js)
-    
-    # Attach the JavaScript to the document
-    pdf_writer._root_object[NameObject("/OpenAction")] = js_object
+
+    # Create a stream object to hold the JavaScript code
+    js_stream = TextStringObject(js)
+
+    # Create an indirect object for the JavaScript stream
+    js_obj = IndirectObject(len(pdf_writer._objects), 0, pdf_writer)
+    pdf_writer._objects.append(js_stream)
+
+    # Attach the JavaScript to the OpenAction key
+    pdf_writer._root_object[NameObject("/OpenAction")] = js_obj
     
 if st.session_state.page == "Summary":
     st.header("SUMMARY")
@@ -2251,7 +2254,6 @@ if st.session_state.page == "Summary":
             for j, rows in data.iterrows():
                 i += 1
                 pdf_writer = PdfWriter()
-                #set_need_appearances_writer(pdf_writer)
 
                 # Extract the form fields and map them to CSV row values
                 field_dictionary_1 = {
@@ -2594,7 +2596,7 @@ if st.session_state.page == "Summary":
 
                 set_need_appearances_writer(pdf_writer)
 
-                #add_javascript_to_pdf(pdf_writer)
+                add_javascript_to_pdf(pdf_writer)
                 
                 # Create a BytesIO stream to hold the output PDF
                 pdf_output = io.BytesIO()
