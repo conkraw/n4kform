@@ -303,11 +303,14 @@ if st.session_state.page == "Encounter Information":
         index=["Select if Airway Bundle/Pink Sheet Completed", "Yes", "No"].index(st.session_state.form_data.get('airway_bundle', 'Select if Airway Bundle/Pink Sheet Completed'))
     )
     
+    # Initialize form_data if it doesn't exist in session state
     if 'diagnostic_category' not in st.session_state.form_data:
         st.session_state.form_data['diagnostic_category'] = []
     
+    # Get the value of 'other_category' from session_state, if available
     other_category = st.session_state.get('other_category', None)
     
+    # Create the multiselect widget for diagnostic categories
     diagnostic_category = st.multiselect(
         "Diagnostic Category (Check as many as apply):",
         options=[
@@ -325,7 +328,13 @@ if st.session_state.page == "Encounter Information":
     
     # If "Other" is selected, show a text input for custom category
     if "Other" in diagnostic_category:
+        # Show the text input and update the session state with the value
         other_category = st.text_input("Please specify the 'Other' category:", value=other_category)
+        st.session_state['other_category'] = other_category  # Save input to session state
+    else:
+        # If "Other" is not selected, reset the other_category in session state
+        if 'other_category' in st.session_state:
+            del st.session_state['other_category']
 
     
     # Validation and navigation logic
